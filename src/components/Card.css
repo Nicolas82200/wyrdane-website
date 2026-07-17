@@ -1,0 +1,185 @@
+.card-frame {
+	width: 266px;
+	height: 390px;
+	padding: 9px 8px 6px 8px;
+	background: rgba(0, 0, 0, 1);
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+.card-inner {
+	position: relative;
+	width: 250px;
+	height: 375px;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+.card-art {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	pointer-events: none;
+}
+
+.card-art--empty {
+	background: linear-gradient(160deg, #2b2b2b, #101010);
+}
+
+.card-lane-icon {
+	position: absolute;
+	left: 47.5px;
+	top: 176px;
+	width: 140px;
+	height: 140px;
+	background: rgba(0, 0, 0, 0.68);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	pointer-events: none;
+}
+
+/* --- NameLabel --- */
+.card-name-label {
+	position: absolute;
+	left: 12.5px;
+	top: 158px;
+	width: 224px;
+	height: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(58, 38, 24, 0.784);
+	border: 1px solid rgba(168, 122, 52, 0.392);
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.card-name-label h2 {
+	margin: 0;
+	padding: 0 6px;
+	font-family: "Cinzel Decorative", serif;
+	font-size: 11px;
+	font-weight: 900;
+	color: rgba(242, 227, 198, 1);
+	text-align: center;
+	line-height: 1.15;
+	white-space: normal;
+}
+
+/* --- CostLabel (badge de coût) --- */
+.card-cost-badge {
+	position: absolute;
+	left: 185px;
+	top: 20px;
+	width: 45px;
+	height: 45px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(85, 107, 146, 0.784);
+	border: 5px solid rgba(85, 107, 146, 0.784);
+	border-radius: 20px;
+	font-family: "Cinzel", serif;
+	font-weight: 900;
+	font-size: 30px;
+	color: rgba(211, 211, 211, 0.855);
+}
+
+/* --- DescLabel --- */
+.card-desc-label {
+	position: absolute;
+	left: 15px;
+	top: 186px;
+	width: 220px;
+	height: 120px;
+	background: rgba(112, 74, 25, 0.784);
+	border: 1px solid rgba(168, 122, 52, 0.392);
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.card-desc-label p {
+	margin: 0;
+	font-family: "Crimson Text", serif;
+	font-weight: 600;
+	font-size: 13px;
+	color: rgba(255, 255, 255, 0.855);
+	text-align: center;
+	line-height: 1.3;
+}
+
+/* --- TypeLabel --- */
+.card-type-label {
+	position: absolute;
+	left: 20px;
+	top: 310px;
+	width: 210px;
+	height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Cinzel", serif;
+	font-weight: 700;
+	font-size: 10px;
+	color: rgba(242, 227, 198, 1);
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* --- AttackLabel --- */
+.card-attack-badge {
+	position: absolute;
+	left: 35px;
+	top: 330px;
+	width: 40px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(139, 30, 30, 0.588);
+	border: 2px solid rgba(201, 0, 0, 0.392);
+	border-radius: 20px;
+	font-family: "Cinzel", serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(211, 211, 211, 0.855);
+}
+
+/* --- HealthLabel --- */
+.card-health-badge {
+	position: absolute;
+	left: 175px;
+	top: 330px;
+	width: 40px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(45, 122, 45, 0.588);
+	border: 2px solid rgba(74, 234, 0, 0.392);
+	border-radius: 20px;
+	font-family: "Cinzel", serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(211, 211, 211, 0.855);
+}
+
+/* --- BorderFrame (texture décorative par-dessus tout) --- */
+/* .card-border-frame {
+	position: absolute;
+	left: -5px;
+	top: -7.5px;
+	width: 260px;
+	height: 390px;
+	pointer-events: none;
+} */

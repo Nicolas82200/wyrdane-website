@@ -1,0 +1,55 @@
+#root {
+	--gold: rgb(232, 213, 163);
+	--gold-bright: rgb(255, 245, 214);
+	--gold-pressed: rgb(240, 192, 64);
+	--gold-disabled: rgba(140, 133, 117, 0.7);
+
+	--btn-bg: rgba(26, 26, 46, 0.667);
+	--btn-bg-hover: rgba(42, 42, 78, 0.8);
+	--btn-bg-pressed: rgba(13, 13, 30, 0.933);
+	--btn-bg-disabled: rgba(20, 20, 20, 0.5);
+
+	--btn-border: rgb(139, 105, 20);
+	--btn-border-hover: rgb(201, 162, 39);
+	--btn-border-pressed: rgb(240, 192, 64);
+	--btn-border-disabled: rgba(102, 92, 71, 0.5);
+	--btn-border-focus: rgba(240, 192, 64, 0.9);
+
+	--input-bg: rgba(13, 11, 10, 0.9);
+	--input-bg-focus: rgba(18, 15, 13, 0.95);
+	--input-border: rgba(140, 105, 20, 0.7);
+	--input-border-focus: rgb(240, 191, 64);
+	--input-placeholder: rgba(232, 213, 163, 0.45);
+
+	--panel-bg: rgba(15, 13, 10, 0.95);
+	--panel-border: rgb(140, 105, 20);
+
+	--separator: rgba(140, 105, 20, 0.5);
+
+	--scrollbar-track: rgba(13, 11, 10, 0.5);
+	--scrollbar-grabber: rgba(140, 105, 20, 0.8);
+	--scrollbar-grabber-hi: rgba(199, 148, 26, 0.9);
+}
+
+html,
+body,
+#root {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100vh;
+	body {
+		background: transparent;
+	}
+}
+
+h1,
+h2,
+h3 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-weight: 700;
+	font-size: 32px;
+	letter-spacing: 0.02em;
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	margin: 0;
+}
