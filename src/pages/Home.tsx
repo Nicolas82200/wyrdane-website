@@ -18,7 +18,16 @@ const Home = () => {
 	useEffect(() => {
 		api
 			.get("/api/auth/authVerif")
-			.then(() => setAuthenticated(true))
+			.then(() => {
+				setAuthenticated(true);
+				// Idempotent côté backend : ne fait rien si déjà réclamé.
+				// Sans ce site, seul le tutoriel du jeu Godot déclenchait ce grant,
+				// donc un joueur inscrit uniquement via le site n'avait ni cartes
+				// ni decks de départ.
+				api.post("/api/collection/claim-starter").catch((err) => {
+					console.error(err);
+				});
+			})
 			.catch(() => setAuthenticated(false));
 	}, []);
 

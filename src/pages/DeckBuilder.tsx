@@ -55,7 +55,7 @@ export default function DeckBuilder() {
 			setLoading(true);
 			setFetchError(null);
 			try {
-				const cardsRes = await api.get<CardData[]>("/api/cards");
+				const cardsRes = await api.get<CardData[]>("/api/collection");
 				if (cancelled) return;
 				setCards(cardsRes.data);
 
@@ -431,42 +431,55 @@ export default function DeckBuilder() {
 					</section>
 
 					<div className="catalog-grid">
-						{filteredCards.map((card) => (
-							<button
-								type="button"
-								key={card.id}
-								className="mini-card"
-								onClick={() => addToDeck(card)}
-								title={`Ajouter ${card.name} au deck`}
-							>
-								<span className="mini-card-cost">{card.cost ?? "-"}</span>
-								<div className="mini-card-art">
-									{card.image_path ? (
-										<img
-											src={`${API_URL}${card.image_path}`}
-											alt=""
-										/>
-									) : (
-										<span
-											className="mini-card-art-placeholder"
-											aria-hidden="true"
-										/>
+						{filteredCards.map((card) => {
+							const owned = deck.get(card.id) ?? 0;
+							const atMax = owned >= MAX_COPIES_PER_CARD;
+							const deckFull = totalCards >= MAX_DECK_SIZE;
+							const disabled = atMax || deckFull;
+							return (
+								<button
+									type="button"
+									key={card.id}
+									className={`mini-card${disabled ? " mini-card-disabled" : ""}`}
+									onClick={() => addToDeck(card)}
+									disabled={disabled}
+									title={
+										atMax
+											? `Limite de ${MAX_COPIES_PER_CARD} exemplaires atteinte`
+											: deckFull
+												? `Deck complet (${MAX_DECK_SIZE} cartes max)`
+												: `Ajouter ${card.name} au deck`
+									}
+								>
+									<span className="mini-card-cost">{card.cost ?? "-"}</span>
+									<div className="mini-card-art">
+										{card.image_path ? (
+											<img
+												src={`${API_URL}${card.image_path}`}
+												alt=""
+											/>
+										) : (
+											<span
+												className="mini-card-art-placeholder"
+												aria-hidden="true"
+											/>
+										)}
+									</div>
+									<div className="mini-card-name">{card.name}</div>
+									<div className="mini-card-sub">
+										{card.card_type} / {card.race}
+									</div>
+									<div className="mini-card-stats">
+										<span title="Attaque">⚔ {card.attack ?? "-"}</span>
+										<span title="Coût">◈ {card.cost ?? "-"}</span>
+										<span title="Points de vie">♡ {card.hp ?? "-"}</span>
+									</div>
+									{owned > 0 && (
+										<span className="mini-card-qty">×{owned}</span>
 									)}
-								</div>
-								<div className="mini-card-name">{card.name}</div>
-								<div className="mini-card-sub">
-									{card.card_type} / {card.race}
-								</div>
-								<div className="mini-card-stats">
-									<span title="Attaque">⚔ {card.attack ?? "-"}</span>
-									<span title="Coût">◈ {card.cost ?? "-"}</span>
-									<span title="Points de vie">♡ {card.hp ?? "-"}</span>
-								</div>
-								{deck.has(card.id) && (
-									<span className="mini-card-qty">×{deck.get(card.id)}</span>
-								)}
-							</button>
-						))}
+								</button>
+							);
+						})}
 						{filteredCards.length === 0 && (
 							<p className="catalog-empty">
 								Aucune carte ne correspond à ces filtres.
