@@ -290,6 +290,14 @@
 	transform: translateY(-2px);
 }
 
+.mini-card-disabled,
+.mini-card-disabled:hover {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
 .mini-card-cost {
 	position: absolute;
 	top: 6px;
