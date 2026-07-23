@@ -36,7 +36,10 @@ const GAME_CARDS = gameCards as Record<string, GameCardInfo>;
 const NAME_BY_PATH = new Map(Object.entries(GAME_CARDS).map(([name, info]) => [info.path, name]));
 
 type SortMode = "" | "cost" | "name" | "rarity";
-type HoverState = { card: CardData; rect: DOMRect; maxed: boolean; locked: boolean };
+// On garde l'élément survolé (et non son rect figé) pour que la preview et les
+// tooltips suivent la carte pendant le scroll, comme _position_hover_tooltips
+// dans le DeckBuilder du jeu.
+type HoverState = { card: CardData; el: HTMLElement; maxed: boolean; locked: boolean };
 
 function cardKeywords(card: CardData): string[] {
 	return GAME_CARDS[card.name]?.keywords ?? [];
@@ -87,6 +90,20 @@ export default function DeckBuilder() {
 	const [deck, setDeck] = useState<Map<number, number>>(new Map());
 
 	const [hover, setHover] = useState<HoverState | null>(null);
+	// Incrémenté sur scroll/resize pour re-render et suivre la carte survolée.
+	const [, setHoverTick] = useState(0);
+
+	useEffect(() => {
+		if (!hover) return;
+		const bump = () => setHoverTick((t) => t + 1);
+		// capture: true attrape aussi le scroll des conteneurs internes (grille, sidebar)
+		window.addEventListener("scroll", bump, true);
+		window.addEventListener("resize", bump);
+		return () => {
+			window.removeEventListener("scroll", bump, true);
+			window.removeEventListener("resize", bump);
+		};
+	}, [hover]);
 	const [buyingId, setBuyingId] = useState<number | null>(null);
 	const [buyError, setBuyError] = useState<number | null>(null);
 
@@ -513,12 +530,7 @@ export default function DeckBuilder() {
 									className="db-card-wrapper"
 									onClick={() => addToDeck(card)}
 									onMouseEnter={(e) =>
-										setHover({
-											card,
-											rect: e.currentTarget.getBoundingClientRect(),
-											maxed,
-											locked,
-										})
+										setHover({ card, el: e.currentTarget, maxed, locked })
 									}
 									onMouseLeave={() => setHover(null)}
 								>
@@ -577,12 +589,7 @@ export default function DeckBuilder() {
 								className="db-deck-row"
 								key={card.id}
 								onMouseEnter={(e) =>
-									setHover({
-										card,
-										rect: e.currentTarget.getBoundingClientRect(),
-										maxed: false,
-										locked: false,
-									})
+									setHover({ card, el: e.currentTarget, maxed: false, locked: false })
 								}
 								onMouseLeave={() => setHover(null)}
 							>
@@ -669,7 +676,9 @@ export default function DeckBuilder() {
 
 			{hover &&
 				(() => {
-					const { x, y, pw, ph } = previewPosition(hover.rect);
+					// Rect recalculé à chaque rendu (le tick scroll/resize force le re-render)
+					const rect = hover.el.getBoundingClientRect();
+					const { x, y, pw, ph } = previewPosition(rect);
 					const tooltipLeft = x + pw + 12 + 260 > window.innerWidth;
 					return (
 						<div className="db-preview-layer">
@@ -680,8 +689,8 @@ export default function DeckBuilder() {
 								<div
 									className="db-max-tooltip"
 									style={{
-										left: hover.rect.left + hover.rect.width / 2,
-										top: hover.rect.top + hover.rect.height / 2,
+										left: rect.left + rect.width / 2,
+										top: rect.top + rect.height / 2,
 									}}
 								>
 									{hover.locked
