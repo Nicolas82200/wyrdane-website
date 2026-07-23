@@ -1,0 +1,1451 @@
+{
+	"Morsure de l'Air": {
+		"path": "res://resources/cards/abomination/air-bite.tres",
+		"keywords": []
+	},
+	"Respir Qui Change Tout": {
+		"path": "res://resources/cards/abomination/all-changing-breath.tres",
+		"keywords": []
+	},
+	"Rituel du Ventre Qui Prend Tout": {
+		"path": "res://resources/cards/abomination/all-devouring-belly.tres",
+		"keywords": []
+	},
+	"Puits Qui Avale Tout": {
+		"path": "res://resources/cards/abomination/all-swallowing-well.tres",
+		"keywords": []
+	},
+	"Ce Qu'on a Laissé Pousser": {
+		"path": "res://resources/cards/abomination/allowed-growth.tres",
+		"keywords": []
+	},
+	"Éclat d'Anomalie": {
+		"path": "res://resources/cards/abomination/anomaly-shard.tres",
+		"keywords": []
+	},
+	"Signe Qui Répond": {
+		"path": "res://resources/cards/abomination/answering-sign.tres",
+		"keywords": []
+	},
+	"La Faim Cuirassée": {
+		"path": "res://resources/cards/abomination/armored-hunger.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Semence Amère": {
+		"path": "res://resources/cards/abomination/bitter-seed.tres",
+		"keywords": [
+			"Virulent"
+		]
+	},
+	"Visage-Encore-Flou": {
+		"path": "res://resources/cards/abomination/blurred-visage.tres",
+		"keywords": [
+			"Fusion"
+		]
+	},
+	"Cœur Sans Corps": {
+		"path": "res://resources/cards/abomination/bodiless-heart.tres",
+		"keywords": [
+			"Assimilation"
+		]
+	},
+	"Lien Sans Membrane": {
+		"path": "res://resources/cards/abomination/bond-without-membrane.tres",
+		"keywords": []
+	},
+	"Emprunt de Peau": {
+		"path": "res://resources/cards/abomination/borrowed-skin.tres",
+		"keywords": [
+			"Chair adaptative"
+		]
+	},
+	"Faim Sans Fond": {
+		"path": "res://resources/cards/abomination/bottomless-hunger.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Masse-Qui-Ne-Cesse": {
+		"path": "res://resources/cards/abomination/ceaseless-mass.tres",
+		"keywords": [
+			"Rempart",
+			"Mutation"
+		]
+	},
+	"Halo Qui Encourage le Changement": {
+		"path": "res://resources/cards/abomination/change-encouraging-halo.tres",
+		"keywords": []
+	},
+	"Cercle de l'Assemblage": {
+		"path": "res://resources/cards/abomination/circle-of-assembly.tres",
+		"keywords": []
+	},
+	"Cercle de Dégénérescence": {
+		"path": "res://resources/cards/abomination/circle-of-degeneration.tres",
+		"keywords": []
+	},
+	"Vapeur Qui S'Accroche": {
+		"path": "res://resources/cards/abomination/clinging-vapor.tres",
+		"keywords": []
+	},
+	"Main-Qui-Choisit": {
+		"path": "res://resources/cards/abomination/culling-hand.tres",
+		"keywords": []
+	},
+	"Regard Détaché": {
+		"path": "res://resources/cards/abomination/detached-gaze.tres",
+		"keywords": []
+	},
+	"Écho des Chutes": {
+		"path": "res://resources/cards/abomination/echo-of-the-fallen.tres",
+		"keywords": []
+	},
+	"Ce-Qui-N'a-Plus-de-Bords": {
+		"path": "res://resources/cards/abomination/edgeless.tres",
+		"keywords": [
+			"Rempart",
+			"Instable",
+			"Mutation"
+		]
+	},
+	"Ce-Qui-Ne-Finit-Jamais-de-Grandir": {
+		"path": "res://resources/cards/abomination/endless-growth.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Éclosion Sans Fin": {
+		"path": "res://resources/cards/abomination/endless-hatching.tres",
+		"keywords": []
+	},
+	"Sursaut Final": {
+		"path": "res://resources/cards/abomination/final-spasm.tres",
+		"keywords": []
+	},
+	"Le Premier Écart": {
+		"path": "res://resources/cards/abomination/first-deviation.tres",
+		"keywords": []
+	},
+	"Premier Tressaut": {
+		"path": "res://resources/cards/abomination/first-twitch.tres",
+		"keywords": []
+	},
+	"Nœud de Chair": {
+		"path": "res://resources/cards/abomination/flesh-knot.tres",
+		"keywords": [
+			"Mutation"
+		]
+	},
+	"Ce-Qui-Se-Souvient-Par-le-Corps": {
+		"path": "res://resources/cards/abomination/flesh-memory.tres",
+		"keywords": []
+	},
+	"Le Trieur de Chairs": {
+		"path": "res://resources/cards/abomination/flesh-sorter.tres",
+		"keywords": []
+	},
+	"Partage Forcé": {
+		"path": "res://resources/cards/abomination/forced-sharing.tres",
+		"keywords": []
+	},
+	"Fureur Sans Forme Fixe": {
+		"path": "res://resources/cards/abomination/formless-fury.tres",
+		"keywords": [
+			"Rempart",
+			"Mutation"
+		]
+	},
+	"Amas Informe": {
+		"path": "res://resources/cards/abomination/formless-mass.tres",
+		"keywords": [
+			"Mutation"
+		]
+	},
+	"Étau de Chair Neuve": {
+		"path": "res://resources/cards/abomination/fresh-flesh-vise.tres",
+		"keywords": []
+	},
+	"La Grande Contamination": {
+		"path": "res://resources/cards/abomination/great-contamination.tres",
+		"keywords": []
+	},
+	"Le Sculpteur Sans Mains": {
+		"path": "res://resources/cards/abomination/handless-sculptor.tres",
+		"keywords": []
+	},
+	"Peau-Trop-Grande": {
+		"path": "res://resources/cards/abomination/ill-fitting-hide.tres",
+		"keywords": [
+			"Rempart",
+			"Instable"
+		]
+	},
+	"Emprunt Instantané": {
+		"path": "res://resources/cards/abomination/instant-borrowing.tres",
+		"keywords": []
+	},
+	"Semeur de Nœuds": {
+		"path": "res://resources/cards/abomination/knot-sower.tres",
+		"keywords": [
+			"Fusion"
+		]
+	},
+	"Fracture Vivante": {
+		"path": "res://resources/cards/abomination/living-fracture.tres",
+		"keywords": []
+	},
+	"Repaire Qui Digère la Magie": {
+		"path": "res://resources/cards/abomination/magic-digesting-lair.tres",
+		"keywords": []
+	},
+	"Ombre à Plusieurs Corps": {
+		"path": "res://resources/cards/abomination/many-bodied-shadow.tres",
+		"keywords": [
+			"Rempart",
+			"Fusion"
+		]
+	},
+	"Armure Fondue": {
+		"path": "res://resources/cards/abomination/molten-armor.tres",
+		"keywords": [
+			"Mutation",
+			"Instable"
+		]
+	},
+	"Bouche-Mère": {
+		"path": "res://resources/cards/abomination/mother-maw.tres",
+		"keywords": [
+			"Assimilation"
+		]
+	},
+	"Monture-et-Cavalier-Ne-Font-Qu'Un": {
+		"path": "res://resources/cards/abomination/mount-and-rider-as-one.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Pluie Qui Change": {
+		"path": "res://resources/cards/abomination/mutating-rain.tres",
+		"keywords": []
+	},
+	"Doigt-Dans-les-Nerfs": {
+		"path": "res://resources/cards/abomination/nerve-touch.tres",
+		"keywords": []
+	},
+	"Un-Devenu-Plusieurs": {
+		"path": "res://resources/cards/abomination/one-become-many.tres",
+		"keywords": []
+	},
+	"Nid Débordant": {
+		"path": "res://resources/cards/abomination/overflowing-nest.tres",
+		"keywords": []
+	},
+	"Ce-Qui-A-Trop-Poussé": {
+		"path": "res://resources/cards/abomination/overgrowth.tres",
+		"keywords": [
+			"Rempart",
+			"Mutation"
+		]
+	},
+	"Accord de la Chair Neuve": {
+		"path": "res://resources/cards/abomination/pact-of-fresh-flesh.tres",
+		"keywords": []
+	},
+	"Grand Retour Sous une Autre Forme": {
+		"path": "res://resources/cards/abomination/reshaped-return.tres",
+		"keywords": []
+	},
+	"Rituel de la Chair Qui Recoud": {
+		"path": "res://resources/cards/abomination/ritual-of-mending-flesh.tres",
+		"keywords": []
+	},
+	"Rituel de la Forme Jamais Fixée": {
+		"path": "res://resources/cards/abomination/ritual-of-shifting-form.tres",
+		"keywords": []
+	},
+	"Sommeil Qui Ronge": {
+		"path": "res://resources/cards/abomination/rotting-slumber.tres",
+		"keywords": []
+	},
+	"Second Regard": {
+		"path": "res://resources/cards/abomination/second-gaze.tres",
+		"keywords": [
+			"Chair adaptative"
+		]
+	},
+	"Effigie Née d'Elle-Même": {
+		"path": "res://resources/cards/abomination/self-born-effigy.tres",
+		"keywords": []
+	},
+	"Ce-Qui-Se-Partage": {
+		"path": "res://resources/cards/abomination/self-splitter.tres",
+		"keywords": []
+	},
+	"Chuchotement Qui Change la Forme": {
+		"path": "res://resources/cards/abomination/shapeshifting-whisper.tres",
+		"keywords": []
+	},
+	"Vase Brisé, Encore Plein": {
+		"path": "res://resources/cards/abomination/shattered-vessel.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Poussière Qui Change": {
+		"path": "res://resources/cards/abomination/shifting-dust.tres",
+		"keywords": [
+			"Virulent"
+		]
+	},
+	"Rituel de l'Œil Sans Sommeil": {
+		"path": "res://resources/cards/abomination/sleepless-eye-ritual.tres",
+		"keywords": []
+	},
+	"Lente Altération": {
+		"path": "res://resources/cards/abomination/slow-alteration.tres",
+		"keywords": []
+	},
+	"Chant Qui Déforme": {
+		"path": "res://resources/cards/abomination/song-of-distortion.tres",
+		"keywords": []
+	},
+	"Appétit Ciblé": {
+		"path": "res://resources/cards/abomination/targeted-appetite.tres",
+		"keywords": []
+	},
+	"L'Éternel Recommencement": {
+		"path": "res://resources/cards/abomination/the-eternal-beginning.tres",
+		"keywords": []
+	},
+	"L'Innommable": {
+		"path": "res://resources/cards/abomination/the-nameless.tres",
+		"keywords": []
+	},
+	"Rituel du Fil Sous la Peau": {
+		"path": "res://resources/cards/abomination/thread-beneath-the-skin.tres",
+		"keywords": []
+	},
+	"Locataire Sans Bail": {
+		"path": "res://resources/cards/abomination/uninvited-tenant.tres",
+		"keywords": [
+			"Fusion"
+		]
+	},
+	"La Terre Qui Refuse de Garder": {
+		"path": "res://resources/cards/abomination/unkeeping-earth.tres",
+		"keywords": []
+	},
+	"Autel Qui Ne Reconnaît Rien": {
+		"path": "res://resources/cards/abomination/unrecognizing-altar.tres",
+		"keywords": []
+	},
+	"Ce-Qui-A-Cessé-de-S'arrêter": {
+		"path": "res://resources/cards/abomination/unstopping.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Voix-Sous-la-Peau": {
+		"path": "res://resources/cards/abomination/voice-beneath-the-skin.tres",
+		"keywords": []
+	},
+	"Le Poids-Qui-Marche": {
+		"path": "res://resources/cards/abomination/walking-weight.tres",
+		"keywords": [
+			"Mutation",
+			"Assimilation"
+		]
+	},
+	"Le Reste-Qui-Veille": {
+		"path": "res://resources/cards/abomination/watching-remnant.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Cercle de Guérison Infernale": {
+		"path": "res://resources/cards/demon/abyss-herald.tres",
+		"keywords": []
+	},
+	"Faucheur des Abysses": {
+		"path": "res://resources/cards/demon/abyss-reaper.tres",
+		"keywords": []
+	},
+	"Banshee des Abysses": {
+		"path": "res://resources/cards/demon/abyssal-banshe.tres",
+		"keywords": []
+	},
+	"Étreinte du Gouffre": {
+		"path": "res://resources/cards/demon/abyssal-grasp.tres",
+		"keywords": []
+	},
+	"Sentinelle du Gouffre": {
+		"path": "res://resources/cards/demon/abyssal-sentinel.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Chasseur des Abysses": {
+		"path": "res://resources/cards/demon/abyssal-stalker.tres",
+		"keywords": [
+			"Corruption"
+		]
+	},
+	"Suppôt des Abysses": {
+		"path": "res://resources/cards/demon/abyssal-thrall.tres",
+		"keywords": [
+			"Corruption"
+		]
+	},
+	"Autel de la Souffrance": {
+		"path": "res://resources/cards/demon/altar-of-agony.tres",
+		"keywords": []
+	},
+	"Autel des Sacrifices": {
+		"path": "res://resources/cards/demon/altar-of-sacrifice.tres",
+		"keywords": []
+	},
+	"Larve Ascendante": {
+		"path": "res://resources/cards/demon/ascending-hellspawn.tres",
+		"keywords": [
+			"Rang infernal"
+		]
+	},
+	"Titan de Cendres": {
+		"path": "res://resources/cards/demon/ash-titan.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Gargouille de Cendres": {
+		"path": "res://resources/cards/demon/ashen-gargoyle.tres",
+		"keywords": [
+			"Rempart",
+			"Chair de soufre"
+		]
+	},
+	"Trône de Cendres": {
+		"path": "res://resources/cards/demon/ashen-throne.tres",
+		"keywords": [
+			"Rempart",
+			"Rang infernal"
+		]
+	},
+	"Aura de Corruption": {
+		"path": "res://resources/cards/demon/aura-of-corruption.tres",
+		"keywords": []
+	},
+	"Grand Prophète Écarlate": {
+		"path": "res://resources/cards/demon/black-flame-prophet.tres",
+		"keywords": [
+			"Corruption"
+		]
+	},
+	"Marché de Sang": {
+		"path": "res://resources/cards/demon/blood-offering.tres",
+		"keywords": []
+	},
+	"Rite de Sang": {
+		"path": "res://resources/cards/demon/blood-rite.tres",
+		"keywords": []
+	},
+	"Rituel du Gouffre Sans Fond": {
+		"path": "res://resources/cards/demon/bottomless-abyss-ritual.tres",
+		"keywords": []
+	},
+	"Harpie Carmine": {
+		"path": "res://resources/cards/demon/carmine-harpy.tres",
+		"keywords": [
+			"Terreur"
+		]
+	},
+	"Rituel de la Terreur": {
+		"path": "res://resources/cards/demon/chainmaster.tres",
+		"keywords": []
+	},
+	"Communion Écarlate": {
+		"path": "res://resources/cards/demon/crimson-communion.tres",
+		"keywords": []
+	},
+	"Roi Démon Écarlate": {
+		"path": "res://resources/cards/demon/crimson-demon-king.tres",
+		"keywords": [
+			"Corruption"
+		]
+	},
+	"Emprise Écarlate": {
+		"path": "res://resources/cards/demon/crimson-dominion.tres",
+		"keywords": []
+	},
+	"Invasion Écarlate": {
+		"path": "res://resources/cards/demon/crimson-invasion.tres",
+		"keywords": []
+	},
+	"Fosse Écarlate": {
+		"path": "res://resources/cards/demon/crimson-pit.tres",
+		"keywords": []
+	},
+	"Possédé Écarlate": {
+		"path": "res://resources/cards/demon/crimson-possessed.tres",
+		"keywords": [
+			"Assaut",
+			"Terreur"
+		]
+	},
+	"Sanctuaire Écarlate": {
+		"path": "res://resources/cards/demon/crimson-sanctuary.tres",
+		"keywords": []
+	},
+	"Fléau Écarlate": {
+		"path": "res://resources/cards/demon/crimson-scourge.tres",
+		"keywords": []
+	},
+	"Assassin des Ombres Rouges": {
+		"path": "res://resources/cards/demon/crimson-shadow-assassin.tres",
+		"keywords": [
+			"Infiltration",
+			"Pacte"
+		]
+	},
+	"Séducteur Écarlate": {
+		"path": "res://resources/cards/demon/crimson-tempter.tres",
+		"keywords": []
+	},
+	"Hurlement Écarlate": {
+		"path": "res://resources/cards/demon/crimson-wail.tres",
+		"keywords": []
+	},
+	"Cercle du Grand Pacte": {
+		"path": "res://resources/cards/demon/crown-of-the-pact.tres",
+		"keywords": []
+	},
+	"Croc de Braise": {
+		"path": "res://resources/cards/demon/embermaw.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Absolution Écarlate": {
+		"path": "res://resources/cards/demon/eternal-ceremony.tres",
+		"keywords": []
+	},
+	"Chevalier Déchu": {
+		"path": "res://resources/cards/demon/fallen-hellknight.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Bourreau des Flammes": {
+		"path": "res://resources/cards/demon/flame-executioner.tres",
+		"keywords": [
+			"Ravage"
+		]
+	},
+	"Cavalier des Flammes": {
+		"path": "res://resources/cards/demon/flame-rider.tres",
+		"keywords": [
+			"Assaut"
+		]
+	},
+	"Grand Inquisiteur du Sang": {
+		"path": "res://resources/cards/demon/grand-blood-inquisitor.tres",
+		"keywords": [
+			"Sang noir",
+			"Rang infernal"
+		]
+	},
+	"Souffle Corrupteur": {
+		"path": "res://resources/cards/demon/grand-corrupter.tres",
+		"keywords": []
+	},
+	"Idole du Grand Pacte": {
+		"path": "res://resources/cards/demon/grand-pact-idol.tres",
+		"keywords": []
+	},
+	"Grand Rituel du Pacte": {
+		"path": "res://resources/cards/demon/grand-pact-ritual.tres",
+		"keywords": []
+	},
+	"Suppôt du Répit": {
+		"path": "res://resources/cards/demon/harbinger-of-respite.tres",
+		"keywords": []
+	},
+	"Pacte Hâtif": {
+		"path": "res://resources/cards/demon/hasty-pact.tres",
+		"keywords": []
+	},
+	"Cœur du Gouffre": {
+		"path": "res://resources/cards/demon/heart-of-the-chasm.tres",
+		"keywords": []
+	},
+	"Bourreau Mineur": {
+		"path": "res://resources/cards/demon/hellbound-executioner.tres",
+		"keywords": []
+	},
+	"Sangsue Infernale": {
+		"path": "res://resources/cards/demon/hellleech.tres",
+		"keywords": []
+	},
+	"Larve Infernale": {
+		"path": "res://resources/cards/demon/hellspawn-larva.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Apocalypse Infernale": {
+		"path": "res://resources/cards/demon/infernal-apocalypse.tres",
+		"keywords": [
+			"Rang infernal"
+		]
+	},
+	"Flamme Infernale": {
+		"path": "res://resources/cards/demon/infernal-flame.tres",
+		"keywords": []
+	},
+	"Symbiose Infernale": {
+		"path": "res://resources/cards/demon/infernal-symbiosis.tres",
+		"keywords": []
+	},
+	"Garde Infernal": {
+		"path": "res://resources/cards/demon/infernal-warden.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Ravageur des Flammes": {
+		"path": "res://resources/cards/demon/inferno-ravager.tres",
+		"keywords": [
+			"Ravage",
+			"Rang infernal"
+		]
+	},
+	"Doigt Écarlate": {
+		"path": "res://resources/cards/demon/judge-of-the-damned.tres",
+		"keywords": []
+	},
+	"Sceau de Préservation": {
+		"path": "res://resources/cards/demon/keeper-of-the-black-throne.tres",
+		"keywords": []
+	},
+	"Le Gardien du Pacte Brisé": {
+		"path": "res://resources/cards/demon/keeper-of-the-broken-pact.tres",
+		"keywords": []
+	},
+	"Marque du Pacte": {
+		"path": "res://resources/cards/demon/mark-of-the-pact.tres",
+		"keywords": []
+	},
+	"Invocateur Novice": {
+		"path": "res://resources/cards/demon/novice-summoner.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Architecte du Pacte": {
+		"path": "res://resources/cards/demon/pact-architect.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Berserker du Pacte": {
+		"path": "res://resources/cards/demon/pact-berserker.tres",
+		"keywords": [
+			"Frénésie",
+			"Pacte"
+		]
+	},
+	"Émissaire du Pacte": {
+		"path": "res://resources/cards/demon/pact-emissary.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Âme": {
+		"path": "res://resources/cards/demon/pact-fragment.tres",
+		"keywords": []
+	},
+	"Buveur de Souffrance": {
+		"path": "res://resources/cards/demon/pain-drinker.tres",
+		"keywords": [
+			"Sang noir"
+		]
+	},
+	"Rituel de l'Éclipse Rouge": {
+		"path": "res://resources/cards/demon/ritual-of-the-crimson-eclipse.tres",
+		"keywords": []
+	},
+	"Cercle de Corruption": {
+		"path": "res://resources/cards/demon/scourge-of-kingdoms.tres",
+		"keywords": []
+	},
+	"Sceau du Répit": {
+		"path": "res://resources/cards/demon/seal-of-respite.tres",
+		"keywords": []
+	},
+	"Suceur d'Âmes": {
+		"path": "res://resources/cards/demon/soul-devourer.tres",
+		"keywords": [
+			"Moisson"
+		]
+	},
+	"Le Marchand d'Âmes": {
+		"path": "res://resources/cards/demon/soul-merchant.tres",
+		"keywords": []
+	},
+	"Rituel du Pacte Éternel": {
+		"path": "res://resources/cards/demon/summoning-circle.tres",
+		"keywords": []
+	},
+	"Nuée de Tourments": {
+		"path": "res://resources/cards/demon/swarm-of-tourments.tres",
+		"keywords": [
+			"Terreur"
+		]
+	},
+	"Le Corrupteur": {
+		"path": "res://resources/cards/demon/the-corrupter.tres",
+		"keywords": []
+	},
+	"Le Grand Pacte": {
+		"path": "res://resources/cards/demon/the-grand-pact.tres",
+		"keywords": [
+			"Pacte"
+		]
+	},
+	"Communion Infernale": {
+		"path": "res://resources/cards/demon/the-living-covenant.tres",
+		"keywords": []
+	},
+	"Ultime Sacrifice": {
+		"path": "res://resources/cards/demon/ultimate-sacrifice.tres",
+		"keywords": []
+	},
+	"Vortex des Damnés": {
+		"path": "res://resources/cards/demon/vortex-of-the-damned.tres",
+		"keywords": []
+	},
+	"Vague de Corruption": {
+		"path": "res://resources/cards/demon/wave-of-corruption.tres",
+		"keywords": []
+	},
+	"Chuchoteur Malin": {
+		"path": "res://resources/cards/demon/whisperfiend.tres",
+		"keywords": []
+	},
+	"Ordre d'Avancer": {
+		"path": "res://resources/cards/human/advance-order.tres",
+		"keywords": []
+	},
+	"Volée de Flèches": {
+		"path": "res://resources/cards/human/arrow-volley.tres",
+		"keywords": []
+	},
+	"Serment du Sang": {
+		"path": "res://resources/cards/human/blood-oath.tres",
+		"keywords": []
+	},
+	"Général de Brigade": {
+		"path": "res://resources/cards/human/brigade-general.tres",
+		"keywords": [
+			"Commandement"
+		]
+	},
+	"Frère d'Armes": {
+		"path": "res://resources/cards/human/brother-in-arms.tres",
+		"keywords": []
+	},
+	"Appel aux Armes": {
+		"path": "res://resources/cards/human/call-to-arms.tres",
+		"keywords": []
+	},
+	"Guérisseur de Camp": {
+		"path": "res://resources/cards/human/camp-healer.tres",
+		"keywords": []
+	},
+	"Maréchal de Campagne": {
+		"path": "res://resources/cards/human/campaign-marshal.tres",
+		"keywords": [
+			"Commandement"
+		]
+	},
+	"Champion du Peuple": {
+		"path": "res://resources/cards/human/champion-of-the-people.tres",
+		"keywords": []
+	},
+	"Citadelle des Hommes": {
+		"path": "res://resources/cards/human/citadel-of-men.tres",
+		"keywords": []
+	},
+	"Cercle de Commandement": {
+		"path": "res://resources/cards/human/command-circle.tres",
+		"keywords": []
+	},
+	"Conscrit": {
+		"path": "res://resources/cards/human/conscript.tres",
+		"keywords": []
+	},
+	"Frappe Coordonnée": {
+		"path": "res://resources/cards/human/coordinated-strike.tres",
+		"keywords": []
+	},
+	"Contre-Offensive": {
+		"path": "res://resources/cards/human/counter-offensive.tres",
+		"keywords": []
+	},
+	"Fantassin de Contre-Choc": {
+		"path": "res://resources/cards/human/counter-shock-footman.tres",
+		"keywords": [
+			"Contre-attaque"
+		]
+	},
+	"Chevalier de la Contre-Marche": {
+		"path": "res://resources/cards/human/countermarch-knight.tres",
+		"keywords": [
+			"Contre-attaque",
+			"Assaut"
+		]
+	},
+	"Paladin de l'Aube": {
+		"path": "res://resources/cards/human/dawn-paladin.tres",
+		"keywords": [
+			"Égide",
+			"Moisson"
+		]
+	},
+	"Brise-Mort": {
+		"path": "res://resources/cards/human/death-breaker.tres",
+		"keywords": []
+	},
+	"Formation Défensive": {
+		"path": "res://resources/cards/human/defensive-formation.tres",
+		"keywords": []
+	},
+	"Jugement Divin": {
+		"path": "res://resources/cards/human/divine-judgment.tres",
+		"keywords": []
+	},
+	"Archer d'Élite": {
+		"path": "res://resources/cards/human/elite-archer.tres",
+		"keywords": [
+			"Infiltration"
+		]
+	},
+	"Aegis de l'Empire": {
+		"path": "res://resources/cards/human/empire-aegis.tres",
+		"keywords": []
+	},
+	"L'Éternel Gardien": {
+		"path": "res://resources/cards/human/eternal-guardian.tres",
+		"keywords": [
+			"Rempart",
+			"Égide",
+			"Discipline"
+		]
+	},
+	"Bouclier de Foi": {
+		"path": "res://resources/cards/human/faith-shield.tres",
+		"keywords": []
+	},
+	"Soldat de la Foi": {
+		"path": "res://resources/cards/human/faith-soldier.tres",
+		"keywords": [
+			"Égide"
+		]
+	},
+	"Résistance Acharnée": {
+		"path": "res://resources/cards/human/fierce-resistance.tres",
+		"keywords": []
+	},
+	"Marche Forcée": {
+		"path": "res://resources/cards/human/forced-march.tres",
+		"keywords": []
+	},
+	"Contre-Attaque Générale": {
+		"path": "res://resources/cards/human/general-counter-attack.tres",
+		"keywords": []
+	},
+	"La Grande Inquisitrice": {
+		"path": "res://resources/cards/human/grand-inquisitrix.tres",
+		"keywords": [
+			"Discipline"
+		]
+	},
+	"Grande Mobilisation": {
+		"path": "res://resources/cards/human/great-mobilization.tres",
+		"keywords": []
+	},
+	"Mémorial des Héros": {
+		"path": "res://resources/cards/human/heroes-memorial.tres",
+		"keywords": []
+	},
+	"Ordre de Tenir": {
+		"path": "res://resources/cards/human/hold-the-line.tres",
+		"keywords": []
+	},
+	"Purge Sainte": {
+		"path": "res://resources/cards/human/holy-purge.tres",
+		"keywords": []
+	},
+	"Briseur de Horde": {
+		"path": "res://resources/cards/human/horde-breaker.tres",
+		"keywords": []
+	},
+	"Mur Infranchissable": {
+		"path": "res://resources/cards/human/impassable-wall.tres",
+		"keywords": []
+	},
+	"Forteresse Imprenable": {
+		"path": "res://resources/cards/human/impregnable-fortress.tres",
+		"keywords": []
+	},
+	"Éclaireur Infiltré": {
+		"path": "res://resources/cards/human/infiltrator-scout.tres",
+		"keywords": []
+	},
+	"Inquisiteur de Fer": {
+		"path": "res://resources/cards/human/iron-inquisitor.tres",
+		"keywords": []
+	},
+	"Bannière du Roi": {
+		"path": "res://resources/cards/human/kings-banner.tres",
+		"keywords": []
+	},
+	"Code du Chevalier": {
+		"path": "res://resources/cards/human/knights-code.tres",
+		"keywords": []
+	},
+	"Commandant des Derniers": {
+		"path": "res://resources/cards/human/last-commander.tres",
+		"keywords": [
+			"Commandement"
+		]
+	},
+	"Fortification des Lignes": {
+		"path": "res://resources/cards/human/line-fortification.tres",
+		"keywords": []
+	},
+	"Lancier en Ligne": {
+		"path": "res://resources/cards/human/line-lancer.tres",
+		"keywords": [
+			"Formation"
+		]
+	},
+	"Lignée des Braves": {
+		"path": "res://resources/cards/human/lineage-of-the-brave.tres",
+		"keywords": []
+	},
+	"Le Rempart Vivant": {
+		"path": "res://resources/cards/human/living-rampart.tres",
+		"keywords": [
+			"Rempart",
+			"Fortification",
+			"Contre-attaque"
+		]
+	},
+	"Vétéran des Marches": {
+		"path": "res://resources/cards/human/march-veteran.tres",
+		"keywords": []
+	},
+	"Capitaine de Milice": {
+		"path": "res://resources/cards/human/militia-captain.tres",
+		"keywords": [
+			"Commandement"
+		]
+	},
+	"Milicien du Bourg": {
+		"path": "res://resources/cards/human/militia-man.tres",
+		"keywords": []
+	},
+	"Lame-Jurée": {
+		"path": "res://resources/cards/human/oath-blade.tres",
+		"keywords": [
+			"Discipline"
+		]
+	},
+	"Exécuteur de l'Ordre": {
+		"path": "res://resources/cards/human/order-executioner.tres",
+		"keywords": [
+			"Discipline",
+			"Venin mortel"
+		]
+	},
+	"Ordre des Anciens": {
+		"path": "res://resources/cards/human/order-of-ancients.tres",
+		"keywords": []
+	},
+	"Purification": {
+		"path": "res://resources/cards/human/purification.tres",
+		"keywords": []
+	},
+	"Cri de Ralliement": {
+		"path": "res://resources/cards/human/rally-cry.tres",
+		"keywords": []
+	},
+	"Sentinelle des Remparts": {
+		"path": "res://resources/cards/human/rampart-sentinel.tres",
+		"keywords": [
+			"Rempart",
+			"Fortification"
+		]
+	},
+	"Pacte de Résistance": {
+		"path": "res://resources/cards/human/resistance-pact.tres",
+		"keywords": []
+	},
+	"Décret Royal": {
+		"path": "res://resources/cards/human/royal-decree.tres",
+		"keywords": []
+	},
+	"Sceau du Royaume": {
+		"path": "res://resources/cards/human/royal-seal.tres",
+		"keywords": []
+	},
+	"Stratège Royal": {
+		"path": "res://resources/cards/human/royal-strategist.tres",
+		"keywords": []
+	},
+	"Massacre Sacré": {
+		"path": "res://resources/cards/human/sacred-slaughter.tres",
+		"keywords": []
+	},
+	"Fantassin Aguerri": {
+		"path": "res://resources/cards/human/seasoned-footman.tres",
+		"keywords": [
+			"Formation"
+		]
+	},
+	"Porteur de Bouclier": {
+		"path": "res://resources/cards/human/shield-bearer.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Bouclier de la Foi": {
+		"path": "res://resources/cards/human/shield-of-the-faith.tres",
+		"keywords": []
+	},
+	"Le Roi Soldat": {
+		"path": "res://resources/cards/human/soldier-king.tres",
+		"keywords": [
+			"Commandement",
+			"Égide"
+		]
+	},
+	"Mur de Lances": {
+		"path": "res://resources/cards/human/spear-wall.tres",
+		"keywords": [
+			"Formation",
+			"Rempart"
+		]
+	},
+	"Porte-Étendard": {
+		"path": "res://resources/cards/human/standard-bearer.tres",
+		"keywords": []
+	},
+	"Inquisiteur Suprême": {
+		"path": "res://resources/cards/human/supreme-inquisitor.tres",
+		"keywords": [
+			"Discipline"
+		]
+	},
+	"Éclaireur Rapide": {
+		"path": "res://resources/cards/human/swift-scout.tres",
+		"keywords": [
+			"Assaut"
+		]
+	},
+	"Défenseur Juré": {
+		"path": "res://resources/cards/human/sworn-defender.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Repli Tactique": {
+		"path": "res://resources/cards/human/tactical-retreat.tres",
+		"keywords": []
+	},
+	"Sergent de Troupe": {
+		"path": "res://resources/cards/human/troop-sergeant.tres",
+		"keywords": []
+	},
+	"Chevalier du Mur": {
+		"path": "res://resources/cards/human/wall-knight.tres",
+		"keywords": [
+			"Contre-attaque",
+			"Rempart"
+		]
+	},
+	"Bénédiction de Guerre": {
+		"path": "res://resources/cards/human/war-blessing.tres",
+		"keywords": []
+	},
+	"Hymne de Guerre": {
+		"path": "res://resources/cards/human/war-hymn.tres",
+		"keywords": []
+	},
+	"Prêtre de Guerre": {
+		"path": "res://resources/cards/human/war-priest.tres",
+		"keywords": []
+	},
+	"Temple de Guerre": {
+		"path": "res://resources/cards/human/war-temple.tres",
+		"keywords": []
+	},
+	"Archer de Guet": {
+		"path": "res://resources/cards/human/watchtower-archer.tres",
+		"keywords": []
+	},
+	"Autel des Damnés": {
+		"path": "res://resources/cards/undead/altar-of-the-damned.tres",
+		"keywords": []
+	},
+	"Aura de Décrépitude": {
+		"path": "res://resources/cards/undead/aura-of-decrepitude.tres",
+		"keywords": []
+	},
+	"Géant Boursouflé": {
+		"path": "res://resources/cards/undead/bloated-giant.tres",
+		"keywords": []
+	},
+	"Pacte Sanglant": {
+		"path": "res://resources/cards/undead/blood-pact.tres",
+		"keywords": []
+	},
+	"Mâcheur d'Os": {
+		"path": "res://resources/cards/undead/bone-chewer.tres",
+		"keywords": [
+			"Assaut"
+		]
+	},
+	"Souffle du Charnier": {
+		"path": "res://resources/cards/undead/breath-of-the-charnel-house.tres",
+		"keywords": []
+	},
+	"Nuée d'Insectes Cadavériques": {
+		"path": "res://resources/cards/undead/cadaverous-insect-swarm.tres",
+		"keywords": []
+	},
+	"Larve Cadavérique": {
+		"path": "res://resources/cards/undead/cadaverous-larva.tres",
+		"keywords": [
+			"Nécrophage"
+		]
+	},
+	"Symbiose Cadavérique": {
+		"path": "res://resources/cards/undead/cadaverous-symbiosis.tres",
+		"keywords": []
+	},
+	"Mort-Vivant Enchaîné": {
+		"path": "res://resources/cards/undead/chained-undead.tres",
+		"keywords": [
+			"Horde"
+		]
+	},
+	"Garde du Charnier": {
+		"path": "res://resources/cards/undead/charnel-guard.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Cercle de Sacrifice": {
+		"path": "res://resources/cards/undead/circle-of-sacrifice.tres",
+		"keywords": []
+	},
+	"Cercle de Convocation": {
+		"path": "res://resources/cards/undead/circle-of-summoning.tres",
+		"keywords": []
+	},
+	"Communion avec les Morts": {
+		"path": "res://resources/cards/undead/communion-with-the-dead.tres",
+		"keywords": []
+	},
+	"Cri des Damnés": {
+		"path": "res://resources/cards/undead/cry-of-the-damned.tres",
+		"keywords": []
+	},
+	"Cavalier Zombie": {
+		"path": "res://resources/cards/undead/deadrider.tres",
+		"keywords": [
+			"Assaut"
+		]
+	},
+	"Colosse Décomposé": {
+		"path": "res://resources/cards/undead/decayed-colossus.tres",
+		"keywords": [
+			"Rempart",
+			"Chair morte"
+		]
+	},
+	"Rampant en Décomposition": {
+		"path": "res://resources/cards/undead/decaying-crawler.tres",
+		"keywords": []
+	},
+	"Murmure Funeste": {
+		"path": "res://resources/cards/undead/doomed-whisper.tres",
+		"keywords": []
+	},
+	"Épidémie": {
+		"path": "res://resources/cards/undead/epidemic.tres",
+		"keywords": []
+	},
+	"Goule Affamée": {
+		"path": "res://resources/cards/undead/famished-ghoul.tres",
+		"keywords": [
+			"Nécrophage"
+		]
+	},
+	"Rongeur de Chair": {
+		"path": "res://resources/cards/undead/flesh-gnawer.tres",
+		"keywords": []
+	},
+	"Assassin Décharné": {
+		"path": "res://resources/cards/undead/gaunt-assassin.tres",
+		"keywords": [
+			"Infiltration"
+		]
+	},
+	"Doigt Décharné": {
+		"path": "res://resources/cards/undead/gaunt-finger.tres",
+		"keywords": []
+	},
+	"Servant Décharné": {
+		"path": "res://resources/cards/undead/gaunt-servant.tres",
+		"keywords": []
+	},
+	"Don de Chair": {
+		"path": "res://resources/cards/undead/gift-of-flesh.tres",
+		"keywords": []
+	},
+	"Grand Rituel Nécrotique": {
+		"path": "res://resources/cards/undead/grand-necrotic-ritual.tres",
+		"keywords": []
+	},
+	"Poigne du Cimetière": {
+		"path": "res://resources/cards/undead/grip-of-the-graveyard.tres",
+		"keywords": []
+	},
+	"Architecte de la Horde": {
+		"path": "res://resources/cards/undead/horde-architect.tres",
+		"keywords": []
+	},
+	"Étreinte Glaciale": {
+		"path": "res://resources/cards/undead/icy-embrace.tres",
+		"keywords": []
+	},
+	"Idole de l'Apocalypse": {
+		"path": "res://resources/cards/undead/idol-of-the-apocalypse.tres",
+		"keywords": []
+	},
+	"Berserker Infecté": {
+		"path": "res://resources/cards/undead/infected-berserker.tres",
+		"keywords": [
+			"Frénésie",
+			"Revenant"
+		]
+	},
+	"Morsure Infectieuse": {
+		"path": "res://resources/cards/undead/infectious-bite.tres",
+		"keywords": []
+	},
+	"Dernier Soupir": {
+		"path": "res://resources/cards/undead/last-breath.tres",
+		"keywords": []
+	},
+	"Cimetière Vivant": {
+		"path": "res://resources/cards/undead/living-cemetery.tres",
+		"keywords": []
+	},
+	"Fosse Commune": {
+		"path": "res://resources/cards/undead/mass-grave.tres",
+		"keywords": []
+	},
+	"Arrivée de Masse": {
+		"path": "res://resources/cards/undead/mass-invocation.tres",
+		"keywords": []
+	},
+	"Horde Mineure": {
+		"path": "res://resources/cards/undead/minor-horde.tres",
+		"keywords": []
+	},
+	"Zombie Mineur": {
+		"path": "res://resources/cards/undead/minor-zombie.tres",
+		"keywords": [
+			"Horde"
+		]
+	},
+	"Monument aux Morts": {
+		"path": "res://resources/cards/undead/monument-to-the-dead.tres",
+		"keywords": []
+	},
+	"Souffle Nécrotique": {
+		"path": "res://resources/cards/undead/necrotic-breath.tres",
+		"keywords": []
+	},
+	"Hurleur Nécrotique": {
+		"path": "res://resources/cards/undead/necrotic-howler.tres",
+		"keywords": []
+	},
+	"Sanctuaire Nécrotique": {
+		"path": "res://resources/cards/undead/necrotic-sanctuary.tres",
+		"keywords": []
+	},
+	"Le Patient Zéro": {
+		"path": "res://resources/cards/undead/patient-zero.tres",
+		"keywords": []
+	},
+	"Pestilent": {
+		"path": "res://resources/cards/undead/pestilent-one.tres",
+		"keywords": [
+			"Pestiféré"
+		]
+	},
+	"Brouillard Pestilentiel": {
+		"path": "res://resources/cards/undead/pestilential-fog.tres",
+		"keywords": []
+	},
+	"Émissaire de la Peste": {
+		"path": "res://resources/cards/undead/plague-emissary.tres",
+		"keywords": [
+			"Pestiféré"
+		]
+	},
+	"Faucheur de la Plaie": {
+		"path": "res://resources/cards/undead/plague-reaper.tres",
+		"keywords": []
+	},
+	"Léviathan Putréfié": {
+		"path": "res://resources/cards/undead/putrefied-leviathan.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Ravageur Putréfié": {
+		"path": "res://resources/cards/undead/putrefied-ravager.tres",
+		"keywords": [
+			"Ravage"
+		]
+	},
+	"Nécromancien Putride": {
+		"path": "res://resources/cards/undead/putrid-necromancer.tres",
+		"keywords": []
+	},
+	"Charognard Putride": {
+		"path": "res://resources/cards/undead/putrid-scavenger.tres",
+		"keywords": []
+	},
+	"Soldat Réanimé": {
+		"path": "res://resources/cards/undead/reanimated-soldier.tres",
+		"keywords": [
+			"Revenant"
+		]
+	},
+	"Infecté Récent": {
+		"path": "res://resources/cards/undead/recently-infected.tres",
+		"keywords": []
+	},
+	"Rituel de Résurrection": {
+		"path": "res://resources/cards/undead/resurrection-ritual.tres",
+		"keywords": []
+	},
+	"Rituel d'Exhumation": {
+		"path": "res://resources/cards/undead/ritual-of-exhumation.tres",
+		"keywords": []
+	},
+	"Rituel de la Fosse Sans Fond": {
+		"path": "res://resources/cards/undead/ritual-of-the-bottomless-pit.tres",
+		"keywords": []
+	},
+	"Rituel du Lien Funeste": {
+		"path": "res://resources/cards/undead/ritual-of-the-doomed-bond.tres",
+		"keywords": []
+	},
+	"Rituel de l'Éclipse": {
+		"path": "res://resources/cards/undead/ritual-of-the-eclipse.tres",
+		"keywords": []
+	},
+	"Possédé Hurlant": {
+		"path": "res://resources/cards/undead/screaming-possessed.tres",
+		"keywords": [
+			"Assaut",
+			"Venin mortel"
+		]
+	},
+	"Éclat de Putréfaction": {
+		"path": "res://resources/cards/undead/shard-of-putrefaction.tres",
+		"keywords": []
+	},
+	"Zombie Bouclier": {
+		"path": "res://resources/cards/undead/shield-zombie.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Chair": {
+		"path": "res://resources/cards/undead/soul-shard.tres",
+		"keywords": []
+	},
+	"Réveil Soudain": {
+		"path": "res://resources/cards/undead/sudden-awakening.tres",
+		"keywords": []
+	},
+	"Le Médecin de la Peste": {
+		"path": "res://resources/cards/undead/the-plague-doctor.tres",
+		"keywords": []
+	},
+	"La Faucheuse": {
+		"path": "res://resources/cards/undead/the-reaper.tres",
+		"keywords": []
+	},
+	"Exhalation Toxique": {
+		"path": "res://resources/cards/undead/toxic-exhalation.tres",
+		"keywords": []
+	},
+	"Esprit Vorace": {
+		"path": "res://resources/cards/undead/voracious-spirit.tres",
+		"keywords": [
+			"Moisson"
+		]
+	},
+	"Vortex des Âmes": {
+		"path": "res://resources/cards/undead/vortex-of-souls.tres",
+		"keywords": []
+	},
+	"Tombeau Ambulant": {
+		"path": "res://resources/cards/undead/walking-tomb.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"Cadavre Errant": {
+		"path": "res://resources/cards/undead/wandering-corpse.tres",
+		"keywords": [
+			"Rempart",
+			"Chair morte"
+		]
+	},
+	"Vague de Putréfaction": {
+		"path": "res://resources/cards/undead/wave-of-putrefaction.tres",
+		"keywords": []
+	},
+	"Apocalypse Zombie": {
+		"path": "res://resources/cards/undead/zombie-apocalypse.tres",
+		"keywords": []
+	},
+	"Banshee Zombie": {
+		"path": "res://resources/cards/undead/zombie-banshee.tres",
+		"keywords": []
+	},
+	"Roi Liche Zombie": {
+		"path": "res://resources/cards/undead/zombie-lich-king.tres",
+		"keywords": []
+	},
+	"Cultiste Zombifié": {
+		"path": "res://resources/cards/undead/zombified-cultist.tres",
+		"keywords": []
+	}
+}
