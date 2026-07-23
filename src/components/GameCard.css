@@ -1,0 +1,243 @@
+/* Réplique CSS de scenes/card/Card.tscn (base 250×375, positions absolues). */
+
+@font-face {
+	font-family: "CinzelDecorative";
+	src: url("../assets/game/fonts/CinzelDecorative-Black.otf") format("opentype");
+	font-weight: 900;
+}
+@font-face {
+	font-family: "CinzelCard";
+	src: url("../assets/game/fonts/Cinzel-Black.otf") format("opentype");
+	font-weight: 900;
+}
+@font-face {
+	font-family: "CinzelCard";
+	src: url("../assets/game/fonts/Cinzel-Bold.otf") format("opentype");
+	font-weight: 700;
+}
+@font-face {
+	font-family: "CrimsonTextCard";
+	src: url("../assets/game/fonts/CrimsonText-SemiBold.ttf") format("truetype");
+	font-weight: 600;
+	font-style: normal;
+}
+@font-face {
+	font-family: "CrimsonTextCard";
+	src: url("../assets/game/fonts/CrimsonText-SemiBoldItalic.ttf") format("truetype");
+	font-weight: 600;
+	font-style: italic;
+}
+
+.gamecard {
+	position: relative;
+	width: 250px;
+	height: 375px;
+	user-select: none;
+	flex-shrink: 0;
+}
+
+/* BorderFrameBlack : cadre noir débordant (-8,-9 → 266×390, radius 8) */
+.gamecard-black-frame {
+	position: absolute;
+	left: -8px;
+	top: -9px;
+	width: 266px;
+	height: 390px;
+	background: #000;
+	border-radius: 8px;
+}
+
+/* Art : plein cadre */
+.gamecard-art {
+	position: absolute;
+	inset: 0;
+	width: 250px;
+	height: 375px;
+	object-fit: cover;
+	border-radius: 6px;
+}
+
+/* LaneIcon / icône de type en filigrane (modulate noir, alpha 0.68) */
+.gamecard-watermark {
+	position: absolute;
+	left: 47px;
+	top: 176px;
+	width: 140px;
+	height: 140px;
+	object-fit: contain;
+	filter: brightness(0);
+	opacity: 0.68;
+	pointer-events: none;
+}
+
+/* NameLabel : 12.5,158 → 224×25, CinzelDecorative-Black 11px */
+.gamecard-name {
+	position: absolute;
+	left: 12px;
+	top: 158px;
+	width: 224px;
+	min-height: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-family: "CinzelDecorative", serif;
+	font-weight: 900;
+	font-size: 11px;
+	line-height: 1.1;
+	color: rgb(242, 227, 198);
+	border: 1px solid rgba(168, 122, 52, 0.39);
+	border-radius: 5px;
+	padding: 1px 3px;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+/* CostLabel : 190,18 → 42×42, Cinzel-Black 28px, fond teinté race */
+.gamecard-cost {
+	position: absolute;
+	left: 190px;
+	top: 18px;
+	width: 42px;
+	height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "CinzelCard", serif;
+	font-weight: 900;
+	font-size: 28px;
+	color: rgba(211, 211, 211, 0.855);
+	border: 5px solid rgba(168, 122, 52, 0.39);
+	border-radius: 20px;
+	box-sizing: border-box;
+	z-index: 3;
+}
+
+/* GenericCostLabel : 160,30 → 34×34, style bleu-gris du .tscn */
+.gamecard-generic-cost {
+	position: absolute;
+	left: 160px;
+	top: 30px;
+	width: 34px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "CinzelCard", serif;
+	font-weight: 900;
+	font-size: 20px;
+	color: rgba(211, 211, 211, 0.855);
+	background: rgba(85, 107, 146, 0.784);
+	border: 5px solid rgba(168, 122, 52, 0.39);
+	border-radius: 20px;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+/* DescLabel : 15,186 → 220×120, CrimsonText-SemiBold 13px */
+.gamecard-desc {
+	position: absolute;
+	left: 15px;
+	top: 186px;
+	width: 220px;
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	text-align: center;
+	font-family: "CrimsonTextCard", serif;
+	font-weight: 600;
+	font-size: 13px;
+	line-height: 1.15;
+	color: rgba(255, 255, 255, 0.855);
+	border: 1px solid rgba(168, 122, 52, 0.39);
+	border-radius: 5px;
+	padding: 4px 6px;
+	box-sizing: border-box;
+	overflow: hidden;
+	z-index: 2;
+}
+
+.gamecard-flavor {
+	font-style: italic;
+	font-size: 10px;
+}
+
+/* TypeLabel : 20,310 → 210×18, Cinzel-Bold 10px, couleur = rareté */
+.gamecard-type {
+	position: absolute;
+	left: 20px;
+	top: 310px;
+	width: 210px;
+	height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "CinzelCard", serif;
+	font-weight: 700;
+	font-size: 10px;
+	color: rgb(242, 227, 198);
+	border: 1px solid;
+	border-radius: 8px;
+	padding: 0 8px;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 2;
+}
+
+/* AttackLabel : 35,330 → 40×34, rouge */
+.gamecard-attack {
+	position: absolute;
+	left: 35px;
+	top: 330px;
+	width: 40px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "CinzelCard", serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(211, 211, 211, 0.855);
+	background: rgba(139, 30, 30, 0.59);
+	border: 2px solid rgba(201, 0, 0, 0.39);
+	border-radius: 17px;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+/* HealthLabel : 175,330 → 40×34, vert */
+.gamecard-health {
+	position: absolute;
+	left: 175px;
+	top: 330px;
+	width: 40px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "CinzelCard", serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(211, 211, 211, 0.855);
+	background: rgba(45, 122, 45, 0.59);
+	border: 2px solid rgba(74, 234, 0, 0.39);
+	border-radius: 17px;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+/* BorderFrame : bordure PNG par race (-5,-7.5 → 260×390) */
+.gamecard-border {
+	position: absolute;
+	left: -5px;
+	top: -7px;
+	width: 260px;
+	height: 390px;
+	pointer-events: none;
+	z-index: 4;
+}
