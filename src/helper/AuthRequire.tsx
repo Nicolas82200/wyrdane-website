@@ -18,7 +18,7 @@ const AuthRequire = ({ children }: AuthRequireProps) => {
 		api
 			.get("/api/auth/authVerif")
 			.then(() => setChecking(false))
-			.catch(() => navigate("/decks"));
+			.catch(() => navigate("/"));
 	}, [navigate]);
 
 	// Tant qu'on n'a pas la réponse, on n'affiche pas le contenu protégé
