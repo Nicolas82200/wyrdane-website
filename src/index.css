@@ -43,6 +43,11 @@ body,
 	}
 }
 
+html {
+	scroll-snap-type: y proximity;
+	scroll-behavior: smooth;
+}
+
 h1,
 h2,
 h3 {
@@ -52,4 +57,55 @@ h3 {
 	letter-spacing: 0.02em;
 	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
 	margin: 0;
+}
+
+.btn {
+	min-height: 48px;
+	padding: 0 20px;
+	font-family: "Crimson Text", serif;
+	font-size: 16px;
+	color: var(--gold);
+	background: var(--btn-bg);
+	border: 1px solid var(--btn-border);
+	border-radius: 6px;
+	cursor: pointer;
+	transition:
+		background 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.btn:hover {
+	background: var(--btn-bg-hover);
+	border-color: var(--btn-border-hover);
+	color: var(--gold-bright);
+}
+
+.btn:active {
+	background: var(--btn-bg-pressed);
+	border-color: var(--btn-border-pressed);
+	color: var(--gold-pressed);
+}
+
+.btn:focus-visible {
+	outline: none;
+	border-color: var(--btn-border-focus);
+	box-shadow: 0 0 0 2px rgba(240, 192, 64, 0.25);
+}
+
+.btn:disabled {
+	cursor: default;
+	color: var(--gold-disabled);
+	background: var(--btn-bg-disabled);
+	border-color: var(--btn-border-disabled);
+}
+
+.btn-primary {
+	background: var(--btn-bg-hover);
+	border-color: var(--btn-border-hover);
+}
+
+.btn-primary:hover {
+	border-color: var(--gold-pressed);
+	color: var(--gold-bright);
 }

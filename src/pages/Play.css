@@ -1,0 +1,77 @@
+.play {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	width: 100%;
+	padding: 24px;
+	box-sizing: border-box;
+}
+
+.play-stage {
+	display: inline-block;
+	width: 100%;
+	max-width: 480px;
+}
+
+.play-view {
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 40px 36px;
+	text-align: center;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.play-view h1 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-weight: 700;
+	font-size: 32px;
+	letter-spacing: 0.02em;
+	color: var(--gold);
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	margin: 0 0 16px;
+}
+
+.play-steam-badge {
+	display: inline-block;
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--gold-bright);
+	background: rgba(201, 162, 39, 0.18);
+	border: 1px solid var(--btn-border-hover);
+	border-radius: 999px;
+	padding: 6px 16px;
+	margin: 0 0 16px;
+}
+
+.play-steam-text {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.75);
+	margin: 0 0 24px;
+}
+
+.play-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-top: 8px;
+}
+
+.play-back-link {
+	margin-top: 4px;
+	text-align: center;
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	color: rgba(232, 213, 163, 0.6);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+
+.play-back-link:hover {
+	color: var(--gold-bright);
+}
