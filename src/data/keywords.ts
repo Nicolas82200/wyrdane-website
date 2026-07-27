@@ -105,7 +105,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Instable",
 		description:
-			"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis — sa chair est trop erratique pour être stabilisée.",
+			"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis : sa chair est trop erratique pour être stabilisée.",
 	},
 ];
 

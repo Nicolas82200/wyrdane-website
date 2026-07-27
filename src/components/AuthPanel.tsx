@@ -1,4 +1,6 @@
 import { API_URL } from "../api";
+import { useLanguage } from "../i18n/useLanguage";
+import { PAGES_CONTENT } from "../i18n/pages";
 
 import "./AuthPanel.css";
 
@@ -10,6 +12,9 @@ type AuthPanelProps = {
 // navigateur vers /api/auth/steam/redirect qui lance le flow OpenID côté
 // Steam ; le backend renvoie ensuite ici une fois la session posée (cookie).
 const AuthPanel = ({ onCancel }: AuthPanelProps) => {
+	const { language } = useLanguage();
+	const t = PAGES_CONTENT[language].auth;
+
 	const handleSteamLogin = () => {
 		window.location.href = `${API_URL}/api/auth/steam/redirect`;
 	};
@@ -17,13 +22,13 @@ const AuthPanel = ({ onCancel }: AuthPanelProps) => {
 	return (
 		<div className="auth-panel">
 			<button type="button" className="auth-back" onClick={onCancel}>
-				← Retour
+				{t.back}
 			</button>
 
-			<h2>Connectez-vous</h2>
+			<h2>{t.title}</h2>
 
 			<button type="button" className="btn btn-primary" onClick={handleSteamLogin}>
-				Se connecter avec Steam
+				{t.steamLogin}
 			</button>
 		</div>
 	);
