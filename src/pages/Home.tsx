@@ -41,10 +41,7 @@ const Home = () => {
 					<h1>WYRDANE</h1>
 					<p className="hero-tagline">{t.heroTagline}</p>
 					<div className="hero-actions">
-						<Link to="/play" className="btn btn-primary">
-							{t.heroPlayCta}
-						</Link>
-						<Link to="/news" className="btn">
+						<Link to="/news" className="btn btn-primary">
 							{t.heroNewsCta}
 						</Link>
 					</div>
