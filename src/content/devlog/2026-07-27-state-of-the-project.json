@@ -1,0 +1,163 @@
+{
+	"date": "2026-07-27",
+	"title": {
+		"en": "Devlog 1: State of the project",
+		"fr": "Devlog 1 : État du projet"
+	},
+	"lede": {
+		"en": "Wyrdane has been in active development for a while now, but this is the first entry in its public Dev Log. Development started back in June, and the project has grown into a genuinely large codebase since, so instead of a quick announcement, here's a real, detailed look at where things stand: what's built, what broke along the way, and the choices behind some of the design.",
+		"fr": "Wyrdane est en développement actif depuis un moment déjà, mais c'est la toute première entrée de son Dev Log public. Le développement a démarré en juin, et le projet est depuis devenu une base de code vraiment conséquente, alors plutôt qu'une simple annonce, voici un vrai bilan détaillé de où en est le projet : ce qui est construit, ce qui a cassé en chemin, et les choix derrière certaines décisions de design."
+	},
+	"stats": {
+		"en": [
+			{ "value": "317", "label": "Cards" },
+			{ "value": "4", "label": "Races" },
+			{ "value": "121", "label": "Automated tests" },
+			{ "value": "3", "label": "AI difficulty levels" }
+		],
+		"fr": [
+			{ "value": "317", "label": "Cartes" },
+			{ "value": "4", "label": "Races" },
+			{ "value": "121", "label": "Tests automatisés" },
+			{ "value": "3", "label": "Niveaux d'IA" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "The core game",
+				"paragraphs": [
+					"The core game is playable end to end: two players fight across Front and Back rows to bring the enemy hero to 0 HP, with a fully data-driven effect engine handling triggers, enchantments and auras. Four races are implemented, for 317 cards in total (tokens included): Undead (80 cards), Human (81), Demon (77) and Abomination (79), each with its own keywords and its own mana pool through the race-based resource system."
+				]
+			},
+			{
+				"heading": "Why separate mana pools",
+				"paragraphs": [
+					"Giving each race its own separate mana pool, instead of one shared generic pool, was a deliberate call made early on and never revisited: it means committing to a race in your deck actually means something, instead of letting any deck splash freely across all four races."
+				]
+			},
+			{
+				"heading": "Playing solo",
+				"paragraphs": [
+					"Solo play is fully supported: a three-difficulty AI opponent that handles every card type, a full deck builder, and a mandatory guided tutorial (mulligan included) that rewards new players with starter decks and cards."
+				]
+			},
+			{
+				"heading": "Multiplayer, the hard part",
+				"paragraphs": [
+					"Multiplayer runs 1v1 over Steam: a lobby with Quick Match and friend invites, and peer-to-peer connections between players. That side of the project caused the most headaches. Early peer-to-peer connections struggled to survive real-world NAT setups, which is why the transport layer was migrated to a more robust Steamworks connection method built specifically for reliable cross-NAT play. Even with that fix, transient drops still happen mid-match, which is why a match doesn't end the instant a connection hiccups: there's a 20-second grace window for a disconnected player to reconnect before the game gives up on them."
+				]
+			},
+			{
+				"heading": "A security gap, closed",
+				"paragraphs": [
+					"Trusting messages from another player's machine is inherently risky in a peer-to-peer game. For a while, the network protocol didn't check that an incoming command actually belonged to the player who sent it, which meant a modified client could, in theory, spoof card plays or even force the opponent's own minions to attack themselves. That gap has since been closed with explicit ownership checks on every command received from the other player."
+				]
+			},
+			{
+				"heading": "Steam only",
+				"paragraphs": [
+					"Multiplayer also got narrower in scope, not wider, at one point: Wyrdane briefly supported a direct local-network connection mode alongside Steam. It was dropped in favor of Steam-only multiplayer, on the reasoning that one connection path tested and maintained properly beats two that are each half-supported."
+				]
+			},
+			{
+				"heading": "Interfaces that didn't survive",
+				"paragraphs": [
+					"Not every UI experiment survived contact with the actual game. The card stat badges went through a circular gem-style redesign that didn't hold up once it was actually sitting on real cards, and got reverted back to the simpler layout. The combat log moved from a floating overlay to a panel that slides in from the left edge, far less intrusive mid-fight. The 8-player Arena prototype saw the most iteration of all: it started closer to a traditional auto-battler shop, moved to a classic board with drag-and-drop purchases, and its combat replay eventually got folded directly into the main board instead of opening as a separate scene."
+				]
+			},
+			{
+				"heading": "The resource zone: built, then shelved",
+				"paragraphs": [
+					"One choice players might notice if they look closely: resource cards, the ones that grow a race's mana pool, don't stay visible on the board once played. Earlier in development, they did: Wyrdane built, and still has in its code, a dedicated zone on each side of the board for resource cards to sit in, complete with a polished animation for absorbing the card into the mana pool. That zone is switched off for now. The board space it used got reassigned to fit the deck and graveyard more comfortably after a later layout pass. Rather than rip the feature out, the underlying system was left in place and simply disabled: a resource card played today is consumed and removed from the game instead of parked on the board. Turning it back on is a matter of flipping a flag, not rebuilding it from scratch, once there's board room for it again."
+				]
+			},
+			{
+				"heading": "Backend and this website",
+				"paragraphs": [
+					"On the backend side, a separate service now handles Steam authentication, owned card collections, soft currency, and the pack shop, and this website is its newest front door: a deck builder, collection browsing, and the presentation pages you're reading right now, in French and English."
+				]
+			},
+			{
+				"heading": "Tests, and their limits",
+				"paragraphs": [
+					"Not everything is bullet-proof yet, and this log won't pretend otherwise. 121 automated tests now cover the effect engine, costs, auras, sacrifices, triggers, death handling, and the Abomination mutation table, but a couple of core systems, combat resolution and turn orchestration, are still too tangled up with the live game scene to unit-test cleanly. Elf and Dwarf also remain nothing more than placeholder entries for now, waiting on a full design pass before a single card gets written for either of them."
+				]
+			},
+			{
+				"heading": "What's next",
+				"paragraphs": [
+					"The real Steamworks store page and app ID (the game currently runs on Steam's test app ID), a campaign mode, a Battle Royale mode, shader-based animations, and continued growth of the automated test suite."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Le cœur du jeu",
+				"paragraphs": [
+					"Le cœur du jeu est jouable de bout en bout : deux joueurs s'affrontent sur des rangées Avant et Arrière pour réduire le héros adverse à 0 HP, avec un moteur d'effets entièrement data-driven qui gère triggers, enchantements et auras. Quatre races sont implémentées, pour 317 cartes au total (jetons compris) : Mort-Vivant (80 cartes), Humain (81), Démon (77) et Abomination (79), chacune avec ses propres mots-clés et son propre pool de mana via le système de Ressources par Race."
+				]
+			},
+			{
+				"heading": "Pourquoi des pools de mana séparés",
+				"paragraphs": [
+					"Donner à chaque race son propre pool de mana séparé, plutôt qu'un pool générique unique, a été un choix délibéré fait tôt et jamais remis en question : ça veut dire que s'engager sur une race dans son deck a un vrai poids, au lieu de laisser n'importe quel deck piocher librement dans les quatre races."
+				]
+			},
+			{
+				"heading": "Jouer en solo",
+				"paragraphs": [
+					"Le mode solo est entièrement fonctionnel : une IA adverse à trois niveaux de difficulté qui gère tous les types de cartes, un deck builder complet, et un tutoriel obligatoire guidé (mulligan compris) qui récompense les nouveaux joueurs avec des decks et des cartes de départ."
+				]
+			},
+			{
+				"heading": "Le multijoueur, la partie difficile",
+				"paragraphs": [
+					"Le multijoueur tourne en 1 contre 1 via Steam : un lobby avec Partie rapide et invitations d'amis, et des connexions pair-à-pair entre joueurs. C'est le volet qui a causé le plus de maux de tête. Les premières connexions pair-à-pair survivaient mal aux configurations réseau réelles (NAT), ce qui a motivé la migration de la couche transport vers une méthode de connexion Steamworks plus robuste, conçue spécifiquement pour fiabiliser le jeu à travers les NAT. Même avec ce correctif, des coupures transitoires arrivent encore en pleine partie, d'où le fait qu'une partie ne s'arrête pas au premier accroc de connexion : il y a une fenêtre de grâce de 20 secondes pour qu'un joueur déconnecté se reconnecte avant que le jeu ne l'abandonne."
+				]
+			},
+			{
+				"heading": "Une faille de sécurité, comblée",
+				"paragraphs": [
+					"Faire confiance aux messages envoyés par la machine d'un autre joueur est intrinsèquement risqué dans un jeu pair-à-pair. Pendant un temps, le protocole réseau ne vérifiait pas qu'une commande reçue appartenait réellement au joueur qui l'avait envoyée, ce qui signifiait qu'un client modifié pouvait, en théorie, usurper la pose d'une carte ou même forcer les propres serviteurs de l'adversaire à s'attaquer entre eux. Cette faille a depuis été comblée avec des vérifications explicites de propriété sur chaque commande reçue de l'autre joueur."
+				]
+			},
+			{
+				"heading": "Exclusivement Steam",
+				"paragraphs": [
+					"Le multijoueur s'est aussi resserré plutôt qu'élargi à un moment donné : Wyrdane a un temps supporté un mode de connexion directe en réseau local en plus de Steam. Il a été abandonné au profit d'un multijoueur exclusivement Steam, avec le raisonnement qu'un seul chemin de connexion bien testé et maintenu vaut mieux que deux à moitié supportés."
+				]
+			},
+			{
+				"heading": "Des interfaces qui n'ont pas survécu",
+				"paragraphs": [
+					"Toutes les expérimentations d'interface n'ont pas survécu au contact du jeu réel. Les badges de statistiques des cartes ont eu droit à une refonte en forme de gemme circulaire qui ne tenait pas la route une fois posée sur de vraies cartes, et sont revenus à la mise en page plus simple. Le journal de combat est passé d'une fenêtre flottante à un panneau qui glisse depuis le bord gauche, bien moins intrusif en plein combat. Le prototype d'Arène à 8 joueurs a connu le plus d'itérations de tous : parti d'une boutique plus proche d'un auto-battler classique, passé à un plateau avec achats en glisser-déposer, puis son replay de combat a fini par être intégré directement au plateau principal plutôt que dans une scène séparée."
+				]
+			},
+			{
+				"heading": "La zone de ressources : construite, puis mise de côté",
+				"paragraphs": [
+					"Un choix que les joueurs attentifs remarqueront peut-être : les cartes-ressource, celles qui font grandir le pool de mana d'une race, ne restent pas visibles sur le plateau une fois jouées. Plus tôt dans le développement, c'était le cas : Wyrdane a construit, et possède toujours dans son code, une zone dédiée de chaque côté du plateau pour y poser les cartes-ressource, avec une animation soignée d'absorption dans le pool de mana. Cette zone est désactivée pour l'instant. L'espace du plateau qu'elle occupait a été réattribué pour mieux loger le deck et le cimetière après une passe de réagencement plus tardive. Plutôt que de supprimer la fonctionnalité, le système sous-jacent a été laissé en place et simplement désactivé : une carte-ressource jouée aujourd'hui est consommée et retirée de la partie au lieu d'être posée sur le plateau. La réactiver ne demandera qu'un interrupteur à basculer, pas une reconstruction, dès que le plateau aura de nouveau la place pour elle."
+				]
+			},
+			{
+				"heading": "Le backend et ce site",
+				"paragraphs": [
+					"Côté serveur, un service séparé gère désormais l'authentification Steam, la collection de cartes possédées, la monnaie molle et la boutique de packs, et ce site en est la nouvelle porte d'entrée, avec un deck builder, la consultation de la collection, et les pages de présentation que tu es en train de lire, en français et en anglais."
+				]
+			},
+			{
+				"heading": "Les tests, et leurs limites",
+				"paragraphs": [
+					"Tout n'est pas encore blindé, et ce journal ne fera pas semblant du contraire. 121 tests automatisés couvrent aujourd'hui le moteur d'effets, les coûts, les auras, les sacrifices, les triggers, la gestion des morts et la table de mutation Abomination, mais deux systèmes centraux, la résolution de combat et l'orchestration des tours, restent trop imbriqués dans la scène de jeu réelle pour être testés proprement en isolation. Elfe et Nain ne sont eux aussi encore que des entrées placeholder, en attente d'une passe de design complète avant qu'une seule carte ne soit écrite pour l'une ou l'autre."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"La vraie page boutique Steamworks et le véritable AppID (le jeu tourne pour l'instant sur l'AppID de test de Steam), un mode campagne, un mode Battle Royale, des animations en shaders, et une couverture de tests automatisés toujours plus large."
+				]
+			}
+		]
+	}
+}

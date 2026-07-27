@@ -1,0 +1,23 @@
+{
+	"date": "2026-07-24",
+	"title": {
+		"en": "Wyrdane's website is live",
+		"fr": "Ouverture du site Wyrdane"
+	},
+	"sections": {
+		"en": [
+			{
+				"paragraphs": [
+					"This website is now live alongside the Godot client. More features, including the deck builder, are on their way."
+				]
+			}
+		],
+		"fr": [
+			{
+				"paragraphs": [
+					"Ce site est désormais en ligne, en plus du client Godot. D'autres fonctionnalités, dont le deck builder, arrivent bientôt."
+				]
+			}
+		]
+	}
+}

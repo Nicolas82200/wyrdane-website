@@ -1,0 +1,44 @@
+.content-page {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	min-height: calc(100vh - 64px);
+	padding: 48px 24px;
+	box-sizing: border-box;
+}
+
+.content-panel {
+	width: 100%;
+	max-width: 780px;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 32px 36px 40px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.content-panel h1 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-weight: 700;
+	font-size: 34px;
+	letter-spacing: 0.02em;
+	color: var(--gold);
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	text-align: center;
+	margin: 0;
+}
+
+.content-subtitle {
+	font-family: "Crimson Text", serif;
+	font-style: italic;
+	font-size: 16px;
+	color: rgba(232, 213, 163, 0.6);
+	text-align: center;
+	margin: 8px 0 0;
+}
+
+.content-sep {
+	border: none;
+	border-top: 1px solid var(--separator);
+	margin: 24px 0;
+}
