@@ -1,0 +1,138 @@
+.board-diagram {
+	position: relative;
+	width: 100%;
+	max-width: 1040px;
+	margin: 0 auto;
+	aspect-ratio: 1679 / 1049;
+	background-size: cover;
+	background-position: center;
+	border-radius: 10px;
+	border: 1px solid var(--panel-border);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+	overflow: visible;
+}
+
+.board-zone {
+	position: absolute;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	cursor: default;
+	outline: none;
+	transition:
+		border-color 0.15s ease,
+		background 0.15s ease;
+}
+
+.board-zone.zone-enemy:hover,
+.board-zone.zone-enemy:focus-visible {
+	border-color: rgba(216, 92, 74, 0.85);
+	background: rgba(216, 92, 74, 0.12);
+}
+
+.board-zone.zone-player:hover,
+.board-zone.zone-player:focus-visible {
+	border-color: var(--btn-border-hover);
+	background: rgba(201, 162, 39, 0.12);
+}
+
+/* Tooltip: always horizontally centered on the zone, offset above/below so it never covers it */
+.board-tooltip {
+	position: absolute;
+	left: 50%;
+	width: 240px;
+	margin-left: -120px;
+	background: rgba(10, 8, 7, 0.97);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 12px 16px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.18s ease,
+		transform 0.18s ease;
+	z-index: 6;
+	text-align: center;
+}
+
+.board-tooltip.v-below {
+	top: calc(100% + 12px);
+	transform: translateY(-6px);
+}
+
+.board-tooltip.v-above {
+	bottom: calc(100% + 12px);
+	transform: translateY(6px);
+}
+
+.board-zone:hover .board-tooltip,
+.board-zone:focus-visible .board-tooltip {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.board-tooltip strong {
+	display: block;
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-size: 15px;
+	color: var(--gold-bright);
+	margin-bottom: 6px;
+}
+
+.board-tooltip p {
+	font-family: "Crimson Text", serif;
+	font-size: 13.5px;
+	line-height: 1.5;
+	color: rgba(232, 213, 163, 0.85);
+	margin: 0;
+}
+
+.board-legend {
+	position: absolute;
+	bottom: -40px;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+
+.legend-item {
+	font-family: "Crimson Text", serif;
+	font-size: 13px;
+	color: rgba(232, 213, 163, 0.75);
+	padding-left: 18px;
+	position: relative;
+}
+
+.legend-item::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 12px;
+	height: 12px;
+	border-radius: 3px;
+}
+
+.legend-enemy::before {
+	background: rgba(216, 92, 74, 0.85);
+}
+
+.legend-player::before {
+	background: var(--btn-border-hover);
+}
+
+@media (max-width: 700px) {
+	.board-tooltip {
+		width: 180px;
+		margin-left: -90px;
+		font-size: 12px;
+		padding: 10px 12px;
+	}
+
+	.board-legend {
+		bottom: -34px;
+	}
+}

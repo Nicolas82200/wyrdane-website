@@ -1,0 +1,47 @@
+@font-face {
+	font-family: "MedievalSharp";
+	src: url("./assets/site/fonts/MedievalSharp-Bold.ttf") format("truetype");
+	font-weight: 700 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Cinzel Decorative";
+	src: url("./assets/site/fonts/CinzelDecorative-Black.otf") format("opentype");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Cinzel";
+	src: url("./assets/site/fonts/Cinzel-Bold.otf") format("opentype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Cinzel";
+	src: url("./assets/site/fonts/Cinzel-Black.otf") format("opentype");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Crimson Text";
+	src: url("./assets/site/fonts/CrimsonText-SemiBold.ttf") format("truetype");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Crimson Text";
+	src: url("./assets/site/fonts/CrimsonText-SemiBoldItalic.ttf") format("truetype");
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}

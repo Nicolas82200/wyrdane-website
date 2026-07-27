@@ -1,0 +1,26 @@
+.social-links {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.social-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: rgba(232, 213, 163, 0.75);
+	transition: color 0.15s ease;
+	text-decoration: none;
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+}
+
+.social-link:hover {
+	color: var(--gold-bright);
+}
+
+.social-link svg {
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+}
