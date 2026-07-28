@@ -7,7 +7,6 @@ export type ComingSoonSection = { title: string; text: string; badge: string };
 
 export type HomeContent = {
 	heroTagline: string;
-	heroPlayCta: string;
 	heroNewsCta: string;
 	gameTitle: string;
 	gameText: string;
@@ -34,7 +33,6 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 	en: {
 		heroTagline:
 			"A dark fantasy collectible card game, 1v1, where positioning on the board matters as much as the cards in your hand.",
-		heroPlayCta: "Play now",
 		heroNewsCta: "See the news",
 		gameTitle: "The game",
 		gameText:
@@ -131,7 +129,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane is an indie project actively being built, and cards, mechanics and this very website evolve every week. Some features shown here may still change before release. Follow the Dev Log and our socials to watch it take shape.",
 		deckSection: {
 			title: "Build your deck",
-			text: "Compose your deck from the four races and their keywords, ready for when the deck builder opens up.",
+			text: "Compose your deck from the four races and their keywords. Decks built here will be directly usable in the game, ready for when the deck builder opens up.",
 			badge: "Coming soon",
 		},
 		playSection: {
@@ -143,7 +141,6 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 	fr: {
 		heroTagline:
 			"Un jeu de cartes à collectionner dark fantasy, 1 contre 1, où chaque position sur le plateau compte autant que chaque carte en main.",
-		heroPlayCta: "Jouer maintenant",
 		heroNewsCta: "Voir les actualités",
 		gameTitle: "Le jeu",
 		gameText:
@@ -240,7 +237,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane est un projet indépendant en cours de développement actif, les cartes, les mécaniques et ce site lui-même évoluent chaque semaine. Certains éléments présentés ici peuvent encore changer avant la sortie. Suis le Dev Log et nos réseaux pour voir le jeu prendre forme.",
 		deckSection: {
 			title: "Compose ton deck",
-			text: "Assemble ton deck parmi les quatre races et leurs mots-clés, prêt pour l'ouverture du deck builder.",
+			text: "Assemble ton deck parmi les quatre races et leurs mots-clés. Les decks créés ici seront directement utilisables dans le jeu, prêts pour l'ouverture du deck builder.",
 			badge: "Bientôt disponible",
 		},
 		playSection: {
