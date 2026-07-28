@@ -173,13 +173,3 @@
 	font-size: 24px;
 	color: rgba(211, 211, 211, 0.855);
 }
-
-/* --- BorderFrame (texture décorative par-dessus tout) --- */
-/* .card-border-frame {
-	position: absolute;
-	left: -5px;
-	top: -7.5px;
-	width: 260px;
-	height: 390px;
-	pointer-events: none;
-} */
