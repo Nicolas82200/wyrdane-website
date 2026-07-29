@@ -44,13 +44,6 @@ export default function Card({ card }: CardProps) {
 
 				<div className="card-attack-badge">{card.attack ?? "-"}</div>
 				<div className="card-health-badge">{card.hp ?? "-"}</div>
-
-				{/* <img
-					className="card-border-frame"
-					src="/assets/borders/demon-border-card.png"
-					alt=""
-					aria-hidden="true"
-				/> */}
 			</div>
 		</div>
 	);
