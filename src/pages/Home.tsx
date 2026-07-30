@@ -143,6 +143,7 @@ const Home = () => {
 					<Link to="/news">{common.navNews}</Link>
 					<Link to="/dev-log">{common.navDevLog}</Link>
 					<Link to="/play">{common.navPlay}</Link>
+					<Link to="/contact">{common.navContact}</Link>
 				</div>
 				<SocialLinks className="footer-socials" withLabels />
 				<p>{common.footerTagline}</p>

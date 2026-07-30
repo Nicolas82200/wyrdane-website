@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Play from "./pages/Play";
 import News from "./pages/News";
 import DevLog from "./pages/DevLog";
+import Contact from "./pages/Contact";
 import LegalPage from "./pages/LegalPage";
 
 import { LanguageProvider } from "./i18n/LanguageContext";
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
 			{ path: "/play", element: <Play /> },
 			{ path: "/news", element: <News /> },
 			{ path: "/dev-log", element: <DevLog /> },
+			{ path: "/contact", element: <Contact /> },
 			{ path: "/mentions-legales", element: <LegalPage pageKey="legalNotice" /> },
 			{ path: "/cgu", element: <LegalPage pageKey="terms" /> },
 			{ path: "/confidentialite", element: <LegalPage pageKey="privacy" /> },
