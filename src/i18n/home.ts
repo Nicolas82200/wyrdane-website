@@ -36,7 +36,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		heroNewsCta: "See the news",
 		gameTitle: "The game",
 		gameText:
-			"Two players fight to reduce the enemy hero to 0 HP. Each side deploys its minions across two positional rows, Front and Back, and builds its deck around one of the game's four races, each with its own keywords, mana pool, and playstyle.",
+			"Two players fight to reduce the enemy hero to 0 HP. Each side deploys its minions across two positional rows, Front and Back, and builds its deck around one of the game's races, each with its own keywords, mana pool, and playstyle.",
 		lanesTitle: "Two rows, a battle of positioning",
 		lanes: [
 			{
@@ -101,7 +101,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			{ name: "Execution", text: "Triggers when an enemy minion dies." },
 			{ name: "Carnage", text: "Triggers when any minion dies, allied or enemy." },
 		],
-		racesTitle: "Four races, four ways to play",
+		racesTitle: "Races, each its own way to play",
 		races: [
 			{
 				key: "undead",
@@ -129,7 +129,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane is an indie project actively being built, and cards, mechanics and this very website evolve every week. Some features shown here may still change before release. Follow the Dev Log and our socials to watch it take shape.",
 		deckSection: {
 			title: "Build your deck",
-			text: "Compose your deck from the four races and their keywords. Decks built here will be directly usable in the game, ready for when the deck builder opens up.",
+			text: "Compose your deck from the game's races and their keywords. Decks built here will be directly usable in the game, ready for when the deck builder opens up.",
 			badge: "Coming soon",
 		},
 		playSection: {
@@ -144,7 +144,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		heroNewsCta: "Voir les actualités",
 		gameTitle: "Le jeu",
 		gameText:
-			"Deux joueurs s'affrontent pour réduire le héros adverse à 0 HP. Chaque camp déploie ses serviteurs sur deux rangées positionnelles, Avant et Arrière, et compose son deck autour d'une des quatre races du jeu, chacune avec ses propres mots-clés, son propre pool de mana et sa propre façon de jouer.",
+			"Deux joueurs s'affrontent pour réduire le héros adverse à 0 HP. Chaque camp déploie ses serviteurs sur deux rangées positionnelles, Avant et Arrière, et compose son deck autour d'une des races du jeu, chacune avec ses propres mots-clés, son propre pool de mana et sa propre façon de jouer.",
 		lanesTitle: "Deux rangées, une bataille de positionnement",
 		lanes: [
 			{
@@ -209,7 +209,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			{ name: "Exécution", text: "Se déclenche quand un serviteur ennemi meurt." },
 			{ name: "Carnage", text: "Se déclenche quand n'importe quel serviteur meurt, allié ou ennemi." },
 		],
-		racesTitle: "Quatre races, quatre façons de jouer",
+		racesTitle: "Des races, chacune sa façon de jouer",
 		races: [
 			{
 				key: "undead",
@@ -237,7 +237,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane est un projet indépendant en cours de développement actif, les cartes, les mécaniques et ce site lui-même évoluent chaque semaine. Certains éléments présentés ici peuvent encore changer avant la sortie. Suis le Dev Log et nos réseaux pour voir le jeu prendre forme.",
 		deckSection: {
 			title: "Compose ton deck",
-			text: "Assemble ton deck parmi les quatre races et leurs mots-clés. Les decks créés ici seront directement utilisables dans le jeu, prêts pour l'ouverture du deck builder.",
+			text: "Assemble ton deck parmi les races du jeu et leurs mots-clés. Les decks créés ici seront directement utilisables dans le jeu, prêts pour l'ouverture du deck builder.",
 			badge: "Bientôt disponible",
 		},
 		playSection: {
