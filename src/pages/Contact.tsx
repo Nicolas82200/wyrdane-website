@@ -24,7 +24,7 @@ const Contact = () => {
 		event.preventDefault();
 		setStatus("submitting");
 		try {
-			await api.post("/contact", {
+			await api.post("/api/contact", {
 				name,
 				email,
 				category,
