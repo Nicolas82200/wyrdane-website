@@ -1,0 +1,44 @@
+.legal-panel {
+	max-width: 860px;
+	text-align: left;
+}
+
+.legal-intro {
+	font-family: "Crimson Text", serif;
+	font-size: 16px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.85);
+	margin: 24px 0 0;
+}
+
+.legal-section {
+	margin-top: 28px;
+}
+
+.legal-section h2 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-size: 20px;
+	color: var(--gold);
+	margin: 0 0 10px;
+}
+
+.legal-section p {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.8);
+	margin: 0 0 10px;
+}
+
+.legal-section ul {
+	margin: 0 0 10px;
+	padding-left: 22px;
+}
+
+.legal-section li {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.8);
+	margin-bottom: 6px;
+}

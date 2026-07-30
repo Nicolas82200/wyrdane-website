@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import mainMenu from "./assets/mainMemu.mp4";
 import Navbar from "./components/Navbar";
+import LegalFooter from "./components/LegalFooter";
 function App() {
 	return (
 		<div className="app">
@@ -15,6 +16,8 @@ function App() {
 			<main className="page-content">
 				<Outlet />
 			</main>
+
+			<LegalFooter />
 		</div>
 	);
 }
