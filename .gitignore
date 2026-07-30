@@ -13,6 +13,10 @@ dist-ssr
 *.local
 .env
 
+# Généré par scripts/generate-feed.mjs (predev/prebuild) à partir de
+# src/content/news et src/content/devlog — ne pas committer, se désync sinon.
+public/feed.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
