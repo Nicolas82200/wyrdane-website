@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import mainMenu from "./assets/mainMemu.mp4";
 import Navbar from "./components/Navbar";
-import LegalFooter from "./components/LegalFooter";
+import SiteFooter from "./components/SiteFooter";
 function App() {
 	return (
 		<div className="app">
@@ -17,7 +17,7 @@ function App() {
 				<Outlet />
 			</main>
 
-			<LegalFooter />
+			<SiteFooter />
 		</div>
 	);
 }

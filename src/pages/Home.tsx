@@ -12,8 +12,8 @@ import BoardDiagram from "../components/BoardDiagram";
 import KeywordsExplorer from "../components/KeywordsExplorer";
 import SocialLinks from "../components/SocialLinks";
 import { useLanguage } from "../i18n/useLanguage";
-import { COMMON } from "../i18n/common";
 import { HOME_CONTENT } from "../i18n/home";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./Home.css";
 
 const RACE_IMAGES: Record<string, string> = {
@@ -32,7 +32,7 @@ const LANE_ICONS: Record<string, string> = {
 const Home = () => {
 	const { language } = useLanguage();
 	const t = HOME_CONTENT[language];
-	const common = COMMON[language];
+	usePageTitle();
 
 	return (
 		<div className="landing">
@@ -136,18 +136,6 @@ const Home = () => {
 				<span className="cta-badge">{t.playSection.badge}</span>
 				<p className="section-lead">{t.playSection.text}</p>
 			</Reveal>
-
-			<footer className="site-footer">
-				<div className="footer-links">
-					<Link to="/">{common.navHome}</Link>
-					<Link to="/news">{common.navNews}</Link>
-					<Link to="/dev-log">{common.navDevLog}</Link>
-					<Link to="/play">{common.navPlay}</Link>
-					<Link to="/contact">{common.navContact}</Link>
-				</div>
-				<SocialLinks className="footer-socials" withLabels />
-				<p>{common.footerTagline}</p>
-			</footer>
 		</div>
 	);
 };

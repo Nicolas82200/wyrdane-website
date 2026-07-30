@@ -2,11 +2,13 @@ import EntryAccordion from "../components/EntryAccordion";
 import { NEWS_ENTRIES } from "../content/loadEntries";
 import { useLanguage } from "../i18n/useLanguage";
 import { PAGES_CONTENT } from "../i18n/pages";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./ContentPage.css";
 
 const News = () => {
 	const { language } = useLanguage();
 	const t = PAGES_CONTENT[language].news;
+	usePageTitle(t.title);
 
 	return (
 		<div className="content-page">

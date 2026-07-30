@@ -1,5 +1,6 @@
 import { useLanguage } from "../i18n/useLanguage";
 import { LEGAL_CONTENT, type LegalContent } from "../i18n/legal";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./ContentPage.css";
 import "./LegalPage.css";
 
@@ -10,6 +11,7 @@ type LegalPageProps = {
 const LegalPage = ({ pageKey }: LegalPageProps) => {
 	const { language } = useLanguage();
 	const content = LEGAL_CONTENT[language][pageKey];
+	usePageTitle(content.title);
 
 	return (
 		<div className="content-page">
