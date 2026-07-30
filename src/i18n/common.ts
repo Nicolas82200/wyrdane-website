@@ -7,6 +7,11 @@ export const COMMON = {
 		navDevLog: "Dev Log",
 		navPlay: "Play",
 		footerTagline: "Wyrdane, a dark fantasy card game in development.",
+		footerLegalNotice: "Legal Notice",
+		footerTerms: "Terms of Use",
+		footerPrivacy: "Privacy Policy",
+		footerSales: "Terms of Sale",
+		footerRights: "© {year} Wyrdane. All rights reserved.",
 	},
 	fr: {
 		navHome: "Accueil",
@@ -14,6 +19,11 @@ export const COMMON = {
 		navDevLog: "Dev Log",
 		navPlay: "Jouer",
 		footerTagline: "Wyrdane, jeu de cartes dark fantasy en développement.",
+		footerLegalNotice: "Mentions légales",
+		footerTerms: "CGU",
+		footerPrivacy: "Confidentialité",
+		footerSales: "CGV",
+		footerRights: "© {year} Wyrdane. Tous droits réservés.",
 	},
 } satisfies Record<Language, Record<string, string>>;
 
