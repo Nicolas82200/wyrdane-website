@@ -1,3 +1,13 @@
+# Wyrdane — Site web
+
+Site compagnon du TCG **Wyrdane** (deck builder web, réplique de celui du jeu Godot).
+
+## Déploiement
+
+En prod, le site est un build statique servi par Nginx sur un **VPS OVH** (`wyrdane.com`/`www.wyrdane.com`, HTTPS Let's Encrypt), partagé avec le backend `wyrdane-backend`. Le déploiement est **continu** : tout push sur `main` redéploie automatiquement la prod via GitHub Actions (`git pull && npm ci && npm run build` côté serveur). Détails dans `CLAUDE.md`.
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
