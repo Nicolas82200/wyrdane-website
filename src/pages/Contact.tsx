@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import api from "../api";
 import { useLanguage } from "../i18n/useLanguage";
 import { CONTACT_CONTENT, type ContactCategory } from "../i18n/contact";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./ContentPage.css";
 import "./Contact.css";
 
@@ -11,6 +12,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 const Contact = () => {
 	const { language } = useLanguage();
 	const t = CONTACT_CONTENT[language];
+	usePageTitle(t.title);
 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");

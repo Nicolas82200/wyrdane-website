@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 
 import { useLanguage } from "../i18n/useLanguage";
 import { PAGES_CONTENT } from "../i18n/pages";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./Play.css";
 
 const Play = () => {
 	const { language } = useLanguage();
 	const t = PAGES_CONTENT[language].play;
+	usePageTitle(t.title);
 
 	return (
 		<div className="play">

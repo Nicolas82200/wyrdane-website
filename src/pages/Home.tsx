@@ -13,6 +13,7 @@ import KeywordsExplorer from "../components/KeywordsExplorer";
 import SocialLinks from "../components/SocialLinks";
 import { useLanguage } from "../i18n/useLanguage";
 import { HOME_CONTENT } from "../i18n/home";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./Home.css";
 
 const RACE_IMAGES: Record<string, string> = {
@@ -31,6 +32,7 @@ const LANE_ICONS: Record<string, string> = {
 const Home = () => {
 	const { language } = useLanguage();
 	const t = HOME_CONTENT[language];
+	usePageTitle();
 
 	return (
 		<div className="landing">
