@@ -15,6 +15,7 @@ const Navbar = () => {
 		{ to: "/", label: t.navHome, end: true },
 		{ to: "/news", label: t.navNews, end: false },
 		{ to: "/dev-log", label: t.navDevLog, end: false },
+		{ to: "/contact", label: t.navContact, end: false },
 	];
 
 	return (
