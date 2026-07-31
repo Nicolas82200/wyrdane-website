@@ -3,6 +3,7 @@ import "./App.css";
 import mainMenu from "./assets/mainMemu.mp4";
 import mobileBackground from "./assets/site/menu-bg-mobile.jpg";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 import SiteFooter from "./components/SiteFooter";
 import { useIsMobile } from "./hooks/useIsMobile";
 function App() {
@@ -19,6 +20,7 @@ function App() {
 			)}
 			<div className="background-overlay" />
 
+			<ScrollToTop />
 			<Navbar />
 
 			<main className="page-content">
