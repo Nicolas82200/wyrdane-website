@@ -9,6 +9,7 @@ import News from "./pages/News";
 import DevLog from "./pages/DevLog";
 import Contact from "./pages/Contact";
 import LegalPage from "./pages/LegalPage";
+import RouteError from "./pages/RouteError";
 
 import { LanguageProvider } from "./i18n/LanguageContext";
 
@@ -20,6 +21,7 @@ import "./index.css";
 const router = createBrowserRouter([
 	{
 		element: <App />,
+		errorElement: <RouteError />,
 		children: [
 			{ path: "/", element: <Home /> },
 			{ path: "/play", element: <Play /> },
