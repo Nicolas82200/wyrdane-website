@@ -25,17 +25,37 @@ const Navbar = () => {
 					WYRDANE
 				</NavLink>
 
-				<button
-					type="button"
-					className="navbar-burger"
-					aria-label="Menu"
-					aria-expanded={open}
-					onClick={() => setOpen((v) => !v)}
-				>
-					<span />
-					<span />
-					<span />
-				</button>
+				<div className="navbar-mobile-actions">
+					<div className="navbar-lang navbar-lang-mobile">
+						<button
+							type="button"
+							className={`navbar-lang-btn ${language === "en" ? "active" : ""}`}
+							onClick={() => setLanguage("en")}
+						>
+							EN
+						</button>
+						<span className="navbar-lang-sep">/</span>
+						<button
+							type="button"
+							className={`navbar-lang-btn ${language === "fr" ? "active" : ""}`}
+							onClick={() => setLanguage("fr")}
+						>
+							FR
+						</button>
+					</div>
+
+					<button
+						type="button"
+						className="navbar-burger"
+						aria-label="Menu"
+						aria-expanded={open}
+						onClick={() => setOpen((v) => !v)}
+					>
+						<span />
+						<span />
+						<span />
+					</button>
+				</div>
 
 				<nav className={`navbar-links ${open ? "open" : ""}`}>
 					{links.map((link) => (
@@ -58,7 +78,7 @@ const Navbar = () => {
 					>
 						{t.navPlay}
 					</NavLink>
-					<div className="navbar-lang">
+					<div className="navbar-lang navbar-lang-desktop">
 						<button
 							type="button"
 							className={`navbar-lang-btn ${language === "en" ? "active" : ""}`}

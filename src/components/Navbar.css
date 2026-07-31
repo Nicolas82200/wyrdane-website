@@ -98,6 +98,16 @@
 	font-weight: 700;
 }
 
+.navbar-mobile-actions {
+	display: none;
+	align-items: center;
+	gap: 14px;
+}
+
+.navbar-lang-mobile {
+	display: none;
+}
+
 .navbar-burger {
 	display: none;
 	flex-direction: column;
@@ -119,6 +129,14 @@
 }
 
 @media (max-width: 760px) {
+	.navbar-mobile-actions {
+		display: flex;
+	}
+
+	.navbar-lang-mobile {
+		display: flex;
+	}
+
 	.navbar-burger {
 		display: flex;
 	}
@@ -157,10 +175,10 @@
 	}
 
 	.navbar-socials {
-		margin: 0 24px 20px;
+		display: none;
 	}
 
-	.navbar-lang {
-		margin: 0 24px 16px;
+	.navbar-lang-desktop {
+		display: none;
 	}
 }
