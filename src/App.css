@@ -4,7 +4,8 @@
 	overflow: hidden;
 }
 
-.background-video {
+.background-video,
+.background-image {
 	position: fixed;
 	inset: 0;
 	width: 100%;
