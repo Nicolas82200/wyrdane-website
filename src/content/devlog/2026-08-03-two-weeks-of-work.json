@@ -1,0 +1,159 @@
+{
+	"date": "2026-08-03",
+	"title": {
+		"en": "Devlog 2: Two weeks of work",
+		"fr": "Devlog 2 : Deux semaines de chantier"
+	},
+	"lede": {
+		"en": "Since Devlog 1, the team has kept moving on all three fronts at once: the game, the backend, and this website. This entry covers everything that shipped in that window, from a reworked main menu to a brand new VPS running the whole backend infrastructure.",
+		"fr": "Depuis le Devlog 1, le travail a continué sur les trois fronts en parallèle : le jeu, le backend et ce site. Cette entrée couvre tout ce qui est sorti sur cette période, d'un menu principal remanié à un tout nouveau VPS qui héberge désormais toute l'infrastructure backend."
+	},
+	"stats": {
+		"en": [
+			{ "value": "534", "label": "Automated tests (up from 121)" },
+			{ "value": "3", "label": "Repos shipping in parallel" },
+			{ "value": "1", "label": "Dedicated VPS, auto-deployed" },
+			{ "value": "4", "label": "Legal pages added" }
+		],
+		"fr": [
+			{ "value": "534", "label": "Tests automatisés (contre 121)" },
+			{ "value": "3", "label": "Dépôts avancés en parallèle" },
+			{ "value": "1", "label": "VPS dédié, déployé automatiquement" },
+			{ "value": "4", "label": "Pages légales ajoutées" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "The main menu, reworked from the ground up",
+				"paragraphs": [
+					"The main menu went through two back-to-back passes. The first unified the \"Play\" flow and introduced a multi-view info panel. The second went further: the play flow moved directly into the navigation panel, and the separate profile and credits views were dropped, flattened into the same structure. The result is a menu with fewer windows to open and fewer round trips before a match actually starts.",
+					"Two bugs followed closely behind that rework, both typical of this kind of layout overhaul: an invisible \"Play\" panel caused by a missing anchor, and a hint label on the deck composition screen that, lacking an explicit minimum width, got squeezed down to 1 pixel wide by Godot — which blew up its computed height and pushed the whole panel over the logo above it. That second one was diagnosed by instrumenting a headless scene that prints the real node sizes, rather than guessing from the `.tscn` file."
+				]
+			},
+			{
+				"heading": "A player profile, and a first taste of ranked",
+				"paragraphs": [
+					"A clickable player profile panel was added, showing ranked match reporting through a new backend endpoint that aggregates collection, solo stats, and ranked stats into a single request. A loading bug where the panel could get stuck if opened before backend login finished was fixed along the way."
+				]
+			},
+			{
+				"heading": "The pack shop gets a new look",
+				"paragraphs": [
+					"Opening a pack now triggers a full-screen reveal with the pack spinning in place — it took two iterations to get right, the first one leaving a clipping glitch that got fixed in the second."
+				]
+			},
+			{
+				"heading": "A giant pass over card effects",
+				"paragraphs": [
+					"A big chunk of this window went into auditing existing card effects across all four races: the `requires_infected_target` filter and a per-turn Undead death counter on the Undead side, card bugs and enabling Impassable Wall's cancel effect for Demon, three more card/text bugs for Human, plus cross-cutting fixes: minion ownership transfer on Transform, added race/legendary filters, and a MoveRow effect implementation wired up to the Tactical Retreat card.",
+					"The AI benefited too: it was never activating its own Sacrifice rituals or FUSION effects (Abomination) even when it had them available — now fixed.",
+					"One rule also changed: resource cards are now unlimited in deck building, no longer subject to the copy limit."
+				]
+			},
+			{
+				"heading": "Report a player or a bug",
+				"paragraphs": [
+					"A \"Report an issue\" button is now available from both the main menu and the battle screen, sharing a single generic popup (category plus free-text description). In battle, the \"Cheating\" option only shows up when the match is networked and the opponent's backend identity is known, and the report then carries the match id for investigation. On the server side, there's no new table or moderation panel yet: the report is emailed to the team, over the same mechanism as the website's contact form."
+				]
+			},
+			{
+				"heading": "The website becomes a real front door",
+				"paragraphs": [
+					"wyrdane.com gained several new pieces: a file-based News/Devlog content system with an accordion UI — the same system that published Devlog 1, and that now also feeds the in-game news panel through a public JSON feed regenerated on every site deploy. A contact page with a categorized form was added, wired to a new backend endpoint with its own dedicated SMTP setup. The required legal pages (legal notice, terms of service, privacy policy, terms of sale) are now in place, alongside a first pass of basic SEO.",
+					"On mobile, the navbar was simplified with a static background on phones, and a React crash (`insertBefore`) caused by the mobile browser's built-in translation feature was fixed."
+				]
+			},
+			{
+				"heading": "Security and economy, server-side",
+				"paragraphs": [
+					"An important backend fix: the full card collection was no longer supposed to be automatically granted to every new player in production — a bug that would have broken the game's economy if players all started with everything unlocked. A manual script was added to reset a player's data if needed. Unit tests were also added covering auth, ranked match consensus, currency, Steam verification, and the economy more broadly."
+				]
+			},
+			{
+				"heading": "Infrastructure moves to a VPS",
+				"paragraphs": [
+					"The backend and website moved off their previous hosting onto a dedicated OVH VPS, running Docker Compose and Nginx, with continuous deployment: every push to `main` triggers an automatic deploy through GitHub Actions, on both repos. Database sync on startup was automated on this new environment, and infra/CI documentation was written alongside it so this knowledge doesn't get lost."
+				]
+			},
+			{
+				"heading": "The test suite keeps growing",
+				"paragraphs": [
+					"A wave of automated GUT tests was added on the game side: `TargetingSystem`, `CardSystem`, `SelectionSystem`, `TooltipData`, `AISystem`, `EffectManager` (effect ids, triggers, specific cards like BLACK_WINGS), `DeckManager`/`DeckData`, `CardData`, token integrity, and various UI/visual systems. Broken `TurnSystem`/`DeathSystem` tests were repaired, and coverage was added for the network protocol."
+				]
+			},
+			{
+				"heading": "What's next",
+				"paragraphs": [
+					"The real Steamworks store page and app ID, a campaign mode, a Battle Royale mode, shader-based animations, and continued growth of the automated test suite remain the big items ahead. The weekly devlog draft system put in place this window (this very entry is its first output) should also make writing the next one faster: notes accumulate as work happens instead of being reconstructed from git history at the last minute."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Le menu principal, revu de fond en comble",
+				"paragraphs": [
+					"Le menu principal a eu droit à deux passes successives. La première a unifié le flux « Jouer » et introduit un panneau d'informations multi-vues. La seconde est allée plus loin : le flux de jeu a été déplacé directement dans le panneau de navigation, et les vues profil et crédits séparées ont disparu, aplaties dans la même structure. Le résultat est un menu avec moins de fenêtres à ouvrir et moins d'allers-retours pour lancer une partie.",
+					"Deux bugs ont suivi de près cette refonte, tous deux typiques de ce genre de remaniement de layout : un panneau « Jouer » invisible à cause d'une ancre manquante, et un label d'astuce sur l'écran de composition de deck qui, faute de largeur minimale explicite, se faisait écraser à 1 pixel de large par Godot — ce qui explosait sa hauteur calculée et faisait déborder tout le panneau par-dessus le logo. Ce dernier a été diagnostiqué en instrumentant une scène headless qui imprime les tailles réelles des nœuds, plutôt qu'en devinant depuis le `.tscn`."
+				]
+			},
+			{
+				"heading": "Un profil joueur, et un premier aperçu du classement",
+				"paragraphs": [
+					"Un panneau de profil joueur cliquable a été ajouté, avec le reporting des matchs classés (ranked) côté backend via un nouvel endpoint qui agrège collection, stats solo et stats classées en une seule requête. Un bug de chargement bloqué, quand le panneau était ouvert avant la fin du login backend, a été corrigé dans la foulée."
+				]
+			},
+			{
+				"heading": "La boutique de packs change de visage",
+				"paragraphs": [
+					"L'ouverture de pack déclenche désormais un reveal plein écran avec le pack qui tourne sur lui-même — deux itérations ont été nécessaires, la première laissant un souci de clipping visuel corrigé dans la seconde."
+				]
+			},
+			{
+				"heading": "Un audit géant des effets de cartes",
+				"paragraphs": [
+					"Une grosse partie de cette période a été consacrée à auditer les effets de cartes existants à travers les quatre races : filtre `requires_infected_target` et compteur de morts Mort-Vivant par tour côté Mort-Vivant, bugs de cartes et activation de l'annulation de Mur Infranchissable côté Démon, trois bugs de cartes/texte supplémentaires côté Humain, plus des correctifs transversaux : transfert de propriété de serviteur sur Transform, filtres race/légendaire ajoutés, et implémentation de l'effet MoveRow câblé à la carte Repli Tactique.",
+					"L'IA en a profité aussi : elle n'activait jamais ses rituels de Sacrifice ni ses effets de FUSION (Abomination) qu'elle possédait pourtant en main — corrigé.",
+					"Une règle a aussi changé : les cartes-ressource sont désormais illimitées en deck building, la limite de copies ne s'applique plus à elles."
+				]
+			},
+			{
+				"heading": "Signaler un joueur ou un bug",
+				"paragraphs": [
+					"Un bouton « Signaler un problème » est maintenant accessible depuis le menu principal et depuis l'écran de bataille, avec une popup générique (catégorie + description libre) réutilisée aux deux endroits. En bataille, l'option « Triche » ne s'affiche que si la partie est en réseau et que l'identité backend de l'adversaire est connue, et le signalement embarque alors l'id du match pour investigation. Côté serveur, pas de nouvelle table ni de panel de modération pour l'instant : le signalement est transmis par mail à l'équipe, sur le même mécanisme que le formulaire de contact du site."
+				]
+			},
+			{
+				"heading": "Le site devient une vraie porte d'entrée",
+				"paragraphs": [
+					"wyrdane.com a gagné plusieurs briques : un système de contenu News/Devlog basé sur fichiers avec une UI en accordéon — c'est ce système qui a publié le Devlog 1, et qui alimente maintenant aussi le panneau d'actualités in-game via un flux JSON public régénéré à chaque déploiement du site. Une page de contact avec formulaire catégorisé a été ajoutée, câblée sur un nouvel endpoint backend avec sa propre configuration SMTP dédiée. Les pages légales obligatoires (mentions légales, CGU, confidentialité, CGV) sont désormais en place, avec un premier passage de SEO de base.",
+					"Côté mobile, la navbar a été simplifiée avec un fond statique sur téléphone, et un crash React (`insertBefore`) provoqué par la traduction automatique du navigateur mobile a été corrigé."
+				]
+			},
+			{
+				"heading": "Sécurité et économie, côté serveur",
+				"paragraphs": [
+					"Un correctif important côté backend : la collection complète de cartes n'était plus censée être accordée automatiquement à chaque nouveau joueur en production — un bug qui aurait cassé l'économie du jeu si tous les joueurs démarraient avec tout débloqué. Un script manuel a été ajouté pour réinitialiser les données d'un joueur si besoin. Des tests unitaires ont aussi été ajoutés sur l'authentification, le consensus de match classé, la monnaie, la vérification Steam et l'économie en général."
+				]
+			},
+			{
+				"heading": "L'infrastructure part sur un VPS",
+				"paragraphs": [
+					"Le backend et le site ont quitté leur hébergement précédent pour un VPS OVH dédié, avec Docker Compose et Nginx, et un déploiement continu : chaque push sur `main` déclenche un déploiement automatique via GitHub Actions, sur les deux dépôts. La synchronisation de la base de données au démarrage a été automatisée sur ce nouvel environnement, et la documentation d'infra/CI a été écrite en parallèle pour ne pas perdre cette connaissance."
+				]
+			},
+			{
+				"heading": "Les tests continuent de s'étendre",
+				"paragraphs": [
+					"Une vague de tests automatisés GUT a été ajoutée côté jeu : `TargetingSystem`, `CardSystem`, `SelectionSystem`, `TooltipData`, `AISystem`, `EffectManager` (effect_id, triggers, cartes spécifiques comme BLACK_WINGS), `DeckManager`/`DeckData`, `CardData`, intégrité des jetons, et des systèmes UI/visuels. Des tests `TurnSystem`/`DeathSystem` cassés ont été réparés, avec une couverture ajoutée sur le protocole réseau."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"La boutique Steamworks et le vrai AppID, un mode campagne, un mode Battle Royale, des animations en shaders, et une couverture de tests toujours plus large restent les gros chantiers à venir. Le système de brouillon de devlog mis en place sur cette période (cette entrée en est le premier produit) devrait aussi rendre la rédaction du prochain plus rapide : les notes s'accumulent au fil de l'eau plutôt que d'être reconstruites depuis l'historique git à la dernière minute."
+				]
+			}
+		]
+	}
+}
