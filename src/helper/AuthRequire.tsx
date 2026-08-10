@@ -17,7 +17,14 @@ const AuthRequire = ({ children }: AuthRequireProps) => {
 	useEffect(() => {
 		api
 			.get("/api/auth/authVerif")
-			.then(() => setChecking(false))
+			.then(() => {
+				// Idempotent côté backend (voir hasClaimedStarter) : donne les 4 decks
+				// préfaits + cartes de départ dès la première session authentifiée,
+				// sans attendre que le joueur ait lancé le jeu (même appel que
+				// LoadingScreen.gd côté jeu). Ne bloque pas l'affichage si ça échoue.
+				api.post("/api/collection/claim-starter").catch(() => {});
+				setChecking(false);
+			})
 			.catch(() => navigate("/"));
 	}, [navigate]);
 
