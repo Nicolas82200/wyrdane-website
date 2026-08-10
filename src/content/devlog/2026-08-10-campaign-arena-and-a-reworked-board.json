@@ -1,0 +1,117 @@
+{
+	"date": "2026-08-10",
+	"title": {
+		"en": "Devlog 3: Campaign, Arena, and a board that keeps reinventing itself",
+		"fr": "Devlog 3 : Campagne, Arena et un plateau qui se réinvente"
+	},
+	"lede": {
+		"en": "This entry covers the week since Devlog 2, focused entirely on the game itself: a brand new solo roguelite mode that got rebuilt from scratch on day one, a string of fixes bringing the Arena prototype closer to its target feel, a full rework of the Demon keyword Pact, and a steady stream of deck builder and card display polish driven by direct player feedback.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 2, entièrement consacrée au jeu : un tout nouveau mode solo roguelite reconstruit de zéro dès le premier jour, une série de correctifs qui rapprochent le prototype Arena de sa cible, une refonte complète du mot-clé Démon Pacte, et un flux constant de polish sur le deck builder et l'affichage des cartes, porté par les retours directs des joueurs."
+	},
+	"stats": {
+		"en": [
+			{ "value": "687", "label": "Automated tests (up from 534)" },
+			{ "value": "1", "label": "New roguelite mode: Campaign" },
+			{ "value": "30+", "label": "Demon cards reworked under Pact" },
+			{ "value": "8", "label": "Players in the Arena prototype (1 human + 7 bots)" }
+		],
+		"fr": [
+			{ "value": "687", "label": "Tests automatisés (contre 534)" },
+			{ "value": "1", "label": "Nouveau mode roguelite : la Campagne" },
+			{ "value": "30+", "label": "Cartes Démon réécrites sous Pacte" },
+			{ "value": "8", "label": "Joueurs dans le prototype Arena (1 humain + 7 bots)" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "Campaign mode, or the art of starting over the same day",
+				"paragraphs": [
+					"The week's big project was a new solo roguelite mode. A first complete version was built over the course of a single day: a classic deck with hand and mana, a branching run map across eight tiers, rarity-weighted rewards, HP carrying over between fights. It was scrapped entirely a few hours later, when a more thorough design document arrived pointing toward a very different direction.",
+					"The version that stuck changes the fundamentals: no deck, no hand, no mana. The board is built directly through successive card choices, and the run map is generated through a sliding window rather than stored as one giant graph, with a recurring boss every ten tiers. Combat itself runs on a new turn-based auto-battler engine, in a dedicated scene far lighter than the 1v1 battle: the player freely chooses which card attacks which target (one attack per turn), without ever touching the classic game engine. Around that core: separate difficulty scaling for normal enemies, elites and bosses, run gold, a shop (buy, upgrade, heal, remove cards), relics available only through dedicated nodes or the shop, and a local run save written before every fight and after every victory, with a resume prompt on launch.",
+					"A handful of quick-play cards (draw, return to hand, mana gain) lean on concepts that no longer exist in this engine — they're neutralized into no-ops during campaign combat, and a dedicated filter now keeps them out of the choice pools entirely instead of offering them for nothing."
+				]
+			},
+			{
+				"heading": "Arena closes in on its target",
+				"paragraphs": [
+					"The solo Arena/Battle Royale prototype (one player, seven bots for now) went through a solid run of feedback and fixes across testing sessions. The hero portrait, gold display and board rows were realigned to the exact dimensions used in 1v1 — a minion-squashing bug turned out to come from a row container nested differently between the two modes. Shop slots now show a real minion visual on hover, and several cascading hover bugs (a duplicated tooltip, an orphaned tooltip after a drag-and-drop purchase) got tracked down and fixed along the way — generic fixes that benefit 1v1 too.",
+					"On the pacing side, per-card shop locking was replaced with a full-shop freeze, TFT-style, simpler to reason about: one state to manage instead of a lock per slot. A Ready button lets the shop phase end immediately instead of waiting out the timer, which itself got extended to give a human player more breathing room against faster bots. The combat timer now starts as soon as the combat phase begins rather than after resolution, so rounds chain faster. Tooltips were added across the whole HUD, which is deliberately text-free, and a Settings button (with a Concede option) is now available in-match.",
+					"Two underlying bugs were also fixed: several simultaneous fights were all playing their sound at once (only the one actually shown on screen does now), and two reported combat crashes traced back to headless stubs for the simulated combat that hadn't kept up with methods added on the 1v1 side — a systematic audit caught up the whole set in one pass instead of one bug report at a time."
+				]
+			},
+			{
+				"heading": "Pact changes shape on the Demon side",
+				"paragraphs": [
+					"The Pact keyword, previously an automatic cost (losing HP in exchange for mana and Rush), becomes an explicit choice: when a Demon card enters play, a prompt asks whether to pay HP to activate its effect; declining leaves the card as a plain vanilla body. That choice was then extended to non-Summon triggers (Execute, Wounded, Death Rattle, Sacrifice...), re-asked every time they fire rather than once. Roughly thirty more cards moved onto this system over the week, with two deliberate exceptions: instant spells, where an asynchronous choice doesn't make sense, and one card whose cost is computed synchronously upstream of the choice system.",
+					"Rite of Blood was redesigned from scratch on direct request, and the entire body of Demon rules text got a full style pass (formal phrasing, a harmonized Sacrifice trigger wording, cleaner effect layout)."
+				]
+			},
+			{
+				"heading": "Deck builder and card display, shaped by feedback",
+				"paragraphs": [
+					"Plenty of small adjustments this week: the deck list now fills the full panel width, quantities display as \"x3\" instead of a bare number, clicking a row removes one copy while the red cross removes them all at once, the max-copies message got reworded, and filters no longer split away from their label on line wrap.",
+					"The card hover preview went through several iterations before settling: right-side by default, falling back to the left only when it would overflow the panel it's actually in (collection grid or deck list). On the card itself, rules text got a bigger font, the type banner was repositioned and narrowed to breathe a bit against the border, and the direction a name grows in when it overflows got flipped: it now grows downward instead of eating into the artwork. A colored circular badge, tinted by race, was also added behind the type and row icons to improve their readability, and the race-color watermark was lightened for the second time.",
+					"A good chunk of these settings got undone and reapplied differently over the course of the week — not a problem in itself, just the time it took to land on the right visual compromise through small iterations."
+				]
+			},
+			{
+				"heading": "Elsewhere",
+				"paragraphs": [
+					"The Settings menu lost its \"window inside a window\" effect in favor of a single side navbar (Audio / Graphics / Controls), and the win/loss counter moved from the main menu to the profile view. The played resource card now gets a dissolve-in-place effect, more subtle than the versions tried before it (a light trail toward the mana pool, then a shatter-into-fragments animation — both dropped along the way)."
+				]
+			},
+			{
+				"heading": "What's next",
+				"paragraphs": [
+					"Open questions in Campaign mode (event content, exactly how card upgrades work in the shop, elite/boss rarity tables to fine-tune) still need answers, alongside extending the Arena prototype to 8-player networking, shader-based animations, and continued growth of the automated test suite."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Le mode Campagne, ou l'art de tout recommencer le même jour",
+				"paragraphs": [
+					"Le chantier de la semaine était un nouveau mode solo façon roguelite. Une première esquisse complète a été rélfléchit dans la journée : deck classique avec main et mana, carte de run à embranchements sur huit paliers, récompenses pondérées par rareté, PV persistants d'un combat à l'autre. Elle a été entièrement abandonnée quelques heures plus tard, par des réflexions plus abouties pointant vers une direction très différente.",
+					"La version retenue change de nature : plus de deck, de main ni de mana. Le plateau se construit directement par des choix de cartes successifs, et la carte de run est générée par fenêtre glissante plutôt que stockée d'un bloc, avec un boss récurrent tous les dix paliers. Le combat lui-même tourne sur un nouveau moteur auto-battler tour par tour, dans une scène dédiée bien plus légère que la bataille 1v1 : le joueur choisit librement quelle carte attaque quelle cible (1 attaque par tour), sans jamais repasser par le moteur de jeu classique. Autour de ce noyau : un scaling de difficulté séparé pour les adversaires normaux, les élites et les boss, de l'or de run, une boutique (achat, amélioration, soin, retrait de cartes), des reliques obtenues uniquement via des nœuds dédiés ou la boutique, et une sauvegarde de run locale écrite avant chaque combat et après chaque victoire, avec proposition de reprise au lancement du mode.",
+					"Quelques cartes de la partie rapide (pioche, retour en main, gain de mana) s'appuient sur des concepts qui n'existent plus dans ce moteur, elles sont neutralisées en no-op côté combat de campagne, et un filtre dédié les exclut désormais directement des pools de choix pour ne plus les proposer pour rien."
+				]
+			},
+			{
+				"heading": "L'Arena se rapproche de sa cible",
+				"paragraphs": [
+					"Le prototype Arena/Battle Royale (un joueur, sept bots pour le moment) a reçu une bonne série de retours et de correctifs au fil des tests. Le portrait du héros, l'or et les rangées de plateau ont été réalignés sur les dimensions exactes du 1v1, un bug de compression des serviteurs venait justement d'un conteneur de rangée imbriqué différemment entre les deux modes. Les cases de la boutique affichent maintenant un vrai visuel de serviteur au survol, et plusieurs bugs de survol en cascade (popup dupliquée, popup orpheline après un achat glissé-déposé) ont été traqués et corrigés au passage, des correctifs génériques qui profitent aussi au 1v1.",
+					"Côté déroulement de partie, le verrouillage carte par carte de la boutique a été remplacé par un gel de la boutique entière façon *TFT*, plus simple à comprendre : un seul état à gérer plutôt qu'un verrou par case. Un bouton Prêt permet de clore la phase Boutique sans attendre le minuteur, lui-même allongé pour laisser respirer un joueur humain face à des bots plus rapides. Le minuteur de combat démarre désormais dès l'entrée en phase Combat plutôt qu'après résolution, pour enchaîner plus vite d'une manche à l'autre. Des tooltips ont été ajoutés sur tout le HUD, volontairement sans texte permanent, et un bouton Paramètres (avec option Concéder) est maintenant accessible en jeu.",
+					"Deux bugs de fond ont aussi été réglés : plusieurs combats simultanés jouaient tous leur son en même temps (seul celui réellement affiché le fait désormais), et deux crashs signalés en combat venaient de stubs headless du combat simulé qui n'avaient pas suivi l'ajout de nouvelles méthodes côté 1v1, un audit systématique a permis de tout recaler d'un coup plutôt qu'au coup par coup."
+				]
+			},
+			{
+				"heading": "Pacte change de nature côté Démon",
+				"paragraphs": [
+					"Le mot-clé Pacte, jusqu'ici un coût automatique (perte de PV contre gain de mana et d'ASSAUT), devient un choix explicite : à l'arrivée en jeu d'une carte Démon, une popup demande de payer des PV pour activer son effet ; en cas de refus, la carte se pose comme une carte vanille. Ce choix a ensuite été étendu aux triggers hors Arrivée (Exécution, Blessure, Dernier Souffle, Sacrifice...), redemandés à chaque déclenchement plutôt qu'une seule fois. Une trentaine de cartes supplémentaires sont passées sous ce système au fil de la semaine, avec deux exceptions volontaires : les sorts à résolution immédiate, où un choix asynchrone n'a pas de sens, et une carte dont le coût est calculé de façon synchrone en amont du système de choix.",
+					"Rite de Sang a été entièrement redessiné sur demande directe, et l'ensemble du texte de règles Démon a eu droit à une passe stylistique complète (vouvoiement, formulation harmonisée du trigger Sacrifice, mise en page des effets)."
+				]
+			},
+			{
+				"heading": "Le deck builder et l'affichage des cartes",
+				"paragraphs": [
+					"Beaucoup de petits ajustements cette semaine : liste de deck passée en pleine largeur, quantités affichées en « x3 » plutôt qu'en simple chiffre, clic sur une ligne pour retirer une copie contre la croix rouge pour tout retirer d'un coup, message de limite de copies reformulé, filtres qui ne se séparent plus de leur libellé au retour à la ligne.",
+					"La preview de carte au survol a connu plusieurs itérations avant de se stabiliser : toujours à droite par défaut, repli à gauche seulement si ça déborderait du panneau réellement concerné (grille de collection ou liste de deck). Sur la carte elle-même, la police du texte de règles a été agrandie, le bandeau de type repositionné et rétréci pour respirer un peu par rapport à la bordure, et le sens de croissance du nom quand il déborde inversé : il grandit maintenant vers le bas plutôt que de manger l'illustration. Un badge circulaire coloré, teinté par race, a aussi été ajouté derrière les icônes de type et de rangée pour améliorer leur lisibilité, et le filigrane de couleur par race a été éclairci à deux reprises.",
+					"Une bonne partie de ces réglages ont été annulés puis réappliqués différemment en cours de semaine, pas un problème en soi, juste le temps nécessaire pour trouver le bon compromis visuel par petites itérations."
+				]
+			},
+			{
+				"heading": "Ailleurs",
+				"paragraphs": [
+					"Le menu Paramètres a perdu son effet « fenêtre dans une fenêtre » au profit d'une navbar latérale unique (Audio / Graphismes / Contrôles), et le compteur victoires/défaites du menu principal a migré vers la vue Profil. La carte-ressource posée a gagné un effet de dissolution sur place, plus discret que les versions essayées avant elle (trajet lumineux vers le pool de mana, puis désintégration en fragments, les deux retirées en cours de route)."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"Les points ouverts du mode Campagne (contenu d'événements, articulation exacte de l'amélioration de carte en boutique, tables de rareté à affiner) restent à trancher, tout comme l'extension du prototype Arena au réseau à huit joueurs, les animations en shaders, et l'élargissement continu de la couverture de tests automatisés."
+				]
+			}
+		]
+	}
+}
