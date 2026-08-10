@@ -10,14 +10,18 @@ import DevLog from "./pages/DevLog";
 import Contact from "./pages/Contact";
 import LegalPage from "./pages/LegalPage";
 import RouteError from "./pages/RouteError";
+import ShowDecks from "./pages/ShowDecks";
+import DeckBuilder from "./pages/DeckBuilder";
 
+import AuthRequire from "./helper/AuthRequire";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
 import "./fonts.css";
 import "./index.css";
 
-// Deck builder routes (/decks, /decks/new, /decks/:deckId) are temporarily
-// disabled — see ShowDecks.tsx / DeckBuilder.tsx, kept in place to re-enable later.
+// Deck builder routes (/decks, /decks/new, /decks/:deckId) are reachable by
+// direct URL only for now (private testing) — intentionally not linked from
+// Navbar or anywhere else on the site.
 const router = createBrowserRouter([
 	{
 		element: <App />,
@@ -32,6 +36,30 @@ const router = createBrowserRouter([
 			{ path: "/cgu", element: <LegalPage pageKey="terms" /> },
 			{ path: "/confidentialite", element: <LegalPage pageKey="privacy" /> },
 			{ path: "/cgv", element: <LegalPage pageKey="sales" /> },
+			{
+				path: "/decks",
+				element: (
+					<AuthRequire>
+						<ShowDecks />
+					</AuthRequire>
+				),
+			},
+			{
+				path: "/decks/new",
+				element: (
+					<AuthRequire>
+						<DeckBuilder />
+					</AuthRequire>
+				),
+			},
+			{
+				path: "/decks/:deckId",
+				element: (
+					<AuthRequire>
+						<DeckBuilder />
+					</AuthRequire>
+				),
+			},
 		],
 	},
 ]);
