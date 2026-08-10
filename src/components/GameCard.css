@@ -57,39 +57,46 @@
 	border-radius: 6px;
 }
 
-/* LaneIcon / icône de type en filigrane (modulate noir, alpha 0.68) */
+/* LaneIcon / icône de type en filigrane, teintée par race (Card.gd
+   RACE_ICON_COLORS) via un masque CSS plutôt qu'un simple assombrissement :
+   la couleur vient de background-color, posée en style inline (GameCard.tsx). */
 .gamecard-watermark {
 	position: absolute;
 	left: 47px;
 	top: 176px;
 	width: 140px;
 	height: 140px;
-	object-fit: contain;
-	filter: brightness(0);
-	opacity: 0.68;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	opacity: 0.42;
 	pointer-events: none;
 }
 
-/* NameLabel : 12.5,158 → 224×25, CinzelDecorative-Black 11px */
+/* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx),
+   Cinzel-Black 13px (plus CinzelDecorative) */
 .gamecard-name {
 	position: absolute;
 	left: 12px;
 	top: 158px;
 	width: 224px;
-	min-height: 25px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	font-family: "CinzelDecorative", serif;
+	font-family: "CinzelCard", serif;
 	font-weight: 900;
-	font-size: 11px;
+	font-size: 13px;
 	line-height: 1.1;
 	color: rgb(242, 227, 198);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
 	padding: 1px 3px;
 	box-sizing: border-box;
+	overflow: hidden;
 	z-index: 2;
 }
 
@@ -106,18 +113,18 @@
 	font-family: "CinzelCard", serif;
 	font-weight: 900;
 	font-size: 28px;
-	color: rgba(211, 211, 211, 0.855);
-	border: 5px solid rgba(168, 122, 52, 0.39);
+	color: rgb(211, 211, 211);
+	border: 2px solid rgb(168, 122, 52);
 	border-radius: 20px;
 	box-sizing: border-box;
 	z-index: 3;
 }
 
-/* GenericCostLabel : 160,30 → 34×34, style bleu-gris du .tscn */
+/* GenericCostLabel : 167.5,32.5 → 34×34, style bleu-gris du .tscn */
 .gamecard-generic-cost {
 	position: absolute;
-	left: 160px;
-	top: 30px;
+	left: 167.5px;
+	top: 32.5px;
 	width: 34px;
 	height: 34px;
 	display: flex;
@@ -126,21 +133,22 @@
 	font-family: "CinzelCard", serif;
 	font-weight: 900;
 	font-size: 20px;
-	color: rgba(211, 211, 211, 0.855);
-	background: rgba(85, 107, 146, 0.784);
-	border: 5px solid rgba(168, 122, 52, 0.39);
+	color: rgb(211, 211, 211);
+	background: rgb(85, 107, 146);
+	border: 2px solid rgb(168, 122, 52);
 	border-radius: 20px;
 	box-sizing: border-box;
 	z-index: 2;
 }
 
-/* DescLabel : 15,186 → 220×120, CrimsonText-SemiBold 13px */
+/* DescLabel : 15,186 → 220×142.5 mini (le haut est décalé si NameLabel
+   grandit, voir GameCard.tsx), CrimsonText-SemiBold 13px */
 .gamecard-desc {
 	position: absolute;
 	left: 15px;
 	top: 186px;
 	width: 220px;
-	height: 120px;
+	height: 142.5px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -151,7 +159,7 @@
 	font-weight: 600;
 	font-size: 13px;
 	line-height: 1.15;
-	color: rgba(255, 255, 255, 0.855);
+	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
 	padding: 4px 6px;
@@ -162,31 +170,30 @@
 
 .gamecard-flavor {
 	font-style: italic;
-	font-size: 10px;
+	font-size: 12px;
 }
 
-/* TypeLabel : 20,310 → 210×18, Cinzel-Bold 10px, couleur = rareté */
+/* TypeLabel : sur la bordure dorée en haut de carte, largeur ajustée au
+   texte (left/width en style inline, voir GameCard.tsx), Cinzel-Bold 11px */
 .gamecard-type {
 	position: absolute;
-	left: 20px;
-	top: 310px;
-	width: 210px;
-	height: 18px;
+	top: -5.5px;
+	height: 12.5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 700;
-	font-size: 10px;
-	color: rgb(242, 227, 198);
-	border: 1px solid;
+	font-size: 11px;
+	color: #000;
+	border: 2px solid;
 	border-radius: 8px;
 	padding: 0 8px;
 	box-sizing: border-box;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	z-index: 2;
+	z-index: 5;
 }
 
 /* AttackLabel : 35,330 → 40×34, rouge */

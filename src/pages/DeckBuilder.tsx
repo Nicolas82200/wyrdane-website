@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api";
 import type { CardData } from "../types";
@@ -36,7 +36,13 @@ const GAME_CARDS = gameCards as Record<string, GameCardInfo>;
 const NAME_BY_PATH = new Map(Object.entries(GAME_CARDS).map(([name, info]) => [info.path, name]));
 
 type SortMode = "" | "cost" | "name" | "rarity";
-type HoverState = { card: CardData; rect: DOMRect; maxed: boolean; locked: boolean };
+type HoverState = {
+	card: CardData;
+	rect: DOMRect;
+	panelRect: DOMRect;
+	maxed: boolean;
+	locked: boolean;
+};
 
 function cardKeywords(card: CardData): string[] {
 	return GAME_CARDS[card.name]?.keywords ?? [];
@@ -86,6 +92,8 @@ export default function DeckBuilder() {
 	const [deckName, setDeckName] = useState("");
 	const [deck, setDeck] = useState<Map<number, number>>(new Map());
 
+	const catalogRef = useRef<HTMLDivElement>(null);
+	const sidebarRef = useRef<HTMLDivElement>(null);
 	const [hover, setHover] = useState<HoverState | null>(null);
 	const [buyingId, setBuyingId] = useState<number | null>(null);
 	const [buyError, setBuyError] = useState<number | null>(null);
@@ -264,6 +272,14 @@ export default function DeckBuilder() {
 		});
 	}
 
+	function removeAll(cardId: number) {
+		setDeck((prev) => {
+			const next = new Map(prev);
+			next.delete(cardId);
+			return next;
+		});
+	}
+
 	async function buyCard(card: CardData) {
 		setBuyingId(card.id);
 		setBuyError(null);
@@ -354,18 +370,26 @@ export default function DeckBuilder() {
 		setImportError(false);
 	}
 
-	// ─── Preview au survol (façon DeckBuilder._on_card_wrapper_entered) ─────
-
-	function previewPosition(rect: DOMRect) {
+	// ─── Preview au survol (façon DeckBuilder._on_card_wrapper_entered /
+	// _position_hover_tooltips) : par défaut à droite de la carte, repliée à
+	// gauche seulement si ça déborderait du panneau réel (catalogue ou liste du
+	// deck) plutôt que de tout l'écran — ne recouvre jamais le panneau voisin.
+	// Verticalement alignée sur le haut de la carte, bornée au sommet du
+	// panneau pour ne jamais chevaucher la barre de filtres au-dessus.
+	function previewPosition(rect: DOMRect, panelRect: DOMRect) {
 		const pw = CARD_WIDTH * PREVIEW_SCALE;
 		const ph = CARD_HEIGHT * PREVIEW_SCALE;
 		const vw = window.innerWidth;
 		const vh = window.innerHeight;
 		let x = rect.right + 12;
-		if (x + pw > vw - 4) x = rect.left - pw - 12;
+		let onLeft = false;
+		if (x + pw > panelRect.right - 4) {
+			x = rect.left - pw - 12;
+			onLeft = true;
+		}
 		x = Math.min(Math.max(x, 4), vw - pw - 4);
-		const y = Math.min(Math.max(rect.top + rect.height / 2 - ph / 2, 4), vh - ph - 4);
-		return { x, y, pw, ph };
+		const y = Math.min(Math.max(rect.top, panelRect.top), vh - ph - 4);
+		return { x, y, pw, ph, onLeft };
 	}
 
 	// ─── Rendu ───────────────────────────────────────────────────────────────
@@ -416,53 +440,61 @@ export default function DeckBuilder() {
 					/>
 
 					<div className="db-filter-bar">
-						<span className="db-filter-label">Race :</span>
-						<div className="db-filter-group">
-							<FilterButton active={raceFilter === ""} onClick={() => setRaceFilter("")}>
-								Tous
-							</FilterButton>
-							{races.map((r) => (
-								<FilterButton key={r} active={raceFilter === r} onClick={() => setRaceFilter(r)}>
-									{r === "Demon" ? "Démon" : r}
+						<div className="db-filter-item">
+							<span className="db-filter-label">Race :</span>
+							<div className="db-filter-group">
+								<FilterButton active={raceFilter === ""} onClick={() => setRaceFilter("")}>
+									Tous
 								</FilterButton>
-							))}
+								{races.map((r) => (
+									<FilterButton key={r} active={raceFilter === r} onClick={() => setRaceFilter(r)}>
+										{r === "Demon" ? "Démon" : r}
+									</FilterButton>
+								))}
+							</div>
 						</div>
 
-						<span className="db-filter-label">Type :</span>
-						<div className="db-filter-group">
-							<FilterButton active={typeFilter === ""} onClick={() => setTypeFilter("")}>
-								Tous
-							</FilterButton>
-							{TYPE_ORDER.map((t) => (
-								<FilterButton key={t} active={typeFilter === t} onClick={() => setTypeFilter(t)}>
-									{t}
+						<div className="db-filter-item">
+							<span className="db-filter-label">Type :</span>
+							<div className="db-filter-group">
+								<FilterButton active={typeFilter === ""} onClick={() => setTypeFilter("")}>
+									Tous
 								</FilterButton>
-							))}
+								{TYPE_ORDER.map((t) => (
+									<FilterButton key={t} active={typeFilter === t} onClick={() => setTypeFilter(t)}>
+										{t}
+									</FilterButton>
+								))}
+							</div>
 						</div>
 
-						<span className="db-filter-label">Rareté :</span>
-						<div className="db-filter-group">
-							<FilterButton active={rarityFilter === ""} onClick={() => setRarityFilter("")}>
-								Tous
-							</FilterButton>
-							{RARITY_ORDER.map((r) => (
-								<FilterButton
-									key={r}
-									active={rarityFilter === r}
-									onClick={() => setRarityFilter(r)}
-								>
-									{r}
+						<div className="db-filter-item">
+							<span className="db-filter-label">Rareté :</span>
+							<div className="db-filter-group">
+								<FilterButton active={rarityFilter === ""} onClick={() => setRarityFilter("")}>
+									Tous
 								</FilterButton>
-							))}
+								{RARITY_ORDER.map((r) => (
+									<FilterButton
+										key={r}
+										active={rarityFilter === r}
+										onClick={() => setRarityFilter(r)}
+									>
+										{r}
+									</FilterButton>
+								))}
+							</div>
 						</div>
 
-						<span className="db-filter-label">Coût :</span>
-						<div className="db-filter-group">
-							{COST_FILTERS.map((c) => (
-								<FilterButton key={c} active={costFilter === c} onClick={() => setCostFilter(c)}>
-									{c === -1 ? "Tous" : c === 7 ? "7+" : String(c)}
-								</FilterButton>
-							))}
+						<div className="db-filter-item">
+							<span className="db-filter-label">Coût :</span>
+							<div className="db-filter-group">
+								{COST_FILTERS.map((c) => (
+									<FilterButton key={c} active={costFilter === c} onClick={() => setCostFilter(c)}>
+										{c === -1 ? "Tous" : c === 7 ? "7+" : String(c)}
+									</FilterButton>
+								))}
+							</div>
 						</div>
 
 						<FilterButton active={hideLocked} onClick={() => setHideLocked(!hideLocked)}>
@@ -471,38 +503,42 @@ export default function DeckBuilder() {
 					</div>
 
 					<div className="db-sort-bar">
-						<span className="db-filter-label">Mot-clé :</span>
-						<select
-							className="db-select"
-							value={keywordFilter}
-							onChange={(e) => setKeywordFilter(e.target.value)}
-						>
-							<option value="">Tous</option>
-							{KEYWORDS.map((k) => (
-								<option key={k.name} value={k.name}>
-									{k.name}
-								</option>
-							))}
-						</select>
+						<div className="db-filter-item">
+							<span className="db-filter-label">Mot-clé :</span>
+							<select
+								className="db-select"
+								value={keywordFilter}
+								onChange={(e) => setKeywordFilter(e.target.value)}
+							>
+								<option value="">Tous</option>
+								{KEYWORDS.map((k) => (
+									<option key={k.name} value={k.name}>
+										{k.name}
+									</option>
+								))}
+							</select>
+						</div>
 
-						<span className="db-filter-label db-sort-label">Trier :</span>
-						<div className="db-filter-group">
-							{(
-								[
-									["", "Par défaut"],
-									["cost", "Coût"],
-									["name", "Nom"],
-									["rarity", "Rareté"],
-								] as [SortMode, string][]
-							).map(([mode, label]) => (
-								<FilterButton key={mode} active={sortMode === mode} onClick={() => setSortMode(mode)}>
-									{label}
-								</FilterButton>
-							))}
+						<div className="db-filter-item">
+							<span className="db-filter-label db-sort-label">Trier :</span>
+							<div className="db-filter-group">
+								{(
+									[
+										["", "Par défaut"],
+										["cost", "Coût"],
+										["name", "Nom"],
+										["rarity", "Rareté"],
+									] as [SortMode, string][]
+								).map(([mode, label]) => (
+									<FilterButton key={mode} active={sortMode === mode} onClick={() => setSortMode(mode)}>
+										{label}
+									</FilterButton>
+								))}
+							</div>
 						</div>
 					</div>
 
-					<div className="db-card-grid">
+					<div className="db-card-grid" ref={catalogRef}>
 						{filteredCards.map((card) => {
 							const maxed = isMaxed(card);
 							const locked = isLocked(card);
@@ -516,6 +552,9 @@ export default function DeckBuilder() {
 										setHover({
 											card,
 											rect: e.currentTarget.getBoundingClientRect(),
+											panelRect:
+												catalogRef.current?.getBoundingClientRect() ??
+												e.currentTarget.getBoundingClientRect(),
 											maxed,
 											locked,
 										})
@@ -552,7 +591,7 @@ export default function DeckBuilder() {
 					</div>
 				</section>
 
-				<aside className="deckbuilder-sidebar">
+				<aside className="deckbuilder-sidebar" ref={sidebarRef}>
 					<input
 						className="db-deck-name"
 						type="text"
@@ -576,10 +615,14 @@ export default function DeckBuilder() {
 							<div
 								className="db-deck-row"
 								key={card.id}
+								onClick={() => removeOne(card.id)}
 								onMouseEnter={(e) =>
 									setHover({
 										card,
 										rect: e.currentTarget.getBoundingClientRect(),
+										panelRect:
+											sidebarRef.current?.getBoundingClientRect() ??
+											e.currentTarget.getBoundingClientRect(),
 										maxed: false,
 										locked: false,
 									})
@@ -588,12 +631,15 @@ export default function DeckBuilder() {
 							>
 								<span className="db-deck-row-cost">{card.cost ?? 0}</span>
 								<span className="db-deck-row-name">{card.name}</span>
-								<span className="db-deck-row-qty">{quantity}</span>
+								<span className="db-deck-row-qty">x{quantity}</span>
 								<button
 									type="button"
 									className="db-deck-row-del"
-									onClick={() => removeOne(card.id)}
-									title={`Retirer ${card.name}`}
+									onClick={(e) => {
+										e.stopPropagation();
+										removeAll(card.id);
+									}}
+									title={`Retirer toutes les copies de ${card.name}`}
 								>
 									✕
 								</button>
@@ -669,8 +715,11 @@ export default function DeckBuilder() {
 
 			{hover &&
 				(() => {
-					const { x, y, pw, ph } = previewPosition(hover.rect);
-					const tooltipLeft = x + pw + 12 + 260 > window.innerWidth;
+					const { x, y, pw, ph, onLeft } = previewPosition(hover.rect, hover.panelRect);
+					// Les tooltips de mots-clés suivent toujours le côté choisi par la
+					// preview (jamais entre la preview et la carte survolée, sinon ils
+					// la recouvrent) — voir DeckBuilder.gd _position_hover_tooltips.
+					const tooltipsLeft = onLeft ? x - 262 : x + pw + 12;
 					return (
 						<div className="db-preview-layer">
 							<div className="db-preview" style={{ left: x, top: y }}>
@@ -686,14 +735,14 @@ export default function DeckBuilder() {
 								>
 									{hover.locked
 										? "Carte non débloquée"
-										: "Nombre maximum de copies dans ce deck atteint"}
+										: "Nombre d'exemplaires maximum atteint"}
 								</div>
 							)}
 							{hoverKeywords.length > 0 && (
 								<div
 									className="db-keyword-tooltips"
 									style={{
-										left: tooltipLeft ? x - 262 : x + pw + 12,
+										left: tooltipsLeft,
 										top: y,
 									}}
 								>
