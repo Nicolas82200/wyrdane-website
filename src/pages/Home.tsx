@@ -133,7 +133,14 @@ const Home = () => {
 
 			<Reveal className="section section-cta">
 				<h2>{t.playSection.title}</h2>
-				<span className="cta-badge">{t.playSection.badge}</span>
+				<a
+					href="https://store.steampowered.com/app/5052390/Wyrdane/"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="cta-badge cta-badge-link"
+				>
+					{t.playSection.badge}
+				</a>
 				<p className="section-lead">{t.playSection.text}</p>
 			</Reveal>
 		</div>

@@ -135,7 +135,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		playSection: {
 			title: "Play a match",
 			text: "Log in with Steam and face other players 1v1, putting your deck to the test.",
-			badge: "Coming soon on Steam",
+			badge: "View on Steam",
 		},
 	},
 	fr: {
@@ -243,7 +243,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		playSection: {
 			title: "Joue une partie",
 			text: "Connecte-toi avec Steam et affronte d'autres joueurs en 1 contre 1 pour mettre ton deck à l'épreuve.",
-			badge: "Bientôt disponible sur Steam",
+			badge: "Voir sur Steam",
 		},
 	},
 };

@@ -18,6 +18,14 @@ const Play = () => {
 					<p className="play-steam-badge">{t.steamSoonTitle}</p>
 					<p className="play-steam-text">{t.steamSoonText}</p>
 					<nav className="play-nav">
+						<a
+							href="https://store.steampowered.com/app/5052390/Wyrdane/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="btn btn-primary"
+						>
+							{t.steamLink}
+						</a>
 						<Link to="/" className="play-back-link">
 							{t.backHome}
 						</Link>

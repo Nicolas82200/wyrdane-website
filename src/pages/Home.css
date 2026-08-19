@@ -259,6 +259,19 @@
 	margin-bottom: 16px;
 }
 
+.cta-badge-link {
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background 0.15s ease,
+		color 0.15s ease;
+}
+
+.cta-badge-link:hover {
+	background: rgba(201, 162, 39, 0.32);
+	color: var(--gold);
+}
+
 .section-cta .section-lead {
 	margin-bottom: 0;
 }
