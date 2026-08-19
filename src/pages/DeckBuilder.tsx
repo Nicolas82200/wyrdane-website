@@ -174,7 +174,7 @@ export default function DeckBuilder() {
 	}
 
 	function maxCopiesOf(card: CardData): number {
-		if (card.card_type === "Ressource") return ownedQty(card);
+		if (card.card_type === "Ressource") return Infinity;
 		return Math.min(MAX_COPIES, ownedQty(card));
 	}
 
