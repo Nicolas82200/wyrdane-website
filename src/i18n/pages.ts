@@ -5,6 +5,7 @@ export type PagesContent = {
 		title: string;
 		steamSoonTitle: string;
 		steamSoonText: string;
+		steamLink: string;
 		backHome: string;
 	};
 	auth: {
@@ -28,7 +29,8 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 			title: "WYRDANE",
 			steamSoonTitle: "Coming soon on Steam",
 			steamSoonText:
-				"Wyrdane isn't available on Steam yet. Follow the Dev Log and our socials to know the moment it launches.",
+				"Wyrdane isn't available on Steam yet, but the store page is live. Wishlist it to know the moment it launches.",
+			steamLink: "View the Steam page",
 			backHome: "← Back to home",
 		},
 		auth: {
@@ -50,7 +52,8 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 			title: "WYRDANE",
 			steamSoonTitle: "Bientôt disponible sur Steam",
 			steamSoonText:
-				"Wyrdane n'est pas encore disponible sur Steam. Suis le Dev Log et nos réseaux pour être prévenu dès la sortie.",
+				"Wyrdane n'est pas encore disponible sur Steam, mais la page boutique est en ligne. Ajoute-le à ta liste de souhaits pour être prévenu dès la sortie.",
+			steamLink: "Voir la page Steam",
 			backHome: "← Retour à l'accueil",
 		},
 		auth: {
