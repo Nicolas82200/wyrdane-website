@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import api from "../api";
 import type { CardData } from "../types";
 import GameCard from "../components/GameCard";
 import { CARD_WIDTH, CARD_HEIGHT } from "../components/cardMetrics";
 import gameCards from "../data/gameCards.json";
 import { KEYWORDS, KEYWORD_BY_NAME } from "../data/keywords";
+import { computeRaceCost } from "../helper/costSystem";
+import { makeUniqueDeckName } from "../helper/deckNames";
 import "./DeckBuilder.css";
 
 // Mêmes règles que le deck builder du jeu (scripts/deck/DeckBuilder.gd) :
@@ -91,6 +93,13 @@ export default function DeckBuilder() {
 
 	const [deckName, setDeckName] = useState("");
 	const [deck, setDeck] = useState<Map<number, number>>(new Map());
+	// true dès que le deck a été modifié depuis le dernier chargement/sauvegarde
+	// (voir DeckBuilder.gd _dirty côté jeu) — commande le bouton Sauvegarder et
+	// la confirmation de sortie sans sauvegarde.
+	const [dirty, setDirty] = useState(false);
+	// Noms des autres decks du joueur (hors celui en cours d'édition), pour
+	// dédoublonner automatiquement le nom au moment de sauvegarder.
+	const [existingDeckNames, setExistingDeckNames] = useState<string[]>([]);
 
 	const catalogRef = useRef<HTMLDivElement>(null);
 	const sidebarRef = useRef<HTMLDivElement>(null);
@@ -110,15 +119,19 @@ export default function DeckBuilder() {
 			setLoading(true);
 			setFetchError(null);
 			try {
-				const [cardsRes, collectionRes, balanceRes] = await Promise.all([
+				const [cardsRes, collectionRes, balanceRes, decksRes] = await Promise.all([
 					api.get<CardData[]>("/api/cards"),
 					api.get<(CardData & { quantity: number })[]>("/api/collection"),
 					api.get<{ balance: number }>("/api/currency/balance"),
+					api.get<{ id: number; name: string }[]>("/api/decks"),
 				]);
 				if (cancelled) return;
 				setCards(cardsRes.data);
 				setOwned(new Map(collectionRes.data.map((c) => [c.id, c.quantity])));
 				setBalance(balanceRes.data.balance);
+				setExistingDeckNames(
+					decksRes.data.filter((d) => !deckId || d.id !== Number(deckId)).map((d) => d.name),
+				);
 
 				if (deckId) {
 					const deckRes = await api.get(`/api/decks/${deckId}`);
@@ -251,6 +264,65 @@ export default function DeckBuilder() {
 		return { curve, typeCounts, raceCounts, avg: total > 0 ? totalCost / total : 0, total };
 	}, [deckEntries]);
 
+	// ─── Avertissements ressources de race (DeckBuilder._race_warnings côté jeu) ─
+	// Deux cas : une race jouée dans le deck sans assez de cartes-ressource de
+	// cette race pour couvrir le race_cost de sa carte la plus chère ; ou des
+	// cartes-ressource d'une race sans aucune carte jouable de cette race.
+	const raceWarnings = useMemo(() => {
+		const maxRaceCost = new Map<string, number>();
+		const playableRacePresent = new Set<string>();
+		const resourceRacePresent = new Set<string>();
+		const resourceCounts = new Map<string, number>();
+
+		deckEntries.forEach(({ card, quantity }) => {
+			if (card.card_type === "Ressource") {
+				resourceRacePresent.add(card.race);
+				resourceCounts.set(card.race, (resourceCounts.get(card.race) ?? 0) + quantity);
+			} else {
+				playableRacePresent.add(card.race);
+				const raceCost = computeRaceCost(Number(card.cost ?? 0), card.rarity);
+				maxRaceCost.set(card.race, Math.max(maxRaceCost.get(card.race) ?? 0, raceCost));
+			}
+		});
+
+		const warnings: string[] = [];
+		maxRaceCost.forEach((needed, race) => {
+			const have = resourceCounts.get(race) ?? 0;
+			if (have < needed) {
+				const label = race === "Demon" ? "Démon" : race;
+				warnings.push(
+					`Il manque des cartes-ressource : ajoutez au moins ${needed} carte(s)-ressource de ${label} pour pouvoir jouer vos cartes de cette race.`,
+				);
+			}
+		});
+		resourceRacePresent.forEach((race) => {
+			if (!playableRacePresent.has(race)) {
+				const label = race === "Demon" ? "Démon" : race;
+				warnings.push(
+					`Vous avez des cartes-ressource de ${label} mais aucune carte de cette race dans le deck.`,
+				);
+			}
+		});
+		return warnings;
+	}, [deckEntries]);
+
+	const canSave = countsOk && raceWarnings.length === 0;
+
+	// ─── Blocage de navigation avec modifications non sauvegardées ─────────────
+	const blocker = useBlocker(
+		({ currentLocation, nextLocation }) => dirty && currentLocation.pathname !== nextLocation.pathname,
+	);
+
+	useEffect(() => {
+		function handleBeforeUnload(e: BeforeUnloadEvent) {
+			if (!dirty) return;
+			e.preventDefault();
+			e.returnValue = "";
+		}
+		window.addEventListener("beforeunload", handleBeforeUnload);
+		return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+	}, [dirty]);
+
 	// ─── Actions ─────────────────────────────────────────────────────────────
 
 	function addToDeck(card: CardData) {
@@ -260,6 +332,7 @@ export default function DeckBuilder() {
 			next.set(card.id, (next.get(card.id) ?? 0) + 1);
 			return next;
 		});
+		setDirty(true);
 	}
 
 	function removeOne(cardId: number) {
@@ -270,6 +343,7 @@ export default function DeckBuilder() {
 			else next.set(cardId, current - 1);
 			return next;
 		});
+		setDirty(true);
 	}
 
 	function removeAll(cardId: number) {
@@ -278,6 +352,7 @@ export default function DeckBuilder() {
 			next.delete(cardId);
 			return next;
 		});
+		setDirty(true);
 	}
 
 	async function buyCard(card: CardData) {
@@ -299,30 +374,42 @@ export default function DeckBuilder() {
 		}
 	}
 
-	async function handleSave() {
+	// skipNavigate : appelé depuis la popup de confirmation de sortie, où la
+	// navigation déjà en attente (blocker) doit reprendre via blocker.proceed()
+	// plutôt qu'un nouvel appel à navigate().
+	async function handleSave(opts: { skipNavigate?: boolean } = {}): Promise<boolean> {
 		if (!deckName.trim()) {
 			setSaveError("Merci de nommer votre deck.");
-			return;
+			return false;
 		}
 		if (!countsOk) {
 			setSaveError(
 				`Le deck doit contenir au moins ${MIN_CARDS} cartes jouables et ${MIN_RESOURCE_CARDS} cartes-ressource.`,
 			);
-			return;
+			return false;
+		}
+		if (raceWarnings.length > 0) {
+			setSaveError("Corrigez les avertissements de ressources de race avant de sauvegarder.");
+			return false;
 		}
 		setSaving(true);
 		setSaveError(null);
 		try {
+			const finalName = makeUniqueDeckName(deckName.trim(), existingDeckNames);
 			const payload = {
-				name: deckName,
+				name: finalName,
 				entries: deckEntries.map((e) => ({ cardId: e.card.id, quantity: e.quantity })),
 			};
 			if (isEditing) await api.put(`/api/decks/${deckId}`, payload);
 			else await api.post("/api/decks", payload);
-			navigate("/decks");
+			setDeckName(finalName);
+			setDirty(false);
+			if (!opts.skipNavigate) navigate("/decks");
+			return true;
 		} catch (err) {
 			console.error(err);
 			setSaveError("Erreur lors de la sauvegarde du deck.");
+			return false;
 		} finally {
 			setSaving(false);
 		}
@@ -365,6 +452,7 @@ export default function DeckBuilder() {
 		}
 		setDeck(next);
 		if (lines[0]) setDeckName(lines[0]);
+		setDirty(true);
 		setImportOpen(false);
 		setImportText("");
 		setImportError(false);
@@ -597,7 +685,10 @@ export default function DeckBuilder() {
 						type="text"
 						placeholder="Nom du deck..."
 						value={deckName}
-						onChange={(e) => setDeckName(e.target.value)}
+						onChange={(e) => {
+							setDeckName(e.target.value);
+							setDirty(true);
+						}}
 					/>
 
 					<div className={`db-count-label${countsOk ? " ok" : " ko"}`}>
@@ -608,6 +699,14 @@ export default function DeckBuilder() {
 							{resourceCount} cartes-ressource (min {MIN_RESOURCE_CARDS})
 						</div>
 					</div>
+
+					{raceWarnings.length > 0 && (
+						<div className="db-race-warnings">
+							{raceWarnings.map((w, i) => (
+								<p key={i}>{w}</p>
+							))}
+						</div>
+					)}
 
 					<div className="db-deck-list">
 						{deckEntries.length === 0 && <p className="db-deck-empty">Aucune carte ajoutée.</p>}
@@ -705,8 +804,8 @@ export default function DeckBuilder() {
 					<button
 						type="button"
 						className="db-btn db-btn-save"
-						onClick={handleSave}
-						disabled={saving || !countsOk}
+						onClick={() => handleSave()}
+						disabled={saving || !dirty || !canSave}
 					>
 						{saving ? "Sauvegarde..." : "Sauvegarder le deck"}
 					</button>
@@ -776,6 +875,35 @@ export default function DeckBuilder() {
 						<button type="button" className="db-btn" onClick={() => setExportCode(null)}>
 							OK
 						</button>
+					</div>
+				</div>
+			)}
+
+			{blocker.state === "blocked" && (
+				<div className="db-dialog-backdrop" onClick={() => blocker.reset?.()}>
+					<div className="db-dialog" onClick={(e) => e.stopPropagation()}>
+						<h2>Modifications non sauvegardées</h2>
+						<p>
+							Vous quittez le constructeur de deck mais vous n'avez pas sauvegardé. Voulez-vous
+							sauvegarder ?
+						</p>
+						{saveError && <p className="db-save-error">{saveError}</p>}
+						<div className="db-dialog-actions">
+							<button type="button" className="db-btn" onClick={() => blocker.proceed?.()}>
+								Quitter sans sauvegarder
+							</button>
+							<button
+								type="button"
+								className="db-btn db-btn-save"
+								onClick={async () => {
+									const ok = await handleSave({ skipNavigate: true });
+									if (ok) blocker.proceed?.();
+									else blocker.reset?.();
+								}}
+							>
+								Sauvegarder
+							</button>
+						</div>
 					</div>
 				</div>
 			)}
