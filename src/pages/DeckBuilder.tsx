@@ -104,6 +104,23 @@ export default function DeckBuilder() {
 	const catalogRef = useRef<HTMLDivElement>(null);
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const [hover, setHover] = useState<HoverState | null>(null);
+
+	// Facteur d'échelle de la page (voir .deckbuilder-scale-outer/.deckbuilder
+	// dans DeckBuilder.css, même formule clamp(0.55, 100vw / 1920, 1)) — la
+	// preview/les tooltips au survol vivent hors du bloc transformé (ce sont
+	// des position: fixed, positionnés par rapport au vrai viewport), donc
+	// leur propre géométrie (previewPosition ci-dessous) doit compenser ce
+	// même facteur pour rester cohérente avec la taille visuelle réduite.
+	const [pageScale, setPageScale] = useState(() =>
+		Math.min(1, Math.max(0.55, window.innerWidth / 1920)),
+	);
+	useEffect(() => {
+		function onResize() {
+			setPageScale(Math.min(1, Math.max(0.55, window.innerWidth / 1920)));
+		}
+		window.addEventListener("resize", onResize);
+		return () => window.removeEventListener("resize", onResize);
+	}, []);
 	const [buyingId, setBuyingId] = useState<number | null>(null);
 	const [buyError, setBuyError] = useState<number | null>(null);
 
@@ -465,14 +482,15 @@ export default function DeckBuilder() {
 	// Verticalement alignée sur le haut de la carte, bornée au sommet du
 	// panneau pour ne jamais chevaucher la barre de filtres au-dessus.
 	function previewPosition(rect: DOMRect, panelRect: DOMRect) {
-		const pw = CARD_WIDTH * PREVIEW_SCALE;
-		const ph = CARD_HEIGHT * PREVIEW_SCALE;
+		const pw = CARD_WIDTH * PREVIEW_SCALE * pageScale;
+		const ph = CARD_HEIGHT * PREVIEW_SCALE * pageScale;
+		const gap = 12 * pageScale;
 		const vw = window.innerWidth;
 		const vh = window.innerHeight;
-		let x = rect.right + 12;
+		let x = rect.right + gap;
 		let onLeft = false;
 		if (x + pw > panelRect.right - 4) {
-			x = rect.left - pw - 12;
+			x = rect.left - pw - gap;
 			onLeft = true;
 		}
 		x = Math.min(Math.max(x, 4), vw - pw - 4);
@@ -484,16 +502,18 @@ export default function DeckBuilder() {
 
 	if (loading || fetchError) {
 		return (
-			<div className="deckbuilder">
-				<header className="deckbuilder-header">
-					<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
-						← Retour
-					</button>
-					<h1>Constructeur de Deck</h1>
-					<div className="deckbuilder-header-spacer" />
-				</header>
-				<div className={`deckbuilder-loading${fetchError ? " deckbuilder-error" : ""}`}>
-					{fetchError ?? "Chargement des cartes..."}
+			<div className="deckbuilder-scale-outer">
+				<div className="deckbuilder">
+					<header className="deckbuilder-header">
+						<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
+							← Retour
+						</button>
+						<h1>Constructeur de Deck</h1>
+						<div className="deckbuilder-header-spacer" />
+					</header>
+					<div className={`deckbuilder-loading${fetchError ? " deckbuilder-error" : ""}`}>
+						{fetchError ?? "Chargement des cartes..."}
+					</div>
 				</div>
 			</div>
 		);
@@ -506,18 +526,19 @@ export default function DeckBuilder() {
 		: [];
 
 	return (
-		<div className="deckbuilder">
-			<header className="deckbuilder-header">
-				<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
-					← Retour
-				</button>
-				<h1>{isEditing ? "Modifier le Deck" : "Constructeur de Deck"}</h1>
-				<div className="deckbuilder-balance" title="Solde">
-					◈ {balance}
-				</div>
-			</header>
+		<div className="deckbuilder-scale-outer">
+			<div className="deckbuilder">
+				<header className="deckbuilder-header">
+					<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
+						← Retour
+					</button>
+					<h1>{isEditing ? "Modifier le Deck" : "Constructeur de Deck"}</h1>
+					<div className="deckbuilder-balance" title="Solde">
+						◈ {balance}
+					</div>
+				</header>
 
-			<div className="deckbuilder-body">
+				<div className="deckbuilder-body">
 				<section className="deckbuilder-catalog">
 					<input
 						className="db-search"
@@ -811,6 +832,7 @@ export default function DeckBuilder() {
 					</button>
 				</aside>
 			</div>
+			</div>
 
 			{hover &&
 				(() => {
@@ -818,7 +840,7 @@ export default function DeckBuilder() {
 					// Les tooltips de mots-clés suivent toujours le côté choisi par la
 					// preview (jamais entre la preview et la carte survolée, sinon ils
 					// la recouvrent) — voir DeckBuilder.gd _position_hover_tooltips.
-					const tooltipsLeft = onLeft ? x - 262 : x + pw + 12;
+					const tooltipsLeft = onLeft ? x - 262 * pageScale : x + pw + 12 * pageScale;
 					return (
 						<div className="db-preview-layer">
 							<div className="db-preview" style={{ left: x, top: y }}>

@@ -1,10 +1,34 @@
 /* Deck builder web — réplique visuelle de scenes/deck/DeckBuilder.tscn (jeu Godot).
    Palette : bruns sombres + or, mêmes valeurs que DeckBuilder.gd. */
 
+/* Sur un écran plus petit que la largeur de référence (1920px, même base que
+   le jeu Godot), toute la page .deckbuilder est réduite en un seul bloc via
+   transform: scale() — comme une image qu'on redimensionne — plutôt que de
+   recalculer chaque taille individuellement (approche essayée puis abandonnée :
+   trop de proprietes a garder cohérentes entre elles — barres de defilement,
+   hauteurs calculees en JS pour la courbe de mana, etc. — a fini par produire
+   des chevauchements). Resultat : mise en page rigoureusement identique au
+   grand ecran, juste plus petite. .deckbuilder garde une largeur de canevas
+   fixe (1920px) et une hauteur ajustee pour qu'apres le scale elle occupe
+   exactement 100% de la fenetre reelle. Seuls les elements hors de ce bloc
+   (preview au survol, tooltips, dialogues d'export/import — tous en
+   position: fixed, donc positionnes par rapport au vrai viewport et non
+   affectes par ce transform) recoivent leur propre mise a l'echelle plus bas
+   via var(--db-scale). */
+.deckbuilder-scale-outer {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	--db-scale: clamp(0.55, calc(100vw / 1920), 1);
+}
+
 .deckbuilder {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
+	width: 1920px;
+	height: calc(100vh / var(--db-scale));
+	transform: scale(var(--db-scale));
+	transform-origin: top left;
 	color: #e8d5a3;
 	background: rgba(10, 8, 6, 0.92);
 	font-family: "CrimsonTextCard", serif;
@@ -473,16 +497,16 @@
 
 .db-preview {
 	position: fixed;
-	transform: scale(1.15);
+	transform: scale(calc(1.15 * var(--db-scale)));
 	transform-origin: top left;
 }
 
 .db-max-tooltip {
 	position: fixed;
 	transform: translate(-50%, -50%);
-	max-width: 210px;
-	padding: 8px 12px;
-	font-size: 13px;
+	max-width: calc(210px * var(--db-scale));
+	padding: calc(8px * var(--db-scale)) calc(12px * var(--db-scale));
+	font-size: calc(13px * var(--db-scale));
 	text-align: center;
 	color: #ffdf80;
 	background: rgba(15, 12, 8, 0.95);
@@ -494,16 +518,16 @@
 	position: fixed;
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	width: 250px;
+	gap: calc(6px * var(--db-scale));
+	width: calc(250px * var(--db-scale));
 }
 
 .db-keyword-tooltip {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
-	padding: 8px 10px;
-	font-size: 12px;
+	gap: calc(2px * var(--db-scale));
+	padding: calc(8px * var(--db-scale)) calc(10px * var(--db-scale));
+	font-size: calc(12px * var(--db-scale));
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
 	border: 1px solid rgba(140, 105, 20, 0.7);
@@ -517,8 +541,8 @@
 .db-race-tooltip {
 	position: fixed;
 	transform: translateX(-50%);
-	padding: 4px 12px;
-	font-size: 12px;
+	padding: calc(4px * var(--db-scale)) calc(12px * var(--db-scale));
+	font-size: calc(12px * var(--db-scale));
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
 	border: 1px solid rgba(140, 105, 20, 0.7);
