@@ -11,8 +11,8 @@
 .navbar-inner {
 	max-width: 1180px;
 	margin: 0 auto;
-	padding: 0 24px;
-	height: 64px;
+	padding: 0 18px;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -21,7 +21,7 @@
 .navbar-brand {
 	font-family: "MedievalSharp", "Cinzel Decorative", serif;
 	font-weight: 700;
-	font-size: 22px;
+	font-size: 16.5px;
 	letter-spacing: 0.06em;
 	color: var(--gold);
 	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
@@ -31,12 +31,12 @@
 .navbar-links {
 	display: flex;
 	align-items: center;
-	gap: 28px;
+	gap: 21px;
 }
 
 .navbar-link {
 	font-family: "Crimson Text", serif;
-	font-size: 16px;
+	font-size: 12px;
 	color: rgba(232, 213, 163, 0.75);
 	text-decoration: none;
 	transition: color 0.15s ease;
@@ -54,24 +54,24 @@
 }
 
 .navbar-cta {
-	min-height: 40px;
+	min-height: 30px;
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
 }
 
 .navbar-socials {
-	margin-left: 6px;
-	gap: 12px;
+	margin-left: 4.5px;
+	gap: 9px;
 }
 
 .navbar-lang {
 	display: flex;
 	align-items: center;
-	gap: 4px;
-	margin-left: 6px;
+	gap: 3px;
+	margin-left: 4.5px;
 	font-family: "Crimson Text", serif;
-	font-size: 13px;
+	font-size: 9.75px;
 }
 
 .navbar-lang-sep {
@@ -81,7 +81,7 @@
 .navbar-lang-btn {
 	background: none;
 	border: none;
-	padding: 2px 3px;
+	padding: 1.5px 2.25px;
 	color: rgba(232, 213, 163, 0.55);
 	cursor: pointer;
 	font-family: inherit;
@@ -112,9 +112,9 @@
 	display: none;
 	flex-direction: column;
 	justify-content: center;
-	gap: 5px;
-	width: 36px;
-	height: 36px;
+	gap: 3.75px;
+	width: 27px;
+	height: 27px;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -143,7 +143,7 @@
 
 	.navbar-links {
 		position: absolute;
-		top: 64px;
+		top: 48px;
 		left: 0;
 		right: 0;
 		flex-direction: column;
@@ -162,7 +162,7 @@
 
 	.navbar-link {
 		width: 100%;
-		padding: 14px 24px;
+		padding: 10.5px 18px;
 	}
 
 	.navbar-link.active {
@@ -171,7 +171,7 @@
 	}
 
 	.navbar-cta {
-		margin: 12px 24px 20px;
+		margin: 9px 18px 15px;
 	}
 
 	.navbar-socials {
