@@ -53,8 +53,15 @@
 	padding-bottom: 4px;
 }
 
-.navbar-cta {
+/* Sélecteur composé (plutôt que .navbar-cta seul) pour garantir une
+   spécificité supérieure à .btn (index.css, min-height/padding/font-size
+   globaux) quel que soit l'ordre de chargement des CSS dans le bundle —
+   .navbar-cta seul a la même spécificité que .btn et perdait silencieusement
+   ce bras de fer selon l'ordre d'empaquetage de Vite. */
+.navbar-links .navbar-cta {
 	min-height: 30px;
+	padding: 0 15px;
+	font-size: 12px;
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
