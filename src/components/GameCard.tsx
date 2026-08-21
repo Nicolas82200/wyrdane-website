@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { API_URL } from "../api";
 import type { CardData } from "../types";
 import "./GameCard.css";
@@ -81,6 +81,54 @@ function computeRaceCost(cost: number, rarity: string | null): number {
 
 function withAlpha(rgba: string, alpha: number): string {
 	return rgba.replace(/[\d.]+\)$/, `${alpha})`);
+}
+
+// Port de Card.gd bold_keywords_and_triggers/_bold_caps_words : met en gras
+// le déclencheur en tête de ligne ("Dernier Souffle : ...") et toute suite de
+// mots en MAJUSCULES d'au moins 4 lettres (espaces/tirets internes tolérés,
+// ex. "VENIN MORTEL", "RANG INFERNAL") — même rendu que la carte en jeu,
+// jusque-là simple texte brut sur le site (retours à la ligne compris, voir
+// white-space: pre-line sur .gamecard-effect).
+const TRIGGER_LINE_RE = /^([^:]{2,40}) : (.*)$/;
+const CAPS_WORDS_RE = /[À-ÝA-Z][À-ÝA-Z-]*(?: [À-ÝA-Z][À-ÝA-Z-]*)*/g;
+
+function boldCapsWords(line: string, keyPrefix: string): ReactNode[] {
+	const nodes: ReactNode[] = [];
+	let pos = 0;
+	let i = 0;
+	for (const m of line.matchAll(CAPS_WORDS_RE)) {
+		const matched = m[0];
+		const start = m.index ?? 0;
+		if (start > pos) nodes.push(line.slice(pos, start));
+		const lettersOnly = matched.replace(/[ -]/g, "");
+		if (lettersOnly.length >= 4) {
+			nodes.push(<strong key={`${keyPrefix}-${i++}`}>{matched}</strong>);
+		} else {
+			nodes.push(matched);
+		}
+		pos = start + matched.length;
+	}
+	if (pos < line.length) nodes.push(line.slice(pos));
+	return nodes;
+}
+
+function formatEffectText(text: string): ReactNode[] {
+	const lines = text.split("\n");
+	const nodes: ReactNode[] = [];
+	lines.forEach((line, i) => {
+		if (i > 0) nodes.push("\n");
+		const m = line.match(TRIGGER_LINE_RE);
+		if (m) {
+			nodes.push(
+				<Fragment key={`line-${i}`}>
+					<strong>{m[1]}</strong> : {boldCapsWords(m[2], `line-${i}`)}
+				</Fragment>,
+			);
+		} else {
+			nodes.push(<Fragment key={`line-${i}`}>{boldCapsWords(line, `line-${i}`)}</Fragment>);
+		}
+	});
+	return nodes;
 }
 
 // NameLabel/DescLabel (Card.gd _fit_name_label/_fit_desc_label) : le nom
@@ -187,7 +235,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				className="gamecard-desc"
 				style={{ background: raceColor, top: descTop, height: descHeight }}
 			>
-				{card.effect && <div className="gamecard-effect">{card.effect}</div>}
+				{card.effect && <div className="gamecard-effect">{formatEffectText(card.effect)}</div>}
 				{card.flavor && <div className="gamecard-flavor">{card.flavor}</div>}
 			</div>
 			<div
