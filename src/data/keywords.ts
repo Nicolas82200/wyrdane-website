@@ -56,7 +56,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Pacte",
 		description:
-			"Quand ce serviteur entre en jeu, ton héros perd un nombre de HP égal à son coût en mana. Il gagne Assaut.",
+			"Pacte X : vous pouvez payer X points de vie lors du déclenchement de l'effet pour l'améliorer. Redemandé à chaque déclenchement.",
 	},
 	{
 		name: "Corruption",
@@ -69,19 +69,19 @@ export const KEYWORDS: KeywordInfo[] = [
 	},
 	{
 		name: "Rang infernal",
-		description: "Ce serviteur gagne +1/+0 pour chaque tranche de 10 HP manquants sur ton héros.",
+		description: "Ce serviteur gagne +1/+0 pour chaque tranche de 10 points de vie manquants sur votre héros.",
 	},
 	{ name: "Chair de soufre", description: "Immunisé à Corruption, à la peur et aux effets de contrôle mental." },
 	{
 		name: "Sang noir",
 		description:
-			"Chaque fois que ton héros perd des HP à cause d'une de tes propres cartes, ce serviteur gagne +1/+0 de façon permanente.",
+			"Chaque fois que votre héros perd des points de vie à cause d'une de vos propres cartes, ce serviteur gagne +1/+0 de façon permanente.",
 	},
 	// Abomination
 	{
 		name: "Mutation",
 		description:
-			"Ce serviteur mute (voir Table de Mutation) chaque fois qu'il survit à une blessure. Les effets sont permanents et cumulables.",
+			"Ce serviteur mute chaque fois qu'il survit à une blessure. Effets permanents et cumulables.\n\nTable de Mutation :\n40% Croissance : +2 ATQ\n40% Renforcement : +2 PV\n20% Dégénérescence : -1 ATQ / -1 PV",
 	},
 	{
 		name: "Fusion",
@@ -100,7 +100,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Assimilation",
 		description:
-			"Dévoration : ce serviteur peut absorber les restes pour gagner +1/+1 de façon permanente (une fois par mort).",
+			"Dévoration : ce serviteur peut absorber les restes pour gagner +1/+1 jusqu'au début du prochain tour (une fois par mort).",
 	},
 	{
 		name: "Instable",
