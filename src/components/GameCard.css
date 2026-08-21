@@ -27,6 +27,17 @@
 	font-weight: 600;
 	font-style: italic;
 }
+/* Card.tscn DescLabel.theme_override_fonts/bold_font (CrimsonText-Bold.ttf,
+   bold_font_size = 13, même taille que le texte normal) — jamais copiée sur
+   le site jusqu'ici : les <strong> de .gamecard-effect retombaient sur un
+   gras synthétique du navigateur au lieu de la vraie police, d'où un rendu
+   visuellement différent du jeu malgré une logique de mise en gras identique. */
+@font-face {
+	font-family: "CrimsonTextCard";
+	src: url("../assets/game/fonts/CrimsonText-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+}
 
 .gamecard {
 	position: relative;
