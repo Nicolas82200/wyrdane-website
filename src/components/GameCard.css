@@ -15,6 +15,17 @@
 	src: url("../assets/game/fonts/Cinzel-Bold.otf") format("opentype");
 	font-weight: 700;
 }
+/* Regular (400) : utilisée pour la description sur le site (voir
+   .gamecard-effect/.gamecard-flavor) au lieu du SemiBold du jeu — le
+   SemiBold, correct sur la police du jeu, rendait le texte trop épais/gras
+   avec le rendu de police des navigateurs (retour joueur direct). Garde la
+   même famille de police, juste une graisse plus légère que le jeu. */
+@font-face {
+	font-family: "CrimsonTextCard";
+	src: url("../assets/game/fonts/CrimsonText-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+}
 @font-face {
 	font-family: "CrimsonTextCard";
 	src: url("../assets/game/fonts/CrimsonText-SemiBold.ttf") format("truetype");
@@ -153,10 +164,14 @@
 }
 
 /* DescLabel : 15,186 → 220×142.5 mini (le haut est décalé si NameLabel
-   grandit, voir GameCard.tsx). Le jeu utilise 13px (Card.tscn), mais un
-   texte blanc gras à cette taille produit un effet "néon"/halo gênant à
-   la lecture sur le web (rendu de police différent de Godot) — réduit
-   volontairement en dessous de la taille du jeu pour rester lisible ici. */
+   grandit, voir GameCard.tsx). Le jeu utilise le SemiBold (600) à 13px
+   (Card.tscn), mais sur le web ce poids rendait le texte trop épais/gras
+   ("néon") avec le rendu de police des navigateurs, différent de Godot —
+   repassé en Regular (400, même famille de police que le jeu) et remonté
+   à 13px (retour joueur : la réduction précédente à 11px était allée trop
+   loin dans l'autre sens une fois le poids allégé). Les <strong> du texte
+   d'effet restent en vrai Bold (700, CrimsonText-Bold.ttf), identique au
+   jeu, pour garder le contraste des déclencheurs/mots-clés. */
 .gamecard-desc {
 	position: absolute;
 	left: 15px;
@@ -170,8 +185,8 @@
 	gap: 6px;
 	text-align: center;
 	font-family: "CrimsonTextCard", serif;
-	font-weight: 600;
-	font-size: 11px;
+	font-weight: 400;
+	font-size: 13px;
 	line-height: 1.2;
 	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
@@ -192,7 +207,7 @@
 
 .gamecard-flavor {
 	font-style: italic;
-	font-size: 10px;
+	font-size: 12px;
 }
 
 /* TypeLabel : sur la bordure dorée en haut de carte, largeur ajustée au
