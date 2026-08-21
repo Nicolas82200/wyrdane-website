@@ -168,6 +168,14 @@
 	z-index: 2;
 }
 
+/* .gamecard-effect : préserve les retours à la ligne littéraux du texte
+   (plusieurs effets distincts sur des lignes séparées, ex. triggers +
+   bonus Pacte) — sans ça, le HTML les collabore en un seul paragraphe
+   compact contrairement au rendu BBCode du jeu (Card.gd desc_label). */
+.gamecard-effect {
+	white-space: pre-line;
+}
+
 .gamecard-flavor {
 	font-style: italic;
 	font-size: 12px;
