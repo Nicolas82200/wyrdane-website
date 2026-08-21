@@ -43,6 +43,11 @@ body,
 	padding: 0;
 	width: 100%;
 	min-height: 100vh;
+	/* Aucune page du site n'a besoin de défiler horizontalement — garde-fou
+	   dur contre tout débordement résiduel d'un pixel ou deux (arrondis de
+	   sous-pixel, métriques de police...) plutôt que de ne compter que sur
+	   un calcul de largeur/hauteur parfait au pixel près. */
+	overflow-x: hidden;
 	body {
 		background: transparent;
 	}
