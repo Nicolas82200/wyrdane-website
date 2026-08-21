@@ -504,9 +504,9 @@
 .db-max-tooltip {
 	position: fixed;
 	transform: translate(-50%, -50%);
-	max-width: calc(210px * var(--db-scale));
+	max-width: calc(220px * var(--db-scale));
 	padding: calc(8px * var(--db-scale)) calc(12px * var(--db-scale));
-	font-size: calc(13px * var(--db-scale));
+	font-size: calc(15px * var(--db-scale));
 	text-align: center;
 	color: #ffdf80;
 	background: rgba(15, 12, 8, 0.95);
@@ -519,19 +519,26 @@
 	display: flex;
 	flex-direction: column;
 	gap: calc(6px * var(--db-scale));
-	width: calc(250px * var(--db-scale));
+	width: calc(280px * var(--db-scale));
 }
 
 .db-keyword-tooltip {
 	display: flex;
 	flex-direction: column;
-	gap: calc(2px * var(--db-scale));
-	padding: calc(8px * var(--db-scale)) calc(10px * var(--db-scale));
-	font-size: calc(12px * var(--db-scale));
+	gap: calc(3px * var(--db-scale));
+	padding: calc(9px * var(--db-scale)) calc(11px * var(--db-scale));
+	font-size: calc(14px * var(--db-scale));
+	line-height: 1.35;
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
 	border: 1px solid rgba(140, 105, 20, 0.7);
 	border-radius: 6px;
+}
+
+/* Description : préserve les retours à la ligne littéraux (ex. table de
+   mutation du mot-clé "Mutation", plusieurs lignes distinctes). */
+.db-keyword-tooltip span {
+	white-space: pre-line;
 }
 
 .db-keyword-tooltip strong {
@@ -542,7 +549,7 @@
 	position: fixed;
 	transform: translateX(-50%);
 	padding: calc(4px * var(--db-scale)) calc(12px * var(--db-scale));
-	font-size: calc(12px * var(--db-scale));
+	font-size: calc(14px * var(--db-scale));
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
 	border: 1px solid rgba(140, 105, 20, 0.7);

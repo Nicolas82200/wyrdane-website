@@ -153,7 +153,10 @@
 }
 
 /* DescLabel : 15,186 → 220×142.5 mini (le haut est décalé si NameLabel
-   grandit, voir GameCard.tsx), CrimsonText-SemiBold 13px */
+   grandit, voir GameCard.tsx). Le jeu utilise 13px (Card.tscn), mais un
+   texte blanc gras à cette taille produit un effet "néon"/halo gênant à
+   la lecture sur le web (rendu de police différent de Godot) — réduit
+   volontairement en dessous de la taille du jeu pour rester lisible ici. */
 .gamecard-desc {
 	position: absolute;
 	left: 15px;
@@ -168,8 +171,8 @@
 	text-align: center;
 	font-family: "CrimsonTextCard", serif;
 	font-weight: 600;
-	font-size: 13px;
-	line-height: 1.15;
+	font-size: 11px;
+	line-height: 1.2;
 	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
@@ -189,7 +192,7 @@
 
 .gamecard-flavor {
 	font-style: italic;
-	font-size: 12px;
+	font-size: 10px;
 }
 
 /* TypeLabel : sur la bordure dorée en haut de carte, largeur ajustée au
