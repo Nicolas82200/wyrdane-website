@@ -10,15 +10,34 @@
    des chevauchements). Resultat : mise en page rigoureusement identique au
    grand ecran, juste plus petite. .deckbuilder garde une largeur de canevas
    fixe (1920px) et une hauteur ajustee pour qu'apres le scale elle occupe
-   exactement 100% de la fenetre reelle. Seuls les elements hors de ce bloc
-   (preview au survol, tooltips, dialogues d'export/import — tous en
-   position: fixed, donc positionnes par rapport au vrai viewport et non
-   affectes par ce transform) recoivent leur propre mise a l'echelle plus bas
-   via var(--db-scale). */
+   exactement toute la hauteur restante sous la navbar. Seuls les elements
+   hors de ce bloc (preview au survol, tooltips, dialogues d'export/import —
+   tous en position: fixed, donc positionnes par rapport au vrai viewport et
+   non affectes par ce transform) recoivent leur propre mise a l'echelle plus
+   bas via var(--db-scale).
+
+   Largeur en 100% (pas 100vw) et hauteur en calc(100vh - navbar) (pas
+   100vh) : .deckbuilder-scale-outer est un bloc normal dans le flux du
+   document, sous la navbar (position: sticky, occupe une vraie hauteur) —
+   100vw/100vh ignorent à la fois cette hauteur déjà prise par la navbar et
+   la largeur réellement disponible (gouttière de barre de défilement
+   verticale incluse dans 100vw mais pas dans la zone visible), ce qui
+   provoquait un débordement horizontal avec barre de défilement. */
 .deckbuilder-scale-outer {
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: calc(100vh - var(--navbar-height));
 	overflow: hidden;
+	/* Reste en 100vw ici (pas 100%) : cette formule alimente une division
+	   dans calc() dont le résultat doit être un <number> pur pour
+	   transform: scale(var(--db-scale)) — mélanger % et px dans une même
+	   division calc() est un type CSS invalide (contrairement à
+	   width: 100% juste au-dessus, une simple valeur, pas une division) et
+	   rendrait tout le calc invalide, retombant silencieusement sur
+	   "pas de transform du tout" (bug déjà rencontré une fois, voir
+	   l'historique de ce fichier). L'écart de quelques pixels que 100vw
+	   peut introduire ici (gouttière de barre de défilement verticale) est
+	   imperceptible sur un simple ratio d'échelle, contrairement au
+	   débordement complet que donnait 100vw sur la largeur du bloc. */
 	--db-scale: clamp(0.55, calc(100vw / 1920px), 1);
 }
 
@@ -26,7 +45,7 @@
 	display: flex;
 	flex-direction: column;
 	width: 1920px;
-	height: calc(100vh / var(--db-scale));
+	height: calc((100vh - var(--navbar-height)) / var(--db-scale));
 	transform: scale(var(--db-scale));
 	transform-origin: top left;
 	color: #e8d5a3;
