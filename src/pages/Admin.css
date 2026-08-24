@@ -1,0 +1,106 @@
+.admin {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	width: 100%;
+	padding: 24px;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, 0.784);
+}
+
+.admin-panel {
+	width: 100%;
+	max-width: 900px;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 28px 32px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.admin-panel h1 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-weight: 700;
+	font-size: 36px;
+	letter-spacing: 0.02em;
+	color: var(--gold);
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	text-align: center;
+	margin: 0;
+}
+
+.admin-sep {
+	border: none;
+	border-top: 1px solid var(--separator);
+	margin: 0;
+}
+
+.admin-status {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	color: rgba(232, 213, 163, 0.6);
+	text-align: center;
+}
+
+.admin-status.error {
+	color: #e05555;
+}
+
+.admin-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+}
+
+.admin-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 20px 16px;
+	background: var(--btn-bg);
+	border: 1px solid var(--btn-border);
+	border-radius: 6px;
+}
+
+.admin-card-value {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-size: 32px;
+	color: var(--gold);
+}
+
+.admin-card-label {
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	color: rgba(232, 213, 163, 0.6);
+	text-align: center;
+}
+
+.admin-wishlist-edit {
+	display: flex;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.admin-wishlist-edit input {
+	width: 100px;
+	background: rgba(13, 11, 10, 0.5);
+	border: 1px solid var(--btn-border);
+	border-radius: 4px;
+	color: var(--gold);
+	padding: 6px 8px;
+	font-family: "Crimson Text", serif;
+}
+
+.admin-note {
+	font-family: "Crimson Text", serif;
+	font-style: italic;
+	font-size: 13px;
+	color: rgba(232, 213, 163, 0.5);
+	text-align: center;
+	margin: 0;
+}
