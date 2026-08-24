@@ -12,8 +12,10 @@ import LegalPage from "./pages/LegalPage";
 import RouteError from "./pages/RouteError";
 import ShowDecks from "./pages/ShowDecks";
 import DeckBuilder from "./pages/DeckBuilder";
+import Admin from "./pages/Admin";
 
 import AuthRequire from "./helper/AuthRequire";
+import AdminRequire from "./helper/AdminRequire";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
 import "./fonts.css";
@@ -58,6 +60,15 @@ const router = createBrowserRouter([
 					<AuthRequire>
 						<DeckBuilder />
 					</AuthRequire>
+				),
+			},
+			{
+				// Non listée dans la Navbar : accessible par URL directe uniquement.
+				path: "/admin",
+				element: (
+					<AdminRequire>
+						<Admin />
+					</AdminRequire>
 				),
 			},
 		],

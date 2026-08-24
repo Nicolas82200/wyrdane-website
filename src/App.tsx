@@ -6,8 +6,10 @@ import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import SiteFooter from "./components/SiteFooter";
 import { useIsMobile } from "./hooks/useIsMobile";
+import { usePageviewTracking } from "./hooks/usePageviewTracking";
 function App() {
 	const isMobile = useIsMobile();
+	usePageviewTracking();
 	// Le deck builder (/decks/new, /decks/:deckId) est une mise en page fixe
 	// plein écran (100vh, son propre défilement interne pour la grille/la
 	// sidebar) — le footer n'y a jamais sa place, il faudrait défiler pour
