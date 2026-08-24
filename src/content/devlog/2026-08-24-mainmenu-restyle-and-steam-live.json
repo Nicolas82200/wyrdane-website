@@ -1,0 +1,133 @@
+{
+	"date": "2026-08-24",
+	"title": {
+		"en": "Devlog 5: Steam page live, main menu gets a new look",
+		"fr": "Devlog 5 : la page Steam est validée, le menu principal change de visage"
+	},
+	"lede": {
+		"en": "This entry covers the week since Devlog 4: Valve validated the Steam store page, a full day went into splitting the game's largest files, and the main menu got a structural, MTGA-inspired redesign while the website's deck builder went through three attempts at a working small-screen layout.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 4 : Valve a validé la fiche Steam, une session entière est partie dans le découpage des plus gros fichiers du jeu, et le menu principal a reçu une refonte structurelle inspirée de Magic: The Gathering Arena, pendant que le deck builder du site a connu trois tentatives pour tenir sur un petit écran."
+	},
+	"stats": {
+		"en": [
+			{ "value": "5", "label": "Large scripts split into focused files" },
+			{ "value": "986 -> 615", "label": "Battle.gd line count" },
+			{ "value": "1", "label": "Steamworks page validated by Valve" },
+			{ "value": "3", "label": "Attempts at a responsive web deck builder" }
+		],
+		"fr": [
+			{ "value": "5", "label": "Gros scripts découpés en fichiers dédiés" },
+			{ "value": "986 -> 615", "label": "Lignes de Battle.gd" },
+			{ "value": "1", "label": "Fiche Steamworks validée par Valve" },
+			{ "value": "3", "label": "Tentatives pour un deck builder web responsive" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "Steam: from Valve validation to friend invites that actually work",
+				"paragraphs": [
+					"Wyrdane's Steamworks store page (AppID 5052390) has been validated by Valve: the game no longer needs the Spacewar (480) test AppID fallback for non-tester accounts, so anyone can now authenticate normally. One hiccup right after the switch: the game showed 'cannot connect to server: offline mode' despite the client using the right AppID, because the backend on the VPS was still checking Steam tickets against the old AppID 480 in its configuration, fixed server-side and confirmed working. A wishlist announcement went out manually on the game's Discord, and the companion website swapped its 'Coming soon on Steam' badge for a real clickable link to the store page, on the homepage and the Play page.",
+					"A friend-invite bug was also fixed: the Invite button called the Steam overlay without ever hosting a lobby first, so it silently did nothing unless the player had already clicked Host. It now hosts a lobby automatically if needed before opening the overlay."
+				]
+			},
+			{
+				"heading": "A more readable network lobby",
+				"paragraphs": [
+					"The network lobby's connection log, which showed a raw scrolling feed of technical internals (lobby ids, P2P connection codes, Steam personas), was replaced with a single translated status line plus a loading spinner that only reflects the current phase (searching, opponent found, syncing...) — the technical detail still goes to the console for debugging."
+				]
+			},
+			{
+				"heading": "Graveyard and remaining deck",
+				"paragraphs": [
+					"The graveyard grid moved from 6 to 4 cards per row, with cards rendered larger (LIFO order and hover zoom unchanged). The player's deck button now opens the same popup to list the cards still left to draw, sorted by mana cost — the opponent's deck button stays a cosmetic counter only."
+				]
+			},
+			{
+				"heading": "A big cleanup pass on the codebase",
+				"paragraphs": [
+					"A full session went into splitting the project's largest files apart, with zero behavior change (verified at each step by re-running the full automated test suite multiple times in a row):",
+					"`Battle.gd` (986 lines) broken up into dedicated systems — match result reporting, network session handling, input routing, race mana pool (joined `CostSystem`), board queries (joined `BoardSystem`), hero turn halo (joined `HeroSystem`) — followed by moving match-flow orchestration (start, mulligan, remote first turn) into `TurnSystem`. 986 -> 615 lines in the end, eliminating a real code duplication along the way (the match-exit sequence was copy-pasted identically in two places).",
+					"`ArenaBattle.gd` (1409 lines): all UI construction (combat banner, game-over screen, about a dozen node factories) extracted into a new `ArenaUIBuilder.gd`. 1409 -> 768 lines, plus a real compile bug caught and fixed along the way (a `:=` type-inference break caused by an untyped parameter).",
+					"`DeckBuilder.gd` (1274 lines) split into three: clipboard import/export, the stats panel (mana curve, type/race breakdown), and the filter bar. 1274 -> 868 lines.",
+					"`MainMenu.gd` (1194 lines) split into four dedicated panels (news, quests, profile, deck composition). 1194 -> 663 lines.",
+					"`BoardMinion.gd` (714 lines): status VFX construction and refresh (Taunt shield, Aegis glow, Corruption border, Frost/Infection/Terror particles) extracted into `BoardMinionStatusVFX.gd`. 714 -> 517 lines, with a second real compile bug caught and fixed (assigning a typed array through an untyped parameter)."
+				]
+			},
+			{
+				"heading": "The main menu gets a new look",
+				"paragraphs": [
+					"The week's biggest visual project: a main menu redesign inspired by Magic: The Gathering Arena's look, built through small iterations checked against a reference mockup along the way. Borders and shadows reworked across every panel for more depth, a glowing pulsing halo on the Play button, news/quest rows turned into bordered accent cards (arcane accent on the freshest news item, gold accent on a claimable quest), an active-tab indicator on the nav rail.",
+					"The most structural change came next: the Play button left the nav panel to become the centerpiece of the bottom dock (flanked by Decks and Quests, matching the mockup), with the Shop taking its old spot in the nav rail, itself narrowed to feel more like a real side rail. Several follow-up fixes landed: a flat grey background bug on idle rail buttons (a background color that was never explicitly set), the Quit button pushed to the bottom of the rail, a red claimable-quest badge on the dock, and a small 'W' crest emblem at the top of the rail.",
+					"The central info panel was then enlarged and re-centered in the free space next to the rail instead of being pinned to the screen edge, eventually absorbing the rest of the play flow that still lived elsewhere: mode and deck selection (previously cramped into the rail) moved in as two full views of their own, and the pack shop now displays directly inside it (pack opening included) instead of opening a separate full-screen overlay. Final touches: every main panel got a bit of transparency to let the animated background show through, the title/subtitle realigned to the left after the rail, and the player status block (avatar, name, currency, rank) moved from the top-right corner down into the rail, just above Quit."
+				]
+			},
+			{
+				"heading": "The website's deck builder: three attempts at a small screen",
+				"paragraphs": [
+					"The companion website's deck builder got its share of small-screen feedback: layout felt too large, too few cards visible at once, deck list too cramped. A first attempt using fixed breakpoints (1600px/1200px) to shrink cards and sidebar wasn't enough — the ask was a continuous, proportional scale of the entire page relative to a large screen, not steps. A first pass recalculating every CSS property individually (fonts, padding, gaps) ended up breaking in production (overlapping mana curve, text touching the edges) and had to be fully reverted. A second, more radical approach solved it: scaling the entire page as a single block through a CSS transform on a fixed reference canvas, guaranteeing a pixel-identical render to the full-size layout, just shrunk — only `fixed`-positioned elements (hover previews, tooltips) get the same scale factor applied separately. One last bug, an oversized Play button in the navbar despite the overall scale-down, turned out to be a specificity tie between two CSS rules — fixed with a more specific selector.",
+					"Along the way, two small website fixes: a clickable Steam link replacing the old 'coming soon' badge, and an incorrect cap on resource cards in the web deck builder (capped at owned quantity instead of unlimited, unlike the game)."
+				]
+			},
+			{
+				"heading": "Up next",
+				"paragraphs": [
+					"Still open: the Steam build, extending the Arena prototype to 8-player networking, shader-based animations, implementing the ranked matchmaking backend routes on the `wyrdane-backend` side, and continuing to grow automated test coverage."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Steam : de la validation Valve à l'invitation qui marche vraiment",
+				"paragraphs": [
+					"La fiche Steamworks de Wyrdane (AppID 5052390) a été validée par Valve : le jeu n'a plus besoin du repli sur l'AppID de test Spacewar (480) pour les comptes non-testeurs, tout le monde peut désormais s'authentifier normalement. Premier accroc juste après le changement : le jeu affichait « connexion au serveur impossible : mode hors ligne » malgré le bon AppID côté client, le backend sur le VPS vérifiait encore les tickets Steam avec l'ancien AppID 480 dans sa configuration, corrigé côté serveur, backend redémarré, confirmé fonctionnel. Une annonce a été postée manuellement sur le Discord du jeu pour inciter à ajouter Wyrdane à la wishlist Steam, et le site compagnon a remplacé son badge « Bientôt disponible sur Steam » par un vrai lien cliquable vers la fiche, en page d'accueil et sur la page Jouer.",
+					"Un bug d'invitation d'ami a aussi été corrigé : le bouton Inviter appelait l'overlay Steam sans jamais héberger de partie au préalable, donc ne faisait rien tant que le joueur n'avait pas déjà cliqué Héberger de son côté. Il crée maintenant le lobby automatiquement si besoin avant d'ouvrir l'overlay."
+				]
+			},
+			{
+				"heading": "Un lobby réseau plus lisible",
+				"paragraphs": [
+					"Le journal de connexion du lobby réseau, qui affichait un défilement brut d'identifiants techniques (id de lobby, codes de connexion P2P, pseudos Steam), a été remplacé par une simple ligne de statut traduite accompagnée d'un indicateur de chargement, qui ne reflète que la phase en cours (recherche, adversaire trouvé, synchronisation...), le détail technique reste dans la console pour le débogage."
+				]
+			},
+			{
+				"heading": "Cimetière et deck restant",
+				"paragraphs": [
+					"La grille du cimetière passe de 6 à 4 cartes par ligne, avec des cartes affichées plus grandes (l'ordre LIFO et le zoom au survol restent inchangés). Le bouton du deck du joueur ouvre désormais la même popup pour lister les cartes qu'il reste à piocher, triées par coût, celui du deck adverse reste un simple compteur cosmétique."
+				]
+			},
+			{
+				"heading": "Grand ménage dans le code",
+				"paragraphs": [
+					"Une session entière a été consacrée à découper les plus gros fichiers du projet, sans aucun changement de comportement (vérifié à chaque étape par la suite de tests complète relancée plusieurs fois de suite) :",
+					"`Battle.gd` (986 lignes) éclaté en systèmes dédiés, rapport de résultat de match, session réseau, routage des entrées clavier/souris, pool de mana par race (rejoint `CostSystem`), requêtes de plateau (rejoignent `BoardSystem`), halo de tour du héros (rejoint `HeroSystem`), puis l'orchestration du déroulé de partie (lancement, mulligan, premier tour réseau) déplacée à son tour vers `TurnSystem`. 986 → 615 lignes au final, avec au passage une vraie duplication de code éliminée (la séquence de sortie de partie était copiée-collée à l'identique à deux endroits).",
+					"`ArenaBattle.gd` (1409 lignes) : toute la construction d'interface (bannière de combat, écran de fin, une dizaine de fabriques de nœuds) extraite dans un nouveau `ArenaUIBuilder.gd`. 1409 → 768 lignes, et un vrai bug de compilation trouvé et corrigé au passage (inférence de type `:=` cassée par un paramètre non typé).",
+					"`DeckBuilder.gd` (1274 lignes) découpé en trois : import/export presse-papier, panneau de statistiques (courbe de mana, répartition type/race), et barre de filtres. 1274 → 868 lignes.",
+					"`MainMenu.gd` (1194 lignes) découpé en quatre panneaux dédiés (actualités, quêtes, profil, composition de deck). 1194 → 663 lignes.",
+					"`BoardMinion.gd` (714 lignes) : construction et rafraîchissement des effets visuels de statut (bouclier Rempart, lueur Égide, bordure Corruption, particules Gel/Infection/Terreur) extraits dans `BoardMinionStatusVFX.gd`. 714 → 517 lignes, avec un second vrai bug de compilation trouvé et corrigé (affectation d'un tableau typé à travers un paramètre non typé)."
+				]
+			},
+			{
+				"heading": "Le menu principal change de visage",
+				"paragraphs": [
+					"Le plus gros chantier visuel de la semaine : une refonte du menu principal inspirée de l'esthétique Magic: The Gathering Arena, menée par petites itérations validées au fur et à mesure sur une maquette de référence. Bordures et ombres retravaillées sur tous les panneaux pour plus de profondeur, halo lumineux pulsant sur le bouton Jouer, lignes d'actualités/quêtes transformées en cartes à accent bordé (accent arcane sur la dernière actu, accent doré sur une quête réclamable), indicateur d'onglet actif sur la barre de navigation.",
+					"Le changement le plus structurel est venu ensuite : le bouton Jouer a quitté le panneau de navigation pour devenir la pièce centrale du dock en bas de l'écran (flanqué de Decks et Quêtes, comme sur la maquette), la Boutique prenant son ancienne place dans la barre de navigation, elle-même resserrée pour ressembler à un vrai rail latéral. Plusieurs ajustements de détail ont suivi : correction d'un bug de fond gris plat sur les boutons du rail au repos (une propriété de couleur de fond jamais définie explicitement), bouton Quitter repoussé en bas du rail, badge rouge de quête réclamable sur le dock, emblème « W » en haut du rail.",
+					"Le panneau d'information central a ensuite été agrandi et recentré dans l'espace libre à côté du rail plutôt que collé au bord de l'écran, pour finalement absorber tout le flux de jeu qui vivait encore ailleurs : le choix de mode et de deck (auparavant à l'étroit dans le rail) y a emménagé comme deux nouvelles vues à part entière, et la boutique de packs s'y affiche maintenant directement (ouverture de packs comprise) au lieu d'ouvrir un écran séparé par-dessus tout. Derniers réglages : tous les panneaux principaux légèrement transparents pour laisser deviner le fond animé derrière, titre/sous-titre réalignés à gauche après le rail, et le bloc de statut du joueur (avatar, pseudo, monnaie, rang) déplacé du coin supérieur droit vers le bas du rail, juste au-dessus de Quitter."
+				]
+			},
+			{
+				"heading": "Le deck builder du site : trois tentatives pour un petit écran",
+				"paragraphs": [
+					"Le deck builder du site compagnon a reçu son lot de retours sur écran plus petit : mise en page jugée trop grande, peu de cartes visibles, liste de deck trop réduite. Un premier essai à base de paliers fixes (breakpoints à 1600px/1200px) a été jugé insuffisant, le joueur voulait une mise à l'échelle continue et proportionnelle de toute la page par rapport à un grand écran. Une première version par recalcul CSS de chaque propriété individuellement (polices, marges, écarts) a fini par casser en prod (chevauchements dans la courbe de mana, texte collé aux bords) et a dû être intégralement annulée. Une deuxième approche, plus radicale, a résolu le problème : mettre à l'échelle la page entière en un seul bloc via une transformation CSS sur un canevas fixe de référence, garantissant un rendu pixel-identique au grand écran, juste réduit, seuls les éléments positionnés en `fixed` (aperçus au survol, tooltips) reçoivent le même facteur séparément. Un dernier bug de bouton « Jouer » trop grand dans la barre de navigation, malgré la réduction générale, s'est révélé être un problème de priorité entre deux règles CSS de même spécificité, corrigé avec un sélecteur plus précis.",
+					"Au passage, deux petits correctifs côté site : un lien Steam cliquable remplaçant l'ancien badge « bientôt disponible », et une limite erronée sur les cartes-ressource dans le deck builder web (plafonnées au nombre possédé au lieu d'être illimitées, contrairement au jeu)."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"Restent ouverts : le build Steam, l'extension du prototype Arena au réseau à huit joueurs, les animations en shaders, l'implémentation des routes backend de matchmaking classé côté `wyrdane-backend`, et l'élargissement continu de la couverture de tests automatisés."
+				]
+			}
+		]
+	}
+}
