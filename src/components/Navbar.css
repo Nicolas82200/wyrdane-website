@@ -67,6 +67,80 @@
 	text-decoration: none;
 }
 
+.navbar-account {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	margin-left: 4.5px;
+}
+
+.navbar-account-name {
+	font-family: "Crimson Text", serif;
+	font-size: 12px;
+	color: var(--gold);
+	white-space: nowrap;
+}
+
+.navbar-logout {
+	background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.navbar-modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.6);
+	padding: 18px;
+}
+
+.navbar-modal {
+	max-width: 360px;
+	width: 100%;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 28px 24px;
+	text-align: center;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.navbar-modal p {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.85);
+	margin: 0 0 20px;
+}
+
+.navbar-modal-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.navbar-modal-close {
+	background: none;
+	border: none;
+	color: rgba(232, 213, 163, 0.6);
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	cursor: pointer;
+	padding: 4px;
+	transition: color 0.15s ease;
+}
+
+.navbar-modal-close:hover {
+	color: var(--gold-bright);
+}
+
 .navbar-socials {
 	margin-left: 4.5px;
 	gap: 9px;
@@ -178,6 +252,13 @@
 	}
 
 	.navbar-cta {
+		margin: 9px 18px 15px;
+	}
+
+	.navbar-account {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 6px;
 		margin: 9px 18px 15px;
 	}
 
