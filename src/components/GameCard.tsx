@@ -166,6 +166,7 @@ export default function GameCard({ card }: { card: CardData }) {
 	const raceCost = computeRaceCost(cost, card.rarity);
 	const genericCost = cost - raceCost;
 	const isMinion = card.card_type === "Serviteur";
+	const isResource = card.card_type === "Ressource";
 
 	const raceColor = RACE_COLORS[card.race] ?? "rgba(0, 0, 0, 0.75)";
 	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
@@ -224,16 +225,20 @@ export default function GameCard({ card }: { card: CardData }) {
 			>
 				{translateCardText(card.name, language)}
 			</div>
-			{genericCost > 0 && <div className="gamecard-generic-cost">{genericCost}</div>}
-			<div
-				className="gamecard-cost"
-				style={{
-					background: withAlpha(raceColor, 0.9),
-					borderColor: withAlpha(raceColor, 0.9),
-				}}
-			>
-				{raceCost}
-			</div>
+			{!isResource && genericCost > 0 && (
+				<div className="gamecard-generic-cost">{genericCost}</div>
+			)}
+			{!isResource && (
+				<div
+					className="gamecard-cost"
+					style={{
+						background: withAlpha(raceColor, 0.9),
+						borderColor: withAlpha(raceColor, 0.9),
+					}}
+				>
+					{raceCost}
+				</div>
+			)}
 			<div
 				className="gamecard-desc"
 				style={{ background: raceColor, top: descTop, height: descHeight }}

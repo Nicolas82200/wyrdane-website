@@ -53,29 +53,17 @@
 	font-family: "CrimsonTextCard", serif;
 }
 
-/* Scrollbars sombres assorties au thème (grille, liste du deck, sidebar) */
+/* Barres de défilement masquées (grille, liste du deck, sidebar) : le
+   défilement reste possible (molette/tactile/clavier), seule la barre
+   visuelle disparaît - une barre à peine visible sur des zones qui ne
+   défilent presque jamais faisait plus tache qu'autre chose. */
 .deckbuilder * {
-	scrollbar-width: thin;
-	scrollbar-color: rgba(140, 105, 20, 0.7) rgba(20, 16, 12, 0.9);
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 .deckbuilder ::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
-}
-
-.deckbuilder ::-webkit-scrollbar-track {
-	background: rgba(20, 16, 12, 0.9);
-}
-
-.deckbuilder ::-webkit-scrollbar-thumb {
-	background: rgba(140, 105, 20, 0.7);
-	border-radius: 5px;
-	border: 2px solid rgba(20, 16, 12, 0.9);
-}
-
-.deckbuilder ::-webkit-scrollbar-thumb:hover {
-	background: rgb(199, 148, 26);
+	display: none;
 }
 
 /* ─── Header ─────────────────────────────────────────────────────────────── */
