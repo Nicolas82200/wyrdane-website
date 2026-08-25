@@ -948,7 +948,9 @@ export default function DeckBuilder() {
 								>
 									{hover.locked
 										? t.cardLocked
-										: t.cardMaxed}
+										: ownedQty(hover.card) < MAX_COPIES
+											? t.cardMaxedOwned
+											: t.cardMaxed}
 								</div>
 							)}
 							{hoverTooltips.length > 0 && (

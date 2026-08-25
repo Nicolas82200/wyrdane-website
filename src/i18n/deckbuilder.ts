@@ -58,6 +58,7 @@ export const DECKBUILDER_CONTENT = {
 
 		cardLocked: "Card not unlocked",
 		cardMaxed: "Maximum number of copies reached",
+		cardMaxedOwned: "You've used all the copies you own of this card",
 
 		exportTitle: "Deck code",
 		exportText:
@@ -136,6 +137,7 @@ export const DECKBUILDER_CONTENT = {
 
 		cardLocked: "Carte non débloquée",
 		cardMaxed: "Nombre d'exemplaires maximum atteint",
+		cardMaxedOwned: "Tu as déjà mis tous tes exemplaires possédés de cette carte dans le deck",
 
 		exportTitle: "Code du deck",
 		exportText:
