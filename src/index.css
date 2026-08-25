@@ -119,3 +119,27 @@ h3 {
 	border-color: var(--gold-pressed);
 	color: var(--gold-bright);
 }
+
+/* Fond assombri plein écran affiché pendant qu'une popup de connexion Steam
+   est ouverte (voir useSteamLoginPopup) : la popup elle-même est une vraie
+   fenêtre du navigateur, impossible à styliser, donc on donne au moins un
+   retour visuel sur la page qui l'a ouverte plutôt que de la laisser inerte.
+   Classe globale (plutôt que dupliquée par composant) car utilisée à la fois
+   par Navbar et AuthPanel. */
+.steam-login-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 30;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.6);
+	padding: 18px;
+	text-align: center;
+}
+
+.steam-login-overlay p {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	color: var(--gold-bright);
+}
