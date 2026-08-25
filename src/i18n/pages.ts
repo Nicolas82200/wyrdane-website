@@ -13,6 +13,7 @@ export type PagesContent = {
 		title: string;
 		steamLogin: string;
 		steamLoginError: string;
+		steamLoginPending: string;
 	};
 	news: {
 		title: string;
@@ -39,6 +40,7 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 			title: "Log in",
 			steamLogin: "Log in with Steam",
 			steamLoginError: "Steam login failed or was cancelled. Please try again.",
+			steamLoginPending: "Log in with Steam in the window that just opened…",
 		},
 		news: {
 			title: "News",
@@ -63,6 +65,7 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 			title: "Connectez-vous",
 			steamLogin: "Se connecter avec Steam",
 			steamLoginError: "La connexion Steam a échoué ou a été annulée. Réessaie.",
+			steamLoginPending: "Connecte-toi avec Steam dans la fenêtre qui vient de s'ouvrir…",
 		},
 		news: {
 			title: "Actualités",

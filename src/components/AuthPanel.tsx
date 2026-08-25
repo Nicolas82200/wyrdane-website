@@ -19,7 +19,7 @@ const AuthPanel = ({ onCancel, onSuccess }: AuthPanelProps) => {
 	const t = PAGES_CONTENT[language].auth;
 	const [error, setError] = useState(false);
 
-	const openSteamLogin = useSteamLoginPopup((success) => {
+	const { open: openSteamLogin, isOpen } = useSteamLoginPopup((success) => {
 		if (success) onSuccess?.();
 		else setError(true);
 	});
@@ -42,6 +42,12 @@ const AuthPanel = ({ onCancel, onSuccess }: AuthPanelProps) => {
 			<button type="button" className="btn btn-primary" onClick={handleSteamLogin}>
 				{t.steamLogin}
 			</button>
+
+			{isOpen && (
+				<div className="steam-login-overlay">
+					<p>{t.steamLoginPending}</p>
+				</div>
+			)}
 		</div>
 	);
 };
