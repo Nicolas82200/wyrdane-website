@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import mainMenu from "./assets/mainMemu.mp4";
 import mobileBackground from "./assets/site/menu-bg-mobile.jpg";
+import FirstLoginRewardPopup from "./components/FirstLoginRewardPopup";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import SiteFooter from "./components/SiteFooter";
@@ -30,6 +31,7 @@ function App() {
 
 			<ScrollToTop />
 			<Navbar />
+			<FirstLoginRewardPopup />
 
 			<main className="page-content">
 				<Outlet />
