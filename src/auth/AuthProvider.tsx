@@ -9,6 +9,7 @@ import { AuthContext, type AuthStatus, type AuthUser } from "./authContext";
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [status, setStatus] = useState<AuthStatus>("checking");
 	const [user, setUser] = useState<AuthUser | null>(null);
+	const [firstLoginReward, setFirstLoginReward] = useState<number | null>(null);
 
 	function verify() {
 		api
@@ -21,8 +22,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				api.post("/api/collection/claim-starter").catch(() => {});
 				// Idem pour la quête cachée de première connexion Steam (500 or, voir
 				// currencyModel.claimFirstLoginReward) : idempotent côté backend, même
-				// appel que le client Godot.
-				api.post("/api/currency/claim-first-login-bonus").catch(() => {});
+				// appel que le client Godot. `credited` ne vaut true qu'au tout premier
+				// appel réussi (backend, pas client) : sert de déclencheur au popup de
+				// bienvenue plutôt qu'un état posé côté client qui pourrait se
+				// déclencher à tort sur un rechargement de page.
+				api
+					.post("/api/currency/claim-first-login-bonus")
+					.then((rewardRes) => {
+						// typeof check plutôt que juste `credited` : tolère un backend pas
+						// encore à jour où `amount` n'existe pas encore dans la réponse
+						// (voir currencyController.claimFirstLoginRewardHandler) sans jamais
+						// afficher un popup avec un montant corrompu/undefined.
+						if (rewardRes.data?.credited && typeof rewardRes.data.amount === "number") {
+							setFirstLoginReward(rewardRes.data.amount);
+						}
+					})
+					.catch(() => {});
 				setUser((res.data?.users as AuthUser | undefined) ?? null);
 				setStatus("authed");
 			})
@@ -48,8 +63,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	function dismissFirstLoginReward() {
+		setFirstLoginReward(null);
+	}
+
 	return (
-		<AuthContext.Provider value={{ status, user, recheck, logout }}>
+		<AuthContext.Provider
+			value={{ status, user, recheck, logout, firstLoginReward, dismissFirstLoginReward }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
