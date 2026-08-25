@@ -201,6 +201,17 @@ export default function DeckBuilder() {
 		return (deck.get(card.id) ?? 0) >= maxCopiesOf(card);
 	}
 
+	// Badge "encore ajoutables / possédées" affiché sur chaque carte du
+	// catalogue. Pour les cartes-ressource (illimitées en deck, voir
+	// maxCopiesOf), le numérateur serait toujours infini lui aussi et
+	// n'apporterait rien : on montre plutôt le nombre déjà en deck sur "∞"
+	// pour signaler l'absence de plafond sans un "∞/∞" redondant.
+	function ownedBadge(card: CardData): string {
+		const inDeck = deck.get(card.id) ?? 0;
+		if (card.card_type === "Ressource") return `${inDeck}/∞`;
+		return `${maxCopiesOf(card) - inDeck}/${ownedQty(card)}`;
+	}
+
 	// ─── Filtres / tri (DeckBuilder._match_filters / _sort_cards) ───────────
 
 	const races = useMemo(
@@ -686,9 +697,7 @@ export default function DeckBuilder() {
 									>
 										<GameCard card={card} />
 									</div>
-									<span className="db-card-owned-badge">
-										{(deck.get(card.id) ?? 0)}/{ownedQty(card)}
-									</span>
+									<span className="db-card-owned-badge">{ownedBadge(card)}</span>
 									{canBuy && (
 										<button
 											type="button"
