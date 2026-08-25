@@ -10,6 +10,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [status, setStatus] = useState<AuthStatus>("checking");
 	const [user, setUser] = useState<AuthUser | null>(null);
 	const [firstLoginReward, setFirstLoginReward] = useState<number | null>(null);
+	const [balance, setBalance] = useState<number | null>(null);
+
+	function refreshBalance() {
+		api
+			.get("/api/currency/balance")
+			.then((res) => setBalance((res.data?.balance as number | undefined) ?? null))
+			.catch(() => {});
+	}
 
 	function verify() {
 		api
@@ -25,7 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				// appel que le client Godot. `credited` ne vaut true qu'au tout premier
 				// appel réussi (backend, pas client) : sert de déclencheur au popup de
 				// bienvenue plutôt qu'un état posé côté client qui pourrait se
-				// déclencher à tort sur un rechargement de page.
+				// déclencher à tort sur un rechargement de page. Le solde est rechargé
+				// une fois cet appel réglé (`finally`), qu'il ait crédité ou non, plutôt
+				// que de deviner le montant final côté client.
 				api
 					.post("/api/currency/claim-first-login-bonus")
 					.then((rewardRes) => {
@@ -37,12 +47,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 							setFirstLoginReward(rewardRes.data.amount);
 						}
 					})
-					.catch(() => {});
+					.catch(() => {})
+					.finally(refreshBalance);
 				setUser((res.data?.users as AuthUser | undefined) ?? null);
 				setStatus("authed");
 			})
 			.catch(() => {
 				setUser(null);
+				setBalance(null);
 				setStatus("anon");
 			});
 	}
@@ -59,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			await api.get("/api/auth/logout");
 		} finally {
 			setUser(null);
+			setBalance(null);
 			setStatus("anon");
 		}
 	}
@@ -69,7 +82,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ status, user, recheck, logout, firstLoginReward, dismissFirstLoginReward }}
+			value={{
+				status,
+				user,
+				recheck,
+				logout,
+				firstLoginReward,
+				dismissFirstLoginReward,
+				balance,
+				refreshBalance,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

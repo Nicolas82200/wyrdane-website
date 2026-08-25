@@ -8,6 +8,7 @@ import gameCards from "../data/gameCards.json";
 import { KEYWORDS, KEYWORD_BY_NAME } from "../data/keywords";
 import { computeRaceCost } from "../helper/costSystem";
 import { makeUniqueDeckName } from "../helper/deckNames";
+import { useAuth } from "../auth/useAuth";
 import "./DeckBuilder.css";
 
 // Mêmes règles que le deck builder du jeu (scripts/deck/DeckBuilder.gd) :
@@ -73,6 +74,7 @@ export default function DeckBuilder() {
 	const navigate = useNavigate();
 	const { deckId } = useParams<{ deckId: string }>();
 	const isEditing = Boolean(deckId);
+	const { refreshBalance } = useAuth();
 
 	const [cards, setCards] = useState<CardData[]>([]);
 	const [owned, setOwned] = useState<Map<number, number>>(new Map());
@@ -382,6 +384,9 @@ export default function DeckBuilder() {
 			);
 			setOwned((prev) => new Map(prev).set(card.id, res.data.quantity));
 			setBalance(res.data.balance);
+			// Garde le solde affiché dans la navbar synchronisé plutôt que de le
+			// laisser se périmer jusqu'au prochain rechargement de page.
+			refreshBalance();
 		} catch (err) {
 			console.error(err);
 			setBuyError(card.id);

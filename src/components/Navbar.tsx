@@ -17,7 +17,7 @@ const Navbar = () => {
 	const { language, setLanguage } = useLanguage();
 	const t = COMMON[language];
 	const authT = PAGES_CONTENT[language].auth;
-	const { status, user, recheck, logout } = useAuth();
+	const { status, user, recheck, logout, balance } = useAuth();
 	const navigate = useNavigate();
 
 	const { open: openLogin, isOpen: loginPopupOpen } = useSteamLoginPopup((success) => {
@@ -154,6 +154,11 @@ const Navbar = () => {
 					{status === "authed" && (
 						<div className="navbar-account">
 							<span className="navbar-account-name">{user?.name}</span>
+							{balance !== null && (
+								<span className="navbar-account-balance" title={t.navBalance}>
+									◈ {balance}
+								</span>
+							)}
 							<button
 								type="button"
 								className="navbar-link navbar-logout"
