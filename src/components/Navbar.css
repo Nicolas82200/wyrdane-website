@@ -81,6 +81,14 @@
 	white-space: nowrap;
 }
 
+.navbar-account-balance {
+	font-family: "Crimson Text", serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--gold-bright);
+	white-space: nowrap;
+}
+
 .navbar-logout {
 	background: none;
 	border: none;
