@@ -259,15 +259,28 @@ export default function DeckBuilder() {
 		[cards],
 	);
 
+	// Cherche/trie sur le nom affiché (traduit) plutôt que le seul nom FR brut,
+	// pour que le tri "Nom" soit vraiment alphabétique dans la langue courante
+	// et que la recherche trouve une carte par son nom anglais quand le site
+	// est en anglais ("Bottomless Pit Ritual" par ex., pas seulement son nom
+	// FR). Le texte FR reste aussi cherchable dans les deux langues (union),
+	// plutôt que de perdre la recherche FR une fois le site basculé en anglais.
+	function displayName(card: CardData): string {
+		return translateCardText(card.name, language);
+	}
+
 	const filteredCards = useMemo(() => {
 		const needle = search.trim().toLowerCase();
 		let result = cards.filter((card) => {
-			if (
-				needle &&
-				!card.name.toLowerCase().includes(needle) &&
-				!(card.effect ?? "").toLowerCase().includes(needle)
-			)
-				return false;
+			if (needle) {
+				const haystacks = [
+					card.name,
+					card.effect ?? "",
+					translateCardText(card.name, language),
+					translateCardText(card.effect ?? "", language),
+				];
+				if (!haystacks.some((h) => h.toLowerCase().includes(needle))) return false;
+			}
 			if (raceFilter && card.race !== raceFilter) return false;
 			if (typeFilter && card.card_type !== typeFilter) return false;
 			if (rarityFilter && (card.rarity ?? "") !== rarityFilter) return false;
@@ -283,19 +296,19 @@ export default function DeckBuilder() {
 			result = [...result].sort((a, b) => {
 				if (sortMode === "cost") {
 					const diff = Number(a.cost ?? 0) - Number(b.cost ?? 0);
-					return diff !== 0 ? diff : a.name.localeCompare(b.name);
+					return diff !== 0 ? diff : displayName(a).localeCompare(displayName(b));
 				}
 				if (sortMode === "rarity") {
 					const diff =
 						RARITY_ORDER.indexOf(a.rarity ?? "") - RARITY_ORDER.indexOf(b.rarity ?? "");
-					return diff !== 0 ? diff : a.name.localeCompare(b.name);
+					return diff !== 0 ? diff : displayName(a).localeCompare(displayName(b));
 				}
-				return a.name.localeCompare(b.name);
+				return displayName(a).localeCompare(displayName(b));
 			});
 		}
 		return result;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [cards, owned, search, raceFilter, typeFilter, rarityFilter, costFilter, keywordFilter, hideLocked, sortMode]);
+	}, [cards, owned, search, raceFilter, typeFilter, rarityFilter, costFilter, keywordFilter, hideLocked, sortMode, language]);
 
 	// ─── Contenu du deck ─────────────────────────────────────────────────────
 
