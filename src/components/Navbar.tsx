@@ -6,6 +6,7 @@ import { COMMON } from "../i18n/common";
 import { PAGES_CONTENT } from "../i18n/pages";
 import { useAuth } from "../auth/useAuth";
 import { useSteamLoginPopup } from "../auth/useSteamLoginPopup";
+import Portal from "./Portal";
 import SocialLinks from "./SocialLinks";
 import "./Navbar.css";
 
@@ -181,43 +182,47 @@ const Navbar = () => {
 			</div>
 
 			{deckGateOpen && (
-				<div
-					className="navbar-modal-overlay"
-					onClick={() => !deckLoginPopupOpen && setDeckGateOpen(false)}
-				>
-					<div className="navbar-modal" onClick={(e) => e.stopPropagation()}>
-						{deckLoginPopupOpen ? (
-							<p>{authT.steamLoginPending}</p>
-						) : (
-							<>
-								<p>{t.navDecksLoginRequired}</p>
-								{loginError && <p className="modal-error">{authT.steamLoginError}</p>}
-								<div className="navbar-modal-actions">
-									<button
-										type="button"
-										className="btn btn-primary"
-										onClick={() => openLoginForDecks()}
-									>
-										{authT.steamLogin}
-									</button>
-									<button
-										type="button"
-										className="navbar-modal-close"
-										onClick={() => setDeckGateOpen(false)}
-									>
-										{t.navModalClose}
-									</button>
-								</div>
-							</>
-						)}
+				<Portal>
+					<div
+						className="navbar-modal-overlay"
+						onClick={() => !deckLoginPopupOpen && setDeckGateOpen(false)}
+					>
+						<div className="navbar-modal" onClick={(e) => e.stopPropagation()}>
+							{deckLoginPopupOpen ? (
+								<p>{authT.steamLoginPending}</p>
+							) : (
+								<>
+									<p>{t.navDecksLoginRequired}</p>
+									{loginError && <p className="modal-error">{authT.steamLoginError}</p>}
+									<div className="navbar-modal-actions">
+										<button
+											type="button"
+											className="btn btn-primary"
+											onClick={() => openLoginForDecks()}
+										>
+											{authT.steamLogin}
+										</button>
+										<button
+											type="button"
+											className="navbar-modal-close"
+											onClick={() => setDeckGateOpen(false)}
+										>
+											{t.navModalClose}
+										</button>
+									</div>
+								</>
+							)}
+						</div>
 					</div>
-				</div>
+				</Portal>
 			)}
 
 			{loginPopupOpen && (
-				<div className="steam-login-overlay">
-					<p>{authT.steamLoginPending}</p>
-				</div>
+				<Portal>
+					<div className="steam-login-overlay">
+						<p>{authT.steamLoginPending}</p>
+					</div>
+				</Portal>
 			)}
 		</header>
 	);
