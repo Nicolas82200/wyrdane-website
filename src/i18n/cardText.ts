@@ -14,11 +14,21 @@ import type { Language } from "./language";
 // backend, pas dans le jeu lui-même. Ajoutés à la main plutôt que par la
 // régénération automatique - à tenir à jour si une race de deck de départ
 // est ajoutée/renommée côté backend.
+// Deux effets de carte Démon (Banshee des Abysses, Cercle de Corruption)
+// n'ont pas de correspondance dans game.csv à cause d'une casse différente
+// entre le texte réel de la carte ("Inflige"/"Éveil : Inflige") et l'entrée
+// du CSV ("inflige"/"éveil : inflige", en minuscule) : la table est une
+// correspondance exacte, donc la recherche échouait silencieusement pour ces
+// deux-là. Ajoutées à la main avec la casse réelle de la carte.
 const EXTRA_TRANSLATIONS: Record<string, string> = {
 	"Deck de départ — Mort-Vivant": "Starter Deck — Undead",
 	"Deck de départ — Humain": "Starter Deck — Human",
 	"Deck de départ — Démon": "Starter Deck — Demon",
 	"Deck de départ — Abomination": "Starter Deck — Abomination",
+	"Arrivée : Inflige Corruption à un serviteur ennemi ciblé.":
+		"Arrival: Inflict Corruption on target enemy minion.",
+	"Éveil : Inflige Corruption à un serviteur ennemi aléatoire.":
+		"Awakening: Inflict Corruption on a random enemy minion.",
 };
 
 const TRANSLATIONS: Record<string, string> = {
