@@ -246,6 +246,22 @@
 	pointer-events: none;
 }
 
+.db-card-owned-badge {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	z-index: 5;
+	padding: 2px 7px;
+	font-size: 12px;
+	font-weight: 600;
+	font-family: inherit;
+	color: #e8d5a3;
+	background: rgba(15, 13, 10, 0.85);
+	border: 1px solid rgb(140, 105, 20);
+	border-radius: 999px;
+	pointer-events: none;
+}
+
 .db-buy-btn {
 	position: absolute;
 	left: 4px;

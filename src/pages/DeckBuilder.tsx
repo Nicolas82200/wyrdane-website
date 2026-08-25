@@ -652,6 +652,11 @@ export default function DeckBuilder() {
 							const maxed = isMaxed(card);
 							const locked = isLocked(card);
 							const price = CARD_PRICE_BY_RARITY[card.rarity ?? ""] ?? 0;
+							// Achetable tant qu'on n'a pas les 4 exemplaires, pas seulement
+							// quand on n'en a aucun (`locked`) : sinon le bouton disparaissait
+							// après le tout premier achat, bloquant l'achat des copies 2 a 4.
+							const canBuy =
+								card.card_type !== "Ressource" && price > 0 && ownedQty(card) < MAX_COPIES;
 							return (
 								<div
 									key={card.id}
@@ -676,7 +681,10 @@ export default function DeckBuilder() {
 									>
 										<GameCard card={card} />
 									</div>
-									{locked && card.card_type !== "Ressource" && price > 0 && (
+									<span className="db-card-owned-badge">
+										{(deck.get(card.id) ?? 0)}/{ownedQty(card)}
+									</span>
+									{canBuy && (
 										<button
 											type="button"
 											className="db-buy-btn"
