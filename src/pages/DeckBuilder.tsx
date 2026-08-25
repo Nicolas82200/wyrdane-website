@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { useBlocker, useNavigate, useParams } from "react-router-dom";
+import { useBlocker, useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "../api";
 import type { CardData } from "../types";
 import GameCard from "../components/GameCard";
@@ -85,6 +85,12 @@ function base64ToUtf8(code: string): string | null {
 export default function DeckBuilder() {
 	const navigate = useNavigate();
 	const { deckId } = useParams<{ deckId: string }>();
+	// Ouvre directement la boîte d'import quand on arrive via le bouton
+	// "Importer" de ShowDecks.tsx (state de navigation plutôt qu'une route
+	// /decks/import dédiée, qui n'existait pas et matchait par erreur
+	// /decks/:deckId avec deckId="import").
+	const location = useLocation();
+	const openImportOnLoad = Boolean((location.state as { openImport?: boolean } | null)?.openImport);
 	const isEditing = Boolean(deckId);
 	const { refreshBalance } = useAuth();
 	const { language } = useLanguage();
@@ -146,7 +152,7 @@ export default function DeckBuilder() {
 	const [buyError, setBuyError] = useState<number | null>(null);
 
 	const [exportCode, setExportCode] = useState<string | null>(null);
-	const [importOpen, setImportOpen] = useState(false);
+	const [importOpen, setImportOpen] = useState(openImportOnLoad);
 	const [importText, setImportText] = useState("");
 	const [importError, setImportError] = useState(false);
 
