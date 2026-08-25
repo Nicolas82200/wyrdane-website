@@ -58,9 +58,20 @@ body,
 	}
 }
 
+/* Barre de défilement grise du navigateur masquée sur tout le site (le
+   défilement vertical reste possible, molette/tactile/clavier) - même
+   traitement que .deckbuilder (DeckBuilder.css), mais ici au niveau global
+   puisque la barre par défaut du navigateur, jamais stylée, tranchait avec
+   le reste du thème sur les pages qui défilent réellement (Home, etc.). */
 html {
 	scroll-snap-type: y proximity;
 	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+	display: none;
 }
 
 h1,
