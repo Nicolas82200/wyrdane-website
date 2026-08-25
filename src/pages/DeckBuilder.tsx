@@ -6,6 +6,7 @@ import GameCard from "../components/GameCard";
 import { CARD_WIDTH, CARD_HEIGHT } from "../components/cardMetrics";
 import gameCards from "../data/gameCards.json";
 import { KEYWORDS, KEYWORD_BY_NAME } from "../data/keywords";
+import { TRIGGER_BY_NAME_LOWER, type TriggerInfo } from "../data/triggers";
 import { computeRaceCost } from "../helper/costSystem";
 import { makeUniqueDeckName } from "../helper/deckNames";
 import { useLanguage } from "../i18n/useLanguage";
@@ -53,6 +54,26 @@ type HoverState = {
 
 function cardKeywords(card: CardData): string[] {
 	return GAME_CARDS[card.name]?.keywords ?? [];
+}
+
+// Même détection que GameCard.tsx (TRIGGER_LINE_RE) pour repérer le
+// déclencheur en tête de ligne d'effet ("Dernier souffle : ...") : on ne
+// duplique pas le regex complet ici, un match plus simple suffit puisqu'on
+// ne garde que les libellés reconnus dans TRIGGER_BY_NAME_LOWER.
+function cardTriggers(card: CardData): TriggerInfo[] {
+	if (!card.effect) return [];
+	const seen = new Set<string>();
+	const result: TriggerInfo[] = [];
+	for (const line of card.effect.split("\n")) {
+		const m = line.match(/^([^:]{2,40}):\s*/);
+		if (!m) continue;
+		const trigger = TRIGGER_BY_NAME_LOWER.get(m[1].trim().toLowerCase());
+		if (trigger && !seen.has(trigger.name)) {
+			seen.add(trigger.name);
+			result.push(trigger);
+		}
+	}
+	return result;
 }
 
 // "Demon" (valeur brute FR sans accent, utilisée comme clé) s'affiche
@@ -424,9 +445,12 @@ export default function DeckBuilder() {
 		}
 	}
 
-	// skipNavigate : appelé depuis la popup de confirmation de sortie, où la
-	// navigation déjà en attente (blocker) doit reprendre via blocker.proceed()
-	// plutôt qu'un nouvel appel à navigate().
+	// La sauvegarde ne quitte plus le deck builder : seul le bouton "Retour"
+	// (ou la popup de modifications non sauvegardées, via skipNavigate) fait
+	// sortir de l'édition. Pour un nouveau deck, on remplace juste l'URL
+	// /decks/new par /decks/<id> une fois créé (sans navigation visible,
+	// replace: true) pour que les sauvegardes suivantes deviennent des PUT
+	// plutôt que de recréer un deck en double à chaque clic.
 	async function handleSave(opts: { skipNavigate?: boolean } = {}): Promise<boolean> {
 		if (!deckName.trim()) {
 			setSaveError(t.nameYourDeck);
@@ -450,11 +474,20 @@ export default function DeckBuilder() {
 				name: finalName,
 				entries: deckEntries.map((e) => ({ cardId: e.card.id, quantity: e.quantity })),
 			};
-			if (isEditing) await api.put(`/api/decks/${deckId}`, payload);
-			else await api.post("/api/decks", payload);
+			let newDeckId: number | null = null;
+			if (isEditing) {
+				await api.put(`/api/decks/${deckId}`, payload);
+			} else {
+				const res = await api.post<{ id: number }>("/api/decks", payload);
+				newDeckId = res.data.id;
+			}
 			setDeckName(finalName);
+			// Avant navigate() : useBlocker se déclenche tant que dirty est vrai,
+			// il intercepterait sinon ce changement d'URL programmatique et
+			// rouvrirait aussitôt la popup "modifications non sauvegardées" juste
+			// après une sauvegarde réussie.
 			setDirty(false);
-			if (!opts.skipNavigate) navigate("/decks");
+			if (newDeckId !== null && !opts.skipNavigate) navigate(`/decks/${newDeckId}`, { replace: true });
 			return true;
 		} catch (err) {
 			console.error(err);
@@ -557,6 +590,15 @@ export default function DeckBuilder() {
 				.map((name) => KEYWORD_BY_NAME.get(name))
 				.filter((k): k is NonNullable<typeof k> => Boolean(k))
 		: [];
+	// Les triggers (déclencheurs) sont ajoutés à la suite des mots-clés dans le
+	// même tooltip de survol. Un trigger dont le nom coïncide avec un mot-clé
+	// déjà listé (ex. "Assaut", mot-clé ET déclencheur, même texte des deux
+	// côtés dans game.csv) est ignoré pour ne pas afficher deux fois la même
+	// info.
+	const hoverTriggers = hover
+		? cardTriggers(hover.card).filter((tr) => !hoverKeywords.some((k) => k.name === tr.name))
+		: [];
+	const hoverTooltips = [...hoverKeywords, ...hoverTriggers];
 
 	return (
 		<div className="deckbuilder-scale-outer">
@@ -896,7 +938,7 @@ export default function DeckBuilder() {
 										: t.cardMaxed}
 								</div>
 							)}
-							{hoverKeywords.length > 0 && (
+							{hoverTooltips.length > 0 && (
 								<div
 									className="db-keyword-tooltips"
 									style={{
@@ -904,8 +946,8 @@ export default function DeckBuilder() {
 										top: y,
 									}}
 								>
-									{hoverKeywords.map((k) => (
-										<div className="db-keyword-tooltip" key={k.name}>
+									{hoverTooltips.map((k, i) => (
+										<div className="db-keyword-tooltip" key={`${k.name}-${i}`}>
 											<strong>{translateCardText(k.name, language)}</strong>
 											<span>{translateCardText(k.description, language)}</span>
 										</div>
