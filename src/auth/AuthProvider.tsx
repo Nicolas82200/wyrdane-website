@@ -29,7 +29,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				api
 					.post("/api/currency/claim-first-login-bonus")
 					.then((rewardRes) => {
-						if (rewardRes.data?.credited) setFirstLoginReward(rewardRes.data.amount);
+						// typeof check plutôt que juste `credited` : tolère un backend pas
+						// encore à jour où `amount` n'existe pas encore dans la réponse
+						// (voir currencyController.claimFirstLoginRewardHandler) sans jamais
+						// afficher un popup avec un montant corrompu/undefined.
+						if (rewardRes.data?.credited && typeof rewardRes.data.amount === "number") {
+							setFirstLoginReward(rewardRes.data.amount);
+						}
 					})
 					.catch(() => {});
 				setUser((res.data?.users as AuthUser | undefined) ?? null);
