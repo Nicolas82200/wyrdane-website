@@ -1,4 +1,9 @@
-#root {
+/* Anciennement scopées sur #root : les popups montées via un portail
+   directement sous <body> (Navbar, AuthPanel, FirstLoginRewardPopup - voir
+   Portal.tsx) sont en dehors de #root et n'héritaient plus de ces variables,
+   d'où un rendu texte transparent/illisible. :root (l'élément <html>)
+   couvre toute la page sans exception. */
+:root {
 	--gold: rgb(232, 213, 163);
 	--gold-bright: rgb(255, 245, 214);
 	--gold-pressed: rgb(240, 192, 64);
