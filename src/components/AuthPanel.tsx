@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { PAGES_CONTENT } from "../i18n/pages";
 import { useSteamLoginPopup } from "../auth/useSteamLoginPopup";
+import Portal from "./Portal";
 
 import "./AuthPanel.css";
 
@@ -44,9 +45,11 @@ const AuthPanel = ({ onCancel, onSuccess }: AuthPanelProps) => {
 			</button>
 
 			{isOpen && (
-				<div className="steam-login-overlay">
-					<p>{t.steamLoginPending}</p>
-				</div>
+				<Portal>
+					<div className="steam-login-overlay">
+						<p>{t.steamLoginPending}</p>
+					</div>
+				</Portal>
 			)}
 		</div>
 	);
