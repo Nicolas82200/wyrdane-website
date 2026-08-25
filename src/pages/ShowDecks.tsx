@@ -127,7 +127,12 @@ const DeckList = () => {
 					<button
 						type="button"
 						className="btn"
-						onClick={() => navigate("/decks/import")}
+						// /decks/import n'est pas une route : elle matchait par erreur
+						// /decks/:deckId avec deckId="import" et plantait au chargement.
+						// Le deck builder a déjà sa propre boîte d'import (DeckBuilder.tsx,
+						// state importOpen) - on l'ouvre directement en arrivant via un
+						// state de navigation plutôt que d'inventer une route dédiée.
+						onClick={() => navigate("/decks/new", { state: { openImport: true } })}
 					>
 						{t.importBtn}
 					</button>
