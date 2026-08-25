@@ -14,6 +14,9 @@ export const COMMON = {
 		firstLoginRewardTitle: "Welcome to Wyrdane!",
 		firstLoginRewardText: "Here's {amount} gold for your very first login.",
 		firstLoginRewardClaim: "Claim",
+		deckBuilderMobileTitle: "Desktop only, for now",
+		deckBuilderMobileText:
+			"The deck builder isn't adapted to small screens yet. Come back on a computer to build and manage your decks.",
 		footerTagline: "Wyrdane, a dark fantasy card game in development.",
 		footerLegalNotice: "Legal Notice",
 		footerTerms: "Terms of Use",
@@ -34,6 +37,9 @@ export const COMMON = {
 		firstLoginRewardTitle: "Bienvenue sur Wyrdane !",
 		firstLoginRewardText: "Voici {amount} pièces d'or pour ta toute première connexion.",
 		firstLoginRewardClaim: "Récupérer",
+		deckBuilderMobileTitle: "Disponible sur ordinateur uniquement",
+		deckBuilderMobileText:
+			"Le deck builder n'est pas encore adapté aux petits écrans. Reviens depuis un ordinateur pour composer et gérer tes decks.",
 		footerTagline: "Wyrdane, jeu de cartes dark fantasy en développement.",
 		footerLegalNotice: "Mentions légales",
 		footerTerms: "CGU",

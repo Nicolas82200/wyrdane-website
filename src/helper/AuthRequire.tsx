@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 import { useAuth } from "../auth/useAuth";
+import { useIsMobile } from "../hooks/useIsMobile";
+import DeckBuilderMobileNotice from "../components/DeckBuilderMobileNotice";
 
 interface AuthRequireProps {
 	children: ReactNode;
@@ -14,6 +16,12 @@ interface AuthRequireProps {
 // renvoyé à l'accueil.
 const AuthRequire = ({ children }: AuthRequireProps) => {
 	const { status } = useAuth();
+	const isMobile = useIsMobile();
+
+	// Le deck builder n'est pas praticable sur petit écran : vérifié avant
+	// même l'état de connexion, ça ne sert à rien de demander une session
+	// pour afficher un contenu qu'on va de toute façon remplacer.
+	if (isMobile) return <DeckBuilderMobileNotice />;
 
 	// Tant qu'on n'a pas la réponse, on n'affiche pas le contenu protégé
 	// (sinon il "flasherait" avant la redirection).
