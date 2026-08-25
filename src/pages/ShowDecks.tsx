@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import api from "../api";
+import { useLanguage } from "../i18n/useLanguage";
+import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
+import { translateCardText } from "../i18n/cardText";
 import "./ShowDecks.css";
 
 type DeckCard = {
@@ -32,6 +35,8 @@ type DeckWithCards = {
 
 const DeckList = () => {
 	const navigate = useNavigate();
+	const { language } = useLanguage();
+	const t = DECKBUILDER_CONTENT[language];
 	const [decks, setDecks] = useState<DeckWithCards[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
@@ -40,15 +45,14 @@ const DeckList = () => {
 		api
 			.get<DeckWithCards[]>("/api/decks")
 			.then((res) => {
-				console.log(res.data);
-				console.log(Array.isArray(res.data));
 				setDecks(res.data);
 			})
 			.catch((err) => {
 				console.error(err);
-				setError("Impossible de charger vos decks");
+				setError(t.loadDecksError);
 			})
 			.finally(() => setLoading(false));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const totalCards = (deck: DeckWithCards) =>
@@ -60,29 +64,25 @@ const DeckList = () => {
 			setDecks((prev) => prev.filter((deck) => deck.id !== deckId));
 		} catch (err) {
 			console.error(err);
-			setError("Impossible de supprimer ce deck");
+			setError(t.deleteDeckError);
 		}
 	}
 
 	return (
 		<div className="decklist">
 			<div className="decklist-panel">
-				<h1>Mes Decks</h1>
-				<p className="decklist-subtitle">
-					Choisis le deck qui t'accompagnera au combat
-				</p>
+				<h1>{t.decksTitle}</h1>
+				<p className="decklist-subtitle">{t.decksSubtitle}</p>
 
 				<hr className="decklist-sep" />
 
 				<div className="decklist-scroll">
-					{loading && <p className="decklist-status">Chargement...</p>}
+					{loading && <p className="decklist-status">{t.loading}</p>}
 					{!loading && error && (
 						<p className="decklist-status error">{error}</p>
 					)}
 					{!loading && !error && decks.length === 0 && (
-						<p className="decklist-status">
-							Aucun deck pour l'instant. Crée ton premier deck !
-						</p>
+						<p className="decklist-status">{t.emptyState}</p>
 					)}
 
 					{!loading &&
@@ -95,16 +95,16 @@ const DeckList = () => {
 									className="deck-item"
 									onClick={() => navigate(`/decks/${deck.id}`)}
 								>
-									<span className="deck-item-name">{deck.name}</span>
+									<span className="deck-item-name">{translateCardText(deck.name, language)}</span>
 									<span className="deck-item-count">
-										{totalCards(deck)} cartes
+										{t.cardsCount.replace("{n}", String(totalCards(deck)))}
 									</span>
 								</button>
 								<button
 									type="button"
 									className="btn btn-icon"
 									onClick={() => removeFromDeckList(deck.id)}
-									title={`Retirer ${deck.name}`}
+									title={t.removeDeckTitle.replace("{name}", translateCardText(deck.name, language))}
 								>
 									🗑
 								</button>
@@ -116,21 +116,26 @@ const DeckList = () => {
 
 				<div className="decklist-buttons">
 					<button type="button" className="btn" onClick={() => navigate("/")}>
-						← Retour
+						{t.back}
 					</button>
 					<button
 						type="button"
 						className="btn btn-primary"
 						onClick={() => navigate("/decks/new")}
 					>
-						+ Nouveau Deck
+						{t.newDeck}
 					</button>
 					<button
 						type="button"
 						className="btn"
-						onClick={() => navigate("/decks/import")}
+						// /decks/import n'est pas une route : elle matchait par erreur
+						// /decks/:deckId avec deckId="import" et plantait au chargement.
+						// Le deck builder a déjà sa propre boîte d'import (DeckBuilder.tsx,
+						// state importOpen) - on l'ouvre directement en arrivant via un
+						// state de navigation plutôt que d'inventer une route dédiée.
+						onClick={() => navigate("/decks/new", { state: { openImport: true } })}
 					>
-						Importer
+						{t.importBtn}
 					</button>
 				</div>
 			</div>
