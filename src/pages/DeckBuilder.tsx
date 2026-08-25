@@ -445,9 +445,12 @@ export default function DeckBuilder() {
 		}
 	}
 
-	// skipNavigate : appelé depuis la popup de confirmation de sortie, où la
-	// navigation déjà en attente (blocker) doit reprendre via blocker.proceed()
-	// plutôt qu'un nouvel appel à navigate().
+	// La sauvegarde ne quitte plus le deck builder : seul le bouton "Retour"
+	// (ou la popup de modifications non sauvegardées, via skipNavigate) fait
+	// sortir de l'édition. Pour un nouveau deck, on remplace juste l'URL
+	// /decks/new par /decks/<id> une fois créé (sans navigation visible,
+	// replace: true) pour que les sauvegardes suivantes deviennent des PUT
+	// plutôt que de recréer un deck en double à chaque clic.
 	async function handleSave(opts: { skipNavigate?: boolean } = {}): Promise<boolean> {
 		if (!deckName.trim()) {
 			setSaveError(t.nameYourDeck);
@@ -471,11 +474,20 @@ export default function DeckBuilder() {
 				name: finalName,
 				entries: deckEntries.map((e) => ({ cardId: e.card.id, quantity: e.quantity })),
 			};
-			if (isEditing) await api.put(`/api/decks/${deckId}`, payload);
-			else await api.post("/api/decks", payload);
+			let newDeckId: number | null = null;
+			if (isEditing) {
+				await api.put(`/api/decks/${deckId}`, payload);
+			} else {
+				const res = await api.post<{ id: number }>("/api/decks", payload);
+				newDeckId = res.data.id;
+			}
 			setDeckName(finalName);
+			// Avant navigate() : useBlocker se déclenche tant que dirty est vrai,
+			// il intercepterait sinon ce changement d'URL programmatique et
+			// rouvrirait aussitôt la popup "modifications non sauvegardées" juste
+			// après une sauvegarde réussie.
 			setDirty(false);
-			if (!opts.skipNavigate) navigate("/decks");
+			if (newDeckId !== null && !opts.skipNavigate) navigate(`/decks/${newDeckId}`, { replace: true });
 			return true;
 		} catch (err) {
 			console.error(err);
