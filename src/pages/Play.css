@@ -62,6 +62,16 @@
 	margin-top: 8px;
 }
 
+/* .btn n'impose pas display: la balise <a> reste "inline" par défaut et
+   ignore alors min-height/centrage vertical (même correctif que
+   .hero-actions .btn dans Home.css pour le même problème). */
+.play-nav .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+}
+
 .play-back-link {
 	margin-top: 4px;
 	text-align: center;

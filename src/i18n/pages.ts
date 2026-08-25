@@ -28,9 +28,9 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 	en: {
 		play: {
 			title: "WYRDANE",
-			steamSoonTitle: "Coming soon on Steam",
+			steamSoonTitle: "Wishlist Wyrdane on Steam",
 			steamSoonText:
-				"Wyrdane isn't available on Steam yet, but the store page is live. Wishlist it to know the moment it launches.",
+				"The game is still in development and isn't playable yet, but its Steam page is live right now. Wishlist it to be notified the moment it launches.",
 			steamLink: "View the Steam page",
 			backHome: "← Back to home",
 		},
@@ -52,9 +52,9 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 	fr: {
 		play: {
 			title: "WYRDANE",
-			steamSoonTitle: "Bientôt disponible sur Steam",
+			steamSoonTitle: "Ajoute Wyrdane à ta liste de souhaits Steam",
 			steamSoonText:
-				"Wyrdane n'est pas encore disponible sur Steam, mais la page boutique est en ligne. Ajoute-le à ta liste de souhaits pour être prévenu dès la sortie.",
+				"Le jeu est encore en développement et n'est pas encore jouable, mais sa page Steam est en ligne dès maintenant. Ajoute-le à ta liste de souhaits pour être prévenu dès la sortie.",
 			steamLink: "Voir la page Steam",
 			backHome: "← Retour à l'accueil",
 		},
