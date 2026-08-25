@@ -1,0 +1,50 @@
+.deck-mobile-notice {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	width: 100%;
+	padding: 24px;
+	box-sizing: border-box;
+}
+
+.deck-mobile-notice-panel {
+	width: 100%;
+	max-width: 420px;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 36px 28px;
+	text-align: center;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.deck-mobile-notice-panel h1 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-weight: 700;
+	font-size: 26px;
+	letter-spacing: 0.02em;
+	color: var(--gold);
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	margin: 0 0 16px;
+}
+
+.deck-mobile-notice-panel p {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.8);
+	margin: 0 0 24px;
+}
+
+.deck-mobile-notice-back {
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	color: rgba(232, 213, 163, 0.6);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+
+.deck-mobile-notice-back:hover {
+	color: var(--gold-bright);
+}
