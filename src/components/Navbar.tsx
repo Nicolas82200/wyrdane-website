@@ -129,6 +129,27 @@ const Navbar = () => {
 						{t.navPlay}
 					</NavLink>
 
+					<div className="navbar-lang navbar-lang-desktop">
+						<button
+							type="button"
+							className={`navbar-lang-btn ${language === "en" ? "active" : ""}`}
+							onClick={() => setLanguage("en")}
+						>
+							EN
+						</button>
+						<span className="navbar-lang-sep">/</span>
+						<button
+							type="button"
+							className={`navbar-lang-btn ${language === "fr" ? "active" : ""}`}
+							onClick={() => setLanguage("fr")}
+						>
+							FR
+						</button>
+					</div>
+					<SocialLinks className="navbar-socials" />
+
+					{/* Tout à droite de la navbar : connexion Steam, ou pseudo +
+					    déconnexion une fois connecté. */}
 					{status === "authed" && (
 						<div className="navbar-account">
 							<span className="navbar-account-name">{user?.name}</span>
@@ -156,25 +177,6 @@ const Navbar = () => {
 							{authT.steamLogin}
 						</button>
 					)}
-
-					<div className="navbar-lang navbar-lang-desktop">
-						<button
-							type="button"
-							className={`navbar-lang-btn ${language === "en" ? "active" : ""}`}
-							onClick={() => setLanguage("en")}
-						>
-							EN
-						</button>
-						<span className="navbar-lang-sep">/</span>
-						<button
-							type="button"
-							className={`navbar-lang-btn ${language === "fr" ? "active" : ""}`}
-							onClick={() => setLanguage("fr")}
-						>
-							FR
-						</button>
-					</div>
-					<SocialLinks className="navbar-socials" />
 				</nav>
 			</div>
 
