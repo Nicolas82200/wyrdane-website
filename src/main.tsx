@@ -17,13 +17,11 @@ import Admin from "./pages/Admin";
 import AuthRequire from "./helper/AuthRequire";
 import AdminRequire from "./helper/AdminRequire";
 import { LanguageProvider } from "./i18n/LanguageContext";
+import { AuthProvider } from "./auth/AuthProvider";
 
 import "./fonts.css";
 import "./index.css";
 
-// Deck builder routes (/decks, /decks/new, /decks/:deckId) are reachable by
-// direct URL only for now (private testing) — intentionally not linked from
-// Navbar or anywhere else on the site.
 const router = createBrowserRouter([
 	{
 		element: <App />,
@@ -78,7 +76,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<LanguageProvider>
-			<RouterProvider router={router} />
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
 		</LanguageProvider>
 	</React.StrictMode>,
 );

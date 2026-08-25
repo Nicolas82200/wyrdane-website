@@ -1,15 +1,48 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, type MouseEvent } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { useLanguage } from "../i18n/useLanguage";
 import { COMMON } from "../i18n/common";
+import { PAGES_CONTENT } from "../i18n/pages";
+import { useAuth } from "../auth/useAuth";
+import { useSteamLoginPopup } from "../auth/useSteamLoginPopup";
 import SocialLinks from "./SocialLinks";
 import "./Navbar.css";
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
+	const [deckGateOpen, setDeckGateOpen] = useState(false);
+	const [loginError, setLoginError] = useState(false);
 	const { language, setLanguage } = useLanguage();
 	const t = COMMON[language];
+	const authT = PAGES_CONTENT[language].auth;
+	const { status, user, recheck, logout } = useAuth();
+	const navigate = useNavigate();
+
+	const openLogin = useSteamLoginPopup((success) => {
+		if (success) {
+			setLoginError(false);
+			recheck();
+		} else {
+			setLoginError(true);
+		}
+	});
+
+	// Popup dédiée quand la connexion est déclenchée depuis le lien "Mes
+	// decks" pour un visiteur non connecté : une fois réussie, on referme le
+	// panneau et on part directement sur /decks plutôt que de laisser
+	// l'utilisateur recliquer sur le lien.
+	const openLoginForDecks = useSteamLoginPopup((success) => {
+		if (success) {
+			setLoginError(false);
+			recheck();
+			setDeckGateOpen(false);
+			setOpen(false);
+			navigate("/decks");
+		} else {
+			setLoginError(true);
+		}
+	});
 
 	const links = [
 		{ to: "/", label: t.navHome, end: true },
@@ -17,6 +50,16 @@ const Navbar = () => {
 		{ to: "/dev-log", label: t.navDevLog, end: false },
 		{ to: "/contact", label: t.navContact, end: false },
 	];
+
+	function handleMyDecksClick(e: MouseEvent) {
+		if (status !== "authed") {
+			e.preventDefault();
+			setLoginError(false);
+			setDeckGateOpen(true);
+			return;
+		}
+		setOpen(false);
+	}
 
 	return (
 		<header className="navbar">
@@ -72,12 +115,48 @@ const Navbar = () => {
 						</NavLink>
 					))}
 					<NavLink
+						to="/decks"
+						className={({ isActive }) => `navbar-link ${isActive ? "active" : ""}`}
+						onClick={handleMyDecksClick}
+					>
+						{t.navMyDecks}
+					</NavLink>
+					<NavLink
 						to="/play"
 						className="btn btn-primary navbar-cta"
 						onClick={() => setOpen(false)}
 					>
 						{t.navPlay}
 					</NavLink>
+
+					{status === "authed" && (
+						<div className="navbar-account">
+							<span className="navbar-account-name">{user?.name}</span>
+							<button
+								type="button"
+								className="navbar-link navbar-logout"
+								onClick={() => {
+									logout();
+									setOpen(false);
+								}}
+							>
+								{t.navLogout}
+							</button>
+						</div>
+					)}
+					{status === "anon" && (
+						<button
+							type="button"
+							className="btn btn-primary navbar-cta navbar-login"
+							onClick={() => {
+								setLoginError(false);
+								openLogin();
+							}}
+						>
+							{authT.steamLogin}
+						</button>
+					)}
+
 					<div className="navbar-lang navbar-lang-desktop">
 						<button
 							type="button"
@@ -98,6 +177,27 @@ const Navbar = () => {
 					<SocialLinks className="navbar-socials" />
 				</nav>
 			</div>
+
+			{deckGateOpen && (
+				<div className="navbar-modal-overlay" onClick={() => setDeckGateOpen(false)}>
+					<div className="navbar-modal" onClick={(e) => e.stopPropagation()}>
+						<p>{t.navDecksLoginRequired}</p>
+						{loginError && <p className="modal-error">{authT.steamLoginError}</p>}
+						<div className="navbar-modal-actions">
+							<button type="button" className="btn btn-primary" onClick={() => openLoginForDecks()}>
+								{authT.steamLogin}
+							</button>
+							<button
+								type="button"
+								className="navbar-modal-close"
+								onClick={() => setDeckGateOpen(false)}
+							>
+								{t.navModalClose}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</header>
 	);
 };
