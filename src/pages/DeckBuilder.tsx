@@ -8,6 +8,10 @@ import gameCards from "../data/gameCards.json";
 import { KEYWORDS, KEYWORD_BY_NAME } from "../data/keywords";
 import { computeRaceCost } from "../helper/costSystem";
 import { makeUniqueDeckName } from "../helper/deckNames";
+import { useLanguage } from "../i18n/useLanguage";
+import { translateCardText } from "../i18n/cardText";
+import type { Language } from "../i18n/language";
+import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
 import { useAuth } from "../auth/useAuth";
 import "./DeckBuilder.css";
 
@@ -51,6 +55,14 @@ function cardKeywords(card: CardData): string[] {
 	return GAME_CARDS[card.name]?.keywords ?? [];
 }
 
+// "Demon" (valeur brute FR sans accent, utilisée comme clé) s'affiche
+// "Démon" en français ; en anglais, translateCardText le résout normalement
+// ("Demon" -> "Demon", "Mort-Vivant" -> "Undead"...).
+function raceLabel(race: string, language: Language): string {
+	if (language === "en") return translateCardText(race, language);
+	return race === "Demon" ? "Démon" : race;
+}
+
 function utf8ToBase64(text: string): string {
 	const bytes = new TextEncoder().encode(text);
 	let binary = "";
@@ -75,12 +87,19 @@ export default function DeckBuilder() {
 	const { deckId } = useParams<{ deckId: string }>();
 	const isEditing = Boolean(deckId);
 	const { refreshBalance } = useAuth();
+	const { language } = useLanguage();
+	const t = DECKBUILDER_CONTENT[language];
 
 	const [cards, setCards] = useState<CardData[]>([]);
 	const [owned, setOwned] = useState<Map<number, number>>(new Map());
 	const [balance, setBalance] = useState<number>(0);
 	const [loading, setLoading] = useState(true);
-	const [fetchError, setFetchError] = useState<string | null>(null);
+	// "deck"/"cards" plutôt que le message déjà traduit : calculé au rendu
+	// (via `t`) pour rester à jour si la langue change pendant que l'erreur
+	// est affichée, sans provoquer un rechargement des cartes pour autant
+	// (voir le useEffect ci-dessous, dont le tableau de dépendances ne doit
+	// pas inclure `t`/`language`).
+	const [fetchFailed, setFetchFailed] = useState<"deck" | "cards" | null>(null);
 	const [saving, setSaving] = useState(false);
 	const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -136,7 +155,7 @@ export default function DeckBuilder() {
 
 		async function load() {
 			setLoading(true);
-			setFetchError(null);
+			setFetchFailed(null);
 			try {
 				const [cardsRes, collectionRes, balanceRes, decksRes] = await Promise.all([
 					api.get<CardData[]>("/api/cards"),
@@ -164,13 +183,7 @@ export default function DeckBuilder() {
 				}
 			} catch (err) {
 				console.error(err);
-				if (!cancelled) {
-					setFetchError(
-						deckId
-							? "Impossible de charger ce deck."
-							: "Impossible de charger les cartes depuis la base Wyrdane.",
-					);
-				}
+				if (!cancelled) setFetchFailed(deckId ? "deck" : "cards");
 			} finally {
 				if (!cancelled) setLoading(false);
 			}
@@ -319,22 +332,20 @@ export default function DeckBuilder() {
 		maxRaceCost.forEach((needed, race) => {
 			const have = resourceCounts.get(race) ?? 0;
 			if (have < needed) {
-				const label = race === "Demon" ? "Démon" : race;
+				const label = raceLabel(race, language);
 				warnings.push(
-					`Il manque des cartes-ressource : ajoutez au moins ${needed} carte(s)-ressource de ${label} pour pouvoir jouer vos cartes de cette race.`,
+					t.raceMissingWarning.replace("{needed}", String(needed)).replace("{race}", label),
 				);
 			}
 		});
 		resourceRacePresent.forEach((race) => {
 			if (!playableRacePresent.has(race)) {
-				const label = race === "Demon" ? "Démon" : race;
-				warnings.push(
-					`Vous avez des cartes-ressource de ${label} mais aucune carte de cette race dans le deck.`,
-				);
+				const label = raceLabel(race, language);
+				warnings.push(t.raceOrphanWarning.replace("{race}", label));
 			}
 		});
 		return warnings;
-	}, [deckEntries]);
+	}, [deckEntries, language, t]);
 
 	const canSave = countsOk && raceWarnings.length === 0;
 
@@ -412,17 +423,17 @@ export default function DeckBuilder() {
 	// plutôt qu'un nouvel appel à navigate().
 	async function handleSave(opts: { skipNavigate?: boolean } = {}): Promise<boolean> {
 		if (!deckName.trim()) {
-			setSaveError("Merci de nommer votre deck.");
+			setSaveError(t.nameYourDeck);
 			return false;
 		}
 		if (!countsOk) {
 			setSaveError(
-				`Le deck doit contenir au moins ${MIN_CARDS} cartes jouables et ${MIN_RESOURCE_CARDS} cartes-ressource.`,
+				t.minCountsError.replace("{min}", String(MIN_CARDS)).replace("{minRes}", String(MIN_RESOURCE_CARDS)),
 			);
 			return false;
 		}
 		if (raceWarnings.length > 0) {
-			setSaveError("Corrigez les avertissements de ressources de race avant de sauvegarder.");
+			setSaveError(t.fixRaceWarnings);
 			return false;
 		}
 		setSaving(true);
@@ -441,7 +452,7 @@ export default function DeckBuilder() {
 			return true;
 		} catch (err) {
 			console.error(err);
-			setSaveError("Erreur lors de la sauvegarde du deck.");
+			setSaveError(t.saveGenericError);
 			return false;
 		} finally {
 			setSaving(false);
@@ -451,7 +462,7 @@ export default function DeckBuilder() {
 	// ─── Export / Import : même code base64 que DeckData.to_code/from_code ──
 
 	function handleExport() {
-		const lines = [deckName || "Nouveau Deck"];
+		const lines = [deckName || t.newDeckDefaultName];
 		deckEntries.forEach(({ card, quantity }) => {
 			const path = GAME_CARDS[card.name]?.path;
 			if (!path) return;
@@ -516,19 +527,19 @@ export default function DeckBuilder() {
 
 	// ─── Rendu ───────────────────────────────────────────────────────────────
 
-	if (loading || fetchError) {
+	if (loading || fetchFailed) {
 		return (
 			<div className="deckbuilder-scale-outer">
 				<div className="deckbuilder">
 					<header className="deckbuilder-header">
 						<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
-							← Retour
+							{t.back}
 						</button>
-						<h1>Constructeur de Deck</h1>
+						<h1>{t.titleNew}</h1>
 						<div className="deckbuilder-header-spacer" />
 					</header>
-					<div className={`deckbuilder-loading${fetchError ? " deckbuilder-error" : ""}`}>
-						{fetchError ?? "Chargement des cartes..."}
+					<div className={`deckbuilder-loading${fetchFailed ? " deckbuilder-error" : ""}`}>
+						{fetchFailed ? (fetchFailed === "deck" ? t.loadDeckError : t.loadCardsError) : t.loadingCards}
 					</div>
 				</div>
 			</div>
@@ -546,10 +557,10 @@ export default function DeckBuilder() {
 			<div className="deckbuilder">
 				<header className="deckbuilder-header">
 					<button type="button" className="db-btn" onClick={() => navigate("/decks")}>
-						← Retour
+						{t.back}
 					</button>
-					<h1>{isEditing ? "Modifier le Deck" : "Constructeur de Deck"}</h1>
-					<div className="deckbuilder-balance" title="Solde">
+					<h1>{isEditing ? t.titleEdit : t.titleNew}</h1>
+					<div className="deckbuilder-balance" title={t.balanceTitle}>
 						◈ {balance}
 					</div>
 				</header>
@@ -559,45 +570,45 @@ export default function DeckBuilder() {
 					<input
 						className="db-search"
 						type="text"
-						placeholder="🔍  Rechercher une carte..."
+						placeholder={t.searchPlaceholder}
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 					/>
 
 					<div className="db-filter-bar">
 						<div className="db-filter-item">
-							<span className="db-filter-label">Race :</span>
+							<span className="db-filter-label">{t.raceLabel}</span>
 							<div className="db-filter-group">
 								<FilterButton active={raceFilter === ""} onClick={() => setRaceFilter("")}>
-									Tous
+									{t.all}
 								</FilterButton>
 								{races.map((r) => (
 									<FilterButton key={r} active={raceFilter === r} onClick={() => setRaceFilter(r)}>
-										{r === "Demon" ? "Démon" : r}
+										{raceLabel(r, language)}
 									</FilterButton>
 								))}
 							</div>
 						</div>
 
 						<div className="db-filter-item">
-							<span className="db-filter-label">Type :</span>
+							<span className="db-filter-label">{t.typeLabel}</span>
 							<div className="db-filter-group">
 								<FilterButton active={typeFilter === ""} onClick={() => setTypeFilter("")}>
-									Tous
+									{t.all}
 								</FilterButton>
-								{TYPE_ORDER.map((t) => (
-									<FilterButton key={t} active={typeFilter === t} onClick={() => setTypeFilter(t)}>
-										{t}
+								{TYPE_ORDER.map((type) => (
+									<FilterButton key={type} active={typeFilter === type} onClick={() => setTypeFilter(type)}>
+										{translateCardText(type, language)}
 									</FilterButton>
 								))}
 							</div>
 						</div>
 
 						<div className="db-filter-item">
-							<span className="db-filter-label">Rareté :</span>
+							<span className="db-filter-label">{t.rarityLabel}</span>
 							<div className="db-filter-group">
 								<FilterButton active={rarityFilter === ""} onClick={() => setRarityFilter("")}>
-									Tous
+									{t.all}
 								</FilterButton>
 								{RARITY_ORDER.map((r) => (
 									<FilterButton
@@ -605,54 +616,54 @@ export default function DeckBuilder() {
 										active={rarityFilter === r}
 										onClick={() => setRarityFilter(r)}
 									>
-										{r}
+										{translateCardText(r, language)}
 									</FilterButton>
 								))}
 							</div>
 						</div>
 
 						<div className="db-filter-item">
-							<span className="db-filter-label">Coût :</span>
+							<span className="db-filter-label">{t.costLabel}</span>
 							<div className="db-filter-group">
 								{COST_FILTERS.map((c) => (
 									<FilterButton key={c} active={costFilter === c} onClick={() => setCostFilter(c)}>
-										{c === -1 ? "Tous" : c === 7 ? "7+" : String(c)}
+										{c === -1 ? t.all : c === 7 ? "7+" : String(c)}
 									</FilterButton>
 								))}
 							</div>
 						</div>
 
 						<FilterButton active={hideLocked} onClick={() => setHideLocked(!hideLocked)}>
-							Cacher les cartes non débloquées
+							{t.hideLocked}
 						</FilterButton>
 					</div>
 
 					<div className="db-sort-bar">
 						<div className="db-filter-item">
-							<span className="db-filter-label">Mot-clé :</span>
+							<span className="db-filter-label">{t.keywordLabel}</span>
 							<select
 								className="db-select"
 								value={keywordFilter}
 								onChange={(e) => setKeywordFilter(e.target.value)}
 							>
-								<option value="">Tous</option>
+								<option value="">{t.all}</option>
 								{KEYWORDS.map((k) => (
 									<option key={k.name} value={k.name}>
-										{k.name}
+										{translateCardText(k.name, language)}
 									</option>
 								))}
 							</select>
 						</div>
 
 						<div className="db-filter-item">
-							<span className="db-filter-label db-sort-label">Trier :</span>
+							<span className="db-filter-label db-sort-label">{t.sortLabel}</span>
 							<div className="db-filter-group">
 								{(
 									[
-										["", "Par défaut"],
-										["cost", "Coût"],
-										["name", "Nom"],
-										["rarity", "Rareté"],
+										["", t.sortDefault],
+										["cost", t.sortCost],
+										["name", t.sortName],
+										["rarity", t.sortRarity],
 									] as [SortMode, string][]
 								).map(([mode, label]) => (
 									<FilterButton key={mode} active={sortMode === mode} onClick={() => setSortMode(mode)}>
@@ -708,16 +719,14 @@ export default function DeckBuilder() {
 												buyCard(card);
 											}}
 										>
-											{buyError === card.id
-												? "Achat impossible (solde insuffisant ou erreur réseau)."
-												: `Acheter (${price})`}
+											{buyError === card.id ? t.buyError : t.buyLabel.replace("{price}", String(price))}
 										</button>
 									)}
 								</div>
 							);
 						})}
 						{filteredCards.length === 0 && (
-							<p className="db-catalog-empty">Aucune carte ne correspond à ces filtres.</p>
+							<p className="db-catalog-empty">{t.noResults}</p>
 						)}
 					</div>
 				</section>
@@ -726,7 +735,7 @@ export default function DeckBuilder() {
 					<input
 						className="db-deck-name"
 						type="text"
-						placeholder="Nom du deck..."
+						placeholder={t.deckNamePlaceholder}
 						value={deckName}
 						onChange={(e) => {
 							setDeckName(e.target.value);
@@ -736,10 +745,10 @@ export default function DeckBuilder() {
 
 					<div className={`db-count-label${countsOk ? " ok" : " ko"}`}>
 						<div>
-							{playableCount} cartes jouables (min {MIN_CARDS})
+							{t.playableCount.replace("{n}", String(playableCount)).replace("{min}", String(MIN_CARDS))}
 						</div>
 						<div>
-							{resourceCount} cartes-ressource (min {MIN_RESOURCE_CARDS})
+							{t.resourceCount.replace("{n}", String(resourceCount)).replace("{min}", String(MIN_RESOURCE_CARDS))}
 						</div>
 					</div>
 
@@ -752,7 +761,7 @@ export default function DeckBuilder() {
 					)}
 
 					<div className="db-deck-list">
-						{deckEntries.length === 0 && <p className="db-deck-empty">Aucune carte ajoutée.</p>}
+						{deckEntries.length === 0 && <p className="db-deck-empty">{t.noCardsInDeck}</p>}
 						{deckEntries.map(({ card, quantity }) => (
 							<div
 								className="db-deck-row"
@@ -772,7 +781,7 @@ export default function DeckBuilder() {
 								onMouseLeave={() => setHover(null)}
 							>
 								<span className="db-deck-row-cost">{card.cost ?? 0}</span>
-								<span className="db-deck-row-name">{card.name}</span>
+								<span className="db-deck-row-name">{translateCardText(card.name, language)}</span>
 								<span className="db-deck-row-qty">x{quantity}</span>
 								<button
 									type="button"
@@ -781,7 +790,7 @@ export default function DeckBuilder() {
 										e.stopPropagation();
 										removeAll(card.id);
 									}}
-									title={`Retirer toutes les copies de ${card.name}`}
+									title={t.removeAllTitle.replace("{name}", translateCardText(card.name, language))}
 								>
 									✕
 								</button>
@@ -791,7 +800,7 @@ export default function DeckBuilder() {
 
 					{stats.total > 0 && (
 						<div className="db-stats">
-							<div className="db-stats-title">Courbe de mana</div>
+							<div className="db-stats-title">{t.manaCurve}</div>
 							<div className="db-curve">
 								{stats.curve.map((count, i) => {
 									const max = Math.max(1, ...stats.curve);
@@ -807,19 +816,19 @@ export default function DeckBuilder() {
 									);
 								})}
 							</div>
-							<div className="db-stats-avg">Coût moyen : {stats.avg.toFixed(1)}</div>
-							<div className="db-stats-title">Répartition</div>
+							<div className="db-stats-avg">{t.avgCost.replace("{avg}", stats.avg.toFixed(1))}</div>
+							<div className="db-stats-title">{t.distribution}</div>
 							<div className="db-chips">
-								{TYPE_ORDER.filter((t) => stats.typeCounts.has(t)).map((t) => (
-									<span className="db-chip" key={t}>
-										{t} : {stats.typeCounts.get(t)}
+								{TYPE_ORDER.filter((type) => stats.typeCounts.has(type)).map((type) => (
+									<span className="db-chip" key={type}>
+										{translateCardText(type, language)} : {stats.typeCounts.get(type)}
 									</span>
 								))}
 							</div>
 							<div className="db-chips">
 								{Array.from(stats.raceCounts.entries()).map(([race, count]) => (
 									<span className="db-chip" key={race}>
-										{race === "Demon" ? "Démon" : race} : {count}
+										{raceLabel(race, language)} : {count}
 									</span>
 								))}
 							</div>
@@ -828,7 +837,7 @@ export default function DeckBuilder() {
 
 					<div className="db-sidebar-actions">
 						<button type="button" className="db-btn" onClick={handleExport}>
-							Exporter
+							{t.exportBtn}
 						</button>
 						<button
 							type="button"
@@ -838,7 +847,7 @@ export default function DeckBuilder() {
 								setImportError(false);
 							}}
 						>
-							Importer
+							{t.importBtn}
 						</button>
 					</div>
 
@@ -850,7 +859,7 @@ export default function DeckBuilder() {
 						onClick={() => handleSave()}
 						disabled={saving || !dirty || !canSave}
 					>
-						{saving ? "Sauvegarde..." : "Sauvegarder le deck"}
+						{saving ? t.saving : t.saveDeck}
 					</button>
 				</aside>
 			</div>
@@ -877,8 +886,8 @@ export default function DeckBuilder() {
 									}}
 								>
 									{hover.locked
-										? "Carte non débloquée"
-										: "Nombre d'exemplaires maximum atteint"}
+										? t.cardLocked
+										: t.cardMaxed}
 								</div>
 							)}
 							{hoverKeywords.length > 0 && (
@@ -891,8 +900,8 @@ export default function DeckBuilder() {
 								>
 									{hoverKeywords.map((k) => (
 										<div className="db-keyword-tooltip" key={k.name}>
-											<strong>{k.name}</strong>
-											<span>{k.description}</span>
+											<strong>{translateCardText(k.name, language)}</strong>
+											<span>{translateCardText(k.description, language)}</span>
 										</div>
 									))}
 								</div>
@@ -901,7 +910,7 @@ export default function DeckBuilder() {
 								className="db-race-tooltip"
 								style={{ left: x + pw / 2, top: Math.min(y + ph + 4, window.innerHeight - 30) }}
 							>
-								{hover.card.race === "Demon" ? "Démon" : hover.card.race}
+								{raceLabel(hover.card.race, language)}
 							</div>
 						</div>
 					);
@@ -910,14 +919,13 @@ export default function DeckBuilder() {
 			{exportCode !== null && (
 				<div className="db-dialog-backdrop" onClick={() => setExportCode(null)}>
 					<div className="db-dialog" onClick={(e) => e.stopPropagation()}>
-						<h2>Code du deck</h2>
+						<h2>{t.exportTitle}</h2>
 						<p>
-							Code copié dans le presse-papiers. Partage-le pour que quelqu'un d'autre importe ce
-							deck (site web ou jeu).
+							{t.exportText}
 						</p>
 						<textarea readOnly value={exportCode} rows={5} />
 						<button type="button" className="db-btn" onClick={() => setExportCode(null)}>
-							OK
+							{t.ok}
 						</button>
 					</div>
 				</div>
@@ -926,15 +934,14 @@ export default function DeckBuilder() {
 			{blocker.state === "blocked" && (
 				<div className="db-dialog-backdrop" onClick={() => blocker.reset?.()}>
 					<div className="db-dialog" onClick={(e) => e.stopPropagation()}>
-						<h2>Modifications non sauvegardées</h2>
+						<h2>{t.unsavedTitle}</h2>
 						<p>
-							Vous quittez le constructeur de deck mais vous n'avez pas sauvegardé. Voulez-vous
-							sauvegarder ?
+							{t.unsavedText}
 						</p>
 						{saveError && <p className="db-save-error">{saveError}</p>}
 						<div className="db-dialog-actions">
 							<button type="button" className="db-btn" onClick={() => blocker.proceed?.()}>
-								Quitter sans sauvegarder
+								{t.discard}
 							</button>
 							<button
 								type="button"
@@ -945,7 +952,7 @@ export default function DeckBuilder() {
 									else blocker.reset?.();
 								}}
 							>
-								Sauvegarder
+								{t.save}
 							</button>
 						</div>
 					</div>
@@ -955,20 +962,20 @@ export default function DeckBuilder() {
 			{importOpen && (
 				<div className="db-dialog-backdrop" onClick={() => setImportOpen(false)}>
 					<div className="db-dialog" onClick={(e) => e.stopPropagation()}>
-						<h2>Importer un deck</h2>
-						<p>Colle un code de deck ci-dessous.</p>
+						<h2>{t.importTitle}</h2>
+						<p>{t.importText}</p>
 						<textarea
 							value={importText}
 							onChange={(e) => setImportText(e.target.value)}
 							rows={5}
 						/>
-						{importError && <p className="db-save-error">Code de deck invalide.</p>}
+						{importError && <p className="db-save-error">{t.invalidCode}</p>}
 						<div className="db-dialog-actions">
 							<button type="button" className="db-btn" onClick={() => setImportOpen(false)}>
-								Annuler
+								{t.cancel}
 							</button>
 							<button type="button" className="db-btn db-btn-save" onClick={handleImport}>
-								Importer
+								{t.importBtn}
 							</button>
 						</div>
 					</div>
