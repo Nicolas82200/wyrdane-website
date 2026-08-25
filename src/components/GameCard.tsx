@@ -1,6 +1,8 @@
 import { Fragment, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { API_URL } from "../api";
 import type { CardData } from "../types";
+import { useLanguage } from "../i18n/useLanguage";
+import { translateCardText } from "../i18n/cardText";
 import "./GameCard.css";
 
 import undeadBorder from "../assets/game/borders/undead-border-card.png";
@@ -89,7 +91,7 @@ function withAlpha(rgba: string, alpha: number): string {
 // ex. "VENIN MORTEL", "RANG INFERNAL") — même rendu que la carte en jeu,
 // jusque-là simple texte brut sur le site (retours à la ligne compris, voir
 // white-space: pre-line sur .gamecard-effect).
-const TRIGGER_LINE_RE = /^([^:]{2,40}) : (.*)$/;
+const TRIGGER_LINE_RE = /^([^:]{2,40}):\s*(.*)$/;
 const CAPS_WORDS_RE = /[À-ÝA-Z][À-ÝA-Z-]*(?: [À-ÝA-Z][À-ÝA-Z-]*)*/g;
 
 function boldCapsWords(line: string, keyPrefix: string): ReactNode[] {
@@ -121,7 +123,7 @@ function formatEffectText(text: string): ReactNode[] {
 		if (m) {
 			nodes.push(
 				<Fragment key={`line-${i}`}>
-					<strong>{m[1]}</strong> : {boldCapsWords(m[2], `line-${i}`)}
+					<strong>{m[1]}</strong>: {boldCapsWords(m[2], `line-${i}`)}
 				</Fragment>,
 			);
 		} else {
@@ -159,6 +161,7 @@ function measureTypeLabelWidth(text: string): number {
 }
 
 export default function GameCard({ card }: { card: CardData }) {
+	const { language } = useLanguage();
 	const cost = Number(card.cost ?? 0);
 	const raceCost = computeRaceCost(cost, card.rarity);
 	const genericCost = cost - raceCost;
@@ -171,7 +174,7 @@ export default function GameCard({ card }: { card: CardData }) {
 	const watermark = isMinion ? LANE_ICONS[card.lane ?? ""] : TYPE_ICONS[card.card_type];
 
 	// Card.gd _apply_type_style : le bandeau affiche le type, plus les charges des Rituels
-	let typeText = card.card_type;
+	let typeText = translateCardText(card.card_type, language);
 	if (card.card_type === "Rituel" && card.charges != null) {
 		if (card.charges > 0) typeText += ` • ${card.charges} charge${card.charges > 1 ? "s" : ""}`;
 		else if (card.charges === -1) typeText += " • Permanent";
@@ -219,7 +222,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				className="gamecard-name"
 				style={{ background: raceColor, height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth }}
 			>
-				{card.name}
+				{translateCardText(card.name, language)}
 			</div>
 			{genericCost > 0 && <div className="gamecard-generic-cost">{genericCost}</div>}
 			<div
@@ -235,8 +238,14 @@ export default function GameCard({ card }: { card: CardData }) {
 				className="gamecard-desc"
 				style={{ background: raceColor, top: descTop, height: descHeight }}
 			>
-				{card.effect && <div className="gamecard-effect">{formatEffectText(card.effect)}</div>}
-				{card.flavor && <div className="gamecard-flavor">{card.flavor}</div>}
+				{card.effect && (
+					<div className="gamecard-effect">
+						{formatEffectText(translateCardText(card.effect, language))}
+					</div>
+				)}
+				{card.flavor && (
+					<div className="gamecard-flavor">{translateCardText(card.flavor, language)}</div>
+				)}
 			</div>
 			<div
 				className="gamecard-type"
