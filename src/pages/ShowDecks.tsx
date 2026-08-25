@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { useLanguage } from "../i18n/useLanguage";
 import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
+import { translateCardText } from "../i18n/cardText";
 import "./ShowDecks.css";
 
 type DeckCard = {
@@ -94,7 +95,7 @@ const DeckList = () => {
 									className="deck-item"
 									onClick={() => navigate(`/decks/${deck.id}`)}
 								>
-									<span className="deck-item-name">{deck.name}</span>
+									<span className="deck-item-name">{translateCardText(deck.name, language)}</span>
 									<span className="deck-item-count">
 										{t.cardsCount.replace("{n}", String(totalCards(deck)))}
 									</span>
@@ -103,7 +104,7 @@ const DeckList = () => {
 									type="button"
 									className="btn btn-icon"
 									onClick={() => removeFromDeckList(deck.id)}
-									title={t.removeDeckTitle.replace("{name}", deck.name)}
+									title={t.removeDeckTitle.replace("{name}", translateCardText(deck.name, language))}
 								>
 									🗑
 								</button>
