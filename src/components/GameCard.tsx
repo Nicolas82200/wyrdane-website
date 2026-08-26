@@ -3,6 +3,7 @@ import { API_URL } from "../api";
 import type { CardData } from "../types";
 import { useLanguage } from "../i18n/useLanguage";
 import { translateCardText } from "../i18n/cardText";
+import { RACE_ICON_COLORS } from "../data/raceColors";
 import "./GameCard.css";
 
 import undeadBorder from "../assets/game/borders/undead-border-card.png";
@@ -32,14 +33,6 @@ const RACE_COLORS: Record<string, string> = {
 	Abomination: "rgba(2, 10, 0, 0.839)",
 	Humain: "rgba(40, 32, 12, 0.839)",
 	Demon: "rgba(30, 3, 8, 0.839)",
-};
-
-// Card.gd RACE_ICON_COLORS — teinte du filigrane central (LaneIcon/TypeIcon)
-const RACE_ICON_COLORS: Record<string, string> = {
-	"Mort-Vivant": "#bebebe",
-	Abomination: "#9bd76e",
-	Humain: "#e8c56d",
-	Demon: "#e87587",
 };
 
 // Card.gd RARITY_COLORS — couleur de fond du bandeau de type (clés = valeurs FR de la BDD)

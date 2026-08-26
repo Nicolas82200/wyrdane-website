@@ -8,6 +8,7 @@ import gameCards from "../data/gameCards.json";
 import { KEYWORDS, KEYWORD_BY_NAME } from "../data/keywords";
 import { TRIGGER_BY_NAME_LOWER, type TriggerInfo } from "../data/triggers";
 import { computeRaceCost } from "../helper/costSystem";
+import { RACE_ICON_COLORS } from "../data/raceColors";
 import { makeUniqueDeckName } from "../helper/deckNames";
 import { useLanguage } from "../i18n/useLanguage";
 import { translateCardText } from "../i18n/cardText";
@@ -312,14 +313,23 @@ export default function DeckBuilder() {
 
 	// ─── Contenu du deck ─────────────────────────────────────────────────────
 
+	// Triée par coût croissant (à égalité, par nom affiché) plutôt que dans
+	// l'ordre d'ajout : recalculée à chaque changement de deck.entries(), donc
+	// une carte ajoutée apparaît directement à sa place dans la liste au lieu
+	// d'être ajoutée en bas puis réordonnée après coup.
 	const deckEntries = useMemo(() => {
 		return Array.from(deck.entries())
 			.map(([id, quantity]) => {
 				const card = cards.find((c) => c.id === id);
 				return card ? { card, quantity } : null;
 			})
-			.filter((e): e is { card: CardData; quantity: number } => e !== null);
-	}, [deck, cards]);
+			.filter((e): e is { card: CardData; quantity: number } => e !== null)
+			.sort((a, b) => {
+				const diff = Number(a.card.cost ?? 0) - Number(b.card.cost ?? 0);
+				return diff !== 0 ? diff : displayName(a.card).localeCompare(displayName(b.card));
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [deck, cards, language]);
 
 	const playableCount = deckEntries
 		.filter((e) => e.card.card_type !== "Ressource")
@@ -856,7 +866,12 @@ export default function DeckBuilder() {
 								}
 								onMouseLeave={() => setHover(null)}
 							>
-								<span className="db-deck-row-cost">{card.cost ?? 0}</span>
+								<span
+									className="db-deck-row-cost"
+									style={{ backgroundColor: RACE_ICON_COLORS[card.race] }}
+								>
+									{card.cost ?? 0}
+								</span>
 								<span className="db-deck-row-name">{translateCardText(card.name, language)}</span>
 								<span className="db-deck-row-qty">x{quantity}</span>
 								<button
