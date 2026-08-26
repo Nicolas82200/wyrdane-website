@@ -135,6 +135,11 @@ const NAME_LABEL_MAX_GROWTH = 34;
 const DESC_LABEL_DEFAULT_TOP = 186;
 const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
 
+// Card.gd LANE_ICON_DEFAULT_TOP/BOTTOM (filigrane central) : hauteur fixe de
+// 140, recentrée sur la zone de texte par _center_lane_icon (voir plus bas).
+const LANE_ICON_DEFAULT_TOP = 176;
+const LANE_ICON_DEFAULT_BOTTOM = 316;
+
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche, entre
 // ces deux bornes, toujours centree sur TYPE_LABEL_CENTER_X.
 const TYPE_LABEL_MIN_WIDTH = 55;
@@ -190,6 +195,16 @@ export default function GameCard({ card }: { card: CardData }) {
 	const descTop = DESC_LABEL_DEFAULT_TOP + nameGrowth;
 	const descHeight = DESC_LABEL_DEFAULT_BOTTOM - descTop;
 
+	// Card.gd _center_lane_icon : le filigrane garde une hauteur fixe, seul
+	// son centre suit celui de la zone de texte (qui descend avec la
+	// croissance du nom) - jusqu'ici fixé en dur en CSS (top: 176px), donc
+	// jamais recentré sur les cartes au nom assez long pour agrandir
+	// NameLabel, ce qui pouvait le pousser hors de la zone visible/sous le
+	// bandeau de type sur certaines cartes (Incantation/Rituel/Enchantement
+	// ont souvent des noms plus longs).
+	const watermarkHeight = LANE_ICON_DEFAULT_BOTTOM - LANE_ICON_DEFAULT_TOP;
+	const watermarkTop = descTop + descHeight / 2 - watermarkHeight / 2;
+
 	const typeWidth = Math.min(
 		Math.max(measureTypeLabelWidth(typeText) + TYPE_LABEL_PADDING, TYPE_LABEL_MIN_WIDTH),
 		TYPE_LABEL_MAX_WIDTH,
@@ -205,6 +220,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				<div
 					className="gamecard-watermark"
 					style={{
+						top: watermarkTop,
 						backgroundColor: raceIconColor,
 						WebkitMaskImage: `url(${watermark})`,
 						maskImage: `url(${watermark})`,

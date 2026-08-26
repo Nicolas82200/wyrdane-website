@@ -85,7 +85,8 @@
 .gamecard-watermark {
 	position: absolute;
 	left: 47px;
-	top: 176px;
+	/* top posé dynamiquement en style inline (GameCard.tsx) : recentré sur
+	   la zone de texte, qui se décale selon la longueur du nom. */
 	width: 140px;
 	height: 140px;
 	-webkit-mask-repeat: no-repeat;
