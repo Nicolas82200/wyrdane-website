@@ -1,0 +1,97 @@
+{
+	"date": "2026-08-26",
+	"title": {
+		"en": "The website deck builder: what you need to know",
+		"fr": "Le deck builder du site : ce qu'il faut savoir"
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "Available on the website",
+				"paragraphs": [
+					"The deck builder is available directly on wyrdane.com, in the \"My decks\" menu once you're logged in with Steam. The decks you create or edit here are exactly the same ones you'll find in the game: same account, same collection. For now it's desktop only: on mobile, a message invites you to come back from a bigger screen."
+				]
+			},
+			{
+				"heading": "Deckbuilding rules",
+				"paragraphs": [
+					"A valid deck must contain at least 40 playable cards and at least 10 resource cards. You can include up to 4 copies of each card, except resource cards, which have no limit."
+				]
+			},
+			{
+				"heading": "Multi-race decks are possible",
+				"paragraphs": [
+					"Nothing forces you to stick to a single race: you can freely mix Undead, Human, Demon, and Abomination cards in the same deck. One thing to watch out for though: each race has its own mana pool, fed only by its own resource cards. If you play cards from a race without enough resource cards for that race, the deck builder warns you so you can fix it before saving."
+				]
+			},
+			{
+				"heading": "See everything at a glance",
+				"paragraphs": [
+					"In your deck list, cards are automatically sorted by mana cost, and the cost badge takes on the color of its race, handy for getting a quick visual read on a multi-race deck. Hover over any card to see tooltips explaining its keywords and triggers (like Deathrattle or Arrival), so you don't need to memorize them."
+				]
+			},
+			{
+				"heading": "Find your cards easily",
+				"paragraphs": [
+					"Filter the catalog by race, type, rarity, cost, or keyword, sort it by cost, name, or rarity, or use the search by name or effect. A small badge on each card shows you at a glance how many copies you can still add compared to how many you own."
+				]
+			},
+			{
+				"heading": "Missing a card?",
+				"paragraphs": [
+					"If you import a deck you don't fully own yet (a friend's code, for example), the deck builder still lists those cards for you, a good way to see exactly what you're missing. You can then buy the missing copies directly with your in-game currency, up to 4 per card, without leaving the deck builder. The price depends on rarity: 100 gold for a common, 150 for a rare, 200 for an epic, 250 for a legendary. Your balance is always visible at the top of the site."
+				]
+			},
+			{
+				"heading": "Share and import",
+				"paragraphs": [
+					"Export your deck as a code to share it with someone, or import a code you received, whether it's for the site or the game."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Accessible depuis le site",
+				"paragraphs": [
+					"Le deck builder est disponible directement sur wyrdane.com, dans le menu « Mes decks » une fois connecté avec Steam. Les decks que tu crées ou modifies ici sont exactement les mêmes que ceux que tu retrouves dans le jeu : même compte, même collection. Pour l'instant, il est réservé aux ordinateurs : sur mobile, un message t'invite à revenir depuis un écran plus grand."
+				]
+			},
+			{
+				"heading": "Les règles de construction",
+				"paragraphs": [
+					"Un deck valide doit contenir au moins 40 cartes jouables et au moins 10 cartes-ressource. Tu peux inclure jusqu'à 4 exemplaires de chaque carte, sauf les cartes-ressource, qui n'ont aucune limite."
+				]
+			},
+			{
+				"heading": "Un deck multi-race, c'est possible",
+				"paragraphs": [
+					"Rien ne t'oblige à rester sur une seule race : tu peux librement mélanger des cartes Mort-Vivant, Humain, Démon et Abomination dans le même deck. Attention cependant : chaque race a sa propre réserve de mana, alimentée uniquement par ses propres cartes-ressource. Si tu joues des cartes d'une race sans assez de cartes-ressource de cette race, le deck builder t'avertit pour que tu puisses corriger le tir avant de sauvegarder."
+				]
+			},
+			{
+				"heading": "Repère tout en un coup d'œil",
+				"paragraphs": [
+					"Dans la liste de ton deck, chaque carte est classée automatiquement par coût en mana, et la pastille de coût prend la couleur de sa race, pratique pour visualiser d'un regard la répartition de ton deck multi-race. Survole n'importe quelle carte pour voir apparaître des info-bulles qui expliquent ses mots-clés et ses déclencheurs (comme Dernier Souffle ou Arrivée), sans avoir à les connaître par cœur."
+				]
+			},
+			{
+				"heading": "Retrouve facilement tes cartes",
+				"paragraphs": [
+					"Filtre le catalogue par race, type, rareté, coût ou mot-clé, trie-le par coût, nom ou rareté, ou utilise la recherche par nom ou par effet. Un petit badge sur chaque carte t'indique en un coup d'œil combien d'exemplaires tu peux encore ajouter par rapport à ceux que tu possèdes."
+				]
+			},
+			{
+				"heading": "Il te manque une carte ?",
+				"paragraphs": [
+					"Si tu importes un deck dont tu n'as pas encore toutes les cartes (le code d'un ami, par exemple), le deck builder les affiche quand même dans ta liste : c'est un bon moyen de voir précisément ce qu'il te manque. Tu peux ensuite acheter les exemplaires manquants directement avec ta monnaie du jeu, jusqu'à 4 par carte, sans quitter le deck builder. Le prix dépend de la rareté : 100 pièces pour une commune, 150 pour une rare, 200 pour une épique, 250 pour une légendaire. Ton solde est visible en permanence en haut du site."
+				]
+			},
+			{
+				"heading": "Partage et importe",
+				"paragraphs": [
+					"Exporte ton deck sous forme de code pour le partager avec quelqu'un, ou importe un code reçu, que ce soit vers le site ou vers le jeu."
+				]
+			}
+		]
+	}
+}
