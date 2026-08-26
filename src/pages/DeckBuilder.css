@@ -226,6 +226,12 @@
 	width: 236px;
 	height: 354px;
 	cursor: pointer;
+	/* Des clics répétés sur la même carte (pour en ajouter plusieurs copies)
+	   finissaient par sélectionner le texte du badge de comptage comme un
+	   double-clic classique - toute la carte est un simple bouton, pas du
+	   texte à sélectionner. */
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .db-card-scale {

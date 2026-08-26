@@ -390,9 +390,21 @@ export default function DeckBuilder() {
 	const canSave = countsOk && raceWarnings.length === 0;
 
 	// ─── Blocage de navigation avec modifications non sauvegardées ─────────────
-	const blocker = useBlocker(
-		({ currentLocation, nextLocation }) => dirty && currentLocation.pathname !== nextLocation.pathname,
-	);
+	// skipBlockOnceRef : la redirection interne /decks/new -> /decks/<id> juste
+	// après la toute première sauvegarde d'un nouveau deck change bien le
+	// pathname, mais ne doit jamais déclencher cette popup - setDirty(false)
+	// est appelé juste avant, mais son commit React n'est pas garanti visible
+	// au moment où useBlocker évalue la navigation qui suit immédiatement
+	// (setDirty + navigate() dans le même tick), d'où ce garde-fou explicite
+	// plutôt que de compter sur l'ordre des mises à jour d'état.
+	const skipBlockOnceRef = useRef(false);
+	const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+		if (skipBlockOnceRef.current) {
+			skipBlockOnceRef.current = false;
+			return false;
+		}
+		return dirty && currentLocation.pathname !== nextLocation.pathname;
+	});
 
 	useEffect(() => {
 		function handleBeforeUnload(e: BeforeUnloadEvent) {
@@ -500,7 +512,10 @@ export default function DeckBuilder() {
 			// rouvrirait aussitôt la popup "modifications non sauvegardées" juste
 			// après une sauvegarde réussie.
 			setDirty(false);
-			if (newDeckId !== null && !opts.skipNavigate) navigate(`/decks/${newDeckId}`, { replace: true });
+			if (newDeckId !== null && !opts.skipNavigate) {
+				skipBlockOnceRef.current = true;
+				navigate(`/decks/${newDeckId}`, { replace: true });
+			}
 			return true;
 		} catch (err) {
 			console.error(err);
