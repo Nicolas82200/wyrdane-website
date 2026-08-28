@@ -15,6 +15,7 @@ import { translateCardText } from "../i18n/cardText";
 import type { Language } from "../i18n/language";
 import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
 import { useAuth } from "../auth/useAuth";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./DeckBuilder.css";
 
 // Mêmes règles que le deck builder du jeu (scripts/deck/DeckBuilder.gd) :
@@ -117,6 +118,7 @@ export default function DeckBuilder() {
 	const { refreshBalance } = useAuth();
 	const { language } = useLanguage();
 	const t = DECKBUILDER_CONTENT[language];
+	usePageTitle(isEditing ? t.titleEdit : t.titleNew);
 
 	const [cards, setCards] = useState<CardData[]>([]);
 	const [owned, setOwned] = useState<Map<number, number>>(new Map());
