@@ -142,11 +142,11 @@ const LANE_ICON_DEFAULT_BOTTOM = 316;
 
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche, entre
 // ces deux bornes, toujours centree sur TYPE_LABEL_CENTER_X.
-const TYPE_LABEL_MIN_WIDTH = 55;
-const TYPE_LABEL_MAX_WIDTH = 200;
+const TYPE_LABEL_MIN_WIDTH = 160;
+const TYPE_LABEL_MAX_WIDTH = 175;
 const TYPE_LABEL_PADDING = 16;
 const TYPE_LABEL_CENTER_X = 125;
-const TYPE_LABEL_FONT = '700 11px "CinzelCard", serif';
+const TYPE_LABEL_FONT = '700 10px "CinzelCard", serif';
 
 let typeLabelCanvas: HTMLCanvasElement | null = null;
 function measureTypeLabelWidth(text: string): number {
