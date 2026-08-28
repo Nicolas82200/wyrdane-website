@@ -6,6 +6,13 @@ Site compagnon du TCG **Wyrdane** (deck builder web, réplique de celui du jeu G
 
 En prod, le site est un build statique servi par Nginx sur un **VPS OVH** (`wyrdane.com`/`www.wyrdane.com`, HTTPS Let's Encrypt), partagé avec le backend `wyrdane-backend`. Le déploiement est **continu** : tout push sur `main` redéploie automatiquement la prod via GitHub Actions (`git pull && npm ci && npm run build` côté serveur). Détails dans `CLAUDE.md`.
 
+## Fonctionnalités
+
+- Landing page (présentation du jeu, lanes, mots-clés, races), actus/devlog (générés dans `public/feed.json`, aussi consommés par le jeu)
+- Connexion Steam (popup OAuth, session partagée avec le compte joueur du jeu)
+- Deck builder web connecté au compte (liste des decks sauvegardés + éditeur, réplique des règles du jeu)
+- Tableau de bord admin (`/admin`, accès direct par URL) : fréquentation, connexions Steam, wishlist
+
 ---
 
 # React + TypeScript + Vite
