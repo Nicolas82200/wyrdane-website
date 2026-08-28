@@ -5,6 +5,7 @@ import api from "../api";
 import { useLanguage } from "../i18n/useLanguage";
 import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
 import { translateCardText } from "../i18n/cardText";
+import { usePageTitle } from "../hooks/usePageTitle";
 import "./ShowDecks.css";
 
 type DeckCard = {
@@ -37,6 +38,7 @@ const DeckList = () => {
 	const navigate = useNavigate();
 	const { language } = useLanguage();
 	const t = DECKBUILDER_CONTENT[language];
+	usePageTitle(t.decksTitle);
 	const [decks, setDecks] = useState<DeckWithCards[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");

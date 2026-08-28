@@ -11,7 +11,21 @@
       name="description"
       content="Wyrdane is a dark fantasy collectible card game, 1v1, where positioning on the board matters as much as the cards in your hand. Follow its development and build your deck."
     />
-    <link rel="canonical" href="Wyrdane" />
+    <link rel="canonical" href="https://wyrdane.com/" />
+
+    <!-- Signale explicitement le nom du site à Google (le nom en gras affiché
+         au-dessus de l'URL dans les résultats de recherche) : og:site_name
+         seul est un signal plus faible et peut être ignoré au profit du nom
+         de domaine brut - le schema.org WebSite avec "name" est la méthode
+         documentée par Google pour ce cas précis. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Wyrdane",
+        "url": "https://wyrdane.com/"
+      }
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Wyrdane" />
