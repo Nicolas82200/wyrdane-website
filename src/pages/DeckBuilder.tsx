@@ -964,7 +964,13 @@ export default function DeckBuilder() {
 					// Les tooltips de mots-clés suivent toujours le côté choisi par la
 					// preview (jamais entre la preview et la carte survolée, sinon ils
 					// la recouvrent) — voir DeckBuilder.gd _position_hover_tooltips.
-					const tooltipsLeft = onLeft ? x - 262 * pageScale : x + pw + 12 * pageScale;
+					// Largeur alignée sur .db-keyword-tooltips (280px * --db-scale) : côté
+					// gauche, on positionne le bord DROIT du tooltip (pas le gauche), d'où
+					// le - tooltipWidth en plus du gap, symétrique au décalage + pw + gap
+					// utilisé côté droit.
+					const tooltipGap = 12 * pageScale;
+					const tooltipWidth = 280 * pageScale;
+					const tooltipsLeft = onLeft ? x - tooltipWidth - tooltipGap : x + pw + tooltipGap;
 					return (
 						<div className="db-preview-layer">
 							<div className="db-preview" style={{ left: x, top: y }}>
