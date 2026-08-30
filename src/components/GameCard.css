@@ -143,7 +143,10 @@
 	z-index: 3;
 }
 
-/* GenericCostLabel : 167.5,32.5 → 34×34, style brun/carré du .tscn */
+/* GenericCostLabel : 167.5,32.5 → 34×34. Cercle bleu fixe (StyleBoxFlat_s5r67
+   dans Card.tscn), contrairement au badge de coût race qui reste teinté par
+   race (.gamecard-cost) : le mana générique n'appartient à aucune race, donc
+   sa couleur ne varie jamais. */
 .gamecard-generic-cost {
 	position: absolute;
 	left: 167.5px;
@@ -157,9 +160,9 @@
 	font-weight: 900;
 	font-size: 20px;
 	color: rgb(211, 211, 211);
-	background: rgba(112, 74, 25, 0.784);
-	border: 1px solid rgba(168, 122, 52, 0.39);
-	border-radius: 5px;
+	background: rgb(85, 107, 146);
+	border: 2px solid rgb(168, 122, 52);
+	border-radius: 17px;
 	box-sizing: border-box;
 	z-index: 2;
 }

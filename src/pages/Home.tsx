@@ -9,10 +9,11 @@ import backLaneIcon from "../assets/site/icons/back_lane.png";
 import hybridLaneIcon from "../assets/site/icons/hibrid_lane.png";
 import Reveal from "../components/Reveal";
 import BoardDiagram from "../components/BoardDiagram";
-import KeywordsExplorer from "../components/KeywordsExplorer";
+import InfoExplorer from "../components/InfoExplorer";
 import SocialLinks from "../components/SocialLinks";
 import { useLanguage } from "../i18n/useLanguage";
 import { HOME_CONTENT } from "../i18n/home";
+import { KEYWORD_GROUPS } from "../i18n/keywords";
 import { usePageTitle } from "../hooks/usePageTitle";
 import "./Home.css";
 
@@ -69,14 +70,19 @@ const Home = () => {
 
 			<Reveal className="section">
 				<h2>{t.cardTypesTitle}</h2>
-				<div className="card-types">
-					{t.cardTypes.map((type) => (
-						<div className="info-card" key={type.name}>
-							<h3>{type.name}</h3>
-							<p>{type.text}</p>
-						</div>
-					))}
-				</div>
+				<InfoExplorer
+					groups={[
+						{
+							key: "cardTypes",
+							title: t.cardTypesTitle,
+							items: t.cardTypes.map((type) => ({
+								id: type.id,
+								name: type.name,
+								description: type.text,
+							})),
+						},
+					]}
+				/>
 			</Reveal>
 
 			<Reveal className="section">
@@ -88,20 +94,25 @@ const Home = () => {
 			<Reveal className="section">
 				<h2>{t.keywordsTitle}</h2>
 				<p className="section-lead">{t.keywordsLead}</p>
-				<KeywordsExplorer />
+				<InfoExplorer groups={KEYWORD_GROUPS[language]} />
 			</Reveal>
 
 			<Reveal className="section">
 				<h2>{t.triggersTitle}</h2>
 				<p className="section-lead">{t.triggersLead}</p>
-				<div className="keywords-grid">
-					{t.triggers.map((trigger) => (
-						<div className="info-card" key={trigger.name}>
-							<h3>{trigger.name}</h3>
-							<p>{trigger.text}</p>
-						</div>
-					))}
-				</div>
+				<InfoExplorer
+					groups={[
+						{
+							key: "triggers",
+							title: t.triggersTitle,
+							items: t.triggers.map((trigger) => ({
+								id: trigger.id,
+								name: trigger.name,
+								description: trigger.text,
+							})),
+						},
+					]}
+				/>
 			</Reveal>
 
 			<Reveal className="section">

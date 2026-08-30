@@ -149,37 +149,6 @@
 	margin: 0;
 }
 
-/* Generic info cards (types, keywords) */
-.card-types,
-.keywords-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-	gap: 18px;
-}
-
-.info-card {
-	background: var(--panel-bg);
-	border: 1px solid var(--panel-border);
-	border-radius: 8px;
-	padding: 22px 20px;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-.info-card h3 {
-	font-family: "MedievalSharp", "Cinzel Decorative", serif;
-	color: var(--gold);
-	font-size: 18px;
-	margin: 0 0 8px;
-}
-
-.info-card p {
-	font-family: "Crimson Text", serif;
-	font-size: 14px;
-	line-height: 1.55;
-	color: rgba(232, 213, 163, 0.75);
-	margin: 0;
-}
-
 /* Races */
 .races-grid {
 	display: grid;

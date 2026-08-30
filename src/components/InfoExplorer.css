@@ -1,0 +1,203 @@
+.info-explorer-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 28px;
+}
+
+.info-explorer-tab {
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	color: rgba(232, 213, 163, 0.75);
+	background: var(--btn-bg);
+	border: 1px solid var(--btn-border);
+	border-radius: 999px;
+	padding: 8px 20px;
+	cursor: pointer;
+	transition:
+		background 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.info-explorer-tab:hover {
+	background: var(--btn-bg-hover);
+	border-color: var(--btn-border-hover);
+	color: var(--gold-bright);
+}
+
+.info-explorer-tab.active {
+	background: var(--btn-bg-hover);
+	border-color: var(--gold-pressed);
+	color: var(--gold-bright);
+}
+
+.info-explorer-body {
+	display: flex;
+	align-items: stretch;
+	gap: 20px;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	min-height: 420px;
+	overflow: hidden;
+}
+
+.info-explorer-list {
+	flex: 0 0 33%;
+	max-width: 33%;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 10px;
+	border-right: 1px solid var(--panel-border);
+	overflow-y: auto;
+	max-height: 560px;
+}
+
+.info-explorer-item {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	text-align: left;
+	color: rgba(232, 213, 163, 0.75);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	padding: 10px 14px;
+	cursor: pointer;
+	transition:
+		background 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.info-explorer-item:hover {
+	background: var(--btn-bg-hover);
+	color: var(--gold-bright);
+}
+
+.info-explorer-item.active {
+	background: var(--btn-bg-hover);
+	border-color: var(--gold-pressed);
+	color: var(--gold-bright);
+	font-weight: 600;
+}
+
+.info-explorer-detail {
+	flex: 1 1 67%;
+	min-width: 0;
+	padding: 24px 24px 24px 4px;
+	display: flex;
+	flex-direction: column;
+}
+
+.info-explorer-detail h3 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	color: var(--gold);
+	font-size: 22px;
+	margin: 0 0 10px;
+}
+
+.info-explorer-description {
+	font-family: "Crimson Text", serif;
+	font-size: 15px;
+	line-height: 1.6;
+	color: rgba(232, 213, 163, 0.85);
+	margin: 0 0 20px;
+	/* Certaines descriptions embarquent une table à plusieurs lignes (Mutation) :
+	   sans ça, les \n littéraux du texte sont collabés en un seul paragraphe. */
+	white-space: pre-line;
+}
+
+.info-explorer-example {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+
+.info-explorer-card-wrap {
+	flex: 0 0 auto;
+	filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+}
+
+.info-explorer-demo {
+	flex: 1 1 260px;
+	font-family: "Crimson Text", serif;
+	font-style: italic;
+	font-size: 15px;
+	line-height: 1.65;
+	color: rgba(232, 213, 163, 0.9);
+	background: rgba(0, 0, 0, 0.25);
+	border: 1px solid var(--panel-border);
+	border-left: 3px solid var(--gold-pressed);
+	border-radius: 6px;
+	padding: 16px 18px;
+	margin: 0;
+}
+
+/* Apparition en cascade au changement de sélection : le titre glisse en
+   premier depuis la gauche en s'estompant, puis la description, la carte
+   d'exemple et enfin le texte de démonstration suivent avec un léger
+   décalage. Rejoué à chaque sélection car InfoExplorer.tsx remonte
+   `.info-explorer-detail` (key={activeItem.id}) - une animation CSS ne
+   se relance pas d'elle-même sur un simple changement de contenu. */
+@keyframes info-explorer-in {
+	from {
+		opacity: 0;
+		transform: translateX(-28px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.info-explorer-fade-in {
+	animation: info-explorer-in 0.45s ease-out both;
+}
+
+.info-explorer-stage-1 {
+	animation-delay: 0s;
+}
+
+.info-explorer-stage-2 {
+	animation-delay: 0.1s;
+}
+
+.info-explorer-stage-3 {
+	animation-delay: 0.2s;
+}
+
+.info-explorer-stage-4 {
+	animation-delay: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.info-explorer-fade-in {
+		animation: none;
+	}
+}
+
+@media (max-width: 760px) {
+	.info-explorer-body {
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	.info-explorer-list {
+		flex: 0 0 auto;
+		max-width: 100%;
+		max-height: 220px;
+		border-right: none;
+		border-bottom: 1px solid var(--panel-border);
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.info-explorer-example {
+		justify-content: center;
+	}
+}

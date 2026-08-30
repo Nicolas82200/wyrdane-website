@@ -1,6 +1,8 @@
 import type { Language } from "./language";
 
-export type SimpleItem = { name: string; text: string };
+// `id` est une clé stable (indépendante de la langue) utilisée pour retrouver
+// la carte d'exemple associée dans `src/data/exampleCards.ts`.
+export type SimpleItem = { id: string; name: string; text: string };
 export type LaneItem = { key: "front" | "back" | "hybrid"; name: string; text: string };
 export type RaceItem = { key: string; name: string; text: string };
 export type ComingSoonSection = { title: string; text: string; badge: string };
@@ -58,16 +60,19 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		cardTypesTitle: "Card types",
 		cardTypes: [
 			{
+				id: "serviteur",
 				name: "Minion",
 				text: "A unit placed in the Front row, Back row, or Hybrid at the player's choice.",
 			},
-			{ name: "Instant", text: "A spell with an immediate effect, played then discarded." },
+			{ id: "ephemere", name: "Instant", text: "A spell with an immediate effect, played then discarded." },
 			{
+				id: "rituel",
 				name: "Ritual",
 				text: "A persistent spell with several charges, consumed only when its trigger actually fires.",
 			},
-			{ name: "Enchantment", text: "A permanent passive effect, active until destroyed." },
+			{ id: "enchantement", name: "Enchantment", text: "A permanent passive effect, active until destroyed." },
 			{
+				id: "ressource",
 				name: "Resource",
 				text: "A race card that increases that race's mana pool, then leaves the game.",
 			},
@@ -81,25 +86,26 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		triggersLead:
 			"Card effects trigger at precise moments during the turn, allowing for deep synergies between the cards in your deck.",
 		triggers: [
-			{ name: "Arrival", text: "Triggers when the minion arrives on the battlefield." },
+			{ id: "t_arrival", name: "Arrival", text: "Triggers when the minion arrives on the battlefield." },
 			{
+				id: "t_reinforcement",
 				name: "Reinforcement",
 				text: "Triggers when an allied minion arrives on the battlefield.",
 			},
-			{ name: "Deathrattle", text: "Triggers when the minion dies." },
-			{ name: "Charge", text: "Lets the minion attack the turn it's summoned." },
-			{ name: "Wound", text: "Triggers when the minion takes damage without dying." },
-			{ name: "Awaken", text: "Triggers at the start of its controller's turn." },
-			{ name: "Decline", text: "Triggers at the end of its controller's turn." },
+			{ id: "t_deathrattle", name: "Deathrattle", text: "Triggers when the minion dies." },
+			{ id: "t_wound", name: "Wounded", text: "Triggers when the minion takes damage without dying." },
+			{ id: "t_awaken", name: "Awakening", text: "Triggers at the start of its controller's turn." },
+			{ id: "t_decline", name: "Decline", text: "Triggers at the end of its controller's turn." },
 			{
-				name: "Rally",
-				text: "Triggers when another allied minion arrives on the battlefield.",
+				id: "t_attack",
+				name: "Attack",
+				text: "Triggers when this minion attacks.",
 			},
-			{ name: "Grief", text: "Triggers when an allied minion dies." },
-			{ name: "Spell", text: "Triggers when an allied spell is cast." },
-			{ name: "Sacrifice", text: "Triggers when an allied minion is voluntarily sacrificed." },
-			{ name: "Execution", text: "Triggers when an enemy minion dies." },
-			{ name: "Carnage", text: "Triggers when any minion dies, allied or enemy." },
+			{ id: "t_grief", name: "Mourning", text: "Triggers when an allied minion dies." },
+			{ id: "t_spell", name: "Spell", text: "Triggers when an allied spell is cast." },
+			{ id: "t_sacrifice", name: "Sacrifice", text: "Triggers when an allied minion is voluntarily sacrificed." },
+			{ id: "t_execution", name: "Execution", text: "Triggers when an enemy minion dies." },
+			{ id: "t_carnage", name: "Carnage", text: "Triggers when any minion dies, allied or enemy." },
 		],
 		racesTitle: "Races, each its own way to play",
 		races: [
@@ -166,16 +172,19 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		cardTypesTitle: "Les types de cartes",
 		cardTypes: [
 			{
+				id: "serviteur",
 				name: "Serviteur",
 				text: "Une unité posée en rangée Avant, Arrière, ou en Hybride au choix du joueur.",
 			},
-			{ name: "Éphémère", text: "Un sort à effet immédiat, joué puis défaussé." },
+			{ id: "ephemere", name: "Éphémère", text: "Un sort à effet immédiat, joué puis défaussé." },
 			{
+				id: "rituel",
 				name: "Rituel",
 				text: "Un sort persistant doté de plusieurs charges, consommées uniquement quand son déclencheur se déclenche vraiment.",
 			},
-			{ name: "Enchantement", text: "Un effet passif permanent, actif jusqu'à sa destruction." },
+			{ id: "enchantement", name: "Enchantement", text: "Un effet passif permanent, actif jusqu'à sa destruction." },
 			{
+				id: "ressource",
 				name: "Ressource",
 				text: "Une carte de race qui augmente le pool de mana de sa race, puis disparaît de la partie.",
 			},
@@ -189,25 +198,26 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		triggersLead:
 			"Les effets de carte se déclenchent à des moments précis du tour, ce qui permet de construire des synergies profondes entre les cartes de son deck.",
 		triggers: [
-			{ name: "Arrivée", text: "Se déclenche quand le serviteur arrive sur le champ de bataille." },
+			{ id: "t_arrival", name: "Arrivée", text: "Se déclenche quand le serviteur arrive sur le champ de bataille." },
 			{
+				id: "t_reinforcement",
 				name: "Renfort",
 				text: "Se déclenche quand un serviteur allié arrive sur le champ de bataille.",
 			},
-			{ name: "Dernier Souffle", text: "Se déclenche quand le serviteur meurt." },
-			{ name: "Assaut", text: "Permet au serviteur d'attaquer dès le tour où il est invoqué." },
-			{ name: "Blessure", text: "Se déclenche quand le serviteur subit des dégâts sans en mourir." },
-			{ name: "Éveil", text: "Se déclenche au début du tour de son contrôleur." },
-			{ name: "Déclin", text: "Se déclenche à la fin du tour de son contrôleur." },
+			{ id: "t_deathrattle", name: "Dernier Souffle", text: "Se déclenche quand le serviteur meurt." },
+			{ id: "t_wound", name: "Blessure", text: "Se déclenche quand le serviteur subit des dégâts sans en mourir." },
+			{ id: "t_awaken", name: "Éveil", text: "Se déclenche au début du tour de son contrôleur." },
+			{ id: "t_decline", name: "Déclin", text: "Se déclenche à la fin du tour de son contrôleur." },
 			{
-				name: "Ralliement",
-				text: "Se déclenche quand un autre serviteur allié arrive sur le champ de bataille.",
+				id: "t_attack",
+				name: "Attaque",
+				text: "Se déclenche quand ce serviteur attaque.",
 			},
-			{ name: "Deuil", text: "Se déclenche quand un serviteur allié meurt." },
-			{ name: "Sortilège", text: "Se déclenche quand un sort allié est lancé." },
-			{ name: "Sacrifice", text: "Se déclenche lors du sacrifice volontaire d'un serviteur allié." },
-			{ name: "Exécution", text: "Se déclenche quand un serviteur ennemi meurt." },
-			{ name: "Carnage", text: "Se déclenche quand n'importe quel serviteur meurt, allié ou ennemi." },
+			{ id: "t_grief", name: "Deuil", text: "Se déclenche quand un serviteur allié meurt." },
+			{ id: "t_spell", name: "Sortilège", text: "Se déclenche quand un sort allié est lancé." },
+			{ id: "t_sacrifice", name: "Sacrifice", text: "Se déclenche lors du sacrifice volontaire d'un serviteur allié." },
+			{ id: "t_execution", name: "Exécution", text: "Se déclenche quand un serviteur ennemi meurt." },
+			{ id: "t_carnage", name: "Carnage", text: "Se déclenche quand n'importe quel serviteur meurt, allié ou ennemi." },
 		],
 		racesTitle: "Des races, chacune sa façon de jouer",
 		races: [
