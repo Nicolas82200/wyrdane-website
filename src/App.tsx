@@ -13,8 +13,10 @@ function App() {
 	usePageviewTracking();
 	// Le deck builder (/decks/new, /decks/:deckId) est une mise en page fixe
 	// plein écran (100vh, son propre défilement interne pour la grille/la
-	// sidebar) — le footer n'y a jamais sa place, il faudrait défiler pour
-	// l'atteindre en dessous d'un écran déjà plein.
+	// sidebar) — ni le footer ni la navbar n'y ont leur place (retour
+	// joueur explicite pour la navbar : gardée sur /decks, la liste des
+	// decks, mais pas dans l'éditeur). DeckBuilder.css suppose maintenant
+	// qu'aucune navbar n'occupe de hauteur au-dessus de lui sur ces routes.
 	const { pathname } = useLocation();
 	const isDeckBuilder = /^\/decks\/(new|\d+)$/.test(pathname);
 
@@ -30,7 +32,7 @@ function App() {
 			<div className="background-overlay" />
 
 			<ScrollToTop />
-			<Navbar />
+			{!isDeckBuilder && <Navbar />}
 			<FirstLoginRewardPopup />
 
 			<main className="page-content">

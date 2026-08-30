@@ -10,22 +10,20 @@
    des chevauchements). Resultat : mise en page rigoureusement identique au
    grand ecran, juste plus petite. .deckbuilder garde une largeur de canevas
    fixe (1920px) et une hauteur ajustee pour qu'apres le scale elle occupe
-   exactement toute la hauteur restante sous la navbar. Seuls les elements
-   hors de ce bloc (preview au survol, tooltips, dialogues d'export/import —
-   tous en position: fixed, donc positionnes par rapport au vrai viewport et
-   non affectes par ce transform) recoivent leur propre mise a l'echelle plus
-   bas via var(--db-scale).
+   exactement toute la fenetre. Seuls les elements hors de ce bloc (preview
+   au survol, tooltips, dialogues d'export/import — tous en position: fixed,
+   donc positionnes par rapport au vrai viewport et non affectes par ce
+   transform) recoivent leur propre mise a l'echelle plus bas via
+   var(--db-scale).
 
-   Largeur en 100% (pas 100vw) et hauteur en calc(100vh - navbar) (pas
-   100vh) : .deckbuilder-scale-outer est un bloc normal dans le flux du
-   document, sous la navbar (position: sticky, occupe une vraie hauteur) —
-   100vw/100vh ignorent à la fois cette hauteur déjà prise par la navbar et
-   la largeur réellement disponible (gouttière de barre de défilement
-   verticale incluse dans 100vw mais pas dans la zone visible), ce qui
-   provoquait un débordement horizontal avec barre de défilement. */
+   La navbar est masquee sur ces routes (voir App.tsx, isDeckBuilder) : plus
+   besoin de soustraire sa hauteur ici, .deckbuilder-scale-outer est le tout
+   premier bloc de la page. Largeur en 100% (pas 100vw) : la gouttiere d'une
+   eventuelle barre de defilement verticale est incluse dans 100vw mais pas
+   dans la zone visible, ce qui avait provoque un debordement horizontal. */
 .deckbuilder-scale-outer {
 	width: 100%;
-	height: calc(100vh - var(--navbar-height));
+	height: 100vh;
 	overflow: hidden;
 	/* Reste en 100vw ici (pas 100%) : cette formule alimente une division
 	   dans calc() dont le résultat doit être un <number> pur pour
@@ -45,7 +43,7 @@
 	display: flex;
 	flex-direction: column;
 	width: 1920px;
-	height: calc((100vh - var(--navbar-height)) / var(--db-scale));
+	height: calc(100vh / var(--db-scale));
 	transform: scale(var(--db-scale));
 	transform-origin: top left;
 	color: #e8d5a3;
