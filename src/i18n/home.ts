@@ -176,7 +176,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 				name: "Serviteur",
 				text: "Une unité posée en rangée Avant, Arrière, ou en Hybride au choix du joueur.",
 			},
-			{ id: "ephemere", name: "Éphémère", text: "Un sort à effet immédiat, joué puis défaussé." },
+			{ id: "ephemere", name: "Incantation", text: "Un sort à effet immédiat, joué puis défaussé." },
 			{
 				id: "rituel",
 				name: "Rituel",

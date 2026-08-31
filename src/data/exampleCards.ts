@@ -572,7 +572,7 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	ephemere: {
 		card: arrowVolley,
 		demo: {
-			fr: "Volée de Flèches inflige ses dégâts dès qu'elle est jouée, puis part directement au cimetière : c'est un Éphémère, sans présence durable sur le plateau.",
+			fr: "Volée de Flèches inflige ses dégâts dès qu'elle est jouée, puis part directement au cimetière : c'est une Incantation, sans présence durable sur le plateau.",
 			en: "Arrow Volley deals its damage the instant it's played, then goes straight to the graveyard: it's an Instant, with no lasting presence on the board.",
 		},
 	},
