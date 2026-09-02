@@ -1,0 +1,205 @@
+{
+	"date": "2026-08-31",
+	"title": {
+		"en": "Devlog 6: weekly quests, referrals, and a big bug hunt",
+		"fr": "Devlog 6 : quêtes hebdomadaires, parrainage et une grosse chasse aux bugs"
+	},
+	"lede": {
+		"en": "This entry covers the week since Devlog 5: the companion website hooked up Steam login, the deck builder got a deep rework (missing-card purchases included), two new retention systems went live (weekly quests and referrals), and roughly thirty user-reported bugs were worked through in small batches.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 5 : le site compagnon s'est connecté à Steam, le deck builder a été repensé en profondeur (achat des cartes manquantes compris), deux nouveaux systèmes de rétention ont été livrés (quêtes hebdomadaires et parrainage), et une trentaine de bugs remontés par l'utilisateur ont été traités par petits lots."
+	},
+	"stats": {
+		"en": [
+			{ "value": "316 -> 304", "label": "Collectible cards after removing Arena duplicates" },
+			{ "value": "~30", "label": "User-reported bugs fixed in batches" },
+			{ "value": "2", "label": "New retention systems (weekly quests + referrals)" },
+			{ "value": "9", "label": "Separate bug-fix branches shipped" }
+		],
+		"fr": [
+			{ "value": "316 -> 304", "label": "Cartes collectionnables après nettoyage des doublons Arena" },
+			{ "value": "~30", "label": "Bugs remontés corrigés par lots" },
+			{ "value": "2", "label": "Nouveaux systèmes de rétention (quêtes hebdo + parrainage)" },
+			{ "value": "9", "label": "Branches de correctifs distinctes livrées" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "The companion website hooks up Steam",
+				"paragraphs": [
+					"The web deck builder (`wyrdane-website`) got Steam login directly in the navbar, along with a \"My decks\" link — a signed-out visitor who clicks it now sees a popup inviting them to sign in instead of landing on a bare login page. The real Steam persona name finally shows up instead of the generic name assigned at account creation (\"Player123456\"), and a gold balance now appears next to it once signed in.",
+					"Several small snags followed this work, each caught while testing in production: login popups that jumped to the top of the screen instead of staying centered (moved to a React portal mounted directly under `<body>`, so they no longer depend on their position in the tree), text and buttons that turned invisible in those same popups after the portal move (theme color variables were scoped to `#root` only, out of reach), and a \"View Steam page\" button rendering squashed for lack of one forgotten CSS property. The deck builder now also shows a dedicated message on mobile instead of letting its layout break on small screens, and a welcome popup shows the 500 gold granted on a player's very first login (a reward already credited silently for a while, but never shown anywhere).",
+					"Two production deploys quietly failed to land: two different PRs had been merged into an already-stale intermediate branch instead of `main`, so they were never actually deployed despite showing \"merged\" on GitHub. Caught up by rebasing onto current `main` — lesson for next time: always check whether a target branch has already been merged elsewhere before stacking a new PR on it.",
+					"The web deck builder's card catalog is now fully in English (names, effects, flavor text, keywords, tooltips), synced from the game's translations. Along the way, an inverted card \"stock\" display got fixed (copies 2 through 4 of an owned card should have been purchasable, not just the first), a broken \"Import\" button was repaired, and a card-type watermark that misaligned on long-text cards was fixed."
+				]
+			},
+			{
+				"heading": "Backend: cleanup and small fixes",
+				"paragraphs": [
+					"An invisible admin-access bug was found and fixed: the environment variable listing admin accounts was simply never passed through to the production container, despite being present in the server's `.env` file — nobody has ever been able to get admin rights through that mechanism until now. A data-generation script was also fixed: it wasn't filtering out Arena-exclusive cards, leaving about a dozen ghost cards (with another card's image and effects) in the database — the real collectible count is now 304 cards (76 per race) instead of 316."
+				]
+			},
+			{
+				"heading": "The deck builder gets a deep rework",
+				"paragraphs": [
+					"A long code review of the deck builder, requested to catch latent bugs before they became a problem, led to a string of concrete improvements. A deck created or edited on the website didn't show up in the game until it was restarted — fixed by resyncing with the server every time the \"My Decks\" screen opens, not just on game launch. A deck's completion badge showed a nonsense number (\"50/40\") for not using the actual minimum deck size (40 playable cards + 10 resource cards). A non-compliant deck (too small, missing race resources) is now flat-out disabled at selection instead of just flagged with a tooltip.",
+					"The biggest change: it's now possible to build a deck with cards you don't own yet, then buy the missing copies directly from the screen (a \"Buy missing cards\" button, or line-by-line for a partially-owned card). A real bug was also found along the way: the \"Don't save\" button on the exit popup was saving changes anyway, because the deck object being edited was the same one stored in memory — not a copy — so it was already mutated before ever clicking Save. Fixed with a snapshot restored when discarding.",
+					"On the polish side: the deck's card list now sorts by cost, the cost badge is colored by race, and the rarity symbol was removed from the card type banner (judged too visually busy — the banner color remains the only rarity indicator)."
+				]
+			},
+			{
+				"heading": "Retention: weekly quests and referrals",
+				"paragraphs": [
+					"Two new retention systems were designed, contracted (`docs/backend-contracts/`), and shipped on both ends: weekly quests with longer objectives than the daily ones, rewarded with packs to open, and a referral system capped at one referred friend per player (an explicit anti-abuse constraint), rewarding the referrer with 3 packs + 500 gold once the friend finishes the tutorial. The client shows weekly quests below the daily ones on the same screen, a new referral panel (personal code, copy link, status, a field to enter a received code) appears at the bottom of the Profile screen and automatically as a one-time popup right after the tutorial — a moment judged more natural for a new player than having them dig through a menu."
+				]
+			},
+			{
+				"heading": "A big bug hunt",
+				"paragraphs": [
+					"A long backlog of accumulated reports (around thirty items) was worked through in small thematic batches, each on its own branch."
+				]
+			},
+			{
+				"heading": "Cards and effects",
+				"paragraphs": [
+					"Aura of Decrepitude never triggered on a hero attack (copy-pasted from another card, never fixed).",
+					"The HARVEST keyword only healed the attacker, never the defender dealing damage while blocking.",
+					"Soul Vortex correctly added temporary mana but never displayed it.",
+					"Altar of the Damned drew a card on every ally death instead of once per turn.",
+					"Pact Berserker granted the CHARGE keyword without ever letting the minion attack right away.",
+					"Seal of Respite healed on the death of any ally instead of a Demon specifically.",
+					"16 Abomination cards showed the wrong base keyword because of a field silently ignored by the underlying script.",
+					"The Unnameable stole the enemy target instead of transforming into it — fixed in depth: it now copies the target's keywords and effects while keeping its own stats."
+				]
+			},
+			{
+				"heading": "Rules",
+				"paragraphs": [
+					"Removed the HP cap on the two Sacrifice cards that still had one.",
+					"Added a generic once-per-turn safeguard against infinite loops for triggers carried directly by a minion (previously only enchantments/rituals had it).",
+					"Reworked Shield of Faith: it now simply cancels the first enemy spell of the turn outright, regardless of its target, instead of just reducing damage — its description had never followed an earlier code simplification."
+				]
+			},
+			{
+				"heading": "Interface and board",
+				"paragraphs": [
+					"Attack selection stayed active when switching turns or starting to target a spell, causing unwanted attacks; the hand and the mulligan banner rendered under other UI elements for lack of a consistent z-index; the mulligan swap cap raised from 2 to 4 (with the ability to re-swap an already-swapped card); spell-cancel rituals stayed completely silent when they actually canceled something; a minion stayed visually \"exhausted\" after re-attacking via Counter-Offensive even though the rule itself worked correctly."
+				]
+			},
+			{
+				"heading": "The Pact popup",
+				"paragraphs": [
+					"A particularly stubborn bug took several passes to fix. After two guard-clause fixes against references to a battle that had become invalid while waiting on the player, the real cause was finally isolated: the Yes/No button callbacks were mutating local variables captured by value inside a waiting GDScript function — clicking literally did nothing to move the state forward. Fixed by replacing those variables with a dictionary (captured by reference), the same pattern already used elsewhere in the project for this exact class of bug."
+				]
+			},
+			{
+				"heading": "Quality-of-life",
+				"paragraphs": [
+					"Draw and card-play animations added for the AI and network opponent (with a one-second pause between each action, for a more readable pace), a buff/debuff history tooltip on minion hover (reworked a second time mid-week to reflect the minion's actual current state instead of a log that could still show already-expired effects), board keyword icons placed on a dark badge to stay legible against any artwork, the graveyard and remaining-deck views now group identical copies with an \"xN\" badge instead of one tile per card, and a fix for a display bug that made the player's graveyard preview disappear (a leftover negative `z_index` from an older fix, which drew it beneath the background)."
+				]
+			},
+			{
+				"heading": "Pack shop and visual polish",
+				"paragraphs": [
+					"The pack shop got a deep pass: faster, progressively-accelerating reveal pacing on multi-pack openings, hover on revealed cards, the card-back border shrunk by half (a texture shared across the whole game, so the improvement benefits everywhere at once), and the panel restyled to match the game's other custom popups. A positioning bug was also fixed: revealed cards were flying outside the panel ever since the shop became a view embedded in the menu instead of a full-screen overlay, its grid coordinates being computed as relative but consumed as absolute.",
+					"Another subtle but notable fix: card borders looked sharper on the website than in the game despite being the exact same files. Two causes — no mipmap-aware texture filter was configured for the project's 2D rendering, and the artworks were imported without mipmaps or high-quality encoding. Fixed across all 307 affected files, with no impact on video memory usage."
+				]
+			},
+			{
+				"heading": "Up next",
+				"paragraphs": [
+					"Still open: the Steam build, extending the Arena prototype to 8-player networking, shader-based animations, deploying the ranked matchmaking, weekly quests, and referral backend routes to production (already written on the client side, waiting on the server side), and the rest of this week's user-report backlog (targeting preview, pack opening, a few cards still to verify in-game)."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Le site compagnon se connecte à Steam",
+				"paragraphs": [
+					"Le deck builder web (`wyrdane-website`) a reçu sa connexion Steam directement dans la navbar, avec un lien « Mes decks » — un visiteur non connecté qui clique dessus voit désormais une popup l'invitant à se connecter plutôt que d'atterrir sur une page de login nue. Le vrai pseudo Steam s'affiche enfin à la place du nom générique attribué à la création du compte (« Player123456 »), et un solde d'or apparaît à côté une fois connecté.",
+					"Plusieurs petits accrocs ont suivi ce chantier, chacun repéré en testant en prod : popups de connexion qui remontaient en haut de l'écran au lieu d'être centrées (déplacées vers un portail React monté directement sous `<body>`, pour ne plus dépendre de leur position dans l'arbre), texte et boutons devenus invisibles dans ces mêmes popups après le passage au portail (les variables de couleur du thème ne portaient que sur `#root`, hors de portée), et un bouton « Voir la page Steam » affiché écrasé faute d'une propriété CSS oubliée. Le deck builder affiche maintenant aussi un message dédié sur mobile plutôt que de laisser sa mise en page se casser sur petit écran, et une popup de bienvenue montre les 500 pièces d'or offertes à la toute première connexion (une récompense déjà créditée silencieusement depuis un moment, mais jamais montrée nulle part).",
+					"Deux mises en prod ont capoté sans que personne s'en aperçoive tout de suite : deux PR différentes avaient été mergées dans une branche intermédiaire déjà obsolète au lieu de `main`, donc jamais réellement déployées malgré leur statut « merged » sur GitHub. Rattrapées en rebasant sur `main` à jour — retenu pour la suite : toujours vérifier qu'une branche de destination n'a pas déjà été mergée ailleurs avant d'y empiler une nouvelle PR.",
+					"Le catalogue de cartes du deck builder web est enfin passé à l'anglais (noms, effets, textes d'ambiance, mots-clés, tooltips), synchronisé depuis les traductions du jeu. Au passage, un bug d'affichage du « stock » de cartes a été inversé (il fallait pouvoir acheter les copies 2 à 4 d'une carte, pas juste la première), un bouton « Importer » cassé a été réparé, et un filigrane de type de carte mal centré sur les cartes au texte long a été corrigé."
+				]
+			},
+			{
+				"heading": "Backend : nettoyage et petits raccords",
+				"paragraphs": [
+					"Un bug d'accès admin resté invisible depuis un moment a été trouvé et corrigé : la variable listant les comptes administrateurs n'était tout simplement jamais transmise au conteneur en production, malgré sa présence dans le fichier `.env` du serveur — personne n'a donc jamais pu obtenir les droits admin via ce mécanisme jusqu'ici. Un script de génération de données a aussi été corrigé : il ne filtrait pas les cartes exclusives au mode Arena, ce qui laissait traîner une douzaine de cartes fantômes (image et effets d'une autre carte) dans la base — le vrai total est maintenant de 304 cartes collectionnables (76 par race) au lieu de 316."
+				]
+			},
+			{
+				"heading": "Le deck builder repensé en profondeur",
+				"paragraphs": [
+					"Une longue revue de code du deck builder, demandée pour repérer les bugs latents avant qu'ils ne posent problème, a débouché sur une série d'améliorations concrètes. Un deck créé ou modifié sur le site n'apparaissait pas dans le jeu tant que celui-ci n'était pas redémarré — corrigé en resynchronisant avec le serveur à chaque ouverture de l'écran « Mes Decks », pas seulement au lancement du jeu. Le badge de complétion d'un deck affichait un chiffre absurde (« 50/40 ») faute d'utiliser la vraie taille minimale d'un deck (40 cartes jouables + 10 cartes-ressource). Un deck non conforme (trop petit, ressources de race manquantes) est maintenant carrément désactivé à la sélection plutôt que simplement signalé par une infobulle.",
+					"Le plus gros changement : il est désormais possible de construire un deck avec des cartes qu'on ne possède pas encore, jusqu'à en acheter les copies manquantes directement depuis l'écran (bouton « Acheter les cartes manquantes », ou achat ligne par ligne pour une carte partiellement possédée). Un vrai bug a aussi été trouvé au passage : le bouton « Ne pas sauvegarder » de la popup de sortie sauvegardait quand même les modifications, parce que l'objet de deck en cours d'édition était le même que celui rangé en mémoire — pas une copie — et se trouvait donc déjà muté avant même de cliquer sur Sauvegarder. Corrigé par un instantané restauré au moment d'annuler.",
+					"Côté confort : liste des cartes du deck triée par coût, badge de coût coloré par race, et retrait du symbole de rareté sur le bandeau des cartes (jugé trop chargé visuellement, la couleur du bandeau reste seule à indiquer la rareté)."
+				]
+			},
+			{
+				"heading": "Rétention : quêtes hebdomadaires et parrainage",
+				"paragraphs": [
+					"Deux nouveaux systèmes de rétention ont été conçus, contractés (`docs/backend-contracts/`) puis implémentés des deux côtés : des quêtes hebdomadaires à objectifs plus longs que les quotidiennes, récompensées en packs à ouvrir, et un parrainage limité à un seul filleul par joueur (contrainte anti-abus explicite), récompensé de 3 packs + 500 pièces d'or au parrain quand le filleul termine le tutoriel. Le client affiche les quêtes hebdo sous les quotidiennes dans le même écran, un nouveau panneau de parrainage (code personnel, lien à copier, statut, champ pour entrer un code reçu) apparaît en bas de l'écran Profil et automatiquement en popup une seule fois juste après le tutoriel — un moment jugé plus naturel pour un nouveau joueur que d'aller le chercher dans un menu."
+				]
+			},
+			{
+				"heading": "Une grosse chasse aux bugs",
+				"paragraphs": [
+					"Une longue liste de retours accumulés (une trentaine d'items) a été traitée par petits lots thématiques, chacun sur sa propre branche."
+				]
+			},
+			{
+				"heading": "Cartes et effets",
+				"paragraphs": [
+					"Aura de Décrépitude ne se déclenchait jamais sur une attaque du héros (copié-collé d'une autre carte, jamais corrigé).",
+					"Le mot-clé MOISSON ne soignait que l'attaquant, jamais le défenseur qui inflige des dégâts en se défendant.",
+					"Vortex des Âmes ajoutait bien du mana temporaire mais sans jamais l'afficher.",
+					"Autel des Damnés piochait à chaque mort d'allié au lieu d'une fois par tour.",
+					"Berserker du Pacte accordait le mot-clé ASSAUT sans jamais permettre d'attaquer dans la foulée.",
+					"Sceau du Répit soignait à la mort de n'importe quel allié plutôt que d'un Démon spécifiquement.",
+					"16 cartes Abomination affichaient un mot-clé de base incorrect à cause d'un champ silencieusement ignoré sur le script concerné.",
+					"L'Innommable volait la cible ennemie au lieu de se transformer en elle — corrigé en profondeur : elle copie maintenant les mots-clés et effets de la cible tout en gardant ses propres statistiques."
+				]
+			},
+			{
+				"heading": "Règles",
+				"paragraphs": [
+					"Retrait de la limite de PV sur les deux cartes à Sacrifice qui la portaient encore.",
+					"Garde-fou générique contre les boucles infinies pour les triggers « une fois par tour » portés directement par un serviteur (jusqu'ici seuls les enchantements/rituels en bénéficiaient).",
+					"Refonte de Bouclier de la Foi : annule maintenant purement et simplement le premier sort ennemi du tour, quelle que soit sa cible, plutôt que de simplement réduire des dégâts — sa description n'avait jamais suivi une simplification passée du code."
+				]
+			},
+			{
+				"heading": "Interface et plateau",
+				"paragraphs": [
+					"La sélection d'attaque restait active en changeant de tour ou en ciblant un sort, provoquant des attaques non désirées ; la main et le bandeau de mulligan passaient sous d'autres éléments d'interface faute de z-index cohérent ; le plafond du mulligan est remonté de 2 à 4 échanges (avec possibilité de rééchanger une carte déjà échangée) ; les rituels d'annulation de sort restaient totalement silencieux quand ils annulaient effectivement quelque chose ; un serviteur restait visuellement « épuisé » après avoir re-attaqué via Contre-Offensive alors que la règle fonctionnait correctement."
+				]
+			},
+			{
+				"heading": "La popup du Pacte",
+				"paragraphs": [
+					"Un bug particulièrement coriace a nécessité plusieurs passes. Après deux correctifs de garde-fou contre des références à la partie devenue invalide pendant l'attente du joueur, la vraie cause a fini par être isolée : les callbacks des boutons Oui/Non modifiaient des variables locales capturées par valeur dans une fonction GDScript en attente — cliquer ne faisait donc littéralement rien avancer. Corrigé en remplaçant ces variables par un dictionnaire (capturé par référence), le même patron déjà utilisé ailleurs dans le projet pour cette classe de bug précise."
+				]
+			},
+			{
+				"heading": "Confort de jeu",
+				"paragraphs": [
+					"Animation de pioche et de pose de carte ajoutée côté IA et adversaire réseau (avec une pause d'une seconde entre chaque action, pour un rythme plus lisible), tooltip d'historique des bonus/malus au survol d'un serviteur (repensé une deuxième fois en cours de semaine pour refléter l'état réel du serviteur plutôt qu'un journal qui pouvait afficher des effets déjà expirés), icônes de mots-clés sur le plateau posées sur un badge sombre pour rester lisibles sur n'importe quel artwork, cimetière et pioche restante qui groupent maintenant les copies identiques avec un badge « xN » au lieu d'une vignette par carte, et correction d'un bug d'affichage qui faisait disparaître l'aperçu du cimetière côté joueur (un `z_index` négatif hérité d'un fix plus ancien, qui le faisait dessiner sous le fond d'écran)."
+				]
+			},
+			{
+				"heading": "Boutique de packs et qualité visuelle",
+				"paragraphs": [
+					"La boutique de packs a été revue en profondeur : rythme de révélation accéléré et progressif sur une ouverture multiple, survol des cartes révélées, bordure du dos de carte réduite de moitié (une texture partagée par tout le jeu, donc le gain profite partout), et habillage du panneau dans le même style que les autres popups du jeu. Un bug de positionnement a aussi été corrigé : les cartes révélées volaient hors du panneau depuis que la boutique est devenue une vue intégrée au menu plutôt qu'un plein écran, ses coordonnées de grille étant calculées en position relative mais utilisées comme absolues.",
+					"Autre correctif discret mais notable : les bordures de carte paraissaient plus nettes sur le site que dans le jeu alors que ce sont exactement les mêmes fichiers. Cause double — aucun filtre de texture avec mipmaps n'était configuré pour le rendu 2D du projet, et les artworks étaient importés sans mipmaps ni haute qualité d'encodage. Corrigé sur l'ensemble des 307 fichiers concernés, sans impact sur la mémoire vidéo utilisée."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"Restent ouverts : le build Steam, l'extension du prototype Arena au réseau à huit joueurs, les animations en shaders, le déploiement en production des routes backend de matchmaking classé, des quêtes hebdomadaires et du parrainage (déjà écrites côté client, en attente côté serveur), et la fin de la liste de retours utilisateur entamée cette semaine (aperçu de ciblage, ouverture de pack, quelques cartes encore à vérifier en jeu)."
+				]
+			}
+		]
+	}
+}
