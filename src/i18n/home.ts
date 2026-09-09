@@ -135,8 +135,8 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane is an indie project actively being built, and cards, mechanics and this very website evolve every week. Some features shown here may still change before release. Follow the Dev Log and our socials to watch it take shape.",
 		deckSection: {
 			title: "Build your deck",
-			text: "Compose your deck from the game's races and their keywords. Decks built here will be directly usable in the game, ready for when the deck builder opens up.",
-			badge: "Coming soon",
+			text: "Compose your deck from the game's races and their keywords. Decks built here are directly usable in the game.",
+			badge: "Open the deck builder",
 		},
 		playSection: {
 			title: "Play a match",
@@ -247,8 +247,8 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 			"Wyrdane est un projet indépendant en cours de développement actif, les cartes, les mécaniques et ce site lui-même évoluent chaque semaine. Certains éléments présentés ici peuvent encore changer avant la sortie. Suis le Dev Log et nos réseaux pour voir le jeu prendre forme.",
 		deckSection: {
 			title: "Compose ton deck",
-			text: "Assemble ton deck parmi les races du jeu et leurs mots-clés. Les decks créés ici seront directement utilisables dans le jeu, prêts pour l'ouverture du deck builder.",
-			badge: "Bientôt disponible",
+			text: "Assemble ton deck parmi les races du jeu et leurs mots-clés. Les decks créés ici sont directement utilisables dans le jeu.",
+			badge: "Accéder au deck builder",
 		},
 		playSection: {
 			title: "Joue une partie",

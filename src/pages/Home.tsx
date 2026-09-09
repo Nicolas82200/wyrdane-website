@@ -138,7 +138,9 @@ const Home = () => {
 
 			<Reveal className="section section-cta">
 				<h2>{t.deckSection.title}</h2>
-				<span className="cta-badge">{t.deckSection.badge}</span>
+				<Link to="/decks" className="cta-badge cta-badge-link">
+					{t.deckSection.badge}
+				</Link>
 				<p className="section-lead">{t.deckSection.text}</p>
 			</Reveal>
 
