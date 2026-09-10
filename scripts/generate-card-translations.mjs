@@ -80,12 +80,23 @@ if (frIdx === -1 || enIdx === -1) {
 	throw new Error(`Colonnes fr/en introuvables dans l'en-tête : ${header.join(",")}`);
 }
 
+// Les champs multi-lignes du CSV Godot stockent un saut de ligne comme la
+// séquence littérale backslash+n (deux caractères) plutôt qu'un vrai retour
+// à la ligne ; Godot la dé-échappe à l'import du CSV en .translation, donc
+// le texte réellement affiché en jeu contient un vrai saut de ligne — on
+// reproduit cette conversion ici pour que la table corresponde à ce que
+// les autres fichiers du site (ex. src/data/keywords.ts, tapés à la main
+// avec de vrais retours à la ligne JS) utilisent comme clé de lookup.
+function unescapeNewlines(value) {
+	return value.replace(/\\n/g, "\n");
+}
+
 const table = {};
 for (const row of rows.slice(1)) {
 	const fr = row[frIdx];
 	const en = row[enIdx];
 	if (!fr || !en) continue;
-	table[fr] = en;
+	table[unescapeNewlines(fr)] = unescapeNewlines(en);
 }
 
 const sorted = Object.fromEntries(Object.entries(table).sort(([a], [b]) => a.localeCompare(b)));

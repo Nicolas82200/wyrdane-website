@@ -8,7 +8,10 @@ export type KeywordInfo = {
 
 export const KEYWORDS: KeywordInfo[] = [
 	// Génériques
-	{ name: "Rempart", description: "Doit être attaqué en priorité par les serviteurs ennemis." },
+	{
+		name: "Rempart",
+		description: "Doit être attaqué en priorité par les serviteurs que votre adversaire contrôle.",
+	},
 	{ name: "Assaut", description: "Peut attaquer dès le tour où elle est invoquée." },
 	{ name: "Égide", description: "Absorbe la prochaine source de dégâts. Le bouclier disparaît ensuite." },
 	{ name: "Moisson", description: "Les dégâts infligés soignent votre héros d'autant." },
@@ -25,11 +28,19 @@ export const KEYWORDS: KeywordInfo[] = [
 			"Ignore la rangée Avant ennemie ; peut cibler directement la rangée Arrière ou le héros.",
 	},
 	// Humain
-	{ name: "Discipline", description: "Immunisé aux effets de silence, contrôle mental et peur ennemis." },
-	{ name: "Formation", description: "Tant qu'un serviteur allié est adjacent, ce serviteur gagne +1/+1." },
+	{
+		name: "Discipline",
+		description:
+			"Immunisé aux effets néfastes raciaux (Infection, Corruption, Terreur), au silence et au contrôle mental.",
+	},
+	{
+		name: "Formation",
+		description: "Tant qu'un serviteur que vous contrôlez est adjacent, ce serviteur gagne +1/+1.",
+	},
 	{
 		name: "Contre-attaque",
-		description: "Blessure : si ce serviteur survit, inflige son ATK en retour à l'attaquant.",
+		description:
+			"Si ce serviteur survit après avoir attaqué ou défendu, inflige à nouveau son ATK au serviteur qui lui a infligé des dégâts.",
 	},
 	{
 		name: "Commandement",
@@ -43,7 +54,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{ name: "Pestiféré", description: "Les attaques de ce serviteur infligent Infection en plus des dégâts." },
 	{
 		name: "Nécrophage",
-		description: "Quand un serviteur allié meurt, ce serviteur gagne +1/+1 de façon permanente.",
+		description: "Quand un serviteur que vous contrôlez meurt, ce serviteur gagne +1/+1 de façon permanente.",
 	},
 	{ name: "Horde", description: "Tant que tu contrôles 3 Morts-Vivants ou plus, ce serviteur gagne +1/+0." },
 	{
@@ -51,7 +62,10 @@ export const KEYWORDS: KeywordInfo[] = [
 		description:
 			"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par partie).",
 	},
-	{ name: "Chair morte", description: "Immunisé à l'Infection, au poison et aux effets de peur." },
+	{
+		name: "Chair morte",
+		description: "Immunisé aux effets néfastes raciaux (Infection, Corruption, Terreur).",
+	},
 	// Démon
 	{
 		name: "Pacte",
@@ -65,7 +79,8 @@ export const KEYWORDS: KeywordInfo[] = [
 	},
 	{
 		name: "Terreur",
-		description: "Quand ce serviteur attaque, la cible ne peut pas attaquer lors du prochain tour adverse.",
+		description:
+			"Quand ce serviteur inflige des dégâts (combat ou effet), la ou les cibles touchées ne peuvent pas attaquer lors du prochain tour de leur contrôleur.",
 	},
 	{
 		name: "Rang infernal",
@@ -86,16 +101,17 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Fusion",
 		description:
-			"Sacrifice un serviteur allié adjacent : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
+			"Sacrifice un serviteur adjacent que vous contrôlez : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
 	},
 	{
 		name: "Virulent",
-		description: "Dernier Souffle : le serviteur allié adjacent déclenche immédiatement une mutation.",
+		description:
+			"Quand ce serviteur meurt, le serviteur adjacent que vous contrôlez déclenche immédiatement une mutation.",
 	},
 	{
 		name: "Chair adaptative",
 		description:
-			"Arrivée : copie un mot-clé au choix présent sur un serviteur adjacent (allié ou ennemi), de façon permanente.",
+			"Arrivée : copie un mot-clé au choix présent sur un serviteur en jeu (allié ou ennemi), de façon permanente.",
 	},
 	{
 		name: "Assimilation",
@@ -105,7 +121,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Instable",
 		description:
-			"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis : sa chair est trop erratique pour être stabilisée.",
+			"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis, sa chair est trop erratique pour être stabilisée.",
 	},
 ];
 
