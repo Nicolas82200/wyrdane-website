@@ -18,12 +18,12 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Desktop only, for now",
 		deckBuilderMobileText:
 			"The deck builder isn't adapted to small screens yet. Come back on a computer to build and manage your decks.",
-		footerTagline: "Wyrdane, a dark fantasy card game in development.",
+		footerTagline: "Wyrdane, a dark fantasy card game developed by Nertari Studio.",
 		footerLegalNotice: "Legal Notice",
 		footerTerms: "Terms of Use",
 		footerPrivacy: "Privacy Policy",
 		footerSales: "Terms of Sale",
-		footerRights: "© {year} Wyrdane. All rights reserved.",
+		footerRights: "© {year} Nertari Studio. All rights reserved.",
 	},
 	fr: {
 		navHome: "Accueil",
@@ -42,12 +42,12 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Disponible sur ordinateur uniquement",
 		deckBuilderMobileText:
 			"Le deck builder n'est pas encore adapté aux petits écrans. Reviens depuis un ordinateur pour composer et gérer tes decks.",
-		footerTagline: "Wyrdane, jeu de cartes dark fantasy en développement.",
+		footerTagline: "Wyrdane, jeu de cartes dark fantasy développé par Nertari Studio.",
 		footerLegalNotice: "Mentions légales",
 		footerTerms: "CGU",
 		footerPrivacy: "Confidentialité",
 		footerSales: "CGV",
-		footerRights: "© {year} Wyrdane. Tous droits réservés.",
+		footerRights: "© {year} Nertari Studio. Tous droits réservés.",
 	},
 } satisfies Record<Language, Record<string, string>>;
 
