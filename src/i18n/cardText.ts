@@ -4,8 +4,8 @@ import type { Language } from "./language";
 // Table FR -> EN générée depuis translations/game.csv du jeu (repo séparé
 // card-game) : clé = texte FR affiché (noms/effets/flavour de carte, mais
 // aussi labels d'enum type/race/rareté et noms/descriptions de mots-clés, qui
-// partagent le même fichier). Régénérée avec un simple script Python
-// (csv.DictReader sur translations/game.csv, colonnes fr->en, dump JSON) —
+// partagent le même fichier). Régénérée avec scripts/generate-card-translations.mjs
+// (node scripts/generate-card-translations.mjs [chemin-vers-card-game]) —
 // à refaire à chaque changement de carte/mot-clé côté jeu, même logique que
 // gameCards.json/keywords.ts (copies statiques qui se désynchronisent
 // silencieusement, voir CLAUDE.md du site).
