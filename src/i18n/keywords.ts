@@ -161,7 +161,7 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "virulent",
 				name: "Virulent",
 				description:
-					"Deathrattle: the adjacent allied minion immediately triggers a mutation.",
+					"When this minion dies, the adjacent allied minion immediately triggers a mutation.",
 			},
 			{
 				id: "chair_adaptative",
@@ -336,7 +336,8 @@ const FR_GROUPS: KeywordGroup[] = [
 			{
 				id: "virulent",
 				name: "Virulent",
-				description: "Dernier Souffle : le serviteur allié adjacent déclenche immédiatement une mutation.",
+				description:
+					"Quand ce serviteur meurt, le serviteur allié adjacent déclenche immédiatement une mutation.",
 			},
 			{
 				id: "chair_adaptative",

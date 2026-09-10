@@ -14,14 +14,14 @@ export const TRIGGERS: TriggerInfo[] = [
 	{ name: "Blessure", description: "Déclenché quand ce serviteur reçoit des dégâts." },
 	{ name: "Éveil", description: "Déclenché au début de votre tour." },
 	{ name: "Déclin", description: "Déclenché au début du tour ennemi." },
-	{ name: "Deuil", description: "Déclenché quand un serviteur allié meurt." },
+	{ name: "Deuil", description: "Déclenché quand un serviteur que vous contrôlez meurt." },
 	{ name: "Sortilège", description: "Déclenché quand l'adversaire joue un sort." },
 	{
 		name: "Sacrifice",
 		description: "Sacrifie un ou plusieurs serviteurs en coût supplémentaire.",
 	},
 	{ name: "Exécution", description: "Déclenché quand ce serviteur tue un ennemi en attaquant." },
-	{ name: "Carnage", description: "Déclenché quand un serviteur ennemi meurt." },
+	{ name: "Carnage", description: "Déclenché quand un serviteur que votre adversaire contrôle meurt." },
 	{ name: "Attaque", description: "Déclenché quand ce serviteur attaque." },
 	{
 		name: "Mort-rage",
@@ -34,16 +34,16 @@ export const TRIGGERS: TriggerInfo[] = [
 	},
 	{
 		name: "Renfort",
-		description: "Déclenché chaque fois qu'un serviteur allié arrive sur le champ de bataille.",
+		description: "Déclenché chaque fois qu'un serviteur que vous contrôlez arrive sur le champ de bataille.",
 	},
-	{ name: "Résonance", description: "Déclenché quand un serviteur allié attaque." },
+	{ name: "Résonance", description: "Déclenché quand un serviteur que vous contrôlez attaque." },
 	{
 		name: "Sacrifice du sang",
 		description: "Déclenché quand ton héros perd des HP à cause d'une de tes propres cartes.",
 	},
 	{
 		name: "Mutation",
-		description: "Déclenché quand un serviteur allié Abomination gagne une mutation.",
+		description: "Déclenché quand une Abomination que vous contrôlez gagne une mutation.",
 	},
 	{
 		name: "Dévoration",
