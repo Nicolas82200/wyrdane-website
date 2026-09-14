@@ -5,15 +5,25 @@ import { LanguageContext, type Language } from "./language";
 const STORAGE_KEY = "wyrdane-language";
 
 const readInitialLanguage = (): Language => {
-	const stored = localStorage.getItem(STORAGE_KEY);
-	return stored === "fr" ? "fr" : "en";
+	try {
+		const stored = localStorage.getItem(STORAGE_KEY);
+		return stored === "fr" ? "fr" : "en";
+	} catch {
+		return "en";
+	}
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 	const [language, setLanguageState] = useState<Language>(readInitialLanguage);
 
 	useEffect(() => {
-		localStorage.setItem(STORAGE_KEY, language);
+		try {
+			localStorage.setItem(STORAGE_KEY, language);
+		} catch {
+			// localStorage indisponible (navigation privée stricte, cookies
+			// tiers bloqués...) : la langue reste effective pour cette session,
+			// simplement pas mémorisée pour la prochaine visite.
+		}
 		document.documentElement.lang = language;
 	}, [language]);
 

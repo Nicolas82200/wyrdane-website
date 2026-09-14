@@ -461,6 +461,11 @@ export default function DeckBuilder() {
 	}
 
 	async function buyCard(card: CardData) {
+		// Un seul achat à la fois : sans cette garde, cliquer rapidement sur
+		// deux cartes différentes pendant qu'un premier achat est en cours
+		// lance des requêtes concurrentes sans qu'aucun bouton ne les bloque
+		// (seul le bouton de la carte en cours d'achat se désactive).
+		if (buyingId !== null) return;
 		setBuyingId(card.id);
 		setBuyError(null);
 		try {
@@ -801,7 +806,7 @@ export default function DeckBuilder() {
 										<button
 											type="button"
 											className="db-buy-btn"
-											disabled={buyingId === card.id}
+											disabled={buyingId !== null}
 											onClick={(e) => {
 												e.stopPropagation();
 												buyCard(card);

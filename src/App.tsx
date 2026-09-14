@@ -8,8 +8,10 @@ import ScrollToTop from "./components/ScrollToTop";
 import SiteFooter from "./components/SiteFooter";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { usePageviewTracking } from "./hooks/usePageviewTracking";
+import { usePrefersReducedMotion } from "./hooks/usePrefersReducedMotion";
 function App() {
 	const isMobile = useIsMobile();
+	const prefersReducedMotion = usePrefersReducedMotion();
 	usePageviewTracking();
 	// Le deck builder (/decks/new, /decks/:deckId) est une mise en page fixe
 	// plein écran (100vh, son propre défilement interne pour la grille/la
@@ -22,7 +24,7 @@ function App() {
 
 	return (
 		<div className="app">
-			{isMobile ? (
+			{isMobile || prefersReducedMotion ? (
 				<img className="background-image" src={mobileBackground} alt="" />
 			) : (
 				<video className="background-video" autoPlay loop muted playsInline>
