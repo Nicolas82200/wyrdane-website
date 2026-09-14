@@ -149,13 +149,21 @@ const TYPE_LABEL_CENTER_X = 125;
 const TYPE_LABEL_FONT = '700 10px "CinzelCard", serif';
 
 let typeLabelCanvas: HTMLCanvasElement | null = null;
+// Beaucoup de cartes partagent le même typeText ("Serviteur", etc.) : cache
+// par texte pour éviter de remesurer sur le canvas à chaque rendu de chaque
+// GameCard (la grille du deck builder en affiche des centaines à la fois).
+const typeLabelWidthCache = new Map<string, number>();
 function measureTypeLabelWidth(text: string): number {
+	const cached = typeLabelWidthCache.get(text);
+	if (cached !== undefined) return cached;
 	if (typeof document === "undefined") return TYPE_LABEL_MIN_WIDTH;
 	if (!typeLabelCanvas) typeLabelCanvas = document.createElement("canvas");
 	const ctx = typeLabelCanvas.getContext("2d");
 	if (!ctx) return TYPE_LABEL_MIN_WIDTH;
 	ctx.font = TYPE_LABEL_FONT;
-	return ctx.measureText(text).width;
+	const width = ctx.measureText(text).width;
+	typeLabelWidthCache.set(text, width);
+	return width;
 }
 
 export default function GameCard({ card }: { card: CardData }) {

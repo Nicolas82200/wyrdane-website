@@ -94,7 +94,7 @@ const BoardDiagram = () => {
 						className={`board-zone zone-${zone.side}`}
 						style={zone.style}
 						tabIndex={0}
-						role="button"
+						role="group"
 						aria-label={`${zoneText.label} : ${zoneText.text}`}
 					>
 						<div className={`board-tooltip v-${zone.side === "enemy" ? "below" : "above"}`}>
