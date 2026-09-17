@@ -2,79 +2,67 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
+	min-height: calc(100vh - 64px);
 	width: 100%;
 	padding: 24px;
 	box-sizing: border-box;
 }
 
-.play-stage {
-	display: inline-block;
-	width: 100%;
-	max-width: 480px;
-}
-
-.play-view {
-	background: var(--panel-bg);
-	border: 1px solid var(--panel-border);
-	border-radius: 8px;
-	padding: 40px 36px;
+.play-hero {
+	max-width: 680px;
 	text-align: center;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-.play-view h1 {
+.play-eyebrow {
+	display: block;
+	font-family: "Crimson Text", serif;
+	font-size: 13px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgba(232, 213, 163, 0.55);
+	margin-bottom: 14px;
+}
+
+.play-hero h1 {
 	font-family: "MedievalSharp", "Cinzel Decorative", serif;
 	font-weight: 700;
-	font-size: 32px;
+	font-size: 44px;
 	letter-spacing: 0.02em;
-	color: var(--gold);
-	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
-	margin: 0 0 16px;
-}
-
-.play-steam-badge {
-	display: inline-block;
-	font-family: "Crimson Text", serif;
-	font-size: 14px;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
 	color: var(--gold-bright);
-	background: rgba(201, 162, 39, 0.18);
-	border: 1px solid var(--btn-border-hover);
-	border-radius: 999px;
-	padding: 6px 16px;
-	margin: 0 0 16px;
+	text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.85);
+	margin: 0 0 18px;
 }
 
-.play-steam-text {
+.play-hero-subtitle {
 	font-family: "Crimson Text", serif;
-	font-size: 15px;
+	font-style: italic;
+	font-size: 17px;
 	line-height: 1.6;
-	color: rgba(232, 213, 163, 0.75);
-	margin: 0 0 24px;
+	color: rgba(232, 213, 163, 0.8);
+	margin: 0 0 32px;
 }
 
-.play-nav {
+.play-hero-actions {
 	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	margin-top: 8px;
+	gap: 16px;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-bottom: 28px;
 }
 
 /* .btn n'impose pas display: la balise <a> reste "inline" par défaut et
-   ignore alors min-height/centrage vertical (même correctif que
-   .hero-actions .btn dans Home.css pour le même problème). */
-.play-nav .btn {
+   ignore alors min-height/centrage vertical. */
+.play-hero-actions .btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	text-decoration: none;
+	min-height: 52px;
+	padding: 0 28px;
 }
 
 .play-back-link {
-	margin-top: 4px;
-	text-align: center;
+	display: inline-block;
 	font-family: "Crimson Text", serif;
 	font-size: 14px;
 	color: rgba(232, 213, 163, 0.6);
@@ -84,4 +72,10 @@
 
 .play-back-link:hover {
 	color: var(--gold-bright);
+}
+
+@media (max-width: 640px) {
+	.play-hero h1 {
+		font-size: 32px;
+	}
 }

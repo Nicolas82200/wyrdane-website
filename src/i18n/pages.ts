@@ -3,8 +3,10 @@ import type { Language } from "./language";
 export type PagesContent = {
 	play: {
 		title: string;
-		steamSoonTitle: string;
-		steamSoonText: string;
+		eyebrow: string;
+		heroTitle: string;
+		heroSubtitle: string;
+		wishlistCta: string;
 		steamLink: string;
 		backHome: string;
 	};
@@ -19,6 +21,14 @@ export type PagesContent = {
 		title: string;
 		subtitle: string;
 	};
+	newsHub: {
+		title: string;
+		subtitle: string;
+		tabAll: string;
+		tabNews: string;
+		tabDevlog: string;
+		empty: string;
+	};
 	devLog: {
 		title: string;
 		subtitle: string;
@@ -29,10 +39,12 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 	en: {
 		play: {
 			title: "WYRDANE",
-			steamSoonTitle: "Wishlist Wyrdane on Steam",
-			steamSoonText:
-				"The game is still in development and isn't playable yet, but its Steam page is live right now. Wishlist it to be notified the moment it launches.",
-			steamLink: "View the Steam page",
+			eyebrow: "Play",
+			heroTitle: "Enter the arena",
+			heroSubtitle:
+				"Wyrdane is available on Steam. No browser game: the full experience awaits you on PC.",
+			wishlistCta: "Add to wishlist",
+			steamLink: "View on Steam →",
 			backHome: "← Back to home",
 		},
 		auth: {
@@ -46,6 +58,14 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 			title: "News",
 			subtitle: "Announcements, releases, and major changes to Wyrdane.",
 		},
+		newsHub: {
+			title: "News & Devlog",
+			subtitle: "Announcements, releases, and Wyrdane's development journal, all in one place.",
+			tabAll: "All",
+			tabNews: "News",
+			tabDevlog: "Devlog",
+			empty: "Nothing here yet.",
+		},
 		devLog: {
 			title: "Dev Log",
 			subtitle: "Wyrdane's development journal, entry by entry.",
@@ -54,10 +74,12 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 	fr: {
 		play: {
 			title: "WYRDANE",
-			steamSoonTitle: "Ajoute Wyrdane à ta liste de souhaits Steam",
-			steamSoonText:
-				"Le jeu est encore en développement et n'est pas encore jouable, mais sa page Steam est en ligne dès maintenant. Ajoute-le à ta liste de souhaits pour être prévenu dès la sortie.",
-			steamLink: "Voir la page Steam",
+			eyebrow: "Jouer",
+			heroTitle: "Entre dans l'arène",
+			heroSubtitle:
+				"Wyrdane est disponible sur Steam. Aucun jeu navigateur : l'expérience complète t'attend sur PC.",
+			wishlistCta: "Ajouter à la liste de souhaits",
+			steamLink: "Voir sur Steam →",
 			backHome: "← Retour à l'accueil",
 		},
 		auth: {
@@ -70,6 +92,14 @@ export const PAGES_CONTENT: Record<Language, PagesContent> = {
 		news: {
 			title: "Actualités",
 			subtitle: "Les annonces, sorties et évolutions majeures de Wyrdane.",
+		},
+		newsHub: {
+			title: "Actualités & Devlog",
+			subtitle: "Les annonces, sorties et le journal de développement de Wyrdane, au même endroit.",
+			tabAll: "Tout",
+			tabNews: "Actualités",
+			tabDevlog: "Devlog",
+			empty: "Rien à afficher pour l'instant.",
 		},
 		devLog: {
 			title: "Dev Log",

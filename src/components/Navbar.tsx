@@ -47,8 +47,8 @@ const Navbar = () => {
 
 	const links = [
 		{ to: "/", label: t.navHome, end: true },
+		// Couvre à la fois les actualités et le devlog (voir NewsHub.tsx).
 		{ to: "/news", label: t.navNews, end: false },
-		{ to: "/dev-log", label: t.navDevLog, end: false },
 		{ to: "/contact", label: t.navContact, end: false },
 	];
 
@@ -107,9 +107,7 @@ const Navbar = () => {
 							key={link.to}
 							to={link.to}
 							end={link.end}
-							className={({ isActive }) =>
-								`navbar-link ${isActive ? "active" : ""}`
-							}
+							className={({ isActive }) => `navbar-link ${isActive ? "active" : ""}`}
 							onClick={() => setOpen(false)}
 						>
 							{link.label}

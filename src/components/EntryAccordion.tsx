@@ -26,7 +26,14 @@ const EntryAccordion = ({ entries }: { entries: Entry[] }) => {
 							onClick={() => setOpenId(isOpen ? null : id)}
 						>
 							<span className="entry-header-text">
-								<span className="entry-date">{entry.date}</span>
+								<span className="entry-meta">
+									{entry.kind && (
+										<span className={`entry-kind-badge entry-kind-${entry.kind}`}>
+											{entry.kind === "devlog" ? "Devlog" : "Actualité"}
+										</span>
+									)}
+									<span className="entry-date">{entry.date}</span>
+								</span>
 								<h2>{entry.title[language]}</h2>
 							</span>
 							<span className="entry-chevron" aria-hidden="true" />

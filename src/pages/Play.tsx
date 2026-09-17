@@ -12,26 +12,32 @@ const Play = () => {
 
 	return (
 		<div className="play">
-			<div className="play-stage">
-				<div className="play-view">
-					<h1>{t.title}</h1>
-					<p className="play-steam-badge">{t.steamSoonTitle}</p>
-					<p className="play-steam-text">{t.steamSoonText}</p>
-					<nav className="play-nav">
-						<a
-							href="https://store.steampowered.com/app/5052390/Wyrdane/"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="btn btn-primary"
-						>
-							{t.steamLink}
-						</a>
-						<Link to="/" className="play-back-link">
-							{t.backHome}
-						</Link>
-					</nav>
+			<section className="play-hero">
+				<span className="play-eyebrow">{t.eyebrow}</span>
+				<h1>{t.heroTitle}</h1>
+				<p className="play-hero-subtitle">{t.heroSubtitle}</p>
+				<div className="play-hero-actions">
+					<a
+						href="https://store.steampowered.com/app/5052390/Wyrdane/"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="btn btn-primary"
+					>
+						{t.wishlistCta}
+					</a>
+					<a
+						href="https://store.steampowered.com/app/5052390/Wyrdane/"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="btn"
+					>
+						{t.steamLink}
+					</a>
 				</div>
-			</div>
+				<Link to="/" className="play-back-link">
+					{t.backHome}
+				</Link>
+			</section>
 		</div>
 	);
 };

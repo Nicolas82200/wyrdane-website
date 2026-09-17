@@ -71,6 +71,22 @@
 	padding: 72px 24px;
 	scroll-snap-align: start;
 	scroll-snap-stop: always;
+	/* Offset pour le scroll vers une ancre (SectionNav.tsx) : la navbar sticky
+	   ne doit jamais recouvrir le haut de la section visée. */
+	scroll-margin-top: var(--navbar-height);
+}
+
+/* Section "types de cartes" : le panneau doit accueillir 4 cartes sur une
+   seule rangée (voir CardTypeExplorer.css), plus large que les autres
+   sections pour ne jamais les faire passer à la ligne sur desktop. */
+.section-wide {
+	max-width: 1220px;
+}
+
+/* Section "Le plateau" : le diagramme interactif est volontairement agrandi
+   (voir BoardDiagram.css), donc la section qui l'accueille doit l'être aussi. */
+.section-extra-wide {
+	max-width: 1200px;
 }
 
 .section::before {
@@ -149,45 +165,131 @@
 	margin: 0;
 }
 
-/* Races */
+/* Races : galerie d'images seules, sélection au clic (voir Home.tsx) —
+   la description apparaît sous la grille dans .race-detail, et les images
+   non sélectionnées se grisent (.dimmed) pour mettre en avant le choix. */
 .races-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	gap: 20px;
 }
 
 .race-card {
+	appearance: none;
+	width: 100%;
+	display: block;
+	font: inherit;
+	color: var(--gold);
 	background: var(--panel-bg);
 	border: 1px solid var(--panel-border);
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 	text-align: center;
-	padding-bottom: 20px;
+	padding: 0 0 16px;
+	cursor: pointer;
+	transition:
+		border-color 0.2s ease,
+		filter 0.35s ease,
+		opacity 0.35s ease,
+		transform 0.2s ease;
+}
+
+.race-card:hover {
+	border-color: var(--btn-border-hover);
+	transform: translateY(-2px);
+}
+
+.race-card.active {
+	border-color: var(--gold-pressed);
+	box-shadow:
+		0 8px 32px rgba(0, 0, 0, 0.5),
+		0 0 0 1px rgba(240, 192, 64, 0.4);
+}
+
+.race-card.dimmed {
+	filter: grayscale(1) brightness(0.55);
+	opacity: 0.6;
+	transform: none;
 }
 
 .race-image {
 	width: 100%;
-	height: 220px;
+	height: 260px;
 	background-size: cover;
 	background-position: center top;
 	border-bottom: 1px solid var(--panel-border);
+	transition: filter 0.35s ease;
 }
 
 .race-card h3 {
 	font-family: "MedievalSharp", "Cinzel Decorative", serif;
 	color: var(--gold);
 	font-size: 20px;
-	margin: 16px 0 8px;
+	margin: 16px 0 0;
 }
 
-.race-card p {
+.race-detail {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.35s ease;
+	margin-top: 0;
+}
+
+.race-detail.visible {
+	grid-template-rows: 1fr;
+	margin-top: 24px;
+}
+
+.race-detail-inner {
+	overflow: hidden;
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	padding: 24px 28px;
+	text-align: center;
+	animation: race-detail-in 0.4s ease-out both;
+}
+
+@keyframes race-detail-in {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.race-detail-inner h3 {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	color: var(--gold-bright);
+	font-size: 22px;
+	margin: 0 0 10px;
+}
+
+.race-detail-inner p {
 	font-family: "Crimson Text", serif;
-	font-size: 14px;
-	line-height: 1.55;
-	color: rgba(232, 213, 163, 0.75);
+	font-size: 15px;
+	line-height: 1.65;
+	color: rgba(232, 213, 163, 0.85);
 	margin: 0;
-	padding: 0 18px;
+	max-width: 760px;
+	margin-inline: auto;
+	text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.race-card,
+	.race-image {
+		transition: none;
+	}
+
+	.race-detail-inner {
+		animation: none;
+	}
 }
 
 /* Dev notice section */

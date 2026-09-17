@@ -36,11 +36,37 @@
 	gap: 4px;
 }
 
+.entry-meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
 .entry-date {
 	font-family: "Crimson Text", serif;
 	font-size: 13px;
 	color: var(--gold-pressed);
 	letter-spacing: 0.04em;
+}
+
+.entry-kind-badge {
+	font-family: "Crimson Text", serif;
+	font-size: 10.5px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 2px 9px;
+	border-radius: 999px;
+	border: 1px solid var(--btn-border);
+}
+
+.entry-kind-news {
+	color: var(--gold-bright);
+	background: rgba(201, 162, 39, 0.18);
+}
+
+.entry-kind-devlog {
+	color: rgba(232, 213, 163, 0.8);
+	background: rgba(255, 255, 255, 0.05);
 }
 
 .entry-header h2 {

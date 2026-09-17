@@ -1,7 +1,8 @@
 .board-diagram {
 	position: relative;
 	width: 100%;
-	max-width: 1040px;
+	/* Legerement agrandi par rapport a la taille d'origine (1040px). */
+	max-width: 1150px;
 	margin: 0 auto;
 	aspect-ratio: 1679 / 1049;
 	background-size: cover;

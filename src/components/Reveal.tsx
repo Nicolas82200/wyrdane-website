@@ -6,10 +6,13 @@ type RevealProps = {
 	children: ReactNode;
 	className?: string;
 	delay?: number;
+	// Transmis tel quel au conteneur : utilisé par les sections de la page
+	// d'accueil comme ancre pour SectionNav.tsx (scrollIntoView + observer).
+	id?: string;
 };
 
 // Anime l'apparition d'un bloc quand il entre dans le viewport au scroll.
-const Reveal = ({ children, className = "", delay = 0 }: RevealProps) => {
+const Reveal = ({ children, className = "", delay = 0, id }: RevealProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [visible, setVisible] = useState(false);
 
@@ -34,6 +37,7 @@ const Reveal = ({ children, className = "", delay = 0 }: RevealProps) => {
 	return (
 		<div
 			ref={ref}
+			id={id}
 			className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
 			style={delay ? { transitionDelay: `${delay}ms` } : undefined}
 		>

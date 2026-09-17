@@ -1,0 +1,81 @@
+.section-nav {
+	position: fixed;
+	left: 20px;
+	top: 50%;
+	transform: translate(-16px, -50%);
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 10px 0;
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.25s ease,
+		transform 0.25s ease;
+}
+
+.section-nav.visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(0, -50%);
+}
+
+.section-nav-item {
+	position: relative;
+	text-align: left;
+	background: none;
+	border: none;
+	padding: 6px 0 6px 16px;
+	font-family: "Crimson Text", serif;
+	font-size: 12.5px;
+	letter-spacing: 0.02em;
+	color: rgba(232, 213, 163, 0.45);
+	cursor: pointer;
+	transition: color 0.15s ease;
+	white-space: nowrap;
+}
+
+.section-nav-item::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: rgba(232, 213, 163, 0.25);
+	transition:
+		background 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+.section-nav-item:hover {
+	color: var(--gold-bright);
+}
+
+.section-nav-item.active {
+	color: var(--gold-bright);
+	font-weight: 600;
+}
+
+.section-nav-item.active::before {
+	background: var(--gold-pressed);
+	box-shadow: 0 0 6px rgba(240, 192, 64, 0.7);
+}
+
+/* Caché tant que la fenetre n'est pas assez large pour laisser respirer les
+   sections les plus larges (jusqu'a 1220px, voir Home.css) sans que ce
+   sommaire ne chevauche leur contenu. */
+@media (max-width: 1440px) {
+	.section-nav {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.section-nav {
+		transition: none;
+	}
+}
