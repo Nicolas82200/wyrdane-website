@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -6,7 +6,6 @@ import App from "./App";
 import Home from "./pages/Home";
 import Play from "./pages/Play";
 import News from "./pages/News";
-import DevLog from "./pages/DevLog";
 import Contact from "./pages/Contact";
 import LegalPage from "./pages/LegalPage";
 import RouteError from "./pages/RouteError";
@@ -30,7 +29,10 @@ const router = createBrowserRouter([
 			{ path: "/", element: <Home /> },
 			{ path: "/play", element: <Play /> },
 			{ path: "/news", element: <News /> },
-			{ path: "/dev-log", element: <DevLog /> },
+			// Page unique Actualités/Devlog (voir NewsHub.tsx, filtre ?tab=devlog) :
+			// on garde l'ancienne URL /dev-log en redirection pour ne pas casser les
+			// liens déjà indexés/partagés.
+			{ path: "/dev-log", element: <Navigate to="/news?tab=devlog" replace /> },
 			{ path: "/contact", element: <Contact /> },
 			{ path: "/mentions-legales", element: <LegalPage pageKey="legalNotice" /> },
 			{ path: "/cgu", element: <LegalPage pageKey="terms" /> },

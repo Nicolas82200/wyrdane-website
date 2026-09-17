@@ -560,44 +560,109 @@ const vortexOfTheDamned = card({
 	image_path: "/assets/card_art/demon/vortex-of-the-damned.jpg",
 });
 
-export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
-	// Types de carte
-	serviteur: {
-		card: dawnPaladin,
-		demo: {
-			fr: "Le Paladin de l'Aube (5 mana, 4/5) est un serviteur : il occupe une case de la rangée Avant ou Arrière et reste en jeu tant qu'il n'est pas détruit.",
-			en: "Dawn Paladin (5 mana, 4/5) is a minion: it takes a spot in the Front or Back row and stays in play until destroyed.",
-		},
-	},
-	ephemere: {
-		card: arrowVolley,
-		demo: {
-			fr: "Volée de Flèches inflige ses dégâts dès qu'elle est jouée, puis part directement au cimetière : c'est un Éphémère, sans présence durable sur le plateau.",
-			en: "Arrow Volley deals its damage the instant it's played, then goes straight to the graveyard: it's an Instant, with no lasting presence on the board.",
-		},
-	},
-	rituel: {
-		card: bottomlessAbyssRitual,
-		demo: {
-			fr: "Le Rituel du Gouffre Sans Fond reste en jeu avec 2 charges : chaque fois qu'un Sacrifice 1 le déclenche réellement, il perd une charge, jusqu'à disparaître.",
-			en: "Bottomless Abyss Ritual stays in play with 2 charges: each time a Sacrifice 1 actually triggers it, it loses one charge, until it runs out.",
-		},
-	},
-	enchantement: {
-		card: auraOfCorruption,
-		demo: {
-			fr: "Aura de Corruption reste en jeu indéfiniment et s'applique passivement à chaque attaque d'un Démon allié : c'est un Enchantement, sans charges à consommer.",
-			en: "Aura of Corruption stays in play indefinitely and applies passively to every allied Demon attack: it's an Enchantment, with no charges to spend.",
-		},
-	},
-	ressource: {
-		card: royalSeal,
-		demo: {
-			fr: "Jouer le Sceau du Royaume ajoute 1 au pool de mana Humain (actuel et maximum), puis la carte quitte simplement la partie : aucune zone ne la conserve.",
-			en: "Playing Royal Seal adds 1 to the Human mana pool (current and max), then the card simply leaves the game: no zone keeps hold of it.",
-		},
-	},
+const soulShard = card({
+	name: "Chair",
+	race: "Mort-Vivant",
+	card_type: "Ressource",
+	cost: 0,
+	attack: null,
+	hp: null,
+	rarity: "Commune",
+	effect: "Ajoute 1 Chair à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
+	flavor: "Ce qui reste d'une vie, cristallisé par la nécromancie.",
+	image_path: "/assets/card_art/resource/undead-resource.jpg",
+});
 
+const pactFragment = card({
+	name: "Âme",
+	race: "Demon",
+	card_type: "Ressource",
+	cost: 0,
+	attack: null,
+	hp: null,
+	rarity: "Commune",
+	effect: "Ajoute 1 Âme à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
+	flavor: "Une clause parmi tant d'autres. Elle aussi se paiera.",
+	image_path: "/assets/card_art/resource/demon-resource.jpg",
+});
+
+const anomalyShard = card({
+	name: "Éclat d'Anomalie",
+	race: "Abomination",
+	card_type: "Ressource",
+	cost: 0,
+	attack: null,
+	hp: null,
+	rarity: "Commune",
+	effect: "Ajoute 1 Éclat à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
+	flavor: "Ça continue de battre, même détaché de tout le reste.",
+	image_path: "/assets/card_art/resource/abomination-resource.jpg",
+});
+
+const auraOfDecrepitude = card({
+	name: "Aura de Décrépitude",
+	race: "Mort-Vivant",
+	card_type: "Enchantement",
+	cost: 3,
+	attack: null,
+	hp: null,
+	rarity: "Rare",
+	effect: "Résonance : Quand un serviteur Mort-Vivant allié attaque, il gagne +1/+0 de façon permanente.",
+	flavor: "La décrépitude n'est pas une faiblesse. C'est une accumulation.",
+	image_path: "/assets/card_art/undead/aura-of-decrepitude.jpg",
+});
+
+const cryOfTheDamned = card({
+	name: "Cri des Damnés",
+	race: "Mort-Vivant",
+	card_type: "Incantation",
+	cost: 3,
+	attack: null,
+	hp: null,
+	rarity: "Rare",
+	effect: "Mort-Vivants alliés +1/+0 ce tour.\nSi 5 ou plus en jeu : +2/+0 à la place.",
+	flavor: "Plus ils sont nombreux à hurler, moins le cri ressemble à quelque chose d'humain.",
+	image_path: "/assets/card_art/undead/cry-of-the-damned.jpg",
+});
+
+const bloodRite = card({
+	name: "Rite de Sang",
+	race: "Demon",
+	card_type: "Incantation",
+	cost: 2,
+	attack: null,
+	hp: null,
+	rarity: "Rare",
+	effect: "Votre héros récupère 2 points de vie.\nSacrifice 1 : Le héros adverse subit 2 points de dégâts.",
+	flavor: "Un sang pour un autre. L'échange est rarement équitable, sauf pour toi, cette fois.",
+	image_path: "/assets/card_art/demon/blood-rite.jpg",
+});
+
+const airBite = card({
+	name: "Morsure de l'Air",
+	race: "Abomination",
+	card_type: "Incantation",
+	cost: 2,
+	attack: null,
+	hp: null,
+	rarity: "Commune",
+	effect: "Inflige 2 points de dégâts à un serviteur ciblé ennemi.\nS'il survit, il perd 1 ATK de façon permanente.",
+	flavor: "Ce qui ne tue pas ronge quand même.",
+	image_path: "/assets/card_art/abomination/air-bite.jpg",
+});
+
+// Cartes d'exemple pour la grille de la section "types de cartes" de la page
+// d'accueil (CardTypeExplorer) : quatre cartes réelles par type (une par
+// race quand c'est possible), réutilisées telles quelles depuis ci-dessus.
+export const CARD_TYPE_EXAMPLES: Record<string, CardData[]> = {
+	serviteur: [dawnPaladin, putrefiedRavager, crimsonDemonKing, formlessFury],
+	incantation: [arrowVolley, cryOfTheDamned, bloodRite, airBite],
+	rituel: [bottomlessAbyssRitual, warHymn, epidemic, circleOfAssembly],
+	enchantement: [auraOfCorruption, altarOfSacrifice, vortexOfTheDamned, auraOfDecrepitude],
+	ressource: [royalSeal, soulShard, pactFragment, anomalyShard],
+};
+
+export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	// Mots-clés génériques
 	rempart: {
 		card: livingRampart,
@@ -718,8 +783,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	revenant: {
 		card: infectedBerserker,
 		demo: {
-			fr: "Berserker Infecté porte REVENANT : la première fois qu'il devrait mourir, il se relève avec 1 PV au lieu de partir au cimetière — une seule fois par partie.",
-			en: "Infected Berserker has REVENANT: the first time it would die, it rises with 1 HP instead of going to the graveyard — once per game.",
+			fr: "Berserker Infecté porte REVENANT : la première fois qu'il devrait mourir, il se relève avec 1 PV au lieu de partir au cimetière, une seule fois par partie.",
+			en: "Infected Berserker has REVENANT: the first time it would die, it rises with 1 HP instead of going to the graveyard, once per game.",
 		},
 	},
 	chair_morte: {
@@ -734,8 +799,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	pacte: {
 		card: pactBerserker,
 		demo: {
-			fr: "En jouant le Berserker du Pacte, Pacte 3 vous permet de payer 3 points de vie pour qu'il acquière ASSAUT de façon permanente — un choix optionnel, jamais obligatoire.",
-			en: "When you play Pact Berserker, Pact 3 lets you optionally pay 3 HP so it permanently gains Charge — never mandatory.",
+			fr: "En jouant le Berserker du Pacte, Pacte 3 vous permet de payer 3 points de vie pour qu'il acquière ASSAUT de façon permanente : un choix optionnel, jamais obligatoire.",
+			en: "When you play Pact Berserker, Pact 3 lets you optionally pay 3 HP so it permanently gains Charge: never mandatory.",
 		},
 	},
 	corruption: {
@@ -755,8 +820,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	rang_infernal: {
 		card: ascendingHellspawn,
 		demo: {
-			fr: "Larve Ascendante (1/2) porte RANG INFERNAL : elle gagne +1/+0 pour chaque tranche de 10 PV manquants sur votre héros — plus votre héros est blessé, plus elle frappe fort.",
-			en: "Ascending Hellspawn (1/2) has INFERNAL RANK: it gains +1/+0 for every 10 HP missing from your hero — the more wounded your hero, the harder it hits.",
+			fr: "Larve Ascendante (1/2) porte RANG INFERNAL : elle gagne +1/+0 pour chaque tranche de 10 PV manquants sur votre héros : plus votre héros est blessé, plus elle frappe fort.",
+			en: "Ascending Hellspawn (1/2) has INFERNAL RANK: it gains +1/+0 for every 10 HP missing from your hero: the more wounded your hero, the harder it hits.",
 		},
 	},
 	chair_de_soufre: {
@@ -779,7 +844,7 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 		card: ceaselessMass,
 		demo: {
 			fr: "Masse-Qui-Ne-Cesse porte MUTATION : chaque fois qu'elle survit à une blessure, elle mute selon la Table de Mutation (croissance, renforcement ou dégénérescence), des effets permanents et cumulables.",
-			en: "Ceaseless Mass has MUTATION: every time it survives a wound, it mutates according to the Mutation Table (growth, reinforcement, or degeneration) — permanent, stacking effects.",
+			en: "Ceaseless Mass has MUTATION: every time it survives a wound, it mutates according to the Mutation Table (growth, reinforcement, or degeneration): permanent, stacking effects.",
 		},
 	},
 	fusion: {
@@ -814,7 +879,7 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 		card: illFittingHide,
 		demo: {
 			fr: "Peau-Trop-Grande porte INSTABLE : sa chair est trop erratique pour être stabilisée, aucun effet de soin, allié ou ennemi, ne peut la cibler.",
-			en: "Ill-Fitting Hide has UNSTABLE: its flesh is too erratic to stabilize — no healing effect, allied or enemy, can target it.",
+			en: "Ill-Fitting Hide has UNSTABLE: its flesh is too erratic to stabilize: no healing effect, allied or enemy, can target it.",
 		},
 	},
 

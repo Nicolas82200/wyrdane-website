@@ -2,68 +2,128 @@
 	position: relative;
 	z-index: 2;
 	border-top: 1px solid var(--separator);
-	padding: 32px 24px 24px;
-	text-align: center;
+	padding: 48px 24px 24px;
 	background: rgba(5, 4, 3, 0.85);
 	scroll-snap-align: start;
 }
 
-.footer-links {
-	display: flex;
-	gap: 24px;
-	justify-content: center;
-	flex-wrap: wrap;
-	margin-bottom: 20px;
+.footer-columns {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr 1fr;
+	gap: 32px;
+	max-width: 1080px;
+	margin: 0 auto 32px;
 }
 
-.footer-links a {
+.footer-logo {
+	font-family: "MedievalSharp", "Cinzel Decorative", serif;
+	font-size: 22px;
+	letter-spacing: 0.06em;
+	color: var(--gold-bright);
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.footer-tagline {
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	line-height: 1.55;
+	color: rgba(232, 213, 163, 0.65);
+	margin: 14px 0 20px;
+	max-width: 340px;
+}
+
+.footer-brand-actions {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 18px;
+	flex-wrap: wrap;
+}
+
+.footer-discord-btn,
+.footer-steam-btn {
+	min-height: 40px;
+	padding: 0 18px;
+	font-size: 14px;
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+}
+
+.footer-socials {
+	justify-content: flex-start;
+}
+
+.footer-nav-col {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.footer-col-heading {
+	font-family: "Crimson Text", serif;
+	font-size: 12px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: rgba(232, 213, 163, 0.45);
+	margin-bottom: 4px;
+}
+
+.footer-nav-col a {
 	font-family: "Crimson Text", serif;
 	font-size: 15px;
 	color: rgba(232, 213, 163, 0.75);
 	text-decoration: none;
 	transition: color 0.15s ease;
+	width: fit-content;
 }
 
-.footer-links a:hover {
+.footer-nav-col a:hover {
 	color: var(--gold-bright);
 }
 
-.footer-socials {
-	justify-content: center;
-	margin-bottom: 20px;
-}
-
-.footer-tagline {
-	font-family: "Crimson Text", serif;
-	font-style: italic;
-	font-size: 13px;
-	color: rgba(232, 213, 163, 0.45);
-	margin: 0 0 18px;
-}
-
-.footer-legal-links {
+.footer-bottom {
 	display: flex;
-	gap: 20px;
-	justify-content: center;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
 	flex-wrap: wrap;
-	margin-bottom: 8px;
+	max-width: 1080px;
+	margin: 0 auto;
+	padding-top: 20px;
+	border-top: 1px solid var(--separator);
 }
 
-.footer-legal-links a {
-	font-family: "Crimson Text", serif;
-	font-size: 13px;
-	color: rgba(232, 213, 163, 0.6);
-	text-decoration: none;
-	transition: color 0.15s ease;
-}
-
-.footer-legal-links a:hover {
-	color: var(--gold-bright);
-}
-
-.footer-rights {
+.footer-rights,
+.footer-made-with {
 	font-family: "Crimson Text", serif;
 	font-size: 12px;
 	color: rgba(232, 213, 163, 0.35);
 	margin: 0;
+}
+
+@media (max-width: 760px) {
+	.footer-columns {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		text-align: center;
+	}
+
+	.footer-brand-actions,
+	.footer-socials {
+		justify-content: center;
+	}
+
+	.footer-tagline {
+		max-width: none;
+		margin-inline: auto;
+	}
+
+	.footer-nav-col {
+		align-items: center;
+	}
+
+	.footer-bottom {
+		justify-content: center;
+		text-align: center;
+	}
 }

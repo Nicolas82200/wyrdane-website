@@ -3,8 +3,7 @@ import type { Language } from "./language";
 export const COMMON = {
 	en: {
 		navHome: "Home",
-		navNews: "News",
-		navDevLog: "Dev Log",
+		navNews: "News / Devlog",
 		navPlay: "Play",
 		navContact: "Contact",
 		navMyDecks: "My decks",
@@ -18,17 +17,20 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Desktop only, for now",
 		deckBuilderMobileText:
 			"The deck builder isn't adapted to small screens yet. Come back on a computer to build and manage your decks.",
-		footerTagline: "Wyrdane, a dark fantasy card game developed by Nertari Studio.",
+		footerTagline: "A dark fantasy 1v1 card game where positioning matters as much as the cards in your hand.",
+		footerNavHeading: "Navigation",
+		footerInfoHeading: "Information",
+		footerDeckBuilder: "Deck Builder",
 		footerLegalNotice: "Legal Notice",
 		footerTerms: "Terms of Use",
 		footerPrivacy: "Privacy Policy",
 		footerSales: "Terms of Sale",
-		footerRights: "© {year} Nertari Studio. All rights reserved.",
+		footerRights: "© {year} Wyrdane. All rights reserved.",
+		footerMadeWith: "Made with ♥ by Nertari Studio",
 	},
 	fr: {
 		navHome: "Accueil",
-		navNews: "Actualités",
-		navDevLog: "Dev Log",
+		navNews: "Actualités/DevLog",
 		navPlay: "Jouer",
 		navContact: "Nous contacter",
 		navMyDecks: "Mes decks",
@@ -42,12 +44,16 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Disponible sur ordinateur uniquement",
 		deckBuilderMobileText:
 			"Le deck builder n'est pas encore adapté aux petits écrans. Reviens depuis un ordinateur pour composer et gérer tes decks.",
-		footerTagline: "Wyrdane, jeu de cartes dark fantasy développé par Nertari Studio.",
+		footerTagline: "Un TCG dark fantasy 1 contre 1 où le positionnement compte autant que les cartes en main.",
+		footerNavHeading: "Navigation",
+		footerInfoHeading: "Informations",
+		footerDeckBuilder: "Deck Builder",
 		footerLegalNotice: "Mentions légales",
 		footerTerms: "CGU",
 		footerPrivacy: "Confidentialité",
 		footerSales: "CGV",
-		footerRights: "© {year} Nertari Studio. Tous droits réservés.",
+		footerRights: "© {year} Wyrdane. Tous droits réservés.",
+		footerMadeWith: "Fait avec ♥ par Nertari Studio",
 	},
 } satisfies Record<Language, Record<string, string>>;
 
