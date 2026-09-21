@@ -12,6 +12,7 @@ import RouteError from "./pages/RouteError";
 import ShowDecks from "./pages/ShowDecks";
 import DeckBuilder from "./pages/DeckBuilder";
 import Admin from "./pages/Admin";
+import AdminCardStats from "./pages/AdminCardStats";
 
 import AuthRequire from "./helper/AuthRequire";
 import AdminRequire from "./helper/AdminRequire";
@@ -68,6 +69,14 @@ const router = createBrowserRouter([
 				element: (
 					<AdminRequire>
 						<Admin />
+					</AdminRequire>
+				),
+			},
+			{
+				path: "/admin/card-stats",
+				element: (
+					<AdminRequire>
+						<AdminCardStats />
 					</AdminRequire>
 				),
 			},

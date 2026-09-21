@@ -107,6 +107,12 @@ const Admin = () => {
 
 				<hr className="admin-sep" />
 
+				<button type="button" className="btn" onClick={() => navigate("/admin/card-stats")}>
+					Statistiques des cartes
+				</button>
+
+				<hr className="admin-sep" />
+
 				<button type="button" className="btn" onClick={() => navigate("/")}>
 					← Retour
 				</button>

@@ -96,6 +96,42 @@
 	font-family: "Crimson Text", serif;
 }
 
+.admin-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-family: "Crimson Text", serif;
+	font-size: 14px;
+	color: rgba(232, 213, 163, 0.85);
+	display: block;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.admin-table thead,
+.admin-table tbody,
+.admin-table tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.admin-table thead {
+	color: var(--gold);
+}
+
+.admin-table th,
+.admin-table td {
+	padding: 8px 10px;
+	text-align: left;
+	border-bottom: 1px solid var(--separator);
+}
+
+.admin-table th:not(:first-child),
+.admin-table td:not(:first-child) {
+	text-align: right;
+	width: 110px;
+}
+
 .admin-note {
 	font-family: "Crimson Text", serif;
 	font-style: italic;
