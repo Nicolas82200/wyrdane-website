@@ -1,0 +1,193 @@
+{
+	"date": "2026-09-21",
+	"title": {
+		"en": "Devlog 8: bug hunt, shop rework, and a reorganized menu",
+		"fr": "Devlog 8 : chasse aux bugs, refonte de la boutique et menu réorganisé"
+	},
+	"lede": {
+		"en": "This entry covers the week since Devlog 7 (2026-09-14). The headline story is a multi-step investigation into slow AI turns that turned out to be a single closure-capture bug wasting a full 30-second timeout on every turn. Alongside that: a reworked attack system, a shop split into clearer tabs, monthly quests, a menu reorganization, and a pass of achievement and card fixes.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 7 (2026-09-14). Le morceau principal : une enquête en plusieurs étapes sur des tours d'IA trop lents, qui s'est révélée être un unique bug de capture de fermeture gaspillant les 30 secondes complètes d'un timeout à chaque tour. À côté de ça : un système d'attaque repensé, une boutique scindée en onglets plus clairs, des quêtes mensuelles, une réorganisation du menu, et une passe de correctifs de succès et de cartes."
+	},
+	"stats": {
+		"en": [
+			{ "value": "5", "label": "Investigation steps to find the AI turn bug" },
+			{ "value": "23 to 5", "label": "Font sizes consolidated into one scale" },
+			{ "value": "4", "label": "Steam achievements rebalanced" },
+			{ "value": "12 to 15", "label": "AI deck resource cards" }
+		],
+		"fr": [
+			{ "value": "5", "label": "Étapes d'enquête pour trouver le bug des tours d'IA" },
+			{ "value": "23 -> 5", "label": "Tailles de police consolidées sur une échelle" },
+			{ "value": "4", "label": "Succès Steam rééquilibrés" },
+			{ "value": "12 -> 15", "label": "Cartes-ressource du deck IA" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "The week's big bug: AI turns that dragged on forever",
+				"paragraphs": [
+					"A report came in mid-week: solo AI turns sometimes seemed to freeze, with a safety warning firing (\"the opponent's turn did not finish in time\"). The investigation took several passes.",
+					"First, the warning didn't say which phase was stuck, so the current phase got added to the message to pin down the next occurrence. That pointed at a first real cause: the pacing delay between AI actions was legitimately pushing turns close to the 30-second mark, so it got cut from 1.0s to 0.5s (shared with the network path and enchantment chains, so both got faster too).",
+					"The report kept coming in even after that (roughly 20 seconds of waiting with no visible effect at all). A second cause turned up: card-effect popups were playing at full length during the AI's end-of-turn Decline triggers, even though the player is just a spectator at that point. A half-speed dwell time was added for popups during the opponent's turn, keyed off the card's owning side rather than a simple \"enemy turn\" flag.",
+					"Still not enough to explain the exact case reported (no visible effect at all during the wait), so rather than keep guessing, temporary logging was added to time every step of the AI's turn. The user's log finally nailed it: every single AI turn was burning the entire 30-second safety timeout, even though the real work finished in about a second. The cause: a GDScript lambda passed as a callback was capturing its \"done\" loop variable by value instead of by reference, so the completion signal never actually propagated and the wait loop patiently sat through the full timeout every time. The exact same trap had already been hit once before on a different system, and wasn't recognized here when the safety net was added. Fixed by swapping the local boolean for a shared dictionary, which explains both the \"freeze\" and the \"silent wait\" reports."
+				]
+			},
+			{
+				"heading": "Combat rework: locked attack declarations, MTG Arena style",
+				"paragraphs": [
+					"The player's attack system changes shape: instead of declaring each attack on the fly (Ctrl+click for multi-attackers), the player now declares (attacker, target) pairs and resolves them all at once by clicking Lock In Attacks. Damage resolution is deferred to that moment, but playing cards is still allowed during the declaration phase. The rework also handles revalidating a TAUNT target killed by an earlier pair, and the FURY case (second attack skipped if the first one was fatal to the attacker)."
+				]
+			},
+			{
+				"heading": "Shop: a rework in two passes",
+				"paragraphs": [
+					"Two passes this week, the second fixing a shortcoming of the first.",
+					"First pass: the shop no longer opens a separate panel for pack opening. Packs and Card Backs become two tabs side by side, and a new Collection tab appears in the shop for browsing owned cards.",
+					"Second pass (after noticing packs earned from quests and rewards were awkward to open): the Packs tab now only buys packs (credited to an inventory) without ever opening them; the Collection tab no longer shows the owned-card grid but the pack inventory instead (bought or free), with batch opening of 1, 2, 5 or 10.",
+					"Collection and Stats ultimately moved out of the Shop and bottom bar entirely, becoming their own entries in the main menu's sidebar.",
+					"A row-stacking bug in the card-back tab (a rebuild triggered before the previous row's deferred cleanup finished left a ghost row behind) got fixed along the way."
+				]
+			},
+			{
+				"heading": "Stats screen: added, then refocused",
+				"paragraphs": [
+					"An in-game Stats screen was added with two panels: most-played cards with ranked winrate (a balance signal) and a leaderboard by MMR (top 100). On reflection, the first panel was judged to be a balance-monitoring tool rather than player-facing content: it was pulled from the game entirely and moved to an admin dashboard on the website (/admin/card-stats), leaving the in-game screen with just the leaderboard (renamed Ranking). Along the way, a misleading error message was fixed: it used to tell a fully logged-in player they were disconnected, when the card they were looking at simply didn't have enough ranked matches yet to show up."
+				]
+			},
+			{
+				"heading": "Retention: monthly quests and level rewards",
+				"paragraphs": [
+					"Monthly quests were added: same idea as weekly quests (rotation, periodic reset) but with longer objectives and a double reward (currency plus packs), plus one guaranteed monthly quest based on daily login (always the biggest reward of the batch). The quest notification badge, which used to count only daily quests as claimable, now aggregates all four quest types.",
+					"The Quests view splits into two tabs (Quests and Unique) instead of one ever-growing list, as the number of quest types on display kept increasing (daily, weekly, monthly, unique).",
+					"A Level Rewards popup was added: clicking the account level under the player name now opens a scrollable list of every level's reward, past and upcoming, with a way to mark rows as seen.",
+					"The daily login reward popup moved from a single Day N label to a 5-day strip previewing upcoming gains (only today's card is claimable).",
+					"Placeholder icons were added across all these rewards (quests, login, game over, levels) while real artwork is still pending.",
+					"Four overly easy Steam achievements got rebalanced: a standard starter deck (mono-race, no legendary) used to unlock up to 5 achievements at once on the very first win. Several achievements moved from an immediate first-win trigger to a persistent counter (3 qualifying wins), and the Minimalist achievement's threshold was tightened."
+				]
+			},
+			{
+				"heading": "Invoked-card previews, extended and fixed",
+				"paragraphs": [
+					"The mini-preview for a card that invokes another one (already used on the board and in hand) was extended to the deck builder and the graveyard view, where it was missing. Two bugs got fixed along the way: it used to stay on screen even after hiding detailed tooltips with a right-click (it now respects the same setting), and it could run off screen when hovering a board minion near a screen edge."
+				]
+			},
+			{
+				"heading": "Readability and visual consistency",
+				"paragraphs": [
+					"Typography got harmonized: 23 different hardcoded font sizes used across the game for the same handful of UI roles were consolidated into a single 5-step scale.",
+					"The combat log got a visual overhaul: turn separators, camp-colored badges with an icon per event type, and damage highlighted in bold red.",
+					"A batch of hover-overlap fixes: the hand's card zoom used to bite into the hovered card and the row below it; the hovered card during mulligan now comes to the front to stay readable; the hand no longer stayed expanded right after mulligan ended.",
+					"The enemy draw animation was matched to the player's own style (an arc instead of a straight line, slowed down).",
+					"Fixed a spell cast by the AI or a network opponent that used to show its effect popup twice."
+				]
+			},
+			{
+				"heading": "Other rule and card fixes",
+				"paragraphs": [
+					"FUSION (Abomination): the same minion could fuse multiple times in a row; now locked to once per play.",
+					"Resurrection: a minion brought back into play now defaults to full HP instead of a hardcoded 1 HP; the explicit 1-HP behavior is kept only on cards whose text specifically calls it out. This fixes a real bug on two cards (Final Surge, the Pact bonus on Grand Pact Ritual).",
+					"Counter-Shock Footman and Line Fortification (Human): two temporary keyword grants that mistakenly expired too early (end of turn instead of permanent, or through the enemy's turn), making both cards nearly useless on defense.",
+					"Royal Strategist (Human): its redirect effect was judged not very useful and replaced with the ability to freely place your minions in either row while the card is in play.",
+					"Pact (Demon): the HP-drain animation used to play even when the damage was fully cancelled by another effect, making the bonus look free. It now only plays when damage is actually dealt.",
+					"AI deck: resource card count raised from 12 to 15, fixing an early-game mana shortage.",
+					"Mandatory tutorial: fixed a softlock where a card's cost had changed since the tutorial script was written, making it impossible to play two scripted cards on the same turn. Each is now played on its own turn.",
+					"Display fix: cards getting clipped at the top of the graveyard list (insufficient clip margin for the card frame's deliberate overflow).",
+					"Crash and freeze reporting: now sends the previous session's full redacted log instead of just its tail, to catch earlier errors in the session.",
+					"Turn timer (AfkGuard): now only shows up on inactivity or turn cap, staying invisible while the player is acting normally.",
+					"Small network fix: re-inviting a friend now works again after canceling a hosted lobby search.",
+					"Referral panel: the copy button now shares only the referral code (not the full link), the copy row disappears once a friend has been referred, and the code-entry field disappears for good once a code has been redeemed."
+				]
+			},
+			{
+				"heading": "Up next",
+				"paragraphs": [
+					"Still open: the Steam build, creating the Steam achievement entries on the dashboard, the actual 8-player Arena network extension (untested with a real second account), the new races (Elf, Dwarf), shader-based animations, ranked seasons, and real artwork to replace the placeholder reward icons added this week."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Le grand bug de la semaine : les tours d'IA qui traînaient",
+				"paragraphs": [
+					"Signalement remonté en cours de semaine : les tours adverses en solo semblaient parfois geler, avec un warning de sécurité (« le tour adverse n'a pas terminé dans le délai prévu »). L'enquête a pris plusieurs passes.",
+					"D'abord, le warning ne disait pas quelle phase du tour bloquait, donc la phase courante a été ajoutée au message pour localiser le prochain déclenchement. Ça a pointé vers une première vraie cause : le rythme entre actions de l'IA faisait légitimement traîner un tour jusqu'à frôler les 30 secondes, réduit de 1.0s à 0.5s (partagé avec le mode réseau et les chaînes d'enchantements, donc plus rapide partout).",
+					"Le signalement a persisté même après ça (environ 20 secondes d'attente sans aucun effet visible). Une deuxième cause est apparue : les popups d'effet de carte jouaient à pleine durée pendant le Déclin de fin de tour de l'IA, alors que le joueur est simple spectateur à ce moment. Un ralenti à mi-vitesse a été ajouté pour les popups pendant le tour adverse, basé sur le camp propriétaire de la carte plutôt que sur un simple indicateur « tour ennemi ».",
+					"Toujours pas suffisant pour expliquer le cas précis signalé (aucun effet visible pendant l'attente), donc plutôt que de continuer à deviner, un journal temporaire a été ajouté pour chronométrer chaque étape du tour de l'IA. Le log fourni par l'utilisateur a fini par trancher : chaque tour d'IA brûlait l'intégralité des 30 secondes du timeout de sécurité, alors que le travail réel se terminait en environ une seconde. La cause : une lambda GDScript passée en callback capturait sa variable de fin de boucle par valeur plutôt que par référence, donc le signal de fin ne se propageait jamais réellement et la boucle d'attente patientait sagement jusqu'au bout du timeout, à chaque fois. Exactement le même piège avait déjà été rencontré une fois sur un autre système, sans être reconnu ici lors de l'ajout du filet de sécurité. Corrigé en remplaçant le booléen local par un dictionnaire partagé, ce qui explique à la fois le « gel » et « l'attente silencieuse » signalés."
+				]
+			},
+			{
+				"heading": "Refonte du combat : attaques verrouillées façon MTG Arena",
+				"paragraphs": [
+					"Le système d'attaque du joueur change de logique : au lieu de déclarer chaque attaque au fil de l'eau (Ctrl+clic pour le multi-attaquants), le joueur déclare désormais des paires (attaquant, cible) et les résout toutes d'un coup en cliquant sur « Verrouiller les attaques ». La résolution des dégâts est différée à ce moment, mais poser des cartes reste possible pendant la phase de déclaration. La refonte gère aussi la revalidation d'une cible protégée tuée par une paire précédente, et le cas où la deuxième attaque est sautée si la première a été fatale à l'attaquant."
+				]
+			},
+			{
+				"heading": "Boutique : une refonte en deux temps",
+				"paragraphs": [
+					"Deux passes cette semaine, la deuxième corrigeant un défaut de la première.",
+					"Première passe : la boutique n'ouvre plus de panneau séparé pour l'ouverture de packs. « Packs » et « Dos de cartes » deviennent deux onglets côte à côte, et un nouvel onglet « Collection » apparaît dans la boutique pour parcourir les cartes possédées.",
+					"Deuxième passe (après avoir remarqué que les packs gagnés via quêtes/récompenses étaient peu pratiques à ouvrir) : l'onglet Packs n'achète plus que des packs (crédités dans un inventaire) sans jamais les ouvrir ; l'onglet Collection n'affiche plus la grille des cartes possédées mais l'inventaire de packs (achetés ou gratuits), avec ouverture par lot de 1, 2, 5 ou 10.",
+					"Collection et Statistiques ont finalement quitté la boutique et la barre du bas pour devenir leurs propres entrées dans la barre latérale du menu principal.",
+					"Un bug d'empilement de lignes dans l'onglet dos de cartes (une reconstruction déclenchée avant la fin du nettoyage différé de la ligne précédente laissait une ligne fantôme) a été corrigé au passage."
+				]
+			},
+			{
+				"heading": "Écran Statistiques : ajouté, puis recentré",
+				"paragraphs": [
+					"Un écran « Statistiques » en jeu a été ajouté avec deux volets : cartes les plus jouées avec winrate en classé (un signal d'équilibrage) et un classement par MMR (top 100). Après réflexion, le premier volet a été jugé être un outil de suivi d'équilibrage plutôt qu'un contenu destiné au joueur : il a été entièrement retiré du jeu et déplacé vers un dashboard admin sur le site (/admin/card-stats), laissant l'écran en jeu avec seulement le classement (renommé « Classement »). Au passage, un message d'erreur trompeur a été corrigé : il faisait croire à un joueur pourtant bien connecté qu'il était déconnecté, alors que la carte consultée n'avait simplement pas encore assez de matchs classés pour apparaître."
+				]
+			},
+			{
+				"heading": "Rétention : quêtes mensuelles et récompenses de niveau",
+				"paragraphs": [
+					"Des quêtes mensuelles ont été ajoutées : même principe que les hebdomadaires (rotation, reset périodique) mais avec des objectifs plus longs et une récompense double (monnaie et packs), plus une quête mensuelle garantie basée sur la connexion quotidienne (toujours la plus grosse récompense du lot). Le badge de notification de quêtes, qui ne comptait jusque-là que les quotidiennes comme réclamables, agrège désormais les quatre types.",
+					"La vue Quêtes se scinde en deux onglets (« Quêtes » et « Uniques ») plutôt qu'une seule liste toujours plus longue, à mesure que le nombre de types de quêtes affichés augmentait (quotidiennes, hebdomadaires, mensuelles, uniques).",
+					"Une popup « Récompenses de niveau » a été ajoutée : cliquer sur le niveau de compte sous le pseudo ouvre désormais une liste scrollable de toutes les récompenses de niveau, passées et à venir, avec un moyen de marquer les lignes comme vues.",
+					"La popup de récompense de connexion quotidienne passe d'un simple « Jour N » à une frise de 5 jours prévisualisant les prochains gains (seule la carte du jour est réclamable).",
+					"Des icônes placeholder ont été ajoutées sur toutes ces récompenses (quêtes, connexion, fin de partie, niveaux) en attendant les vraies illustrations.",
+					"Quatre succès Steam trop faciles ont été rééquilibrés : un deck de départ standard (mono-race, sans légendaire) débloquait jusqu'à 5 succès d'un coup dès la toute première victoire. Plusieurs succès passent d'un déclenchement immédiat à la première victoire vers un compteur persistant (3 victoires qualifiantes), et le seuil du succès Minimaliste a été resserré."
+				]
+			},
+			{
+				"heading": "Prévisualisation des cartes invoquées, étendue et corrigée",
+				"paragraphs": [
+					"La mini-preview d'une carte qui en invoque une autre (déjà utilisée sur le plateau et en main) a été étendue au deck builder et à la vue du cimetière, où elle manquait. Deux bugs corrigés au passage : elle restait affichée même après avoir masqué les tooltips détaillés au clic droit (elle respecte désormais le même réglage), et elle pouvait sortir de l'écran en survolant un serviteur du plateau près d'un bord."
+				]
+			},
+			{
+				"heading": "Lisibilité et cohérence visuelle",
+				"paragraphs": [
+					"La typographie a été harmonisée : 23 tailles de police différentes codées en dur pour les mêmes rôles d'interface ont été consolidées sur une échelle unique à 5 paliers.",
+					"Le journal de combat a reçu une refonte visuelle : séparateurs de tour, badges colorés par camp avec une icône par type d'événement, et dégâts mis en avant en rouge gras.",
+					"Un lot de correctifs de recouvrement au survol : le zoom de carte en main mordait sur la carte survolée et la rangée en dessous ; la carte survolée pendant le mulligan passe désormais au premier plan pour rester lisible ; la main ne restait plus dépliée juste après la fin du mulligan.",
+					"L'animation de pioche adverse a été alignée sur le style de celle du joueur (un arc au lieu d'une ligne droite, ralentie).",
+					"Corrigé un sort joué par l'IA ou un adversaire réseau qui affichait deux fois sa popup d'effet."
+				]
+			},
+			{
+				"heading": "Autres correctifs de règles et de cartes",
+				"paragraphs": [
+					"FUSION (Abomination) : un même serviteur pouvait fusionner plusieurs fois d'affilée ; désormais verrouillé à une fois par pose.",
+					"Résurrection : un serviteur ramené en jeu revient désormais par défaut à ses PV maximum au lieu d'1 PV codé en dur ; le comportement explicite à 1 PV est conservé uniquement sur les cartes dont le texte le précise. Corrige un vrai bug sur deux cartes (Sursaut Final, le bonus Pacte du Grand Rituel du Pacte).",
+					"Fantassin de Contre-Choc et Fortification des Lignes (Humain) : deux mots-clés temporaires accordés par erreur pour une durée trop courte (fin du tour au lieu de permanent, ou jusqu'au tour adverse), rendant les deux cartes quasi inutiles en défense.",
+					"Stratège Royal (Humain) : son effet de redirection a été jugé peu utile et remplacé par la possibilité de poser librement ses serviteurs dans la rangée de son choix tant que la carte est en jeu.",
+					"Pacte (Démon) : l'animation de drain de PV se jouait même quand les dégâts étaient entièrement annulés par un autre effet, donnant l'impression d'un bonus gratuit. Elle ne se joue plus que si des dégâts sont réellement infligés.",
+					"Deck IA : le nombre de cartes-ressource passe de 12 à 15, corrigeant un manque de mana en début de partie.",
+					"Tutoriel obligatoire : correction d'un softlock où le coût d'une carte avait changé depuis l'écriture du script du tutoriel, rendant impossible de jouer deux cartes prévues le même tour. Chacune est désormais jouée sur son propre tour.",
+					"Correctif d'affichage : cartes rognées en haut de la liste du cimetière (marge de clip insuffisante pour le débordement volontaire du cadre de carte).",
+					"Rapport de plantage et de gel : envoie désormais le log complet expurgé de la session précédente au lieu de sa seule fin, pour repérer d'autres erreurs plus tôt dans la session.",
+					"Timer de tour (AfkGuard) : ne s'affiche plus que sur inactivité ou plafond de tour, invisible tant que le joueur agit normalement.",
+					"Petit correctif réseau : réinviter un ami fonctionne à nouveau après avoir annulé une recherche de lobby hébergée.",
+					"Panneau de parrainage : le bouton copier ne partage plus que le code de parrainage (plus le lien complet), la ligne de copie disparaît une fois un ami parrainé, et le champ de saisie d'un code disparaît définitivement une fois un code utilisé avec succès."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"Restent ouverts : le build Steam, la création des entrées de succès Steam sur le dashboard, l'extension réelle du réseau Arena à 8 joueurs (jamais testée avec un vrai second compte), les nouvelles races (Elfe, Nain), les animations en shaders, les saisons classées, et les vraies illustrations pour remplacer les icônes placeholder de récompenses ajoutées cette semaine."
+				]
+			}
+		]
+	}
+}
