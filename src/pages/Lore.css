@@ -16,6 +16,11 @@
 	--lore-font-hand: "Caveat", "Segoe Script", cursive;
 	--lore-font-display: "MedievalSharp", "Caveat", Georgia, serif;
 
+	/* Pas de reset box-sizing:border-box sur ce projet : sans lui, le padding
+	   s'ajoutait par-dessus min-height:100vh (au lieu d'être inclus dedans),
+	   d'où un débordement vertical de 48px — et .lore-flipbook plus bas
+	   suppose justement que 100vh inclut déjà ce padding. */
+	box-sizing: border-box;
 	min-height: 100vh;
 	margin: 0;
 	padding: 24px 16px;
@@ -41,7 +46,15 @@
 }
 
 .lore-book-wrap {
+	/* react-pageflip mesure SA PROPRE boîte (.lore-flipbook, via offsetWidth)
+	   pour la taille "stretch" — mais il lui écrit lui-même un style inline
+	   `width:100%` (+ min/max-width), qui l'emporte toujours sur une règle
+	   posée directement sur .lore-flipbook dans ce fichier. Le gabarit réel
+	   doit donc venir du PARENT que ce 100% résout contre. Même plafond que
+	   l'artifact (.pages : 1500px/92vw, ratio 3:2), borné aussi par la hauteur
+	   de la fenêtre pour ne jamais déborder verticalement. */
 	position: relative;
+	width: min(1500px, 92vw, calc((100vh - 48px) * 1.5));
 }
 
 .lore-flipbook {
@@ -51,69 +64,6 @@
 		0 5px 0 -2px rgba(120, 96, 60, 0.4),
 		0 9px 0 -4px rgba(120, 96, 60, 0.3),
 		0 30px 60px var(--lore-book-shadow);
-}
-
-/* --- Marque-pages : deux colonnes en éventail, ancrées sur le bord
-   extérieur de chaque page, qui basculent de droite (pas encore lues) à
-   gauche (déjà lues) au fil de la lecture. --- */
-.lore-tabs {
-	position: absolute;
-	top: -58px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	max-width: 46%;
-	overflow-x: auto;
-	overflow-y: visible;
-	z-index: 30;
-	padding-bottom: 2px;
-}
-.lore-tabs::-webkit-scrollbar {
-	height: 4px;
-}
-.lore-tabs::-webkit-scrollbar-thumb {
-	background: var(--lore-rule);
-	border-radius: 2px;
-}
-.lore-tabs-right {
-	right: 5%;
-	justify-content: flex-end;
-}
-.lore-tabs-left {
-	left: 5%;
-	justify-content: flex-start;
-}
-.lore-tab {
-	writing-mode: vertical-rl;
-	text-orientation: mixed;
-	font-family: var(--lore-font-hand);
-	font-weight: 700;
-	font-size: 0.78rem;
-	color: #fff3da;
-	background: linear-gradient(180deg, var(--lore-seal-red), #5c150f);
-	border: none;
-	border-radius: 7px 7px 0 0;
-	padding: 9px 5px 8px;
-	height: 60px;
-	flex: none;
-	cursor: pointer;
-	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
-	margin-left: -6px;
-	transition: transform 0.15s ease, z-index 0s;
-}
-.lore-tab:first-child {
-	margin-left: 0;
-}
-.lore-tab:hover,
-.lore-tab:focus-visible {
-	transform: translateY(-6px);
-	z-index: 1;
-}
-.lore-tab-cover {
-	background: linear-gradient(180deg, var(--lore-room-ink-dim), #2a2118);
-}
-.lore-tab-quiet {
-	opacity: 0.6;
 }
 
 /* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
@@ -274,15 +224,4 @@
 }
 .stf__item.--left .lore-page-no {
 	left: 16px;
-}
-
-@media (max-width: 700px) {
-	.lore-tab {
-		font-size: 0.64rem;
-		height: 46px;
-		padding: 6px 4px 5px;
-	}
-	.lore-tabs {
-		top: -42px;
-	}
 }

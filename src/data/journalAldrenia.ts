@@ -1,8 +1,7 @@
 // Contenu du "Journal d'Aldrenia", copié tel quel depuis l'artifact de
 // prototypage (feuille simple + physique de page, validés séparément) —
 // voir lore/eras/*.md et lore/Wyrdane_LORE_complet.md côté card-game pour
-// la source canonique. Toute nouvelle époque s'ajoute ici comme un nouveau
-// "tome" (voir TOME_TABS plus bas) sans toucher au reste.
+// la source canonique.
 
 export type JournalPage =
 	| { kind: "cover" }
@@ -11,25 +10,6 @@ export type JournalPage =
 	| { kind: "colophon"; title: string; paragraphs: string[] }
 	| { kind: "content"; sectionId?: string; title?: string; dropcap?: boolean; paragraphs: string[] }
 	| { kind: "content-italic"; text: string };
-
-// Un marque-page par section nommée (data-id des pages ci-dessous). L'ordre
-// ici est l'ordre de lecture, pas l'ordre alphabétique.
-export const TOME_TABS: { id: string; label: string; quiet?: boolean; isCover?: boolean }[] = [
-	{ id: "cover", label: "Couverture", isCover: true },
-	{ id: "avant", label: "Avant Wyrdane" },
-	{ id: "aldrenia", label: "Aldrenia" },
-	{ id: "eorthal", label: "Eorthal" },
-	{ id: "skeldara", label: "Skeldara" },
-	{ id: "dreamar", label: "Dreamar" },
-	{ id: "thelmere", label: "Thelmere" },
-	{ id: "ostrane", label: "Ostrane" },
-	{ id: "premiere", label: "0 AW" },
-	{ id: "cataclysme", label: "Le cataclysme" },
-	{ id: "aldrenia0aw", label: "Aldrenia, ce jour-là" },
-	{ id: "temoignages", label: "Témoignages" },
-	{ id: "eclaireurs", label: "Les éclaireurs" },
-	{ id: "scelles", label: "Scellés", quiet: true },
-];
 
 export const JOURNAL_PAGES: JournalPage[] = [
 	{ kind: "cover" },

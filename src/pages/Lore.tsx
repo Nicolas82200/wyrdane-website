@@ -1,20 +1,10 @@
 import type { ForwardedRef } from "react";
-import { forwardRef, useCallback, useMemo, useRef, useState } from "react";
+import { forwardRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 
-import { JOURNAL_PAGES, TOME_TABS, type JournalPage } from "../data/journalAldrenia";
+import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import "./Lore.css";
-
-// Juste ce qu'on utilise de l'API PageFlip (StPageFlip, pas exportée telle
-// quelle par react-pageflip — voir node_modules/react-pageflip/build).
-interface PageFlipApi {
-	getCurrentPageIndex: () => number;
-	flipNext: () => void;
-	flipPrev: () => void;
-	turnToPage: (page: number) => void;
-}
-type FlipBookRef = { pageFlip: () => PageFlipApi };
 
 // react-pageflip appose lui-même les classes --left/--right/--hard/--soft sur
 // la racine qu'on lui donne (voir Nodlik/StPageFlip, HTMLPage.ts) : le CSS de
@@ -111,114 +101,34 @@ Page.displayName = "JournalPage";
 
 const Lore = () => {
 	const prefersReducedMotion = usePrefersReducedMotion();
-	const bookRef = useRef<FlipBookRef | null>(null);
-	// Page vers laquelle une séquence de marque-page est en train d'avancer,
-	// un retournement à la fois ; null quand aucune séquence n'est en cours.
-	const chainTarget = useRef<number | null>(null);
-	const [currentPage, setCurrentPage] = useState(0);
-
-	const pageIndexBySection = useMemo(() => {
-		const map = new Map<string, number>();
-		JOURNAL_PAGES.forEach((p, i) => {
-			if ("sectionId" in p && p.sectionId) map.set(p.sectionId, i);
-			if (p.kind === "cover") map.set("cover", i);
-		});
-		return map;
-	}, []);
-
-	// react-pageflip sait animer un flip vers une page arbitraire (flip(page)),
-	// mais StPageFlip saute directement à l'avant-dernière page puis n'anime
-	// QUE le dernier tour (voir Flip.ts, flipToPage) — même symptôme que celui
-	// qu'on avait diagnostiqué et corrigé dans l'artifact autonome, cette fois
-	// dans la librairie elle-même. On rejoue donc chaque page intermédiaire en
-	// chaînant flipNext/flipPrev un par un, repris à chaque "onFlip".
-	const handleFlip = useCallback((e: { data: number }) => {
-		setCurrentPage(e.data);
-		const target = chainTarget.current;
-		if (target === null || e.data === target) {
-			chainTarget.current = null;
-			return;
-		}
-		const api = bookRef.current?.pageFlip();
-		if (target > e.data) api?.flipNext();
-		else api?.flipPrev();
-	}, []);
-
-	const jumpTo = useCallback(
-		(id: string) => {
-			const target = pageIndexBySection.get(id);
-			const api = bookRef.current?.pageFlip();
-			if (target === undefined || !api) return;
-
-			const current = api.getCurrentPageIndex();
-			if (target === current) return;
-
-			if (prefersReducedMotion) {
-				api.turnToPage(target);
-				setCurrentPage(target);
-				return;
-			}
-			chainTarget.current = target;
-			if (target > current) api.flipNext();
-			else api.flipPrev();
-		},
-		[pageIndexBySection, prefersReducedMotion],
-	);
-
-	// Deux colonnes façon onglets de classeur : à droite tant que la section
-	// n'a pas été atteinte, à gauche une fois passée.
-	const tabsAhead: typeof TOME_TABS = [];
-	const tabsBehind: typeof TOME_TABS = [];
-	for (const tab of TOME_TABS) {
-		const idx = pageIndexBySection.get(tab.id) ?? 0;
-		(idx <= currentPage ? tabsBehind : tabsAhead).push(tab);
-	}
 
 	return (
 		<div className="lore-room">
 			<div className="lore-stage">
 				<div className="lore-book-wrap">
-					<div className="lore-tabs lore-tabs-left">
-						{tabsBehind.map((t) => (
-							<button
-								key={t.id}
-								type="button"
-								className={`lore-tab${t.isCover ? " lore-tab-cover" : ""}${t.quiet ? " lore-tab-quiet" : ""}`}
-								onClick={() => jumpTo(t.id)}
-							>
-								{t.label}
-							</button>
-						))}
-					</div>
-					<div className="lore-tabs lore-tabs-right">
-						{tabsAhead.map((t) => (
-							<button
-								key={t.id}
-								type="button"
-								className={`lore-tab${t.isCover ? " lore-tab-cover" : ""}${t.quiet ? " lore-tab-quiet" : ""}`}
-								onClick={() => jumpTo(t.id)}
-							>
-								{t.label}
-							</button>
-						))}
-					</div>
-
 					<HTMLFlipBook
 						className="lore-flipbook"
-						ref={bookRef}
 						style={{}}
-						width={420}
-						height={600}
+						// width/height ne fixent que le ratio pour le dimensionnement
+						// "stretch" (pageWidth/pageHeight) — la taille réelle vient de
+						// .lore-flipbook dans Lore.css, contrainte pour ne jamais
+						// dépasser ni la largeur ni la hauteur de la fenêtre.
+						width={750}
+						height={1000}
 						size="stretch"
-						minWidth={280}
-						maxWidth={620}
-						minHeight={400}
-						maxHeight={860}
+						minWidth={160}
+						maxWidth={750}
+						minHeight={213}
+						maxHeight={1000}
 						startPage={0}
 						showCover
 						flippingTime={prefersReducedMotion ? 1 : 900}
 						maxShadowOpacity={0.45}
-						usePortrait
+						// L'artifact de référence ne bascule jamais en page unique (il
+						// réduit tout en vw, même sur mobile) : StPageFlip, lui, bascule
+						// seul en-dessous de minWidth*2 si usePortrait est actif — on
+						// le désactive pour forcer le recto/verso en toute largeur.
+						usePortrait={false}
 						startZIndex={10}
 						autoSize
 						drawShadow
@@ -228,7 +138,6 @@ const Lore = () => {
 						useMouseEvents
 						showPageCorners
 						disableFlipByClick={false}
-						onFlip={handleFlip}
 					>
 						{JOURNAL_PAGES.map((page, i) => (
 							<Page key={i} page={page} folio={i === 0 ? null : i + 1} />
