@@ -1,0 +1,288 @@
+/* Journal d'Aldrenia — repris du style de l'artifact de prototypage
+   (parchemin, encre, marque-pages) ; l'animation de retournement elle-même
+   est désormais portée par react-pageflip (StPageFlip), pas par un moteur
+   maison. Scopé sous .lore-room pour ne jamais fuiter sur le reste du site. */
+
+.lore-room {
+	--lore-room-bg: #cdbf9e;
+	--lore-room-bg-2: #e3d8bb;
+	--lore-ink: #110c07;
+	--lore-room-ink-dim: #5b4f3c;
+	--lore-rule: #a89873;
+	--lore-seal-red: #8a2a1f;
+	--lore-seal-gold: #7a5a1e;
+	--lore-spine-shade: rgba(20, 14, 8, 0.12);
+	--lore-book-shadow: rgba(30, 20, 10, 0.4);
+	--lore-font-hand: "Caveat", "Segoe Script", cursive;
+	--lore-font-display: "MedievalSharp", "Caveat", Georgia, serif;
+
+	min-height: 100vh;
+	margin: 0;
+	padding: 24px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: radial-gradient(ellipse at 50% 20%, var(--lore-room-bg-2), var(--lore-room-bg) 75%);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lore-room * {
+		transition-duration: 0.001ms !important;
+	}
+}
+
+.lore-stage {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.lore-book-wrap {
+	position: relative;
+}
+
+.lore-flipbook {
+	border-radius: 6px;
+	box-shadow:
+		0 2px 0 -1px rgba(120, 96, 60, 0.5),
+		0 5px 0 -2px rgba(120, 96, 60, 0.4),
+		0 9px 0 -4px rgba(120, 96, 60, 0.3),
+		0 30px 60px var(--lore-book-shadow);
+}
+
+/* --- Marque-pages : deux colonnes en éventail, ancrées sur le bord
+   extérieur de chaque page, qui basculent de droite (pas encore lues) à
+   gauche (déjà lues) au fil de la lecture. --- */
+.lore-tabs {
+	position: absolute;
+	top: -58px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	max-width: 46%;
+	overflow-x: auto;
+	overflow-y: visible;
+	z-index: 30;
+	padding-bottom: 2px;
+}
+.lore-tabs::-webkit-scrollbar {
+	height: 4px;
+}
+.lore-tabs::-webkit-scrollbar-thumb {
+	background: var(--lore-rule);
+	border-radius: 2px;
+}
+.lore-tabs-right {
+	right: 5%;
+	justify-content: flex-end;
+}
+.lore-tabs-left {
+	left: 5%;
+	justify-content: flex-start;
+}
+.lore-tab {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	font-family: var(--lore-font-hand);
+	font-weight: 700;
+	font-size: 0.78rem;
+	color: #fff3da;
+	background: linear-gradient(180deg, var(--lore-seal-red), #5c150f);
+	border: none;
+	border-radius: 7px 7px 0 0;
+	padding: 9px 5px 8px;
+	height: 60px;
+	flex: none;
+	cursor: pointer;
+	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.25);
+	margin-left: -6px;
+	transition: transform 0.15s ease, z-index 0s;
+}
+.lore-tab:first-child {
+	margin-left: 0;
+}
+.lore-tab:hover,
+.lore-tab:focus-visible {
+	transform: translateY(-6px);
+	z-index: 1;
+}
+.lore-tab-cover {
+	background: linear-gradient(180deg, var(--lore-room-ink-dim), #2a2118);
+}
+.lore-tab-quiet {
+	opacity: 0.6;
+}
+
+/* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
+   même .stf__item.--left/--right/--hard/--soft. --- */
+.lore-page-face {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment.jpg");
+	overflow-y: auto;
+	padding: clamp(18px, 3.4vw, 44px) clamp(20px, 3.8vw, 48px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+}
+.lore-page-face::-webkit-scrollbar {
+	width: 6px;
+}
+.lore-page-face::-webkit-scrollbar-thumb {
+	background: var(--lore-rule);
+	border-radius: 3px;
+}
+/* Fore-edge shading, côté classes que react-pageflip pose lui-même. */
+.stf__item.--right .lore-page-face {
+	box-shadow: inset 12px 0 20px -14px rgba(0, 0, 0, 0.35);
+}
+.stf__item.--left .lore-page-face {
+	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
+}
+
+.lore-page,
+.lore-cover-title,
+.lore-book-title {
+	font-family: var(--lore-font-hand);
+	font-size: 1.3rem;
+	line-height: 1.5;
+	color: var(--lore-ink);
+}
+.lore-page p {
+	margin: 0 0 0.85em;
+	text-shadow: 0 0.4px 0 rgba(0, 0, 0, 0.15);
+	mix-blend-mode: multiply;
+}
+.lore-page p:last-child {
+	margin-bottom: 0;
+}
+.lore-dropcap::first-letter {
+	font-family: var(--lore-font-display);
+	font-size: 2.6em;
+	line-height: 0.8;
+	float: left;
+	padding: 0.03em 0.08em 0 0;
+	color: var(--lore-seal-red);
+}
+.lore-page-title {
+	font-family: var(--lore-font-display);
+	font-size: 1.4rem;
+	color: var(--lore-seal-red);
+	margin: 0 0 0.5em;
+	text-align: center;
+}
+
+.lore-cover {
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background-image:
+		linear-gradient(rgba(20, 14, 8, 0.25), rgba(20, 14, 8, 0.25)),
+		url("../assets/site/parchment.jpg");
+}
+.lore-seal-big {
+	width: 72px;
+	height: 72px;
+	margin: 0 auto 18px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 0 2px var(--lore-seal-gold);
+	display: grid;
+	place-items: center;
+	font-family: var(--lore-font-display);
+	font-size: 32px;
+	color: var(--lore-seal-gold);
+}
+.lore-cover-title {
+	font-family: var(--lore-font-display);
+	font-size: 2rem;
+	margin: 0 0 0.3em;
+}
+.lore-cover-sub {
+	font-family: var(--lore-font-hand);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	color: var(--lore-room-ink-dim);
+	margin: 0;
+}
+
+.lore-divider {
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+.lore-book-no {
+	font-family: var(--lore-font-hand);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--lore-room-ink-dim);
+	margin: 0 0 0.4em;
+}
+.lore-book-title {
+	font-family: var(--lore-font-display);
+	font-size: 1.7rem;
+	margin: 0 0 0.5em;
+}
+.lore-book-sub {
+	font-style: italic;
+	color: var(--lore-room-ink-dim);
+	margin: 0;
+}
+.lore-ornament {
+	font-size: 1.6rem;
+	color: var(--lore-seal-gold);
+	margin-top: 0.6em;
+}
+.lore-wax-row {
+	display: flex;
+	gap: 14px;
+	justify-content: center;
+	margin-top: 18px;
+}
+.lore-wax {
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	font-family: var(--lore-font-display);
+	font-size: 0.85rem;
+	color: var(--lore-seal-gold);
+	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(122, 90, 30, 0.6);
+}
+
+.lore-page-no {
+	position: absolute;
+	bottom: 14px;
+	font-family: var(--lore-font-hand);
+	font-size: 0.85rem;
+	color: var(--lore-room-ink-dim);
+}
+.stf__item.--right .lore-page-no {
+	right: 16px;
+}
+.stf__item.--left .lore-page-no {
+	left: 16px;
+}
+
+@media (max-width: 700px) {
+	.lore-tab {
+		font-size: 0.64rem;
+		height: 46px;
+		padding: 6px 4px 5px;
+	}
+	.lore-tabs {
+		top: -42px;
+	}
+}

@@ -21,27 +21,31 @@ function App() {
 	// qu'aucune navbar n'occupe de hauteur au-dessus de lui sur ces routes.
 	const { pathname } = useLocation();
 	const isDeckBuilder = /^\/decks\/(new|\d+)$/.test(pathname);
+	// Le Journal d'Aldrenia (/lore) a son propre décor plein écran (fond
+	// parchemin, pas la vidéo du menu principal) et n'affiche ni navbar ni
+	// footer, comme le deck builder — immersion du livre, pas du site.
+	const isLore = pathname === "/lore";
 
 	return (
 		<div className="app">
-			{isMobile || prefersReducedMotion ? (
+			{isLore ? null : isMobile || prefersReducedMotion ? (
 				<img className="background-image" src={mobileBackground} alt="" />
 			) : (
 				<video className="background-video" autoPlay loop muted playsInline>
 					<source src={mainMenu} type="video/mp4" />
 				</video>
 			)}
-			<div className="background-overlay" />
+			{!isLore && <div className="background-overlay" />}
 
 			<ScrollToTop />
-			{!isDeckBuilder && <Navbar />}
+			{!isDeckBuilder && !isLore && <Navbar />}
 			<FirstLoginRewardPopup />
 
 			<main className="page-content">
 				<Outlet />
 			</main>
 
-			{!isDeckBuilder && <SiteFooter />}
+			{!isDeckBuilder && !isLore && <SiteFooter />}
 		</div>
 	);
 }
