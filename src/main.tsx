@@ -11,6 +11,7 @@ import LegalPage from "./pages/LegalPage";
 import RouteError from "./pages/RouteError";
 import ShowDecks from "./pages/ShowDecks";
 import DeckBuilder from "./pages/DeckBuilder";
+import Lore from "./pages/Lore";
 import Admin from "./pages/Admin";
 import AdminCardStats from "./pages/AdminCardStats";
 
@@ -62,6 +63,12 @@ const router = createBrowserRouter([
 						<DeckBuilder />
 					</AuthRequire>
 				),
+			},
+			{
+				// Non listée dans la Navbar : accessible par URL directe uniquement
+				// (même raison que /admin ci-dessous, pas encore prête à annoncer).
+				path: "/lore",
+				element: <Lore />,
 			},
 			{
 				// Non listée dans la Navbar : accessible par URL directe uniquement.
