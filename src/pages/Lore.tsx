@@ -1,5 +1,5 @@
 import type { ForwardedRef } from "react";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
@@ -101,34 +101,67 @@ Page.displayName = "JournalPage";
 
 const Lore = () => {
 	const prefersReducedMotion = usePrefersReducedMotion();
+	const wrapRef = useRef<HTMLDivElement | null>(null);
+	// Largeur d'UNE page (pas de la double-page), poussée en variable CSS pour
+	// que police/marges se calent dessus. Les container queries (cqw) se sont
+	// montrées peu fiables ici (resolution incohérente constatée en test,
+	// même isolée, sans doute un souci de timing du navigateur sur un élément
+	// qui est À LA FOIS le conteneur de requête et la cible stylée) : mesure
+	// directe via ResizeObserver, déterministe, pas de piège de ce genre.
+	const [pageWidthPx, setPageWidthPx] = useState(320);
+	const isPortraitRef = useRef(false);
+
+	useEffect(() => {
+		const el = wrapRef.current;
+		if (!el) return;
+		const recompute = (wrapWidth: number) => {
+			setPageWidthPx(isPortraitRef.current ? wrapWidth : wrapWidth / 2);
+		};
+		const ro = new ResizeObserver((entries) => {
+			const w = entries[0]?.contentRect.width;
+			if (w) recompute(w);
+		});
+		ro.observe(el);
+		recompute(el.getBoundingClientRect().width);
+		return () => ro.disconnect();
+	}, []);
+
+	const handleChangeOrientation = (e: { data: string }) => {
+		isPortraitRef.current = e.data === "portrait";
+		const w = wrapRef.current?.getBoundingClientRect().width;
+		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
+	};
 
 	return (
-		<div className="lore-room">
+		<div className="lore-room" style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}>
 			<div className="lore-stage">
-				<div className="lore-book-wrap">
+				<div className="lore-book-wrap" ref={wrapRef}>
 					<HTMLFlipBook
 						className="lore-flipbook"
 						style={{}}
+						onChangeOrientation={handleChangeOrientation}
 						// width/height ne fixent que le ratio pour le dimensionnement
 						// "stretch" (pageWidth/pageHeight) — la taille réelle vient de
 						// .lore-flipbook dans Lore.css, contrainte pour ne jamais
-						// dépasser ni la largeur ni la hauteur de la fenêtre.
-						width={750}
+						// dépasser ni la largeur ni la hauteur de la fenêtre. Ratio
+						// légèrement élargi par rapport à l'artifact (page 3:4,
+						// donc double page 3:2 -> page 4:5, double page 4:2.5).
+						width={820}
 						height={1000}
 						size="stretch"
-						minWidth={160}
-						maxWidth={750}
-						minHeight={213}
+						minWidth={240}
+						maxWidth={820}
+						minHeight={293}
 						maxHeight={1000}
 						startPage={0}
 						showCover
 						flippingTime={prefersReducedMotion ? 1 : 900}
 						maxShadowOpacity={0.45}
-						// L'artifact de référence ne bascule jamais en page unique (il
-						// réduit tout en vw, même sur mobile) : StPageFlip, lui, bascule
-						// seul en-dessous de minWidth*2 si usePortrait est actif — on
-						// le désactive pour forcer le recto/verso en toute largeur.
-						usePortrait={false}
+						// StPageFlip bascule tout seul en page unique dès que la largeur
+						// disponible descend sous minWidth*2 (480px ici) : assez bas
+						// pour garder le recto/verso sur tablette/desktop, assez haut
+						// pour forcer une page unique sur mobile (elle n'y tiendrait pas).
+						usePortrait
 						startZIndex={10}
 						autoSize
 						drawShadow
