@@ -110,6 +110,15 @@ const Lore = () => {
 	// directe via ResizeObserver, déterministe, pas de piège de ce genre.
 	const [pageWidthPx, setPageWidthPx] = useState(320);
 	const isPortraitRef = useRef(false);
+	// Pousse une classe pendant qu'une page tourne, pour épaissir son ombre de
+	// tranche (voir Lore.css) le temps du geste : StPageFlip anime une page
+	// "souple" en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D,
+	// vérifié dans sa source), donc une vraie tranche extrudée n'a rien à
+	// quoi s'accrocher ; l'ombre qui s'accentue pendant le mouvement est ce
+	// qui se rapproche le plus d'un "vrai papier" sans se battre contre sa
+	// géométrie.
+	const [isFlipping, setIsFlipping] = useState(false);
+	const handleChangeState = (e: { data: string }) => setIsFlipping(e.data === "flipping");
 
 	useEffect(() => {
 		const el = wrapRef.current;
@@ -133,13 +142,17 @@ const Lore = () => {
 	};
 
 	return (
-		<div className="lore-room" style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}>
+		<div
+			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
+			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
+		>
 			<div className="lore-stage">
 				<div className="lore-book-wrap" ref={wrapRef}>
 					<HTMLFlipBook
 						className="lore-flipbook"
 						style={{}}
 						onChangeOrientation={handleChangeOrientation}
+						onChangeState={handleChangeState}
 						// width/height ne fixent que le ratio pour le dimensionnement
 						// "stretch" (pageWidth/pageHeight) — la taille réelle vient de
 						// .lore-flipbook dans Lore.css, contrainte pour ne jamais
@@ -156,7 +169,7 @@ const Lore = () => {
 						startPage={0}
 						showCover
 						flippingTime={prefersReducedMotion ? 1 : 900}
-						maxShadowOpacity={0.45}
+						maxShadowOpacity={0.6}
 						// StPageFlip bascule tout seul en page unique dès que la largeur
 						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
 						// plus bas (480px), une tablette en portrait (~768px de large)
