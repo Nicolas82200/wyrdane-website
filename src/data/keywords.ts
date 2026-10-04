@@ -10,7 +10,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	// Génériques
 	{
 		name: "Rempart",
-		description: "Doit être attaqué en priorité par les serviteurs que votre adversaire contrôle.",
+		description: "Doit être attaqué en priorité par les serviteurs ennemis.",
 	},
 	{ name: "Assaut", description: "Peut attaquer dès le tour où elle est invoquée." },
 	{ name: "Égide", description: "Absorbe la prochaine source de dégâts. Le bouclier disparaît ensuite." },
@@ -35,12 +35,11 @@ export const KEYWORDS: KeywordInfo[] = [
 	},
 	{
 		name: "Formation",
-		description: "Tant qu'un serviteur que vous contrôlez est adjacent, ce serviteur gagne +1/+1.",
+		description: "Tant qu'un serviteur allié est adjacent, ce serviteur gagne +1/+1.",
 	},
 	{
 		name: "Contre-attaque",
-		description:
-			"Si ce serviteur survit après avoir attaqué ou défendu, inflige à nouveau son ATK au serviteur qui lui a infligé des dégâts.",
+		description: "Inflige 2 fois ses dégâts d'attaque au serviteur qui lui a infligé des dégâts.",
 	},
 	{
 		name: "Commandement",
@@ -54,13 +53,13 @@ export const KEYWORDS: KeywordInfo[] = [
 	{ name: "Pestiféré", description: "Les attaques de ce serviteur infligent Infection en plus des dégâts." },
 	{
 		name: "Nécrophage",
-		description: "Quand un serviteur que vous contrôlez meurt, ce serviteur gagne +1/+1 de façon permanente.",
+		description: "Quand un serviteur allié meurt, ce serviteur gagne +1/+1 de façon permanente.",
 	},
 	{ name: "Horde", description: "Tant que tu contrôles 3 Morts-Vivants ou plus, ce serviteur gagne +1/+0." },
 	{
 		name: "Revenant",
 		description:
-			"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par partie).",
+			"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par pose sur le plateau).",
 	},
 	{
 		name: "Chair morte",
@@ -101,12 +100,12 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Fusion",
 		description:
-			"Sacrifice un serviteur adjacent que vous contrôlez : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
+			"Sacrifice un serviteur adjacent allié : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
 	},
 	{
 		name: "Virulent",
 		description:
-			"Quand ce serviteur meurt, le serviteur adjacent que vous contrôlez déclenche immédiatement une mutation.",
+			"Quand ce serviteur meurt, le serviteur adjacent allié déclenche immédiatement une mutation.",
 	},
 	{
 		name: "Chair adaptative",

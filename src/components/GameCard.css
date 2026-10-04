@@ -15,6 +15,15 @@
 	src: url("../assets/game/fonts/Cinzel-Bold.otf") format("opentype");
 	font-weight: 700;
 }
+/* Nom de carte en poids normal sur le site (demande utilisateur 2026-10-04) :
+   le jeu dessine NameLabel en Cinzel-Black (900, voir Card.tscn), mais ce
+   poids rendait le nom trop épais/illisible une fois la carte réduite par
+   l'échelle de page du deck builder web. */
+@font-face {
+	font-family: "CinzelCard";
+	src: url("../assets/game/fonts/Cinzel-Regular.otf") format("opentype");
+	font-weight: 400;
+}
 /* Regular (400) : utilisée pour la description sur le site (voir
    .gamecard-effect/.gamecard-flavor) au lieu du SemiBold du jeu — le
    SemiBold, correct sur la police du jeu, rendait le texte trop épais/gras
@@ -100,7 +109,8 @@
 }
 
 /* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx),
-   Cinzel-Black 13px (plus CinzelDecorative) */
+   taille synchronisée sur Card.tscn (font_size 15) — poids normal plutôt que
+   le Cinzel-Black du jeu (voir le @font-face ci-dessus). */
 .gamecard-name {
 	position: absolute;
 	left: 12px;
@@ -111,8 +121,8 @@
 	justify-content: center;
 	text-align: center;
 	font-family: "CinzelCard", serif;
-	font-weight: 900;
-	font-size: 13px;
+	font-weight: 400;
+	font-size: 15px;
 	line-height: 1.1;
 	color: rgb(242, 227, 198);
 	border: 1px solid rgba(168, 122, 52, 0.39);
@@ -123,7 +133,7 @@
 	z-index: 2;
 }
 
-/* CostLabel : 190,18 → 42×42, Cinzel-Black 28px, fond teinté race */
+/* CostLabel : 190,18 → 42×42, Cinzel-Black 29px (Card.tscn), fond teinté race */
 .gamecard-cost {
 	position: absolute;
 	left: 190px;
@@ -135,7 +145,7 @@
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 900;
-	font-size: 28px;
+	font-size: 29px;
 	color: rgb(211, 211, 211);
 	border: 2px solid rgb(168, 122, 52);
 	border-radius: 20px;
@@ -158,7 +168,7 @@
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 900;
-	font-size: 20px;
+	font-size: 21px;
 	color: rgb(211, 211, 211);
 	background: rgb(85, 107, 146);
 	border: 2px solid rgb(168, 122, 52);
@@ -168,12 +178,13 @@
 }
 
 /* DescLabel : 15,186 → 220×142.5 mini (le haut est décalé si NameLabel
-   grandit, voir GameCard.tsx). Le jeu utilise le SemiBold (600) à 13px
-   (Card.tscn), mais sur le web ce poids rendait le texte trop épais/gras
-   ("néon") avec le rendu de police des navigateurs, différent de Godot —
-   repassé en Regular (400, même famille de police que le jeu) et remonté
-   à 13px (retour joueur : la réduction précédente à 11px était allée trop
-   loin dans l'autre sens une fois le poids allégé). Les <strong> du texte
+   grandit, la hauteur peut croître un peu plus et la taille de police
+   rétrécir si le texte débordé encore, voir GameCard.tsx/_fit_desc_label
+   côté jeu). Taille par défaut synchronisée sur Card.gd
+   (DESC_LABEL_DEFAULT_FONT_SIZE = Typography.BODY - 1 = 18px) — repassé en
+   Regular (400, même famille de police que le jeu) plutôt que le SemiBold
+   du jeu : ce poids rendait le texte trop épais/gras ("néon") avec le rendu
+   de police des navigateurs, différent de Godot. Les <strong> du texte
    d'effet restent en vrai Bold (700, CrimsonText-Bold.ttf), identique au
    jeu, pour garder le contraste des déclencheurs/mots-clés. */
 .gamecard-desc {
@@ -190,7 +201,7 @@
 	text-align: center;
 	font-family: "CrimsonTextCard", serif;
 	font-weight: 400;
-	font-size: 13px;
+	font-size: 18px;
 	line-height: 1.2;
 	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
@@ -209,13 +220,17 @@
 	white-space: pre-line;
 }
 
+/* Card.gd _set_desc_font_size applique la MÊME taille au texte d'effet et
+   au flavour (normal/bold/italics_font_size identiques) : pas de taille
+   distincte ici, elle suit .gamecard-desc (fixe ou réduite dynamiquement,
+   voir GameCard.tsx). */
 .gamecard-flavor {
 	font-style: italic;
-	font-size: 12px;
 }
 
 /* TypeLabel : sur la bordure dorée en haut de carte, largeur ajustée au
-   texte (left/width en style inline, voir GameCard.tsx), Cinzel-Bold 11px */
+   texte (left/width en style inline, voir GameCard.tsx), Cinzel-Bold 13px
+   (Card.tscn) */
 .gamecard-type {
 	position: absolute;
 	top: -6px;
@@ -225,7 +240,7 @@
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 700;
-	font-size: 10px;
+	font-size: 13px;
 	color: #000;
 	border: 2px solid;
 	border-radius: 8px;
@@ -237,7 +252,8 @@
 	z-index: 5;
 }
 
-/* AttackLabel : 35,330 → 40×34, rouge */
+/* AttackLabel : 35,330 → 40×34 (top décalé si DescLabel déborde, voir
+   GameCard.tsx), rouge, Cinzel-Bold 29px (Card.tscn) */
 .gamecard-attack {
 	position: absolute;
 	left: 35px;
@@ -249,7 +265,7 @@
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 700;
-	font-size: 24px;
+	font-size: 29px;
 	color: rgba(211, 211, 211, 0.855);
 	background: rgba(139, 30, 30, 0.59);
 	border: 2px solid rgba(201, 0, 0, 0.39);
@@ -258,7 +274,8 @@
 	z-index: 2;
 }
 
-/* HealthLabel : 175,330 → 40×34, vert */
+/* HealthLabel : 175,330 → 40×34 (top décalé si DescLabel déborde, voir
+   GameCard.tsx), vert, Cinzel-Bold 29px (Card.tscn) */
 .gamecard-health {
 	position: absolute;
 	left: 175px;
@@ -270,7 +287,7 @@
 	justify-content: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 700;
-	font-size: 24px;
+	font-size: 29px;
 	color: rgba(211, 211, 211, 0.855);
 	background: rgba(45, 122, 45, 0.59);
 	border: 2px solid rgba(74, 234, 0, 0.39);
