@@ -146,6 +146,21 @@
 	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5), -3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 
+.lore-page {
+	/* react-pageflip pose lui-même `display: block` en inline sur
+	   .lore-page-face (HTMLPage.ts, commonStyle du draw()), qui écrase
+	   TOUJOURS le display:flex d'une classe, inline ou pas. Le centrage
+	   vertical ne peut donc pas venir de .lore-page-face : il vient d'ici,
+	   sur .lore-page lui-même (un enfant, lui non touché par la lib). Sans
+	   ce display:flex propre, les pages de contenu ordinaires restaient
+	   collées en haut, avec tout le bas de la page vide dès que le livre
+	   grandissait (grand écran) au-delà de ce que le texte occupe réellement
+	   à sa taille de police plafonnée. */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
 .lore-page,
 .lore-cover-title,
 .lore-book-title {
@@ -153,7 +168,7 @@
 	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
-	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.066), 1.3rem);
+	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.08), 1.55rem);
 	line-height: 1.42;
 	color: var(--lore-ink);
 }
@@ -175,7 +190,7 @@
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.07), 1.4rem);
+	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.085), 1.65rem);
 	color: var(--lore-seal-red);
 	margin: 0 0 0.5em;
 	text-align: center;
