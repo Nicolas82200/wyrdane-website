@@ -149,18 +149,21 @@ const Lore = () => {
 						width={820}
 						height={1000}
 						size="stretch"
-						minWidth={240}
+						minWidth={380}
 						maxWidth={820}
-						minHeight={293}
+						minHeight={463}
 						maxHeight={1000}
 						startPage={0}
 						showCover
 						flippingTime={prefersReducedMotion ? 1 : 900}
 						maxShadowOpacity={0.45}
 						// StPageFlip bascule tout seul en page unique dès que la largeur
-						// disponible descend sous minWidth*2 (480px ici) : assez bas
-						// pour garder le recto/verso sur tablette/desktop, assez haut
-						// pour forcer une page unique sur mobile (elle n'y tiendrait pas).
+						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
+						// plus bas (480px), une tablette en portrait (~768px de large)
+						// passait quand même en recto/verso, avec des demi-pages trop
+						// étroites (353px) pour contenir le texte sans déborder (mesuré
+						// via check-overflow.cjs) : mieux vaut une page pleine largeur à
+						// cette taille-là que deux demi-pages trop serrées.
 						usePortrait
 						startZIndex={10}
 						autoSize
