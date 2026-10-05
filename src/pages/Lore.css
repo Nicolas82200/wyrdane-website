@@ -53,21 +53,22 @@
 	   pour la taille "stretch" — mais il lui écrit lui-même un style inline
 	   `width:100%` (+ min/max-width), qui l'emporte toujours sur une règle
 	   posée directement sur .lore-flipbook dans ce fichier. Le gabarit réel
-	   doit donc venir du PARENT que ce 100% résout contre. Plafond : 1500px/
-	   92vw, borné aussi par la hauteur de la fenêtre pour ne jamais déborder
-	   verticalement. Le multiplicateur (1.64) est le ratio largeur/hauteur du
-	   double-page (desktop/tablette) : une fenêtre assez large pour basculer
-	   en recto/verso (92vw dépasse le seuil minWidth*2 de StPageFlip, voir
-	   Lore.tsx) reste large même quand elle est courte en hauteur, donc c'est
-	   TOUJOURS ce ratio qui s'applique une fois le mode recto/verso choisi.
-	   L'avoir mis à 0.82 (le ratio page unique) écrasait le livre sur
-	   n'importe quelle fenêtre un peu courte, même large (ex. 1360x623) :
-	   régression repérée à l'oeil, le livre semblait "tout petit". Le mode
-	   page unique (mobile) n'est, lui, jamais limité par ce terme : un écran
-	   assez étroit pour y basculer a 92vw plus petit que ce calcul de toute
-	   façon (un téléphone est étroit ET haut, pas large ET court). */
+	   doit donc venir du PARENT que ce 100% résout contre. Plafond absolu
+	   1100px (1500px rendait le livre trop grand sur un écran principal large,
+	   demande explicite), borné aussi par 92vw et par la hauteur de la
+	   fenêtre pour ne jamais déborder verticalement. Le multiplicateur (1.64)
+	   est le ratio largeur/hauteur du double-page (desktop/tablette) : une
+	   fenêtre assez large pour basculer en recto/verso (92vw dépasse le seuil
+	   minWidth*2 de StPageFlip, voir Lore.tsx) reste large même quand elle
+	   est courte en hauteur, donc c'est TOUJOURS ce ratio qui s'applique une
+	   fois le mode recto/verso choisi. L'avoir mis à 0.82 (le ratio page
+	   unique) écrasait le livre sur n'importe quelle fenêtre un peu courte,
+	   même large (ex. 1360x623) : régression repérée à l'oeil. Le mode page
+	   unique (mobile) n'est, lui, jamais limité par ce terme : un écran assez
+	   étroit pour y basculer a 92vw plus petit que ce calcul de toute façon
+	   (un téléphone est étroit ET haut, pas large ET court). */
 	position: relative;
-	width: min(1500px, 92vw, calc((100vh - 48px) * 1.64));
+	width: min(1100px, 92vw, calc((100vh - 48px) * 1.64));
 }
 
 .lore-flipbook {
@@ -168,7 +169,7 @@
 	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
-	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.32rem);
+	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.65rem);
 	line-height: 1.42;
 	color: var(--lore-ink);
 }
@@ -190,7 +191,7 @@
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.076), 1.5rem);
+	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.076), 1.88rem);
 	color: var(--lore-seal-red);
 	margin: 0 0 0.5em;
 	text-align: center;
@@ -251,7 +252,7 @@
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(1rem, calc(var(--lore-page-w) * 0.085), 1.7rem);
+	font-size: clamp(1rem, calc(var(--lore-page-w) * 0.085), 2.13rem);
 	margin: 0 0 0.5em;
 }
 .lore-book-sub {
