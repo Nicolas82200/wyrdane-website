@@ -131,7 +131,10 @@ function formatEffectText(text: string): ReactNode[] {
 // defaut, plafonne a NAME_LABEL_MAX_GROWTH ; DescLabel juste en-dessous est
 // decale d'autant pour garder le meme espacement entre les deux.
 const NAME_LABEL_DEFAULT_HEIGHT = 25; // 183 - 158
-const NAME_LABEL_MAX_GROWTH = 34;
+// Plafond relevé au-delà de la valeur du jeu (34, voir Card.gd) : une fois
+// la police agrandie côté site (voir GameCard.css), un nom sur 2-3 lignes a
+// besoin de plus de place pour ne jamais recouper la description.
+const NAME_LABEL_MAX_GROWTH = 44;
 const DESC_LABEL_DEFAULT_TOP = 186;
 const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
 // Card.gd _fit_desc_label : si le texte débordé malgré la croissance vers
@@ -151,31 +154,14 @@ const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
 const LANE_ICON_DEFAULT_TOP = 176;
 const LANE_ICON_DEFAULT_BOTTOM = 316;
 
-// TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche, entre
-// ces deux bornes, toujours centree sur TYPE_LABEL_CENTER_X.
-const TYPE_LABEL_MIN_WIDTH = 70;
-const TYPE_LABEL_MAX_WIDTH = 130;
-const TYPE_LABEL_PADDING = 16;
-const TYPE_LABEL_CENTER_X = 125;
-const TYPE_LABEL_FONT = '700 13px "CinzelCard", serif';
-
-let typeLabelCanvas: HTMLCanvasElement | null = null;
-// Beaucoup de cartes partagent le même typeText ("Serviteur", etc.) : cache
-// par texte pour éviter de remesurer sur le canvas à chaque rendu de chaque
-// GameCard (la grille du deck builder en affiche des centaines à la fois).
-const typeLabelWidthCache = new Map<string, number>();
-function measureTypeLabelWidth(text: string): number {
-	const cached = typeLabelWidthCache.get(text);
-	if (cached !== undefined) return cached;
-	if (typeof document === "undefined") return TYPE_LABEL_MIN_WIDTH;
-	if (!typeLabelCanvas) typeLabelCanvas = document.createElement("canvas");
-	const ctx = typeLabelCanvas.getContext("2d");
-	if (!ctx) return TYPE_LABEL_MIN_WIDTH;
-	ctx.font = TYPE_LABEL_FONT;
-	const width = ctx.measureText(text).width;
-	typeLabelWidthCache.set(text, width);
-	return width;
-}
+// TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
+// Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
+// plutôt qu'au canvas : une mesure JS figée au premier rendu (avant que la
+// police CinzelCard ait fini de charger, voir le même problème sur
+// NameLabel ci-dessus) tombait sur la police de repli du navigateur,
+// produisait une largeur trop étroite, et restait juste — coupant des mots
+// entiers ("Enchantement", "Rituel • N charges") derrière overflow: hidden
+// sans jamais se corriger une fois la vraie police chargée.
 
 export default function GameCard({ card }: { card: CardData }) {
 	const { language } = useLanguage();
@@ -262,17 +248,32 @@ export default function GameCard({ card }: { card: CardData }) {
 	useLayoutEffect(() => {
 		const el = descRef.current;
 		if (!el) return;
-		el.style.fontSize = `${DESC_LABEL_DEFAULT_FONT_SIZE}px`;
-		el.style.height = `${descAvailableHeight}px`;
-		let overflow = el.scrollHeight - descAvailableHeight;
-		let fontSize = DESC_LABEL_DEFAULT_FONT_SIZE;
-		if (overflow > DESC_LABEL_MAX_GROWTH) {
-			fontSize = DESC_LABEL_SHRUNK_FONT_SIZE;
-			el.style.fontSize = `${fontSize}px`;
-			overflow = el.scrollHeight - descAvailableHeight;
-		}
-		setDescFontSize(fontSize);
-		setDescGrowth(Math.min(Math.max(overflow, 0), DESC_LABEL_MAX_GROWTH));
+		let cancelled = false;
+		const measure = () => {
+			if (cancelled) return;
+			el.style.fontSize = `${DESC_LABEL_DEFAULT_FONT_SIZE}px`;
+			el.style.height = `${descAvailableHeight}px`;
+			let overflow = el.scrollHeight - descAvailableHeight;
+			let fontSize = DESC_LABEL_DEFAULT_FONT_SIZE;
+			if (overflow > DESC_LABEL_MAX_GROWTH) {
+				fontSize = DESC_LABEL_SHRUNK_FONT_SIZE;
+				el.style.fontSize = `${fontSize}px`;
+				overflow = el.scrollHeight - descAvailableHeight;
+			}
+			const growth = Math.min(Math.max(overflow, 0), DESC_LABEL_MAX_GROWTH);
+			// Même bug que NameLabel (voir ci-dessus) : remet explicitement la
+			// hauteur finale sur le DOM, sans compter uniquement sur le commit
+			// React, qui n'a rien à faire si cette mesure (après chargement des
+			// polices) retombe sur les mêmes valeurs que la précédente.
+			el.style.height = `${descAvailableHeight + growth}px`;
+			setDescFontSize(fontSize);
+			setDescGrowth(growth);
+		};
+		measure();
+		document.fonts?.ready?.then(measure);
+		return () => {
+			cancelled = true;
+		};
 	}, [effectText, card.flavor, showFlavor, descAvailableHeight, language]);
 
 	const descHeight = descAvailableHeight + descGrowth;
@@ -287,11 +288,6 @@ export default function GameCard({ card }: { card: CardData }) {
 	// ont souvent des noms plus longs).
 	const watermarkHeight = LANE_ICON_DEFAULT_BOTTOM - LANE_ICON_DEFAULT_TOP;
 	const watermarkTop = descTop + descHeight / 2 - watermarkHeight / 2;
-
-	const typeWidth = Math.min(
-		Math.max(measureTypeLabelWidth(typeText) + TYPE_LABEL_PADDING, TYPE_LABEL_MIN_WIDTH),
-		TYPE_LABEL_MAX_WIDTH,
-	);
 
 	return (
 		<div className="gamecard">
@@ -351,8 +347,6 @@ export default function GameCard({ card }: { card: CardData }) {
 				style={{
 					background: withAlpha(hexToRgba(rarityColor), 0.85),
 					borderColor: TYPE_LABEL_BORDER_COLOR,
-					left: TYPE_LABEL_CENTER_X - typeWidth / 2,
-					width: typeWidth,
 				}}
 			>
 				{typeText}
