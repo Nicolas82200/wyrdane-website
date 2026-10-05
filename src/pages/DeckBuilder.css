@@ -252,19 +252,32 @@
    un écran principal 1680×1050 qui reste en 6 colonnes), le canevas 1920px
    du deck builder est déjà fortement réduit par --db-scale (voir
    .deckbuilder-scale-outer), ce qui rendait le texte des cartes illisible.
-   On compense en passant de 6 à 5 cartes par rangée dans le catalogue
-   (largeur disponible ~1572px, inchangée par la résolution réelle puisque
-   .deckbuilder reste un canevas fixe) : chaque carte occupe une plus
-   grande part de ce canevas, donc un texte proportionnellement plus grand
-   une fois le --db-scale appliqué. */
+   On compense en passant de 6 à EXACTEMENT 5 cartes par rangée : une
+   première version en largeur de carte fixe (300px) calée au pixel sur la
+   largeur du catalogue retombait à 4 colonnes en conditions réelles (la
+   marge de quelques px laissée par le calcul était mangée par l'arrondi/la
+   barre de défilement) — remplacé par une grille CSS à 5 colonnes "1fr"
+   (toujours exactement 5, quelle que soit la largeur réelle) dont chaque
+   carte se redimensionne elle-même via une container query (voir
+   .db-card-scale ci-dessous) pour remplir sa colonne. */
 @media (max-width: 1500px) {
+	.db-card-grid {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		align-content: start;
+	}
+
 	.db-card-wrapper {
-		width: 300px;
-		height: 450px;
+		container-type: inline-size;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 250 / 375;
 	}
 
 	.db-card-scale {
-		transform: scale(1.2);
+		/* Remplit toute la largeur de la colonne (236px → sa taille native
+		   250px, voir GameCard.css) plutôt que le 0.9 fixe des grands écrans. */
+		transform: scale(calc(100cqw / 250px));
 	}
 }
 
