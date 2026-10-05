@@ -108,9 +108,11 @@
 	pointer-events: none;
 }
 
-/* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx),
-   taille synchronisée sur Card.tscn (font_size 15) — poids normal plutôt que
-   le Cinzel-Black du jeu (voir le @font-face ci-dessus). */
+/* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx).
+   Poids normal plutôt que le Cinzel-Black du jeu (voir le @font-face
+   ci-dessus), et taille relevée au-delà du 15px de Card.tscn (demande
+   utilisateur 2026-10-05 : encore trop petit une fois la carte réduite par
+   l'échelle de page du deck builder web). */
 .gamecard-name {
 	position: absolute;
 	left: 12px;
@@ -122,8 +124,8 @@
 	text-align: center;
 	font-family: "CinzelCard", serif;
 	font-weight: 400;
-	font-size: 15px;
-	line-height: 1.1;
+	font-size: 17px;
+	line-height: 1.15;
 	color: rgb(242, 227, 198);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
@@ -228,13 +230,22 @@
 	font-style: italic;
 }
 
-/* TypeLabel : sur la bordure dorée en haut de carte, largeur ajustée au
-   texte (left/width en style inline, voir GameCard.tsx), Cinzel-Bold 13px
-   (Card.tscn) */
+/* TypeLabel : sur la bordure dorée en haut de carte, centrée, largeur
+   mesurée par le navigateur (width: max-content) plutôt qu'au canvas en JS
+   — une mesure figée au premier rendu, avant que la police CinzelCard ait
+   fini de charger, coupait des mots entiers ("Enchantement",
+   "Rituel • N charges") derrière overflow: hidden sans jamais se corriger
+   une fois la vraie police chargée (voir GameCard.tsx). Cinzel-Bold 13px
+   (Card.tscn). */
 .gamecard-type {
 	position: absolute;
+	left: 50%;
 	top: -6px;
 	height: 14px;
+	width: max-content;
+	min-width: 70px;
+	max-width: 160px;
+	transform: translateX(-50%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
