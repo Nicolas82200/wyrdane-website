@@ -7,10 +7,6 @@
 		"path": "res://resources/cards/abomination/pact-of-fresh-flesh.tres",
 		"keywords": []
 	},
-	"Aegis de l'Empire": {
-		"path": "res://resources/cards/human/empire-aegis.tres",
-		"keywords": []
-	},
 	"Amas Informe": {
 		"path": "res://resources/cards/abomination/formless-mass.tres",
 		"keywords": [
@@ -33,22 +29,8 @@
 		"path": "res://resources/cards/undead/zombie-apocalypse.tres",
 		"keywords": []
 	},
-	"Appel aux Armes": {
-		"path": "res://resources/cards/human/call-to-arms.tres",
-		"keywords": []
-	},
 	"Appétit Ciblé": {
 		"path": "res://resources/cards/abomination/targeted-appetite.tres",
-		"keywords": []
-	},
-	"Archer d'Élite": {
-		"path": "res://resources/cards/human/elite-archer.tres",
-		"keywords": [
-			"Infiltration"
-		]
-	},
-	"Archer de Guet": {
-		"path": "res://resources/cards/human/watchtower-archer.tres",
 		"keywords": []
 	},
 	"Architecte de la Horde": {
@@ -111,20 +93,12 @@
 		"path": "res://resources/cards/abomination/unrecognizing-altar.tres",
 		"keywords": []
 	},
-	"Bannière du Roi": {
-		"path": "res://resources/cards/human/kings-banner.tres",
-		"keywords": []
-	},
 	"Banshee des Abysses": {
 		"path": "res://resources/cards/demon/abyssal-banshe.tres",
 		"keywords": []
 	},
 	"Banshee Zombie": {
 		"path": "res://resources/cards/undead/zombie-banshee.tres",
-		"keywords": []
-	},
-	"Bénédiction de Guerre": {
-		"path": "res://resources/cards/human/war-blessing.tres",
 		"keywords": []
 	},
 	"Berserker du Pacte": {
@@ -147,14 +121,6 @@
 			"Assimilation"
 		]
 	},
-	"Bouclier de Foi": {
-		"path": "res://resources/cards/human/faith-shield.tres",
-		"keywords": []
-	},
-	"Bouclier de la Foi": {
-		"path": "res://resources/cards/human/shield-of-the-faith.tres",
-		"keywords": []
-	},
 	"Bourreau des Flammes": {
 		"path": "res://resources/cards/demon/flame-executioner.tres",
 		"keywords": [
@@ -166,14 +132,6 @@
 		"keywords": [
 			"Pacte"
 		]
-	},
-	"Brise-Mort": {
-		"path": "res://resources/cards/human/death-breaker.tres",
-		"keywords": []
-	},
-	"Briseur de Horde": {
-		"path": "res://resources/cards/human/horde-breaker.tres",
-		"keywords": []
 	},
 	"Brouillard Pestilentiel": {
 		"path": "res://resources/cards/undead/pestilential-fog.tres",
@@ -189,12 +147,6 @@
 		"path": "res://resources/cards/undead/wandering-corpse.tres",
 		"keywords": [
 			"Chair morte"
-		]
-	},
-	"Capitaine de Milice": {
-		"path": "res://resources/cards/human/militia-captain.tres",
-		"keywords": [
-			"Commandement"
 		]
 	},
 	"Cavalier des Flammes": {
@@ -250,10 +202,6 @@
 		"path": "res://resources/cards/abomination/flesh-memory.tres",
 		"keywords": []
 	},
-	"Cercle de Commandement": {
-		"path": "res://resources/cards/human/command-circle.tres",
-		"keywords": []
-	},
 	"Cercle de Convocation": {
 		"path": "res://resources/cards/undead/circle-of-summoning.tres",
 		"keywords": []
@@ -288,10 +236,6 @@
 		"path": "res://resources/cards/undead/soul-shard.tres",
 		"keywords": []
 	},
-	"Champion du Peuple": {
-		"path": "res://resources/cards/human/champion-of-the-people.tres",
-		"keywords": []
-	},
 	"Chant Qui Déforme": {
 		"path": "res://resources/cards/abomination/song-of-distortion.tres",
 		"keywords": []
@@ -306,23 +250,10 @@
 			"Corruption"
 		]
 	},
-	"Chevalier de la Contre-Marche": {
-		"path": "res://resources/cards/human/countermarch-knight.tres",
-		"keywords": [
-			"Assaut",
-			"Contre-attaque"
-		]
-	},
 	"Chevalier Déchu": {
 		"path": "res://resources/cards/demon/fallen-hellknight.tres",
 		"keywords": [
 			"Pacte"
-		]
-	},
-	"Chevalier du Mur": {
-		"path": "res://resources/cards/human/wall-knight.tres",
-		"keywords": [
-			"Contre-attaque"
 		]
 	},
 	"Chuchotement Qui Change la Forme": {
@@ -331,20 +262,10 @@
 	},
 	"Chuchoteur Malin": {
 		"path": "res://resources/cards/demon/whisperfiend.tres",
-		"keywords": [
-			"Pacte"
-		]
+		"keywords": []
 	},
 	"Cimetière Vivant": {
 		"path": "res://resources/cards/undead/living-cemetery.tres",
-		"keywords": []
-	},
-	"Citadelle des Hommes": {
-		"path": "res://resources/cards/human/citadel-of-men.tres",
-		"keywords": []
-	},
-	"Code du Chevalier": {
-		"path": "res://resources/cards/human/knights-code.tres",
 		"keywords": []
 	},
 	"Cœur du Gouffre": {
@@ -366,12 +287,6 @@
 			"Revenant"
 		]
 	},
-	"Commandant des Derniers": {
-		"path": "res://resources/cards/human/last-commander.tres",
-		"keywords": [
-			"Commandement"
-		]
-	},
 	"Communion avec les Morts": {
 		"path": "res://resources/cards/undead/communion-with-the-dead.tres",
 		"keywords": []
@@ -382,24 +297,6 @@
 	},
 	"Communion Infernale": {
 		"path": "res://resources/cards/demon/the-living-covenant.tres",
-		"keywords": [
-			"Pacte"
-		]
-	},
-	"Conscrit": {
-		"path": "res://resources/cards/human/conscript.tres",
-		"keywords": []
-	},
-	"Contre-Attaque Générale": {
-		"path": "res://resources/cards/human/general-counter-attack.tres",
-		"keywords": []
-	},
-	"Contre-Offensive": {
-		"path": "res://resources/cards/human/counter-offensive.tres",
-		"keywords": []
-	},
-	"Cri de Ralliement": {
-		"path": "res://resources/cards/human/rally-cry.tres",
 		"keywords": []
 	},
 	"Cri des Damnés": {
@@ -414,14 +311,6 @@
 	},
 	"Cultiste Zombifié": {
 		"path": "res://resources/cards/undead/zombified-cultist.tres",
-		"keywords": []
-	},
-	"Décret Royal": {
-		"path": "res://resources/cards/human/royal-decree.tres",
-		"keywords": []
-	},
-	"Défenseur Juré": {
-		"path": "res://resources/cards/human/sworn-defender.tres",
 		"keywords": []
 	},
 	"Dernier Soupir": {
@@ -447,16 +336,6 @@
 	"Écho des Chutes": {
 		"path": "res://resources/cards/abomination/echo-of-the-fallen.tres",
 		"keywords": []
-	},
-	"Éclaireur Infiltré": {
-		"path": "res://resources/cards/human/infiltrator-scout.tres",
-		"keywords": []
-	},
-	"Éclaireur Rapide": {
-		"path": "res://resources/cards/human/swift-scout.tres",
-		"keywords": [
-			"Assaut"
-		]
 	},
 	"Éclat d'Anomalie": {
 		"path": "res://resources/cards/abomination/anomaly-shard.tres",
@@ -522,13 +401,6 @@
 		"path": "res://resources/cards/undead/icy-embrace.tres",
 		"keywords": []
 	},
-	"Exécuteur de l'Ordre": {
-		"path": "res://resources/cards/human/order-executioner.tres",
-		"keywords": [
-			"Venin mortel",
-			"Discipline"
-		]
-	},
 	"Exhalation Toxique": {
 		"path": "res://resources/cards/undead/toxic-exhalation.tres",
 		"keywords": []
@@ -538,18 +410,6 @@
 		"keywords": [
 			"Moisson",
 			"Assimilation"
-		]
-	},
-	"Fantassin Aguerri": {
-		"path": "res://resources/cards/human/seasoned-footman.tres",
-		"keywords": [
-			"Formation"
-		]
-	},
-	"Fantassin de Contre-Choc": {
-		"path": "res://resources/cards/human/counter-shock-footman.tres",
-		"keywords": [
-			"Contre-attaque"
 		]
 	},
 	"Faucheur de la Plaie": {
@@ -572,18 +432,6 @@
 			"Pacte"
 		]
 	},
-	"Formation Défensive": {
-		"path": "res://resources/cards/human/defensive-formation.tres",
-		"keywords": []
-	},
-	"Forteresse Imprenable": {
-		"path": "res://resources/cards/human/impregnable-fortress.tres",
-		"keywords": []
-	},
-	"Fortification des Lignes": {
-		"path": "res://resources/cards/human/line-fortification.tres",
-		"keywords": []
-	},
 	"Fosse Commune": {
 		"path": "res://resources/cards/undead/mass-grave.tres",
 		"keywords": []
@@ -594,14 +442,6 @@
 	},
 	"Fracture Vivante": {
 		"path": "res://resources/cards/abomination/living-fracture.tres",
-		"keywords": []
-	},
-	"Frappe Coordonnée": {
-		"path": "res://resources/cards/human/coordinated-strike.tres",
-		"keywords": []
-	},
-	"Frère d'Armes": {
-		"path": "res://resources/cards/human/brother-in-arms.tres",
 		"keywords": []
 	},
 	"Fureur Sans Forme Fixe": {
@@ -632,12 +472,6 @@
 	"Géant Boursouflé": {
 		"path": "res://resources/cards/undead/bloated-giant.tres",
 		"keywords": []
-	},
-	"Général de Brigade": {
-		"path": "res://resources/cards/human/brigade-general.tres",
-		"keywords": [
-			"Commandement"
-		]
 	},
 	"Goule Affamée": {
 		"path": "res://resources/cards/undead/famished-ghoul.tres",
@@ -672,14 +506,6 @@
 		"path": "res://resources/cards/undead/grand-necrotic-ritual.tres",
 		"keywords": []
 	},
-	"Grande Mobilisation": {
-		"path": "res://resources/cards/human/great-mobilization.tres",
-		"keywords": []
-	},
-	"Guérisseur de Camp": {
-		"path": "res://resources/cards/human/camp-healer.tres",
-		"keywords": []
-	},
 	"Halo Qui Encourage le Changement": {
 		"path": "res://resources/cards/abomination/change-encouraging-halo.tres",
 		"keywords": []
@@ -702,10 +528,6 @@
 		"path": "res://resources/cards/undead/necrotic-howler.tres",
 		"keywords": []
 	},
-	"Hymne de Guerre": {
-		"path": "res://resources/cards/human/war-hymn.tres",
-		"keywords": []
-	},
 	"Idole de l'Apocalypse": {
 		"path": "res://resources/cards/undead/idol-of-the-apocalypse.tres",
 		"keywords": []
@@ -720,16 +542,6 @@
 		"path": "res://resources/cards/undead/recently-infected.tres",
 		"keywords": []
 	},
-	"Inquisiteur de Fer": {
-		"path": "res://resources/cards/human/iron-inquisitor.tres",
-		"keywords": []
-	},
-	"Inquisiteur Suprême": {
-		"path": "res://resources/cards/human/supreme-inquisitor.tres",
-		"keywords": [
-			"Discipline"
-		]
-	},
 	"Invasion Écarlate": {
 		"path": "res://resources/cards/demon/crimson-invasion.tres",
 		"keywords": [
@@ -740,17 +552,6 @@
 		"path": "res://resources/cards/demon/novice-summoner.tres",
 		"keywords": [
 			"Pacte"
-		]
-	},
-	"Jugement Divin": {
-		"path": "res://resources/cards/human/divine-judgment.tres",
-		"keywords": []
-	},
-	"L'Éternel Gardien": {
-		"path": "res://resources/cards/human/eternal-guardian.tres",
-		"keywords": [
-			"Égide",
-			"Discipline"
 		]
 	},
 	"L'Éternel Recommencement": {
@@ -776,27 +577,9 @@
 		"path": "res://resources/cards/abomination/great-contamination.tres",
 		"keywords": []
 	},
-	"La Grande Inquisitrice": {
-		"path": "res://resources/cards/human/grand-inquisitrix.tres",
-		"keywords": [
-			"Discipline"
-		]
-	},
 	"La Terre Qui Refuse de Garder": {
 		"path": "res://resources/cards/abomination/unkeeping-earth.tres",
 		"keywords": []
-	},
-	"Lame-Jurée": {
-		"path": "res://resources/cards/human/oath-blade.tres",
-		"keywords": [
-			"Discipline"
-		]
-	},
-	"Lancier en Ligne": {
-		"path": "res://resources/cards/human/line-lancer.tres",
-		"keywords": [
-			"Formation"
-		]
 	},
 	"Larve Ascendante": {
 		"path": "res://resources/cards/demon/ascending-hellspawn.tres",
@@ -855,25 +638,11 @@
 		"path": "res://resources/cards/abomination/first-deviation.tres",
 		"keywords": []
 	},
-	"Le Rempart Vivant": {
-		"path": "res://resources/cards/human/living-rampart.tres",
-		"keywords": [
-			"Fortification",
-			"Contre-attaque"
-		]
-	},
 	"Le Reste-Qui-Veille": {
 		"path": "res://resources/cards/abomination/watching-remnant.tres",
 		"keywords": [
 			"Rempart",
 			"Assimilation"
-		]
-	},
-	"Le Roi Soldat": {
-		"path": "res://resources/cards/human/soldier-king.tres",
-		"keywords": [
-			"Égide",
-			"Commandement"
 		]
 	},
 	"Le Sculpteur Sans Mains": {
@@ -894,10 +663,6 @@
 	},
 	"Lien Sans Membrane": {
 		"path": "res://resources/cards/abomination/bond-without-membrane.tres",
-		"keywords": []
-	},
-	"Lignée des Braves": {
-		"path": "res://resources/cards/human/lineage-of-the-brave.tres",
 		"keywords": []
 	},
 	"Locataire Sans Bail": {
@@ -922,22 +687,8 @@
 			"Pacte"
 		]
 	},
-	"Marche Forcée": {
-		"path": "res://resources/cards/human/forced-march.tres",
-		"keywords": []
-	},
-	"Maréchal de Campagne": {
-		"path": "res://resources/cards/human/campaign-marshal.tres",
-		"keywords": [
-			"Commandement"
-		]
-	},
 	"Marque du Pacte": {
 		"path": "res://resources/cards/demon/mark-of-the-pact.tres",
-		"keywords": []
-	},
-	"Massacre Sacré": {
-		"path": "res://resources/cards/human/sacred-slaughter.tres",
 		"keywords": []
 	},
 	"Masse-Qui-Ne-Cesse": {
@@ -946,14 +697,6 @@
 			"Rempart",
 			"Mutation"
 		]
-	},
-	"Mémorial des Héros": {
-		"path": "res://resources/cards/human/heroes-memorial.tres",
-		"keywords": []
-	},
-	"Milicien du Bourg": {
-		"path": "res://resources/cards/human/militia-man.tres",
-		"keywords": []
 	},
 	"Monture-et-Cavalier-Ne-Font-Qu'Un": {
 		"path": "res://resources/cards/abomination/mount-and-rider-as-one.tres",
@@ -978,16 +721,6 @@
 		"keywords": [
 			"Horde"
 		]
-	},
-	"Mur de Lances": {
-		"path": "res://resources/cards/human/spear-wall.tres",
-		"keywords": [
-			"Formation"
-		]
-	},
-	"Mur Infranchissable": {
-		"path": "res://resources/cards/human/impassable-wall.tres",
-		"keywords": []
 	},
 	"Murmure Funeste": {
 		"path": "res://resources/cards/undead/doomed-whisper.tres",
@@ -1022,22 +755,6 @@
 			"Fusion"
 		]
 	},
-	"Ordre d'Avancer": {
-		"path": "res://resources/cards/human/advance-order.tres",
-		"keywords": []
-	},
-	"Ordre de Tenir": {
-		"path": "res://resources/cards/human/hold-the-line.tres",
-		"keywords": []
-	},
-	"Ordre des Anciens": {
-		"path": "res://resources/cards/human/order-of-ancients.tres",
-		"keywords": []
-	},
-	"Pacte de Résistance": {
-		"path": "res://resources/cards/human/resistance-pact.tres",
-		"keywords": []
-	},
 	"Pacte Hâtif": {
 		"path": "res://resources/cards/demon/hasty-pact.tres",
 		"keywords": []
@@ -1045,15 +762,6 @@
 	"Pacte Sanglant": {
 		"path": "res://resources/cards/undead/blood-pact.tres",
 		"keywords": []
-	},
-	"Paladin de l'Aube": {
-		"path": "res://resources/cards/human/dawn-paladin.tres",
-		"keywords": [
-			"Égide",
-			"Moisson",
-			"Discipline",
-			"Fortification"
-		]
 	},
 	"Partage Forcé": {
 		"path": "res://resources/cards/abomination/forced-sharing.tres",
@@ -1080,14 +788,6 @@
 		"path": "res://resources/cards/undead/grip-of-the-graveyard.tres",
 		"keywords": []
 	},
-	"Porte-Étendard": {
-		"path": "res://resources/cards/human/standard-bearer.tres",
-		"keywords": []
-	},
-	"Porteur de Bouclier": {
-		"path": "res://resources/cards/human/shield-bearer.tres",
-		"keywords": []
-	},
 	"Possédé Écarlate": {
 		"path": "res://resources/cards/demon/crimson-possessed.tres",
 		"keywords": [
@@ -1112,20 +812,8 @@
 		"path": "res://resources/cards/abomination/first-twitch.tres",
 		"keywords": []
 	},
-	"Prêtre de Guerre": {
-		"path": "res://resources/cards/human/war-priest.tres",
-		"keywords": []
-	},
 	"Puits Qui Avale Tout": {
 		"path": "res://resources/cards/abomination/all-swallowing-well.tres",
-		"keywords": []
-	},
-	"Purge Sainte": {
-		"path": "res://resources/cards/human/holy-purge.tres",
-		"keywords": []
-	},
-	"Purification": {
-		"path": "res://resources/cards/human/purification.tres",
 		"keywords": []
 	},
 	"Rampant en Décomposition": {
@@ -1151,14 +839,6 @@
 	},
 	"Repaire Qui Digère la Magie": {
 		"path": "res://resources/cards/abomination/magic-digesting-lair.tres",
-		"keywords": []
-	},
-	"Repli Tactique": {
-		"path": "res://resources/cards/human/tactical-retreat.tres",
-		"keywords": []
-	},
-	"Résistance Acharnée": {
-		"path": "res://resources/cards/human/fierce-resistance.tres",
 		"keywords": []
 	},
 	"Respir Qui Change Tout": {
@@ -1268,10 +948,6 @@
 		"path": "res://resources/cards/demon/seal-of-respite.tres",
 		"keywords": []
 	},
-	"Sceau du Royaume": {
-		"path": "res://resources/cards/human/royal-seal.tres",
-		"keywords": []
-	},
 	"Second Regard": {
 		"path": "res://resources/cards/abomination/second-gaze.tres",
 		"keywords": [
@@ -1294,26 +970,12 @@
 			"Fusion"
 		]
 	},
-	"Sentinelle des Remparts": {
-		"path": "res://resources/cards/human/rampart-sentinel.tres",
-		"keywords": [
-			"Fortification"
-		]
-	},
 	"Sentinelle du Gouffre": {
 		"path": "res://resources/cards/demon/abyssal-sentinel.tres",
 		"keywords": [
 			"Rempart",
 			"Pacte"
 		]
-	},
-	"Sergent de Troupe": {
-		"path": "res://resources/cards/human/troop-sergeant.tres",
-		"keywords": []
-	},
-	"Serment du Sang": {
-		"path": "res://resources/cards/human/blood-oath.tres",
-		"keywords": []
 	},
 	"Servant Décharné": {
 		"path": "res://resources/cards/undead/gaunt-servant.tres",
@@ -1322,12 +984,6 @@
 	"Signe Qui Répond": {
 		"path": "res://resources/cards/abomination/answering-sign.tres",
 		"keywords": []
-	},
-	"Soldat de la Foi": {
-		"path": "res://resources/cards/human/faith-soldier.tres",
-		"keywords": [
-			"Égide"
-		]
 	},
 	"Soldat Réanimé": {
 		"path": "res://resources/cards/undead/reanimated-soldier.tres",
@@ -1349,10 +1005,6 @@
 	},
 	"Souffle Nécrotique": {
 		"path": "res://resources/cards/undead/necrotic-breath.tres",
-		"keywords": []
-	},
-	"Stratège Royal": {
-		"path": "res://resources/cards/human/royal-strategist.tres",
 		"keywords": []
 	},
 	"Suceur d'Âmes": {
@@ -1382,10 +1034,6 @@
 	},
 	"Symbiose Infernale": {
 		"path": "res://resources/cards/demon/infernal-symbiosis.tres",
-		"keywords": []
-	},
-	"Temple de Guerre": {
-		"path": "res://resources/cards/human/war-temple.tres",
 		"keywords": []
 	},
 	"Titan de Cendres": {
@@ -1433,10 +1081,6 @@
 			"Venin mortel"
 		]
 	},
-	"Vétéran des Marches": {
-		"path": "res://resources/cards/human/march-veteran.tres",
-		"keywords": []
-	},
 	"Visage-Encore-Flou": {
 		"path": "res://resources/cards/abomination/blurred-visage.tres",
 		"keywords": [
@@ -1448,10 +1092,6 @@
 		"keywords": [
 			"Chair adaptative"
 		]
-	},
-	"Volée de Flèches": {
-		"path": "res://resources/cards/human/arrow-volley.tres",
-		"keywords": []
 	},
 	"Vortex des Âmes": {
 		"path": "res://resources/cards/undead/vortex-of-souls.tres",

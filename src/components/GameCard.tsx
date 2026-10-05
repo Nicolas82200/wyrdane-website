@@ -134,6 +134,17 @@ const NAME_LABEL_DEFAULT_HEIGHT = 25; // 183 - 158
 const NAME_LABEL_MAX_GROWTH = 34;
 const DESC_LABEL_DEFAULT_TOP = 186;
 const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
+// Card.gd _fit_desc_label : si le texte débordé malgré la croissance vers
+// le bas (plafonnée ici), on réduit plutôt la police (Typography.BODY - 1
+// → Typography.MICRO - 1) pour ne jamais recouper le texte de règle.
+const DESC_LABEL_MAX_GROWTH = 3;
+const DESC_LABEL_DEFAULT_FONT_SIZE = 18;
+const DESC_LABEL_SHRUNK_FONT_SIZE = 14;
+const STATS_LABEL_DEFAULT_TOP = 330;
+// Card.gd DESC_FLAVOUR_HIDE_THRESHOLD : au-delà de ce nombre de caractères,
+// le texte d'effet seul remplit déjà la case — le flavour text est masqué
+// plutôt que d'aggraver le débordement.
+const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
 
 // Card.gd LANE_ICON_DEFAULT_TOP/BOTTOM (filigrane central) : hauteur fixe de
 // 140, recentrée sur la zone de texte par _center_lane_icon (voir plus bas).
@@ -142,11 +153,11 @@ const LANE_ICON_DEFAULT_BOTTOM = 316;
 
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche, entre
 // ces deux bornes, toujours centree sur TYPE_LABEL_CENTER_X.
-const TYPE_LABEL_MIN_WIDTH = 160;
-const TYPE_LABEL_MAX_WIDTH = 175;
+const TYPE_LABEL_MIN_WIDTH = 70;
+const TYPE_LABEL_MAX_WIDTH = 130;
 const TYPE_LABEL_PADDING = 16;
 const TYPE_LABEL_CENTER_X = 125;
-const TYPE_LABEL_FONT = '700 10px "CinzelCard", serif';
+const TYPE_LABEL_FONT = '700 13px "CinzelCard", serif';
 
 let typeLabelCanvas: HTMLCanvasElement | null = null;
 // Beaucoup de cartes partagent le même typeText ("Serviteur", etc.) : cache
@@ -201,7 +212,37 @@ export default function GameCard({ card }: { card: CardData }) {
 	}, [card.name]);
 
 	const descTop = DESC_LABEL_DEFAULT_TOP + nameGrowth;
-	const descHeight = DESC_LABEL_DEFAULT_BOTTOM - descTop;
+	const descAvailableHeight = DESC_LABEL_DEFAULT_BOTTOM - descTop;
+
+	// Masque le flavour text si le texte d'effet seul remplit déjà la case
+	// (Card.gd DESC_FLAVOUR_HIDE_THRESHOLD).
+	const effectText = card.effect ? translateCardText(card.effect, language) : "";
+	const showFlavor = !!card.flavor && effectText.length < DESC_FLAVOUR_HIDE_THRESHOLD;
+
+	// Port de Card.gd _fit_desc_label : grandit vers le bas (plafonné à
+	// DESC_LABEL_MAX_GROWTH) puis, si ça ne suffit toujours pas, réduit la
+	// police plutôt que de laisser le texte déborder/se faire rogner.
+	const descRef = useRef<HTMLDivElement>(null);
+	const [descFontSize, setDescFontSize] = useState(DESC_LABEL_DEFAULT_FONT_SIZE);
+	const [descGrowth, setDescGrowth] = useState(0);
+	useLayoutEffect(() => {
+		const el = descRef.current;
+		if (!el) return;
+		el.style.fontSize = `${DESC_LABEL_DEFAULT_FONT_SIZE}px`;
+		el.style.height = `${descAvailableHeight}px`;
+		let overflow = el.scrollHeight - descAvailableHeight;
+		let fontSize = DESC_LABEL_DEFAULT_FONT_SIZE;
+		if (overflow > DESC_LABEL_MAX_GROWTH) {
+			fontSize = DESC_LABEL_SHRUNK_FONT_SIZE;
+			el.style.fontSize = `${fontSize}px`;
+			overflow = el.scrollHeight - descAvailableHeight;
+		}
+		setDescFontSize(fontSize);
+		setDescGrowth(Math.min(Math.max(overflow, 0), DESC_LABEL_MAX_GROWTH));
+	}, [effectText, card.flavor, showFlavor, descAvailableHeight, language]);
+
+	const descHeight = descAvailableHeight + descGrowth;
+	const statsTop = STATS_LABEL_DEFAULT_TOP + descGrowth;
 
 	// Card.gd _center_lane_icon : le filigrane garde une hauteur fixe, seul
 	// son centre suit celui de la zone de texte (qui descend avec la
@@ -257,15 +298,17 @@ export default function GameCard({ card }: { card: CardData }) {
 				</div>
 			)}
 			<div
+				ref={descRef}
 				className="gamecard-desc"
-				style={{ background: raceColor, top: descTop, height: descHeight }}
+				style={{
+					background: raceColor,
+					top: descTop,
+					height: descHeight,
+					fontSize: descFontSize,
+				}}
 			>
-				{card.effect && (
-					<div className="gamecard-effect">
-						{formatEffectText(translateCardText(card.effect, language))}
-					</div>
-				)}
-				{card.flavor && (
+				{effectText && <div className="gamecard-effect">{formatEffectText(effectText)}</div>}
+				{showFlavor && card.flavor && (
 					<div className="gamecard-flavor">{translateCardText(card.flavor, language)}</div>
 				)}
 			</div>
@@ -280,8 +323,16 @@ export default function GameCard({ card }: { card: CardData }) {
 			>
 				{typeText}
 			</div>
-			{isMinion && <div className="gamecard-attack">{card.attack ?? 0}</div>}
-			{isMinion && <div className="gamecard-health">{card.hp ?? 0}</div>}
+			{isMinion && (
+				<div className="gamecard-attack" style={{ top: statsTop }}>
+					{card.attack ?? 0}
+				</div>
+			)}
+			{isMinion && (
+				<div className="gamecard-health" style={{ top: statsTop }}>
+					{card.hp ?? 0}
+				</div>
+			)}
 			{borderTexture && (
 				<img className="gamecard-border" src={borderTexture} alt="" draggable={false} />
 			)}

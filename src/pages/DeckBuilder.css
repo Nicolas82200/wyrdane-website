@@ -1,5 +1,15 @@
 /* Deck builder web — réplique visuelle de scenes/deck/DeckBuilder.tscn (jeu Godot).
-   Palette : bruns sombres + or, mêmes valeurs que DeckBuilder.gd. */
+   Palette : bruns sombres + or, mêmes valeurs que DeckBuilder.gd.
+
+   Typographie : alignée sur l'échelle unique du jeu (scripts/ui/Typography.gd,
+   MICRO=15/BODY=19/SECTION=23/HEADER=29) plutôt que des tailles ad hoc —
+   mêmes correspondances que les labels équivalents de DeckBuilder.gd (badge,
+   bouton d'achat, ligne de deck = MICRO ; compteur de cartes, boutons
+   principaux = BODY ; champ de nom du deck, titres de dialogue = SECTION ;
+   titre de page = HEADER). Exceptions délibérées, sans équivalent dans le
+   deck builder du jeu : les annotations de la courbe de mana (.db-curve-count/
+   .db-curve-cost) et le textarea d'export/import (code de deck en
+   monospace) restent sous MICRO, trop denses pour en bénéficier. */
 
 /* Sur un écran plus petit que la largeur de référence (1920px, même base que
    le jeu Godot), toute la page .deckbuilder est réduite en un seul bloc via
@@ -79,7 +89,7 @@
 .deckbuilder-header h1 {
 	margin: 0;
 	font-family: "CinzelDecorative", serif;
-	font-size: 22px;
+	font-size: 29px;
 	color: #e8c964;
 	letter-spacing: 1px;
 }
@@ -92,12 +102,12 @@
 
 .deckbuilder-balance {
 	color: #fad966;
-	font-size: 16px;
+	font-size: 15px;
 }
 
 .deckbuilder-loading {
 	margin: auto;
-	font-size: 18px;
+	font-size: 19px;
 	color: #b8a37a;
 }
 
@@ -127,7 +137,7 @@
 	width: 100%;
 	max-width: 420px;
 	padding: 7px 12px;
-	font-size: 14px;
+	font-size: 19px;
 	font-family: inherit;
 	color: #e8d5a3;
 	background: rgba(31, 26, 20, 0.85);
@@ -160,7 +170,7 @@
 }
 
 .db-filter-label {
-	font-size: 12px;
+	font-size: 15px;
 	color: #b39966;
 }
 
@@ -176,7 +186,7 @@
 
 .db-filter-btn {
 	padding: 3px 7px;
-	font-size: 12px;
+	font-size: 15px;
 	font-family: inherit;
 	cursor: pointer;
 	color: #b8a37a;
@@ -198,7 +208,7 @@
 .db-select {
 	min-width: 170px;
 	padding: 3px 6px;
-	font-size: 12px;
+	font-size: 15px;
 	font-family: inherit;
 	color: #e8d5a3;
 	background: rgba(31, 26, 20, 0.9);
@@ -238,13 +248,33 @@
 	pointer-events: none;
 }
 
+/* Sous ce point de rupture (second écran bas de gamme, ex. 1360×768, contre
+   un écran principal 1680×1050 qui reste en 6 colonnes), le canevas 1920px
+   du deck builder est déjà fortement réduit par --db-scale (voir
+   .deckbuilder-scale-outer), ce qui rendait le texte des cartes illisible.
+   On compense en passant de 6 à 5 cartes par rangée dans le catalogue
+   (largeur disponible ~1572px, inchangée par la résolution réelle puisque
+   .deckbuilder reste un canevas fixe) : chaque carte occupe une plus
+   grande part de ce canevas, donc un texte proportionnellement plus grand
+   une fois le --db-scale appliqué. */
+@media (max-width: 1500px) {
+	.db-card-wrapper {
+		width: 300px;
+		height: 450px;
+	}
+
+	.db-card-scale {
+		transform: scale(1.2);
+	}
+}
+
 .db-card-owned-badge {
 	position: absolute;
 	top: 6px;
 	left: 6px;
 	z-index: 5;
 	padding: 2px 7px;
-	font-size: 12px;
+	font-size: 15px;
 	font-weight: 600;
 	font-family: inherit;
 	color: #e8d5a3;
@@ -260,7 +290,7 @@
 	right: 12px;
 	bottom: 8px;
 	padding: 4px;
-	font-size: 12px;
+	font-size: 15px;
 	font-family: inherit;
 	cursor: pointer;
 	color: #e8d5a3;
@@ -277,7 +307,7 @@
 
 .db-catalog-empty {
 	color: #8a7a5c;
-	font-size: 14px;
+	font-size: 15px;
 	margin: 24px auto;
 }
 
@@ -297,7 +327,7 @@
 
 .db-deck-name {
 	padding: 7px 10px;
-	font-size: 15px;
+	font-size: 23px;
 	font-family: inherit;
 	color: #e8d5a3;
 	background: rgba(31, 26, 20, 0.85);
@@ -306,7 +336,7 @@
 }
 
 .db-count-label {
-	font-size: 13px;
+	font-size: 19px;
 	line-height: 1.4;
 	text-align: center;
 }
@@ -330,7 +360,7 @@
 
 .db-deck-empty {
 	color: #8a7a5c;
-	font-size: 13px;
+	font-size: 15px;
 	text-align: center;
 }
 
@@ -357,7 +387,7 @@
 	justify-content: center;
 	width: 28px;
 	flex-shrink: 0;
-	font-size: 13px;
+	font-size: 15px;
 	color: rgb(13, 10, 5);
 	background: rgba(140, 105, 20, 0.9);
 }
@@ -367,7 +397,7 @@
 	display: flex;
 	align-items: center;
 	padding-left: 8px;
-	font-size: 14px;
+	font-size: 15px;
 	color: #e8d5a3;
 	overflow: hidden;
 	white-space: nowrap;
@@ -379,7 +409,7 @@
 	align-items: center;
 	justify-content: center;
 	width: 22px;
-	font-size: 13px;
+	font-size: 15px;
 	color: rgba(232, 213, 163, 0.8);
 }
 
@@ -388,7 +418,7 @@
 	border: none;
 	background: none;
 	cursor: pointer;
-	font-size: 12px;
+	font-size: 15px;
 	color: rgb(153, 77, 77);
 }
 
@@ -407,7 +437,7 @@
 }
 
 .db-stats-title {
-	font-size: 13px;
+	font-size: 15px;
 	color: #b39966;
 }
 
@@ -447,7 +477,7 @@
 }
 
 .db-stats-avg {
-	font-size: 12px;
+	font-size: 15px;
 	text-align: center;
 	color: #e8d5a3;
 }
@@ -461,7 +491,7 @@
 
 .db-chip {
 	padding: 2px 8px;
-	font-size: 12px;
+	font-size: 15px;
 	color: #e8d5a3;
 	background: rgb(31, 26, 20);
 	border: 1px solid rgba(77, 61, 26, 0.6);
@@ -481,7 +511,7 @@
 
 .db-btn {
 	padding: 7px 14px;
-	font-size: 14px;
+	font-size: 19px;
 	font-family: inherit;
 	cursor: pointer;
 	color: #e8d5a3;
@@ -508,7 +538,7 @@
 
 .db-save-error {
 	margin: 0;
-	font-size: 13px;
+	font-size: 15px;
 	color: rgb(255, 102, 102);
 	text-align: center;
 }
@@ -554,7 +584,7 @@
 	flex-direction: column;
 	gap: calc(3px * var(--db-scale));
 	padding: calc(9px * var(--db-scale)) calc(11px * var(--db-scale));
-	font-size: calc(14px * var(--db-scale));
+	font-size: calc(15px * var(--db-scale));
 	line-height: 1.35;
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
@@ -576,7 +606,7 @@
 	position: fixed;
 	transform: translateX(-50%);
 	padding: calc(4px * var(--db-scale)) calc(12px * var(--db-scale));
-	font-size: calc(14px * var(--db-scale));
+	font-size: calc(15px * var(--db-scale));
 	color: #e8d5a3;
 	background: rgba(15, 12, 8, 0.95);
 	border: 1px solid rgba(140, 105, 20, 0.7);
@@ -611,13 +641,13 @@
 .db-dialog h2 {
 	margin: 0;
 	font-family: "CinzelDecorative", serif;
-	font-size: 18px;
+	font-size: 23px;
 	color: #e8c964;
 }
 
 .db-dialog p {
 	margin: 0;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 .db-dialog textarea {
