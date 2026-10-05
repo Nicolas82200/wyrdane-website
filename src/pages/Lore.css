@@ -168,8 +168,8 @@
 	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
-	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.65rem);
-	line-height: 1.42;
+	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
+	line-height: 1.5;
 	color: var(--lore-ink);
 }
 .lore-page p {
