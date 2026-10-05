@@ -37,6 +37,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			"Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi. Il n'existait pas avant elle, et c'est elle seule qui en justifie l'existence. On n'ouvre pas un registre pour des jours ordinaires. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter que les scribes ne tiennent de leurs propres yeux ou d'une bouche digne de foi, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
 			"Les scribes qui en tiennent la plume espèrent, en vérité, ne pas avoir grand-chose à y écrire. Un registre qui s'épaissit est rarement le signe d'un royaume qui se porte bien, et nul à la Chancellerie ne souhaite voir celui-ci grossir d'année en année.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Mais le vœu d'un scribe n'arrête ni une secousse ni ce qu'elle réveille, et ce premier volume s'ouvre déjà plus lourd qu'aucun n'aurait su le prédire la veille encore. Qu'il reste, pour l'heure, le témoin de ce que le royaume savait de lui-même avant que tout ne bascule.",
 		],
 	},
@@ -57,7 +63,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			"Des siècles de caravanes, de traités et de mariages de raison ont fini par faire naître, entre les six royaumes, l'Averan, une langue de personne et de tout le monde à la fois, qu'on dit née sur les routes marchandes bien avant qu'aucun scribe n'ait songé à la coucher par écrit, et que plus personne ne sait attribuer à un seul royaume d'origine.",
 			"Sans lui, un marchand d'Eorthal ne saurait pas négocier à Dunmarr, ni un diplomate aldrenien se faire comprendre sur les quais de Thelbridge. C'est la langue des comptoirs, des traités scellés à la hâte et des campements où se croisent des soldats de trois royaumes à la fois.",
-
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Mais l'Averan n'efface aucune des langues du foyer. L'aldrenien, l'eorthalien, le skeldarien, le dreamarien, le thelmérien et l'ostranais restent celles qu'on parle entre soi, au coin du feu, et qu'un étranger ne maîtrise jamais vraiment, même après des années passées à commercer sur place. Un marchand peut conclure une vente entière dans l'Averan sans jamais en apprendre davantage sur celui qu'il a en face de lui. C'est une langue de passage, pas une langue de confidence. Ce que chaque royaume pense réellement de ses voisins, il continue de le dire dans sa propre langue, et c'est précisément ce qu'Aldrenia ne peut jamais tout à fait entendre.",
 		],
 	},
@@ -69,6 +80,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Aldrenia est le royaume ancien, celui dont les autres racontent qu'il était déjà vieux quand le leur n'était encore qu'un campement. Sa capitale, Caldrath, se dresse à l'est des forêts de Dreamar, les pieds tournés vers la Mer de l'Est, bâtie au croisement de routes commerciales si anciennes que nul ne se souvient de les avoir tracées, et que certains jurent plus vieilles que la ville elle-même. D'autres royaumes humains ont existé avant lui sur ces mêmes terres, dont il ne reste que des noms à moitié oubliés dans de vieux parchemins et des fondations de pierre que les laboureurs déterrent encore parfois. Aldrenia est le seul de cette lignée à avoir traversé les âges sans jamais s'éteindre, et c'est de cette endurance, plus que de toute conquête, qu'elle tire sa fierté.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Ses terres ne sont pas les plus riches de Mydaria, loin derrière les plaines généreuses d'Eorthal, mais son sol porte des forêts de chêne séculaires, des mines de fer dans les collines de l'est et des vignes sur les coteaux qui descendent vers la mer. Caldrath elle-même s'étend en terrasses de pierre pâle, ses toits de tuile rousse serrés autour d'un palais royal qui domine le port depuis des générations. C'est une capitale qui sent la pierre chaude et le sel, où les cloches des temples d'Aldrene répondent aux cornes des navires marchands, et où l'on croise, sur les mêmes marchés, des armuriers skeldariens de passage et des négociants venus d'Eorthal pour vendre leur grain. Peu de villes de Mydaria mêlent autant de langues en un seul après-midi de marché.",
 		],
 	},
@@ -79,6 +96,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			"Aldrenia est gouvernée par le roi Varic Rhen, qu'on surnomme déjà, à mi-voix et avec un respect prudent, le Vieux Roi. Il ne décide jamais seul. Un Conseil du Roi siège à ses côtés, composé de ses plus hauts généraux et des prêtres les plus influents d'Aldrene, et aucune décision de poids, guerre, traité ou famine, ne se prend sans que cette assemblée n'ait été consultée.",
 			"La majorité des Aldreniens vénèrent Aldrene, qu'ils tiennent pour une déesse salvatrice et protectrice. Dans leur tradition, c'est Mydare, et non elle, qui porte la responsabilité d'une grande part des souffrances du monde, maladie, guerre, famine, catastrophe.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Personne à Aldrenia ne sait avec certitude si les deux déesses sont sœurs, rivales, ennemies, ou deux visages d'une même force plus ancienne qu'elles ; toutes deux, pourtant, semblent liées à de véritables bénédictions dont la nature profonde échappe encore aux plus savants théologiens d'Aldrene.",
 		],
 	},
@@ -138,6 +161,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Au nord, au-delà des contreforts que les éclaireurs aldreniens n'osent franchir qu'en groupe, s'accrochent les pics et les cols de Skeldara. C'est une terre de pierre nue et de vent constant, où les villages se blottissent dans les failles des montagnes et où, dit-on, un enfant apprend à tenir une lame avant de savoir lire. Les soldats aldreniens qui en reviennent décrivent un pays sans tendresse apparente, mais dont chaque pierre semble taillée pour la guerre.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Sa capitale, Dunmarr, est une forteresse autant qu'une ville, cernée de remparts de pierre grise encerclant des halls de pierre plus grise encore, construits à flanc de montagne de telle sorte qu'aucune armée ne pourrait l'approcher sans être vue des heures à l'avance. Elle est dirigée par le roi Gorath Thorne, dont la lignée règne sans partage depuis plusieurs générations, et que les officiers aldreniens qui l'ont affronté décrivent comme un chef aussi redouté par ses propres troupes que par ses ennemis.",
 		],
 	},
@@ -147,7 +176,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"La société skeldarienne tout entière semble façonnée par la guerre. Les vétérans y occupent le rang le plus haut après la couronne, les raiders y sont des figures respectées plutôt que des hors-la-loi, et l'on y mesure, dit-on, la valeur d'un homme à la taille de son armure plus qu'à celle de ses terres. Le royaume est dévoué à Mydare et rejette avec un mépris ouvert le culte d'Aldrene, une hostilité nourrie par des générations de guerre frontalière avec Aldrenia.",
-
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Ce qui se vit réellement derrière ces frontières, Aldrenia ne le connaît que par ce que ses soldats en rapportent du champ de bataille, et ce qu'ils en rapportent suffit à inspirer un respect prudent, une discipline de fer, une tolérance à la souffrance que les officiers aldreniens eux-mêmes jugent inhabituelle, et une capacité à se reformer après une défaite que bien peu de royaumes pourraient égaler.",
 		],
 	},
@@ -170,7 +204,13 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			"Entre Aldrenia et le reste du continent s'étendent les forêts profondes de Dreamar, un royaume que les voyageurs aldreniens décrivent moins qu'ils ne le devinent. La canopée y est si dense, disent-ils, que le jour y prend la couleur du crépuscule même à midi, et les sentiers qu'on y trace une saison ont souvent disparu sous la mousse à la suivante.",
 			"Sa capitale, Nyrelle, se dissimule si bien parmi les arbres que les rares visiteurs aldreniens peinent à dire où elle commence vraiment. On raconte que ses toits sont tressés de branches vivantes, et que certains quartiers entiers changent de place au fil des saisons, selon une logique que nul étranger n'a jamais su suivre.",
-
+		],
+	},
+	{
+		kind: "content",
+		title: "Un conseil sans visage",
+		dropcap: true,
+		paragraphs: [
 			"Dreamar ne connaît pas de roi au sens où Aldrenia l'entend. Un conseil de visionnaires le dirige, mais ce conseil reste volontairement secret, sans nom connu hors de ses propres forêts. La Haute Augure Mirelle Senn en est le visage public, mais même cela, Aldrenia ne peut l'affirmer avec certitude. Nul ne sait si c'est bien elle qui décide, ou si elle n'est que la porte-parole d'une assemblée qui préfère rester dans l'ombre.",
 			"Ces augures prétendent recevoir des visions d'événements à venir, un pouvoir que nul, même à Dreamar, ne sait expliquer avec certitude. Aucun Aldrenien n'a jamais assisté lui-même à l'une d'elles pour trancher entre don véritable et mise en scène savamment entretenue, et c'est peut-être précisément ainsi que Dreamar l'entend.",
 		],
@@ -248,7 +288,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Sans aucun signe annonciateur, Mydaria tout entière est frappée par un cataclysme d'une ampleur inconnue jusque-là. Le ciel, pourtant, ne change pas de couleur. Aucun astre ne tombe, aucune trompette ne sonne. Ce sont la terre elle-même qui se met à trembler sous les pieds de tous à la fois, les bêtes qui se mettent à hurler sans raison dans les étables, et dans certaines maisons les lampes qui s'éteignent toutes ensemble sans qu'aucun souffle ne les ait touchées. Ce n'est qu'après coup, dans les heures et les jours qui suivent, une fois les premiers récits recoupés entre eux, que l'on comprend qu'il ne s'agit pas d'un simple tremblement de terre isolé, mais de quelque chose qui a frappé bien plus loin que les frontières d'Aldrenia, peut-être le monde tout entier.",
-
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"L'événement n'a pas de nom. Dans les jours qui suivent, personne ne sait comment le désigner autrement qu'en le décrivant à sa manière, par « le jour où tout a changé », « la grande secousse », ou simplement « cela », prononcé à voix basse, comme si lui donner un nom trop précis risquait de lui donner aussi une raison. Les scribes de la Chancellerie eux-mêmes hésitent encore sur la formule à coucher dans ce registre. Qu'on pardonne, pour cette fois, l'absence d'un mot juste. Il n'en existe tout simplement pas encore.",
 		],
 	},
@@ -260,6 +305,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"À Aldrenia même, la terre tremble comme partout ailleurs. Mais au-delà du tremblement, quelque chose de plus profond se produit. Sur plusieurs lieues de son propre territoire, le sol semble se plier sur lui-même, et à l'endroit où il se redresse, ce n'est plus tout à fait la même terre qui reprend sa place. Des pierres inconnues, des reliefs que nul Aldrenien n'a jamais vus, des bâtiments dont l'architecture n'appartient à aucun style connu se trouvent soudain là, comme si un fragment entier d'un autre monde venait simplement de se poser sur le sien, sans prévenir et sans laisser trace de son arrivée, sinon sa seule présence.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Les paysans qui découvrent ces lieux au petit matin en parlent avec une prudence presque religieuse, comme s'ils craignaient qu'approcher de trop près ne les y attache à leur tour. Certains refusent d'y mener leur bétail paître, même des semaines plus tard. D'autres, plus curieux ou plus désespérés, s'y rendent déjà pour y chercher on ne sait quoi. La Chancellerie a dépêché des hommes pour en dresser le relevé, mais aucun rapport complet n'est encore parvenu à la cour au moment où ces lignes sont écrites. Ce registre y reviendra dès que ces relevés seront achevés.",
 		],
 	},
@@ -271,6 +322,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Dans les heures qui suivent la secousse, les récits affluent, d'abord timides, puis de plus en plus pressants. Un soldat posté sur les remparts orientaux jure avoir vu, au loin, un arbre se redresser avec un torse d'homme greffé à son tronc, ses branches se tordant comme des bras désarticulés, avant de s'immobiliser pour de bon. Un fermier affirme avoir trouvé dans son champ une masse de chair et de pierre qui respirait encore, lourdement, comme un animal pris au piège. Une marchande, revenue en larmes du marché aux bestiaux, raconte avoir vu deux de ses bêtes se confondre sous ses yeux en une seule créature, avant de s'enfuir en boitant vers la forêt la plus proche.",
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Aucun de ces récits ne ressemble tout à fait à un autre, et pourtant tous décrivent, sous des formes différentes, la même chose, des fusions impossibles de chair, d'os, d'écorce, de pierre ou de métal, nées de rien et de tout à la fois. Personne, à ce stade, ne sait leur donner un nom qui tienne au-delà d'une rue ou d'un village.",
 		],
 	},
@@ -302,7 +359,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			"Face à ce silence et à ces questions sans réponse, le roi Varic Rhen ne peut se permettre d'attendre que les réponses viennent d'elles-mêmes. Dans les jours qui suivent, des éclaireurs sont choisis parmi les plus endurants et les plus discrets de ses armées, puis envoyés dans toutes les directions à la fois, vers chacun des royaumes voisins, avec pour seule instruction de voir, d'écouter, et de revenir.",
 			"Le voyage est long. Il faut compter environ cinq jours pour atteindre les terres skeldariennes et autant pour en revenir. Aucune réponse n'est donc attendue avant une bonne dizaine de jours, et sans doute davantage pour les royaumes plus éloignés. En attendant, le peuple d'Aldrenia n'a d'autre choix que d'apprendre à vivre avec l'inconnu, un jour après l'autre.",
-
+		],
+	},
+	{
+		kind: "content",
+		dropcap: true,
+		paragraphs: [
 			"Ce registre restera ouvert tant que ces éclaireurs n'auront pas franchi, dans un sens ou dans l'autre, les portes de Caldrath. Chaque nouvelle qui en reviendra y sera consignée telle qu'elle aura été rapportée, sans fard ni certitude ajoutée, et les scribes de la Chancellerie prient, chacun à sa manière, pour qu'il n'y ait pas trop à en dire.",
 		],
 	},
