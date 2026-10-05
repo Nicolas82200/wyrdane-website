@@ -1,5 +1,5 @@
 import type { ForwardedRef } from "react";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
@@ -101,34 +101,83 @@ Page.displayName = "JournalPage";
 
 const Lore = () => {
 	const prefersReducedMotion = usePrefersReducedMotion();
+	const wrapRef = useRef<HTMLDivElement | null>(null);
+	// Largeur d'UNE page (pas de la double-page), poussée en variable CSS pour
+	// que police/marges se calent dessus. Les container queries (cqw) se sont
+	// montrées peu fiables ici (resolution incohérente constatée en test,
+	// même isolée, sans doute un souci de timing du navigateur sur un élément
+	// qui est À LA FOIS le conteneur de requête et la cible stylée) : mesure
+	// directe via ResizeObserver, déterministe, pas de piège de ce genre.
+	const [pageWidthPx, setPageWidthPx] = useState(320);
+	const isPortraitRef = useRef(false);
+	// Pousse une classe pendant qu'une page tourne, pour épaissir son ombre de
+	// tranche (voir Lore.css) le temps du geste : StPageFlip anime une page
+	// "souple" en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D,
+	// vérifié dans sa source), donc une vraie tranche extrudée n'a rien à
+	// quoi s'accrocher ; l'ombre qui s'accentue pendant le mouvement est ce
+	// qui se rapproche le plus d'un "vrai papier" sans se battre contre sa
+	// géométrie.
+	const [isFlipping, setIsFlipping] = useState(false);
+	const handleChangeState = (e: { data: string }) => setIsFlipping(e.data === "flipping");
+
+	useEffect(() => {
+		const el = wrapRef.current;
+		if (!el) return;
+		const recompute = (wrapWidth: number) => {
+			setPageWidthPx(isPortraitRef.current ? wrapWidth : wrapWidth / 2);
+		};
+		const ro = new ResizeObserver((entries) => {
+			const w = entries[0]?.contentRect.width;
+			if (w) recompute(w);
+		});
+		ro.observe(el);
+		recompute(el.getBoundingClientRect().width);
+		return () => ro.disconnect();
+	}, []);
+
+	const handleChangeOrientation = (e: { data: string }) => {
+		isPortraitRef.current = e.data === "portrait";
+		const w = wrapRef.current?.getBoundingClientRect().width;
+		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
+	};
 
 	return (
-		<div className="lore-room">
+		<div
+			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
+			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
+		>
 			<div className="lore-stage">
-				<div className="lore-book-wrap">
+				<div className="lore-book-wrap" ref={wrapRef}>
 					<HTMLFlipBook
 						className="lore-flipbook"
 						style={{}}
+						onChangeOrientation={handleChangeOrientation}
+						onChangeState={handleChangeState}
 						// width/height ne fixent que le ratio pour le dimensionnement
 						// "stretch" (pageWidth/pageHeight) — la taille réelle vient de
 						// .lore-flipbook dans Lore.css, contrainte pour ne jamais
-						// dépasser ni la largeur ni la hauteur de la fenêtre.
-						width={750}
+						// dépasser ni la largeur ni la hauteur de la fenêtre. Ratio
+						// légèrement élargi par rapport à l'artifact (page 3:4,
+						// donc double page 3:2 -> page 4:5, double page 4:2.5).
+						width={820}
 						height={1000}
 						size="stretch"
-						minWidth={160}
-						maxWidth={750}
-						minHeight={213}
+						minWidth={380}
+						maxWidth={820}
+						minHeight={463}
 						maxHeight={1000}
 						startPage={0}
 						showCover
 						flippingTime={prefersReducedMotion ? 1 : 900}
-						maxShadowOpacity={0.45}
-						// L'artifact de référence ne bascule jamais en page unique (il
-						// réduit tout en vw, même sur mobile) : StPageFlip, lui, bascule
-						// seul en-dessous de minWidth*2 si usePortrait est actif — on
-						// le désactive pour forcer le recto/verso en toute largeur.
-						usePortrait={false}
+						maxShadowOpacity={0.6}
+						// StPageFlip bascule tout seul en page unique dès que la largeur
+						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
+						// plus bas (480px), une tablette en portrait (~768px de large)
+						// passait quand même en recto/verso, avec des demi-pages trop
+						// étroites (353px) pour contenir le texte sans déborder (mesuré
+						// via check-overflow.cjs) : mieux vaut une page pleine largeur à
+						// cette taille-là que deux demi-pages trop serrées.
+						usePortrait
 						startZIndex={10}
 						autoSize
 						drawShadow

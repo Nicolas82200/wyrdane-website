@@ -15,6 +15,9 @@
 	--lore-book-shadow: rgba(30, 20, 10, 0.4);
 	--lore-font-hand: "Caveat", "Segoe Script", cursive;
 	--lore-font-display: "MedievalSharp", "Caveat", Georgia, serif;
+	/* Repoussée en inline style par Lore.tsx (ResizeObserver), valeur de
+	   secours seulement le temps du tout premier rendu. */
+	--lore-page-w: 320px;
 
 	/* Pas de reset box-sizing:border-box sur ce projet : sans lui, le padding
 	   s'ajoutait par-dessus min-height:100vh (au lieu d'être inclus dedans),
@@ -50,11 +53,22 @@
 	   pour la taille "stretch" — mais il lui écrit lui-même un style inline
 	   `width:100%` (+ min/max-width), qui l'emporte toujours sur une règle
 	   posée directement sur .lore-flipbook dans ce fichier. Le gabarit réel
-	   doit donc venir du PARENT que ce 100% résout contre. Même plafond que
-	   l'artifact (.pages : 1500px/92vw, ratio 3:2), borné aussi par la hauteur
-	   de la fenêtre pour ne jamais déborder verticalement. */
+	   doit donc venir du PARENT que ce 100% résout contre. Plafond absolu
+	   1100px (1500px rendait le livre trop grand sur un écran principal large,
+	   demande explicite), borné aussi par 92vw et par la hauteur de la
+	   fenêtre pour ne jamais déborder verticalement. Le multiplicateur (1.64)
+	   est le ratio largeur/hauteur du double-page (desktop/tablette) : une
+	   fenêtre assez large pour basculer en recto/verso (92vw dépasse le seuil
+	   minWidth*2 de StPageFlip, voir Lore.tsx) reste large même quand elle
+	   est courte en hauteur, donc c'est TOUJOURS ce ratio qui s'applique une
+	   fois le mode recto/verso choisi. L'avoir mis à 0.82 (le ratio page
+	   unique) écrasait le livre sur n'importe quelle fenêtre un peu courte,
+	   même large (ex. 1360x623) : régression repérée à l'oeil. Le mode page
+	   unique (mobile) n'est, lui, jamais limité par ce terme : un écran assez
+	   étroit pour y basculer a 92vw plus petit que ce calcul de toute façon
+	   (un téléphone est étroit ET haut, pas large ET court). */
 	position: relative;
-	width: min(1500px, 92vw, calc((100vh - 48px) * 1.5));
+	width: min(1105px, 92vw, calc((100vh - 48px) * 1.64));
 }
 
 .lore-flipbook {
@@ -69,6 +83,19 @@
 /* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
    même .stf__item.--left/--right/--hard/--soft. --- */
 .lore-page-face {
+	/* --lore-page-w (mesurée en JS via ResizeObserver, voir Lore.tsx) : le
+	   padding et la typographie se calent sur la taille RÉELLE d'une page
+	   plutôt que sur le viewport (vw). Un livre à deux pages sur un petit
+	   écran rend chaque page bien plus étroite que 50vw ; sans ça, le texte
+	   débordait (jusqu'à 1,6x la hauteur disponible, mesuré via
+	   check-overflow.cjs) dès que la fenêtre n'était pas très large.
+	   Les container queries (cqw) auraient été l'outil CSS natif pour ça,
+	   mais se sont montrées peu fiables ici : la propriété ET l'élément
+	   container-type étaient sur le MÊME noeud, et le calcul n'a jamais
+	   résolu contre sa propre taille même dans un test isolé minimal (padding
+	   et font-size retombaient sur des largeurs de référence différentes et
+	   fausses toutes les deux) — garder la mesure directe plutôt que de
+	   creuser un comportement de navigateur qui reste à expliquer. */
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -77,33 +104,71 @@
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
 		url("../assets/site/parchment.jpg");
-	overflow-y: auto;
-	padding: clamp(18px, 3.4vw, 44px) clamp(20px, 3.8vw, 48px);
+	/* Pas de scroll : le contenu doit tenir dans la page, voir le script de
+	   vérification d'overflow utilisé pour caler le découpage du texte. */
+	overflow: hidden;
+	padding: clamp(10px, calc(var(--lore-page-w) * 0.06), 40px)
+		clamp(12px, calc(var(--lore-page-w) * 0.07), 44px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	box-sizing: border-box;
+	/* Un clic long ne doit pas sélectionner le texte de la page (hérité par
+	   tous les descendants, c'est une propriété inherited). */
+	user-select: none;
+	-webkit-user-select: none;
 }
-.lore-page-face::-webkit-scrollbar {
-	width: 6px;
-}
-.lore-page-face::-webkit-scrollbar-thumb {
-	background: var(--lore-rule);
-	border-radius: 3px;
-}
-/* Fore-edge shading, côté classes que react-pageflip pose lui-même. */
-.stf__item.--right .lore-page-face {
+/* Fore-edge shading, côté classes que react-pageflip pose lui-même.
+   Sélecteur composé (pas de descendant) : .stf__item et .lore-page-face
+   sont la MÊME balise, la lib pose sa classe directement sur l'élément
+   qu'on lui tend. Un sélecteur descendant (avec espace) ne matchait donc
+   rien depuis le début, bug repéré en vérifiant l'animation ci-dessous. */
+.stf__item.--right.lore-page-face {
 	box-shadow: inset 12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	transition: box-shadow 0.25s ease;
 }
-.stf__item.--left .lore-page-face {
+.stf__item.--left.lore-page-face {
 	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	transition: box-shadow 0.25s ease;
+}
+/* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
+   en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
+   vérifié dans sa source), donc une tranche réellement extrudée n'a rien à
+   quoi s'accrocher. On accentue à la place l'ombre de tranche déjà posée
+   ci-dessus et on ajoute une ombre portée externe le temps du geste, pour
+   lui donner un peu de corps sans se battre contre la géométrie de la lib.
+   isFlipping (Lore.tsx, via onChangeState) pose la classe sur tout le
+   livre, mais seule la page en mouvement est visible bouger ; les autres,
+   au repos, ne changent de rendu que par cette ombre, discrète par design. */
+.lore-room--flipping .stf__item.--right.lore-page-face {
+	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5), 3px 0 10px -4px rgba(30, 20, 10, 0.4);
+}
+.lore-room--flipping .stf__item.--left.lore-page-face {
+	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5), -3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 
+.lore-page {
+	/* react-pageflip pose lui-même `display: block` en inline sur
+	   .lore-page-face (HTMLPage.ts, commonStyle du draw()), qui écrase
+	   TOUJOURS le display:flex d'une classe, inline ou pas. L'alignement
+	   vertical ne peut donc pas venir de .lore-page-face : il vient d'ici,
+	   sur .lore-page lui-même (un enfant, lui non touché par la lib).
+	   flex-start (texte collé en haut) par demande explicite ; .lore-cover
+	   et .lore-divider (titres "Entrée") remplacent ce justify-content par
+	   leur propre centrage ci-dessous, seule exception voulue. */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	height: 100%;
+}
 .lore-page,
 .lore-cover-title,
 .lore-book-title {
 	font-family: var(--lore-font-hand);
-	font-size: 1.3rem;
+	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
+	   même ratio caractères/ligne quelle que soit la taille réelle de la
+	   page. */
+	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
 	line-height: 1.5;
 	color: var(--lore-ink);
 }
@@ -125,7 +190,7 @@
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: 1.4rem;
+	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.076), 1.88rem);
 	color: var(--lore-seal-red);
 	margin: 0 0 0.5em;
 	text-align: center;
@@ -166,6 +231,12 @@
 }
 
 .lore-divider {
+	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
+	   align-items/justify-content étaient des no-op et le centrage vertical
+	   ne tenait qu'à celui, accidentel, du .lore-page-face englobant. */
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
@@ -180,7 +251,7 @@
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
-	font-size: 1.7rem;
+	font-size: clamp(1rem, calc(var(--lore-page-w) * 0.085), 2.13rem);
 	margin: 0 0 0.5em;
 }
 .lore-book-sub {
@@ -195,18 +266,18 @@
 }
 .lore-wax-row {
 	display: flex;
-	gap: 14px;
+	gap: clamp(8px, calc(var(--lore-page-w) * 0.025), 14px);
 	justify-content: center;
-	margin-top: 18px;
+	margin-top: clamp(8px, calc(var(--lore-page-w) * 0.04), 18px);
 }
 .lore-wax {
-	width: 54px;
-	height: 54px;
+	width: clamp(34px, calc(var(--lore-page-w) * 0.13), 54px);
+	height: clamp(34px, calc(var(--lore-page-w) * 0.13), 54px);
 	border-radius: 50%;
 	display: grid;
 	place-items: center;
 	font-family: var(--lore-font-display);
-	font-size: 0.85rem;
+	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.035), 0.85rem);
 	color: var(--lore-seal-gold);
 	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(122, 90, 30, 0.6);
@@ -216,7 +287,7 @@
 	position: absolute;
 	bottom: 14px;
 	font-family: var(--lore-font-hand);
-	font-size: 0.85rem;
+	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.04), 0.85rem);
 	color: var(--lore-room-ink-dim);
 }
 .stf__item.--right .lore-page-no {
