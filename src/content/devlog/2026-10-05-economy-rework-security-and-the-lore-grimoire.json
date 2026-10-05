@@ -10,14 +10,26 @@
 	},
 	"stats": {
 		"en": [
-			{ "value": "~80%", "label": "less time needed to complete the card collection through packs alone, thanks to duplicate protection" },
-			{ "value": "5", "label": "days to reach the daily login plateau, down from 7" },
+			{
+				"value": "~80%",
+				"label": "less time needed to complete the card collection through packs alone, thanks to duplicate protection"
+			},
+			{
+				"value": "5",
+				"label": "days to reach the daily login plateau, down from 7"
+			},
 			{ "value": "1024", "label": "lines of lore written in one sitting" },
 			{ "value": "4", "label": "security headers added to the backend API" }
 		],
 		"fr": [
-			{ "value": "~80%", "label": "de temps en moins pour compléter la collection via les packs seuls, grâce à la protection anti-doublon" },
-			{ "value": "5", "label": "jours pour atteindre le plateau de connexion quotidienne, contre 7 avant" },
+			{
+				"value": "~80%",
+				"label": "de temps en moins pour compléter la collection via les packs seuls, grâce à la protection anti-doublon"
+			},
+			{
+				"value": "5",
+				"label": "jours pour atteindre le plateau de connexion quotidienne, contre 7 avant"
+			},
 			{ "value": "1024", "label": "lignes de lore écrites d'une traite" },
 			{ "value": "4", "label": "en-têtes de sécurité ajoutés à l'API backend" }
 		]
@@ -78,7 +90,7 @@
 			{
 				"heading": "Le site ouvre une fenêtre sur le lore",
 				"paragraphs": [
-					"1024 lignes de lore ont été écrites dans `LORE.md`, et immédiatement mises à profit : la nouvelle page `/lore` du site les affiche sous forme de livre feuilletable, accessible par URL directe uniquement, pas encore lié depuis la navigation. L'essentiel des commits du site cette semaine a consisté à rendre ce livre réellement lisible : la langue commune a reçu un vrai nom (l'Averan), les paragraphes ont été regroupés par deux par page, la lecture a été verrouillée (plus de sélection ou de défilement accidentel), la taille maximale du livre a été réduite pendant que les plafonds de police montaient de 1,25x, les pages qui ne tenaient plus après ça ont été scindées, et le texte a été aligné en haut avec un plafond de taille et un interlignage resserrés pour une pagination cohérente entre des pages de longueurs très variables.",
+					"1024 lignes de lore ont été écrites dans `LORE.md`, et immédiatement mises à profit : la nouvelle page `lore` du site les affiche sous forme de livre feuilletable, pas encore lié depuis la navigation. L'essentiel des commits du site cette semaine a consisté à rendre ce livre réellement lisible : la langue commune a reçu un vrai nom (l'Averan), les paragraphes ont été regroupés par deux par page, la lecture a été verrouillée (plus de sélection ou de défilement accidentel), la taille maximale du livre a été réduite pendant que les plafonds de police montaient de 1,25x, les pages qui ne tenaient plus après ça ont été scindées, et le texte a été aligné en haut avec un plafond de taille et un interlignage resserrés pour une pagination cohérente entre des pages de longueurs très variables.",
 					"Le deck builder web a aussi été resynchronisé avec le jeu : `gameCards.json` et les traductions de carte avaient dérivé (noms, texte d'ambiance, effets), les infobulles de mots-clés étaient en décalage avec le libellé actuel du jeu, et le rendu des cartes a été recalé sur les vraies tailles de police et l'échelle typographique du jeu. Deux bugs distincts de libellé de nom de carte ont été traqués et corrigés, tous deux causés par une mesure du texte avant la fin du chargement de la police personnalisée, qui figeait ou mettait en cache une mauvaise taille, visible sur les noms longs qui passent à la ligne et sur des badges comme « Enchantement » ou « Rituel • 2/4 charges » coupés derrière un `overflow: hidden`. La grille du catalogue a également été corrigée pour afficher de façon fiable 5 colonnes sur les écrans basse résolution au lieu de retomber silencieusement à 4."
 				]
 			},
