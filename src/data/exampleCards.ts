@@ -23,15 +23,15 @@ function card(data: Omit<CardData, "id" | "lane" | "charges"> & { lane?: string 
 // Cartes réutilisées telles quelles pour plusieurs entrées (types/mots-clés/triggers
 // différents peuvent illustrer la même carte).
 const dawnPaladin = card({
-	name: "Paladin de l'Aube",
+	name: "Paladin Dreamarien de l'Aube",
 	race: "Humain",
 	card_type: "Serviteur",
-	cost: 5,
+	cost: 6,
 	attack: 4,
 	hp: 5,
 	rarity: "Épique",
-	effect: "ÉGIDE, MOISSON\nArrivée : Invoque un Éclaireur Rapide 1/1 en rangée Avant.",
-	flavor: "Il arrive à l'aube. Les morts reculent à la lumière. Lui aussi en a été surpris, la première fois.",
+	effect: "ÉGIDE, MOISSON, DISCIPLINE, FORTIFICATION\nArrivée : Un serviteur ciblé allié gagne ÉGIDE.",
+	flavor: "Il arrive à l'aube, comme l'avaient annoncé les augures de Dreamar. Les morts reculent à la lumière. Lui aussi en a été surpris, la première fois.",
 	image_path: "/assets/card_art/human/dawn-paladin.jpg",
 });
 
@@ -102,15 +102,15 @@ const mountAndRider = card({
 });
 
 const faithSoldier = card({
-	name: "Soldat de la Foi",
+	name: "Soldat Dreamarien de la Foi",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 3,
 	attack: 2,
 	hp: 3,
 	rarity: "Rare",
-	effect: "ÉGIDE\nDernier Souffle : Invoque un Milicien du Bourg 2/1 en rangée Avant.",
-	flavor: "Il croyait en quelque chose. Ce quelque chose l'a protégé, une fois.",
+	effect: "ÉGIDE\nDernier Souffle : Invoque un Milicien Eorthalien du Bourg 2/1.",
+	flavor: "Il croyait aux visions de Dreamar avant de les comprendre. Elles l'ont protégé, une fois.",
 	image_path: "/assets/card_art/human/faith-soldier.jpg",
 });
 
@@ -180,7 +180,7 @@ const gauntAssassin = card({
 });
 
 const grandInquisitrix = card({
-	name: "La Grande Inquisitrice",
+	name: "La Grande Inquisitrice de Dreamar",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 6,
@@ -188,12 +188,12 @@ const grandInquisitrix = card({
 	hp: 6,
 	rarity: "Légendaire",
 	effect: "DISCIPLINE\nÉveil : Détruit un enchantement ou rituel ennemi actif aléatoire.",
-	flavor: "Elle ne combat pas la magie ennemie. Elle la refuse.",
+	flavor: "À Dreamar, on ne combat pas la magie ennemie. On la voit venir, longtemps avant qu'elle n'arrive. Elle la refuse.",
 	image_path: "/assets/card_art/human/grand-inquisitrix.jpg",
 });
 
 const lineLancer = card({
-	name: "Lancier en Ligne",
+	name: "Lancier Skeldarien",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 2,
@@ -201,12 +201,12 @@ const lineLancer = card({
 	hp: 1,
 	rarity: "Commune",
 	effect: "FORMATION",
-	flavor: "La ligne tient ou la ligne tombe. Il n'y a pas d'entre-deux.",
+	flavor: "La ligne de Skeldara tient ou la ligne tombe. Il n'y a pas d'entre-deux.",
 	image_path: "/assets/card_art/human/line-lancer.jpg",
 });
 
 const countermarchKnight = card({
-	name: "Chevalier de la Contre-Marche",
+	name: "Chevalier Skeldarien de Contre-Marche",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 5,
@@ -214,33 +214,33 @@ const countermarchKnight = card({
 	hp: 5,
 	rarity: "Épique",
 	effect: "CONTRE-ATTAQUE, ASSAUT\nBlessure : Gagne +2/+0 jusqu'à la fin du tour.",
-	flavor: "Il charge. Il encaisse. Il charge encore. C'est tout ce qu'il sait faire, et c'est suffisant.",
+	flavor: "À Skeldara, on n'apprend pas à charger. On apprend à revenir charger une deuxième fois.",
 	image_path: "/assets/card_art/human/countermarch-knight.jpg",
 });
 
 const campaignMarshal = card({
-	name: "Maréchal de Campagne",
+	name: "Maréchal de Campagne Aldrénien",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 5,
 	attack: 2,
 	hp: 5,
 	rarity: "Épique",
-	effect: "COMMANDEMENT\nÉveil : Tous les serviteurs Humains alliés gagnent +1/+0 jusqu'à la fin du tour.",
-	flavor: "Il ne crie pas les ordres. Il les dit une fois, calmement. Ça suffit.",
+	effect: "COMMANDEMENT\nÉveil : Tous les Humains alliés gagnent aléatoirement +0/+1 ou +1/+0 jusqu'à la fin du tour.",
+	flavor: "Il a servi trois rois et enterré les trois. La couronne change de tête. L'ordre, lui, ne change pas.",
 	image_path: "/assets/card_art/human/campaign-marshal.jpg",
 });
 
 const livingRampart = card({
-	name: "Le Rempart Vivant",
+	name: "Le Rempart Vivant de Skeldara",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 6,
 	attack: 4,
 	hp: 10,
 	rarity: "Légendaire",
-	effect: "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure : Invoque un Porteur de Bouclier 1/4 REMPART.",
-	flavor: "On lui a demandé combien de temps il pouvait tenir. Il n'a pas répondu. Il tient encore.",
+	effect: "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure (une fois par tour) : Invoque un Porteur de Bouclier Eorthalien 1/4 REMPART.",
+	flavor: "On lui a demandé combien de temps Skeldara pouvait tenir. Il n'a pas répondu. Il tient encore.",
 	image_path: "/assets/card_art/human/living-rampart.jpg",
 });
 
@@ -535,15 +535,15 @@ const circleOfAssembly = card({
 });
 
 const swornBlade = card({
-	name: "Lame-Jurée",
+	name: "Lame-Jurée de Skeldara",
 	race: "Humain",
 	card_type: "Serviteur",
 	cost: 3,
-	attack: 4,
-	hp: 2,
+	attack: 3,
+	hp: 4,
 	rarity: "Rare",
 	effect: "DISCIPLINE\nExécution : Gagne +1/+1 de façon permanente.",
-	flavor: "Elle a juré sur sa lame. La lame, elle, a juré de le mériter.",
+	flavor: "Elle a juré sur sa lame devant les remparts de Skeldara. La lame, elle, a juré de le mériter.",
 	image_path: "/assets/card_art/human/sworn-blade.jpg",
 });
 
@@ -667,8 +667,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	rempart: {
 		card: livingRampart,
 		demo: {
-			fr: "Le Rempart Vivant (4/10) porte REMPART : tant qu'il est en rangée Avant, les serviteurs ennemis doivent l'attaquer en priorité avant tout autre allié.",
-			en: "Living Rampart (4/10) has TAUNT: as long as it's in the Front row, enemy minions must attack it before any other ally.",
+			fr: "Le Rempart Vivant de Skeldara (4/10) porte REMPART : tant qu'il est en rangée Avant, les serviteurs ennemis doivent l'attaquer en priorité avant tout autre allié.",
+			en: "Skeldara's Living Rampart (4/10) has TAUNT: as long as it's in the Front row, enemy minions must attack it before any other ally.",
 		},
 	},
 	assaut: {
@@ -681,8 +681,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	egide: {
 		card: faithSoldier,
 		demo: {
-			fr: "Soldat de la Foi (2/3) porte ÉGIDE : la prochaine fois qu'il devrait subir des dégâts, le bouclier les absorbe entièrement puis disparaît.",
-			en: "Faith Soldier (2/3) has AEGIS: the next time it would take damage, the shield absorbs it entirely, then disappears.",
+			fr: "Soldat Dreamarien de la Foi (2/3) porte ÉGIDE : la prochaine fois qu'il devrait subir des dégâts, le bouclier les absorbe entièrement puis disparaît.",
+			en: "Dreamarian Faith Soldier (2/3) has AEGIS: the next time it would take damage, the shield absorbs it entirely, then disappears.",
 		},
 	},
 	moisson: {
@@ -725,36 +725,36 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	discipline: {
 		card: grandInquisitrix,
 		demo: {
-			fr: "La Grande Inquisitrice porte DISCIPLINE : elle est immunisée au silence, au contrôle mental et à la peur, quoi que l'adversaire lui inflige.",
-			en: "The Grand Inquisitrix has DISCIPLINE: she is immune to silence, mind control, and fear, whatever the opponent throws at her.",
+			fr: "La Grande Inquisitrice de Dreamar porte DISCIPLINE : elle est immunisée au silence, au contrôle mental et à la peur, quoi que l'adversaire lui inflige.",
+			en: "Dreamar's Grand Inquisitrix has DISCIPLINE: she is immune to silence, mind control, and fear, whatever the opponent throws at her.",
 		},
 	},
 	formation: {
 		card: lineLancer,
 		demo: {
-			fr: "Lancier en Ligne (3/1) porte FORMATION : tant qu'un allié occupe une case adjacente, il combat en 4/2 au lieu de 3/1.",
-			en: "Line Lancer (3/1) has FORMATION: as long as an ally occupies an adjacent slot, it fights as a 4/2 instead of a 3/1.",
+			fr: "Lancier Skeldarien (3/1) porte FORMATION : tant qu'un allié occupe une case adjacente, il combat en 4/2 au lieu de 3/1.",
+			en: "Skeldaran Line Lancer (3/1) has FORMATION: as long as an ally occupies an adjacent slot, it fights as a 4/2 instead of a 3/1.",
 		},
 	},
 	contre_attaque: {
 		card: countermarchKnight,
 		demo: {
-			fr: "Le Chevalier de la Contre-Marche porte CONTRE-ATTAQUE : s'il survit à une blessure, il inflige aussitôt son ATK en retour à l'attaquant.",
-			en: "Countermarch Knight has COUNTERATTACK: if it survives a wound, it immediately deals its ATK back to the attacker.",
+			fr: "Le Chevalier Skeldarien de Contre-Marche porte CONTRE-ATTAQUE : s'il survit à une blessure, il inflige aussitôt son ATK en retour à l'attaquant.",
+			en: "Skeldaran Countermarch Knight has COUNTERATTACK: if it survives a wound, it immediately deals its ATK back to the attacker.",
 		},
 	},
 	commandement: {
 		card: campaignMarshal,
 		demo: {
-			fr: "Le Maréchal de Campagne porte COMMANDEMENT : chaque serviteur Humain allié invoqué après lui gagne +1/+0 de façon permanente, pas seulement pour ce tour.",
-			en: "Campaign Marshal has COMMAND: every allied Human minion summoned after it permanently gains +1/+0, not just for that turn.",
+			fr: "Le Maréchal de Campagne Aldrénien porte COMMANDEMENT : chaque serviteur Humain allié invoqué après lui gagne +1/+0 de façon permanente, pas seulement pour ce tour.",
+			en: "Aldrenian Campaign Marshal has COMMAND: every allied Human minion summoned after it permanently gains +1/+0, not just for that turn.",
 		},
 	},
 	fortification: {
 		card: livingRampart,
 		demo: {
-			fr: "Le Rempart Vivant porte aussi FORTIFICATION : impossible pour l'adversaire de le déplacer, de le renvoyer en main ou de le transformer.",
-			en: "Living Rampart also has FORTIFICATION: the opponent cannot move it, bounce it to hand, or transform it.",
+			fr: "Le Rempart Vivant de Skeldara porte aussi FORTIFICATION : impossible pour l'adversaire de le déplacer, de le renvoyer en main ou de le transformer.",
+			en: "Skeldara's Living Rampart also has FORTIFICATION: the opponent cannot move it, bounce it to hand, or transform it.",
 		},
 	},
 
@@ -887,8 +887,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	t_arrival: {
 		card: dawnPaladin,
 		demo: {
-			fr: "\"Arrivée\" sur le Paladin de l'Aube se déclenche au moment précis où il atteint le champ de bataille : il invoque aussitôt un Éclaireur Rapide 1/1.",
-			en: "\"Arrival\" on Dawn Paladin fires the instant it reaches the battlefield: it immediately summons a 1/1 Swift Scout.",
+			fr: "\"Arrivée\" sur le Paladin Dreamarien de l'Aube se déclenche au moment précis où il atteint le champ de bataille : il donne aussitôt ÉGIDE à un serviteur allié ciblé.",
+			en: "\"Arrival\" on Dreamarian Dawn Paladin fires the instant it reaches the battlefield: it immediately grants AEGIS to a targeted allied minion.",
 		},
 	},
 	t_reinforcement: {
@@ -908,8 +908,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	t_wound: {
 		card: countermarchKnight,
 		demo: {
-			fr: "\"Blessure\" sur le Chevalier de la Contre-Marche se déclenche dès qu'il subit des dégâts sans mourir : il gagne alors +2/+0 jusqu'à la fin du tour.",
-			en: "\"Wounded\" on Countermarch Knight fires as soon as it takes damage without dying: it then gains +2/+0 until the end of the turn.",
+			fr: "\"Blessure\" sur le Chevalier Skeldarien de Contre-Marche se déclenche dès qu'il subit des dégâts sans mourir : il gagne alors +2/+0 jusqu'à la fin du tour.",
+			en: "\"Wounded\" on Skeldaran Countermarch Knight fires as soon as it takes damage without dying: it then gains +2/+0 until the end of the turn.",
 		},
 	},
 	t_awaken: {
@@ -957,8 +957,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	t_execution: {
 		card: swornBlade,
 		demo: {
-			fr: "\"Exécution\" sur Lame-Jurée se déclenche quand elle tue un ennemi en l'attaquant : elle gagne alors +1/+1 de façon permanente.",
-			en: "\"Execution\" on Sworn Blade fires when it kills an enemy by attacking: it then permanently gains +1/+1.",
+			fr: "\"Exécution\" sur Lame-Jurée de Skeldara se déclenche quand elle tue un ennemi en l'attaquant : elle gagne alors +1/+1 de façon permanente.",
+			en: "\"Execution\" on Skeldara's Oath Blade fires when it kills an enemy by attacking: it then permanently gains +1/+1.",
 		},
 	},
 	t_carnage: {
