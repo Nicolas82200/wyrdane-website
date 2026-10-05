@@ -1,0 +1,99 @@
+{
+	"date": "2026-10-05",
+	"title": {
+		"en": "Devlog 10: the economy rebalanced, a security pass, and the lore grimoire goes online",
+		"fr": "Devlog 10 : l'économie rééquilibrée, une passe sécurité, et le grimoire de lore en ligne"
+	},
+	"lede": {
+		"en": "This entry covers the week since Devlog 9 (2026-09-28). The progression system got a full retune: a shorter, more honest daily login streak, a single reward scale for quests, and a pack duplicate protection that actually makes a full collection reachable. Alongside that: a backend security pass, a stubborn bug where the offline banner lied to players after a match, and on the website, 1024 lines of freshly written lore now readable as a flip-through grimoire at /lore.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 9 (2026-09-28). Le système de progression a été entièrement retouché : une série de connexions quotidienne plus courte et plus honnête, une échelle de récompense unique pour les quêtes, et une protection anti-doublon des packs qui rend une collection complète réellement atteignable. À côté de ça : une passe de sécurité côté serveur, un bug tenace où la bannière hors-ligne mentait aux joueurs après une partie, et côté site, 1024 lignes de lore fraîchement écrites, désormais lisibles comme un grimoire feuilletable sur /lore."
+	},
+	"stats": {
+		"en": [
+			{ "value": "~80%", "label": "less time needed to complete the card collection through packs alone, thanks to duplicate protection" },
+			{ "value": "5", "label": "days to reach the daily login plateau, down from 7" },
+			{ "value": "1024", "label": "lines of lore written in one sitting" },
+			{ "value": "4", "label": "security headers added to the backend API" }
+		],
+		"fr": [
+			{ "value": "~80%", "label": "de temps en moins pour compléter la collection via les packs seuls, grâce à la protection anti-doublon" },
+			{ "value": "5", "label": "jours pour atteindre le plateau de connexion quotidienne, contre 7 avant" },
+			{ "value": "1024", "label": "lignes de lore écrites d'une traite" },
+			{ "value": "4", "label": "en-têtes de sécurité ajoutés à l'API backend" }
+		]
+	},
+	"sections": {
+		"en": [
+			{
+				"heading": "Progression: a shorter streak, one reward scale, and packs that stop punishing completionists",
+				"paragraphs": [
+					"The daily login reward used to climb over 7 days up to 60 gold, then settle at a 60/day plateau. It now climbs over 5 days (20 → 40 → 60 → 80 → 100 gold) and plateaus at 100/day, missing a day resets to the first step either way. Quest rewards were a grab bag of one-off numbers; they now all sit on a single 25/50/75/100 gold scale matched to actual difficulty, and the race-specific quests (\"play 10 [race] cards\", \"win 2 games with a [race] deck\") collapsed from four separate rows per race to one generic line each.",
+					"The bigger structural change is new: career-milestone quests, one-time only, never reset. Reach a given rank tier, win with every race, open 20 packs, hit a play-count threshold, each pays out gold and sometimes packs, for a total catalog of 10,000 gold and 25 packs across the full list. Finishing the tutorial now also grants 20 cards drawn from the whole catalog (minus resource cards) at a generous Common 40 / Rare 30 / Epic 20 / Legendary 10 weighting, closing a real gap: the four starter decks only contain minions and a few spells, so a new player had never held a Ritual or an Enchantment before opening their first pack.",
+					"The duplicate problem was the real target, though. Pack odds were flat: a card you already own 4 copies of was exactly as likely to appear as one you'd never seen. A card already owned now has its draw weight multiplied by `1 - 0.9 × completion` (completion = share of the catalog you own at least one copy of), so the pull toward missing cards strengthens as the collection fills in, while never dropping to zero, 4 copies are still needed to run a card at full strength, so early duplicates stay common on purpose. The practical effect: completing the full 300-card catalog through packs alone, at 5 games a day, used to take roughly 24 months; it now takes roughly 5."
+				]
+			},
+			{
+				"heading": "Backend: a banner that lied, and a quiet security pass",
+				"paragraphs": [
+					"A single failed backend request was enough to pin the \"cannot reach the server\" banner up for the rest of the session, even once the connection was fine again. Three causes stacked: a transport failure was being reported as a mute \"HTTP 0\" instead of naming what actually went wrong, a failed DNS resolution was cached by Godot and poisoned the host until restart, and the banner's hide logic was wired through lambdas capturing `self`, a connection type the engine never disconnects, so every match played left one more dead listener behind. Fixed on all three fronts, plus one GET retry before giving up.",
+					"On the backend itself: `GET /api/friends/search` was the one authenticated user-data route with no rate limit, now capped at 30 requests per 10 minutes like its siblings. Four response headers Nginx wasn't setting on this VPS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Strict-Transport-Security`, were added through a small dedicated middleware rather than pulling in the `helmet` dependency for four lines. `nodemailer` was bumped to patch known CVEs. And the Human starter deck's card list, which had drifted from the game's actual current card names, was resynced along with a full `cards_data.sql` refresh into production."
+				]
+			},
+			{
+				"heading": "The site opens a window into the lore",
+				"paragraphs": [
+					"1024 lines of lore were written in `LORE.md`, and immediately put to use: the website's new `/lore` page renders it as a flip-through book, reachable by direct URL only, not linked from the nav yet. Most of the week's website commits were about making that book actually readable: the common tongue got a proper name (l'Averan), paragraphs were regrouped two at a time per page, reading was locked down (no accidental text selection or scroll), the book's maximum size was shrunk while font ceilings scaled up 1.25x, pages that no longer fit after that got split, and text got top-aligned with a tighter size cap and line-height for consistent pagination across pages of very different lengths.",
+					"The web deck builder also got resynced with the game: `gameCards.json` and the card translations had drifted (names, flavor text, effects), keyword tooltips were out of date against the game's current wording, and card rendering was snapped back onto the game's real font sizes and typography scale. Two separate card-name label bugs were chased down and fixed, both caused by measuring text before the custom font had finished loading and then caching or freezing a wrong size, visible on long wrapped names and on badges like \"Enchantement\" or \"Rituel • 2/4 charges\" clipping behind `overflow: hidden`. The catalog grid was also fixed to reliably show 5 columns on lower-resolution monitors instead of silently dropping to 4."
+				]
+			},
+			{
+				"heading": "Small fixes",
+				"paragraphs": [
+					"Right-clicking a card mid-drag used to pop up the enlarged preview on top of the drop target, right when precision matters most; it no longer triggers while dragging. The counterattack tooltip wording was also clarified after it read ambiguously in testing."
+				]
+			},
+			{
+				"heading": "What's next",
+				"paragraphs": [
+					"Still open: the Steam build and depot, achievements on the partner dashboard, Arena validated over a real network, the new Elf and Dwarf races, shader animations, ranked seasons, and surfacing the lore grimoire somewhere a player can actually find it."
+				]
+			}
+		],
+		"fr": [
+			{
+				"heading": "Progression : une série plus courte, une échelle unique, et des packs qui arrêtent de punir les complétionnistes",
+				"paragraphs": [
+					"La récompense de connexion quotidienne montait auparavant sur 7 jours jusqu'à 60 or, puis se stabilisait à 60/jour. Elle monte désormais sur 5 jours (20 → 40 → 60 → 80 → 100 or) et plafonne à 100/jour, un jour manqué ramenant toujours au premier palier. Les récompenses de quêtes étaient un fourre-tout de valeurs isolées ; elles tiennent maintenant toutes sur une échelle unique 25/50/75/100 or calée sur la difficulté réelle, et les quêtes par race (« jouer 10 cartes [Race] », « gagner 2 parties avec un deck [Race] ») sont passées de quatre lignes distinctes par race à une seule ligne générique chacune.",
+					"Le changement structurel le plus important est nouveau : des quêtes de jalon de carrière, à occurrence unique, jamais réinitialisées. Atteindre un palier de classement donné, gagner avec chacune des races, ouvrir 20 packs, franchir un seuil de parties jouées, chacune rapporte de l'or et parfois des packs, pour un catalogue total de 10 000 or et 25 packs sur l'ensemble de la liste. Terminer le tutoriel accorde désormais aussi 20 cartes tirées dans tout le catalogue (hors cartes-ressource) avec une pondération généreuse Commune 40 / Rare 30 / Épique 20 / Légendaire 10, comblant un vrai trou : les quatre decks de départ ne contiennent que des serviteurs et quelques sorts, un nouveau joueur n'avait donc jamais eu de Rituel ni d'Enchantement en main avant son premier pack.",
+					"Le vrai sujet restait cependant le problème des doublons. Les probabilités de pack étaient plates : une carte déjà possédée en 4 exemplaires avait exactement les mêmes chances d'apparaître qu'une jamais vue. Une carte déjà possédée voit désormais son poids de tirage multiplié par `1 - 0,9 × complétion` (complétion = part du catalogue dont le joueur possède au moins un exemplaire), de sorte que l'attirance vers les cartes manquantes se renforce à mesure que la collection se remplit, sans jamais tomber à zéro, 4 exemplaires restent nécessaires pour jouer une carte à fond, donc les doublons précoces restent fréquents, et c'est voulu. Effet concret : compléter les 300 cartes du catalogue via les packs seuls, à raison de 5 parties par jour, prenait environ 24 mois ; ça en prend désormais environ 5."
+				]
+			},
+			{
+				"heading": "Backend : une bannière qui mentait, et une passe sécurité discrète",
+				"paragraphs": [
+					"Une seule requête backend en échec suffisait à figer la bannière « impossible de joindre le serveur » pour le reste de la session, même une fois la connexion redevenue normale. Trois causes s'empilaient : un échec de transport était rapporté comme un « HTTP 0 » muet au lieu de nommer la vraie raison, une résolution DNS en échec était mise en cache par Godot et empoisonnait l'hôte jusqu'au redémarrage, et la logique qui masque la bannière passait par des lambdas capturant `self`, un type de connexion que le moteur ne déconnecte jamais, donc chaque partie jouée laissait un auditeur mort de plus. Corrigé sur les trois fronts, avec en prime un réessai de la requête GET avant d'abandonner.",
+					"Côté serveur : `GET /api/friends/search` était la seule route authentifiée touchant des données utilisateur sans limite de débit, désormais plafonnée à 30 requêtes par 10 minutes comme ses voisines. Quatre en-têtes de réponse que Nginx ne posait pas sur ce VPS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Strict-Transport-Security`, ont été ajoutés via un petit middleware dédié plutôt que d'importer la dépendance `helmet` pour quatre lignes. `nodemailer` a été mis à jour pour corriger des CVE connues. Et la liste de cartes du deck de départ Humain, qui avait dérivé par rapport aux noms actuels du jeu, a été resynchronisée, avec un rafraîchissement complet de `cards_data.sql` en production."
+				]
+			},
+			{
+				"heading": "Le site ouvre une fenêtre sur le lore",
+				"paragraphs": [
+					"1024 lignes de lore ont été écrites dans `LORE.md`, et immédiatement mises à profit : la nouvelle page `/lore` du site les affiche sous forme de livre feuilletable, accessible par URL directe uniquement, pas encore lié depuis la navigation. L'essentiel des commits du site cette semaine a consisté à rendre ce livre réellement lisible : la langue commune a reçu un vrai nom (l'Averan), les paragraphes ont été regroupés par deux par page, la lecture a été verrouillée (plus de sélection ou de défilement accidentel), la taille maximale du livre a été réduite pendant que les plafonds de police montaient de 1,25x, les pages qui ne tenaient plus après ça ont été scindées, et le texte a été aligné en haut avec un plafond de taille et un interlignage resserrés pour une pagination cohérente entre des pages de longueurs très variables.",
+					"Le deck builder web a aussi été resynchronisé avec le jeu : `gameCards.json` et les traductions de carte avaient dérivé (noms, texte d'ambiance, effets), les infobulles de mots-clés étaient en décalage avec le libellé actuel du jeu, et le rendu des cartes a été recalé sur les vraies tailles de police et l'échelle typographique du jeu. Deux bugs distincts de libellé de nom de carte ont été traqués et corrigés, tous deux causés par une mesure du texte avant la fin du chargement de la police personnalisée, qui figeait ou mettait en cache une mauvaise taille, visible sur les noms longs qui passent à la ligne et sur des badges comme « Enchantement » ou « Rituel • 2/4 charges » coupés derrière un `overflow: hidden`. La grille du catalogue a également été corrigée pour afficher de façon fiable 5 colonnes sur les écrans basse résolution au lieu de retomber silencieusement à 4."
+				]
+			},
+			{
+				"heading": "Petits correctifs",
+				"paragraphs": [
+					"Faire un clic droit sur une carte en plein glissé faisait apparaître l'aperçu agrandi par-dessus la cible de dépôt, pile au moment où la précision compte le plus ; il ne se déclenche plus pendant un glissé. Le libellé de l'infobulle de contre-attaque a également été clarifié après s'être révélé ambigu en test."
+				]
+			},
+			{
+				"heading": "La suite",
+				"paragraphs": [
+					"Restent ouverts : le build et le dépôt Steam, les succès côté tableau de bord partenaire, la validation du mode Arène en réseau réel, les nouvelles races Elfe et Nain, les animations en shaders, les saisons classées, et donner au grimoire de lore un endroit où un joueur puisse réellement le trouver."
+				]
+			}
+		]
+	}
+}
