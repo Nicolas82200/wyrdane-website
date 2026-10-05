@@ -35,7 +35,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		title: "Ex-libris",
 		dropcap: true,
 		paragraphs: [
-			"Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi. Il n'existait pas avant elle, et c'est elle seule qui en justifie l'existence. On n'ouvre pas un registre pour des jours ordinaires. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter que les scribes ne tiennent de leurs propres yeux ou d'une bouche digne de foi, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
+			"Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi. Il n'existait pas avant elle, et c'est elle seule qui en justifie l'existence. On n'ouvre pas un registre pour des jours ordinaires. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter qu'ils ne tiennent de première main, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
 		],
 	},
 	{
@@ -369,7 +369,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		title: "Ostrane",
 		dropcap: true,
 		paragraphs: [
-			"Repliée sur les terres méridionales du continent, Ostrane rompt avec tout ce schéma. Seul des six royaumes à s'être toujours tenu à l'écart du commerce, des guerres et des alliances des cinq autres, il n'a jamais laissé le temps construire sur lui le même savoir accumulé que sur ses voisins. Les voyageurs aldreniens qui s'y aventurent en reviennent avec des récits qui se contredisent presque tous, terres arides pour les uns, collines verdoyantes pour les autres, comme si le royaume changeait de visage selon qui le traverse.",
+			"Repliée sur les terres méridionales du continent, Ostrane rompt avec tout ce schéma. Seul des six royaumes à s'être toujours tenu à l'écart du commerce, des guerres et des alliances des cinq autres, il n'a jamais laissé le temps construire sur lui le même savoir accumulé que sur ses voisins. Les voyageurs aldreniens qui s'y aventurent en reviennent avec des récits qui se contredisent presque tous, terres arides pour les uns, collines verdoyantes pour les autres.",
 		],
 	},
 	{

@@ -68,7 +68,7 @@
 	   étroit pour y basculer a 92vw plus petit que ce calcul de toute façon
 	   (un téléphone est étroit ET haut, pas large ET court). */
 	position: relative;
-	width: min(1100px, 92vw, calc((100vh - 48px) * 1.64));
+	width: min(1105px, 92vw, calc((100vh - 48px) * 1.64));
 }
 
 .lore-flipbook {
@@ -150,16 +150,15 @@
 .lore-page {
 	/* react-pageflip pose lui-même `display: block` en inline sur
 	   .lore-page-face (HTMLPage.ts, commonStyle du draw()), qui écrase
-	   TOUJOURS le display:flex d'une classe, inline ou pas. Le centrage
+	   TOUJOURS le display:flex d'une classe, inline ou pas. L'alignement
 	   vertical ne peut donc pas venir de .lore-page-face : il vient d'ici,
-	   sur .lore-page lui-même (un enfant, lui non touché par la lib). Sans
-	   ce display:flex propre, les pages de contenu ordinaires restaient
-	   collées en haut, avec tout le bas de la page vide dès que le livre
-	   grandissait (grand écran) au-delà de ce que le texte occupe réellement
-	   à sa taille de police plafonnée. */
+	   sur .lore-page lui-même (un enfant, lui non touché par la lib).
+	   flex-start (texte collé en haut) par demande explicite ; .lore-cover
+	   et .lore-divider (titres "Entrée") remplacent ce justify-content par
+	   leur propre centrage ci-dessous, seule exception voulue. */
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	height: 100%;
 }
 .lore-page,
