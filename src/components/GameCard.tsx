@@ -205,10 +205,44 @@ export default function GameCard({ card }: { card: CardData }) {
 	useLayoutEffect(() => {
 		const el = nameRef.current;
 		if (!el) return;
-		el.style.height = `${NAME_LABEL_DEFAULT_HEIGHT}px`;
-		const needed = el.scrollHeight;
-		const growth = Math.min(Math.max(needed - NAME_LABEL_DEFAULT_HEIGHT, 0), NAME_LABEL_MAX_GROWTH);
-		setNameGrowth(growth);
+		let cancelled = false;
+		const measure = () => {
+			if (cancelled) return;
+			el.style.height = `${NAME_LABEL_DEFAULT_HEIGHT}px`;
+			const needed = el.scrollHeight;
+			// .gamecard-name a box-sizing: border-box avec une bordure de 1px
+			// (haut+bas = 2px) : scrollHeight mesure le contenu + le padding
+			// mais PAS cette bordure, alors que NAME_LABEL_DEFAULT_HEIGHT
+			// l'inclut — sans ce correctif, la croissance calculée était
+			// systématiquement sous-évaluée de 2px.
+			const NAME_LABEL_BORDER = 2;
+			const growth = Math.min(
+				Math.max(needed + NAME_LABEL_BORDER - NAME_LABEL_DEFAULT_HEIGHT, 0),
+				NAME_LABEL_MAX_GROWTH,
+			);
+			// Remet immédiatement la vraie hauteur sur le DOM, sans attendre le
+			// commit React : si cette mesure retrouve la même croissance qu'une
+			// mesure précédente (voir document.fonts.ready ci-dessous), passer
+			// par setNameGrowth seul ne déclencherait aucun re-render (état
+			// inchangé) et le style.height forcé à NAME_LABEL_DEFAULT_HEIGHT
+			// juste au-dessus, pour la mesure, resterait collé sur l'élément —
+			// bug observé en conditions réelles (nom qui recoupe le cadre de la
+			// description malgré une croissance correctement calculée).
+			el.style.height = `${NAME_LABEL_DEFAULT_HEIGHT + growth}px`;
+			setNameGrowth(growth);
+		};
+		measure();
+		// Les polices (@font-face CinzelCard) ne sont pas forcément chargées
+		// au premier rendu : la mesure ci-dessus tombe alors sur la police de
+		// repli du navigateur, souvent plus étroite, qui peut tenir sur une
+		// ligne de moins que la vraie police une fois chargée — sans
+		// remesurer après coup, un nom qui finit par passer sur 2 lignes
+		// restait figé à sa hauteur par défaut et venait recouper le cadre de
+		// la description juste en-dessous (bug observé en conditions réelles).
+		document.fonts?.ready?.then(measure);
+		return () => {
+			cancelled = true;
+		};
 	}, [card.name]);
 
 	const descTop = DESC_LABEL_DEFAULT_TOP + nameGrowth;
