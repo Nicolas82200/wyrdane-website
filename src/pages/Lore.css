@@ -24,6 +24,8 @@
 	   d'où un débordement vertical de 48px — et .lore-flipbook plus bas
 	   suppose justement que 100vh inclut déjà ce padding. */
 	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
 	min-height: 100vh;
 	margin: 0;
 	padding: 24px 16px;
@@ -52,13 +54,20 @@
 	overflow: hidden;
 	background: #0a0806;
 }
-.lore-archive-bg {
+/* Fond "bibliothèque" (archives.jpg), partagé par la salle des archives ET
+   la vue de lecture (--dim y ajoute un assombrissement : plein éclat dans
+   la salle où c'est le décor principal, tamisé derrière le livre ouvert
+   pour ne pas rivaliser avec le texte des pages). */
+.lore-room-bg {
 	position: absolute;
 	inset: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	object-position: center;
+}
+.lore-room-bg--dim {
+	filter: brightness(0.4) saturate(0.85);
 }
 /* Placeholder du premier livre écrit (book-01) : rectangle orange, en
    attendant une vraie tranche illustrée, posé sur l'étagère centrale basse
@@ -132,6 +141,12 @@
 }
 
 .lore-stage {
+	/* position:relative uniquement pour entrer dans le même ordre
+	   d'empilement que .lore-room-bg (position:absolute) : sans ça, un
+	   élément positionné passe toujours au-dessus d'un élément statique,
+	   peu importe l'ordre dans le DOM, et le livre se retrouverait sous le
+	   fond bibliothèque de la vue de lecture. */
+	position: relative;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -159,6 +174,21 @@
 	   (un téléphone est étroit ET haut, pas large ET court). */
 	position: relative;
 	width: min(1105px, 92vw, calc((100vh - 48px) * 1.64));
+	/* Le passage couverture <-> double-page (voir --cover ci-dessous) est
+	   désormais appliqué seulement une fois le tournage terminé (Lore.tsx,
+	   handleChangeState sur "read"), jamais en même temps que l'animation
+	   de page elle-même — mais ça reste un saut de largeur instantané sans
+	   cette transition, un peu sec juste après que la page se soit posée. */
+	transition: width 0.3s ease;
+}
+/* Tant que seule la couverture est visible (currentPage === 0, voir
+   Lore.tsx), le livre n'a qu'une page réelle à montrer : une largeur bien
+   sous le seuil recto/verso de la librairie (minWidth*2 = 760px, voir le
+   commentaire sur <HTMLFlipBook>) la fait basculer elle-même en page
+   unique centrée, au lieu du spread page-vierge/couverture décalé à droite
+   qu'on avait avec la largeur double-page ci-dessus. */
+.lore-book-wrap.lore-book-wrap--cover {
+	width: min(620px, 90vw, calc((100vh - 48px) * 0.82));
 }
 
 .lore-flipbook {

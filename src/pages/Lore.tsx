@@ -149,6 +149,13 @@ const Lore = () => {
 	// qui se rapproche le plus d'un "vrai papier" sans se battre contre sa
 	// géométrie.
 	const [isFlipping, setIsFlipping] = useState(false);
+	// Tant qu'on est sur la couverture (page 0, avant tout flip), le livre
+	// n'a qu'une seule page réelle à montrer : forcer la largeur du wrap
+	// sous le seuil recto/verso de la librairie (voir plus bas,
+	// .lore-book-wrap--cover) pour qu'elle le mette elle-même en page
+	// unique centrée, au lieu du spread page-vierge/couverture décalé à
+	// droite qu'on avait avec la largeur double-page par défaut.
+	const [currentPage, setCurrentPage] = useState(0);
 	const flipBookRef = useRef<FlipBookHandle | null>(null);
 	// react-pageflip/StPageFlip ne met pas en file les clics reçus pendant une
 	// animation en cours : un clic pendant un flip annule/retasse l'animation
@@ -190,10 +197,23 @@ const Lore = () => {
 		enqueueFlip(clickedRight ? "next" : "prev");
 	};
 
+	// onFlip se déclenche dès le DÉBUT du tournage, pas à la fin — passer
+	// currentPage (donc élargir .lore-book-wrap et déclencher le resize
+	// forcé ci-dessous) à ce moment-là redimensionnait le livre PENDANT
+	// l'animation de la page, d'où le glissement vers la droite observé
+	// avant que la page ne tourne vraiment. On mémorise juste la cible ici,
+	// et on ne la pousse dans le state (donc dans le DOM) qu'une fois le
+	// tournage terminé, voir handleChangeState ci-dessous.
+	const pendingPageRef = useRef(0);
+	const handleFlip = (e: { data: number }) => {
+		pendingPageRef.current = e.data;
+	};
+
 	const handleChangeState = (e: { data: string }) => {
 		setIsFlipping(e.data === "flipping");
 		if (e.data === "read") {
 			isFlipBusyRef.current = false;
+			setCurrentPage(pendingPageRef.current);
 			// Rappeler flipNext()/flipPrev() de façon SYNCHRONE depuis ce
 			// handler (donc depuis l'intérieur du traitement interne de
 			// StPageFlip de la fin du flip précédent) fait résoudre le flip
@@ -226,10 +246,22 @@ const Lore = () => {
 		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
 	};
 
+	// page-flip (le moteur sous react-pageflip) ne remesure son conteneur
+	// que sur l'évènement window "resize" — pas de ResizeObserver, vérifié
+	// dans node_modules/page-flip/dist/js/page-flip.module.js. Un
+	// changement de largeur purement CSS (.lore-book-wrap--cover ajoutée/
+	// retirée selon currentPage, voir plus bas) ne le fait donc jamais
+	// rebasculer tout seul entre page unique et double page : il fallait le
+	// lui signaler explicitement après que la nouvelle largeur soit posée.
+	useEffect(() => {
+		const id = requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+		return () => cancelAnimationFrame(id);
+	}, [currentPage === 0]);
+
 	if (!opened) {
 		return (
 			<div className="lore-room lore-archive-room">
-				<img className="lore-archive-bg" src={archivesBgUrl} alt="" />
+				<img className="lore-room-bg" src={archivesBgUrl} alt="" />
 				{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
 				   l'image 1344x768 source, pour rester justes quelle que soit la
 				   taille d'affichage) : la grande étagère centrale basse
@@ -252,15 +284,21 @@ const Lore = () => {
 			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
 			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
 		>
+			<img className="lore-room-bg lore-room-bg--dim" src={archivesBgUrl} alt="" />
 			<button type="button" className="lore-back-button" onClick={() => setOpened(false)}>
 				← Retour
 			</button>
 			<div className="lore-stage">
-				<div className="lore-book-wrap" ref={wrapRef} onClick={handleBookClick}>
+				<div
+					className={`lore-book-wrap${currentPage === 0 ? " lore-book-wrap--cover" : ""}`}
+					ref={wrapRef}
+					onClick={handleBookClick}
+				>
 					<HTMLFlipBook
 						ref={flipBookRef}
 						className="lore-flipbook"
 						style={{}}
+						onFlip={handleFlip}
 						onChangeOrientation={handleChangeOrientation}
 						onChangeState={handleChangeState}
 						// width/height ne fixent que le ratio pour le dimensionnement
