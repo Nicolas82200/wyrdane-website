@@ -1,3 +1,4 @@
+import { animate } from "motion";
 import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
@@ -149,13 +150,17 @@ const Lore = () => {
 	// qui se rapproche le plus d'un "vrai papier" sans se battre contre sa
 	// géométrie.
 	const [isFlipping, setIsFlipping] = useState(false);
-	// Tant qu'on est sur la couverture (page 0, avant tout flip), le livre
-	// n'a qu'une seule page réelle à montrer : forcer la largeur du wrap
-	// sous le seuil recto/verso de la librairie (voir plus bas,
+	// Tant qu'on est sur la couverture (avant tout flip), le livre n'a
+	// qu'une seule page réelle à montrer : forcer la largeur du wrap sous
+	// le seuil recto/verso de la librairie (voir plus bas,
 	// .lore-book-wrap--cover) pour qu'elle le mette elle-même en page
 	// unique centrée, au lieu du spread page-vierge/couverture décalé à
-	// droite qu'on avait avec la largeur double-page par défaut.
-	const [currentPage, setCurrentPage] = useState(0);
+	// droite qu'on avait avec la largeur double-page par défaut. Séparé de
+	// l'index de page réel (qu'on n'a par ailleurs besoin de connaître nulle
+	// part ici) pour pouvoir le faire passer à false AVANT le flip qui
+	// quitte la couverture, le temps de l'animation d'agrandissement
+	// ci-dessous (growToSpread).
+	const [isCoverWidth, setIsCoverWidth] = useState(true);
 	const flipBookRef = useRef<FlipBookHandle | null>(null);
 	// react-pageflip/StPageFlip ne met pas en file les clics reçus pendant une
 	// animation en cours : un clic pendant un flip annule/retasse l'animation
@@ -174,6 +179,55 @@ const Lore = () => {
 		audio.play().catch(() => {});
 	};
 
+	// Largeur "double page" du wrap une fois le livre ouvert, dupliquée en JS
+	// depuis la formule CSS de .lore-book-wrap (Lore.css) — motion anime une
+	// valeur numérique, pas un min()/calc() CSS, donc il faut la même borne
+	// ici pour que l'animation d'ouverture vise exactement la largeur que la
+	// CSS appliquera ensuite (sans ça, un petit saut au relâchement de
+	// l'inline style posé par motion). À tenir synchronisée si ces valeurs
+	// changent là-bas.
+	const spreadWidthPx = () =>
+		Math.min(1105, window.innerWidth * 0.92, (window.innerHeight - 48) * 1.64);
+
+	// Anime l'élargissement du wrap (couverture seule -> place du livre
+	// ouvert) avec motion, puis prévient react-pageflip (qui ne remesure que
+	// sur l'évènement window "resize", voir plus bas) avant d'appeler
+	// `onDone` — qui déclenche à son tour le vrai tournage de page. Tant que
+	// cette promesse n'est pas résolue, le tournage de page n'a donc pas
+	// encore lieu : c'est `processFlipQueue` ci-dessous qui orchestre cet
+	// ordre, pas celui-ci.
+	const growToSpread = (onDone: () => void) => {
+		const el = wrapRef.current;
+		if (!el) {
+			onDone();
+			return;
+		}
+		if (prefersReducedMotion) {
+			setIsCoverWidth(false);
+			window.dispatchEvent(new Event("resize"));
+			onDone();
+			return;
+		}
+		const from = el.getBoundingClientRect().width;
+		const to = spreadWidthPx();
+		animate(el, { width: [`${from}px`, `${to}px`] }, { duration: 0.45, ease: "easeInOut" }).then(
+			() => {
+				setIsCoverWidth(false);
+				// La classe --cover retirée au prochain rendu retombera sur
+				// exactement cette même largeur (voir spreadWidthPx ci-dessus) :
+				// effacer l'inline style posé par motion ne provoque donc aucun
+				// saut, et évite de le laisser figé devant un futur
+				// redimensionnement de fenêtre (la CSS ne peut jamais reprendre
+				// la main sur un inline style laissé en place).
+				requestAnimationFrame(() => {
+					el.style.width = "";
+					window.dispatchEvent(new Event("resize"));
+					onDone();
+				});
+			},
+		);
+	};
+
 	const processFlipQueue = () => {
 		if (isFlipBusyRef.current) return;
 		const next = flipQueueRef.current.shift();
@@ -181,9 +235,22 @@ const Lore = () => {
 		const pageFlip = flipBookRef.current?.pageFlip();
 		if (!pageFlip) return;
 		isFlipBusyRef.current = true;
-		playPageTurnSound();
-		if (next === "next") pageFlip.flipNext();
-		else pageFlip.flipPrev();
+		if (isCoverWidth && next === "next") {
+			// Premier clic : on quitte la couverture. Le livre doit avoir
+			// fini de s'agrandir à sa place ouverte avant que la page ne
+			// tourne (demande explicite) — isFlipBusyRef reste à true tout
+			// ce temps, donc les clics suivants s'empilent dans la file sans
+			// rien déclencher (voir enqueueFlip) au lieu de faire buguer
+			// l'animation en cours.
+			growToSpread(() => {
+				playPageTurnSound();
+				pageFlip.flipNext();
+			});
+		} else {
+			playPageTurnSound();
+			if (next === "next") pageFlip.flipNext();
+			else pageFlip.flipPrev();
+		}
 	};
 
 	const enqueueFlip = (direction: "next" | "prev") => {
@@ -198,22 +265,22 @@ const Lore = () => {
 	};
 
 	// onFlip se déclenche dès le DÉBUT du tournage, pas à la fin — passer
-	// currentPage (donc élargir .lore-book-wrap et déclencher le resize
-	// forcé ci-dessous) à ce moment-là redimensionnait le livre PENDANT
-	// l'animation de la page, d'où le glissement vers la droite observé
-	// avant que la page ne tourne vraiment. On mémorise juste la cible ici,
-	// et on ne la pousse dans le state (donc dans le DOM) qu'une fois le
-	// tournage terminé, voir handleChangeState ci-dessous.
-	const pendingPageRef = useRef(0);
+	// isCoverWidth (donc rétrécir .lore-book-wrap) à ce moment-là
+	// redimensionnerait le livre PENDANT l'animation de la page. En
+	// ouverture, growToSpread s'en charge déjà AVANT le flip (voir plus
+	// haut) ; il ne reste donc à gérer ici que la fermeture (retour à la
+	// couverture), rétrécie une fois le tournage retour bien terminé — pas
+	// encore animée avec motion, seule l'ouverture a été demandée.
+	const pendingIsCoverRef = useRef(true);
 	const handleFlip = (e: { data: number }) => {
-		pendingPageRef.current = e.data;
+		pendingIsCoverRef.current = e.data === 0;
 	};
 
 	const handleChangeState = (e: { data: string }) => {
 		setIsFlipping(e.data === "flipping");
 		if (e.data === "read") {
 			isFlipBusyRef.current = false;
-			setCurrentPage(pendingPageRef.current);
+			setIsCoverWidth(pendingIsCoverRef.current);
 			// Rappeler flipNext()/flipPrev() de façon SYNCHRONE depuis ce
 			// handler (donc depuis l'intérieur du traitement interne de
 			// StPageFlip de la fin du flip précédent) fait résoudre le flip
@@ -250,13 +317,16 @@ const Lore = () => {
 	// que sur l'évènement window "resize" — pas de ResizeObserver, vérifié
 	// dans node_modules/page-flip/dist/js/page-flip.module.js. Un
 	// changement de largeur purement CSS (.lore-book-wrap--cover ajoutée/
-	// retirée selon currentPage, voir plus bas) ne le fait donc jamais
-	// rebasculer tout seul entre page unique et double page : il fallait le
-	// lui signaler explicitement après que la nouvelle largeur soit posée.
+	// retirée selon isCoverWidth, voir plus bas) ne le fait donc jamais
+	// rebasculer tout seul entre page unique et double page. Couvre ici la
+	// fermeture (rétrécissement instantané, pas encore animé) ; l'ouverture
+	// anime d'abord la largeur et dispatche elle-même son propre resize une
+	// fois l'animation terminée (growToSpread ci-dessus), avant même que ce
+	// useEffect n'ait eu la main — le doublon qui en résulte est inoffensif.
 	useEffect(() => {
 		const id = requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
 		return () => cancelAnimationFrame(id);
-	}, [currentPage === 0]);
+	}, [isCoverWidth]);
 
 	if (!opened) {
 		return (
@@ -290,7 +360,7 @@ const Lore = () => {
 			</button>
 			<div className="lore-stage">
 				<div
-					className={`lore-book-wrap${currentPage === 0 ? " lore-book-wrap--cover" : ""}`}
+					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}
 					ref={wrapRef}
 					onClick={handleBookClick}
 				>
