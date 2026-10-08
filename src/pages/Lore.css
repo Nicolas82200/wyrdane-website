@@ -161,6 +161,32 @@
 	justify-content: center;
 }
 
+/* Dos de la couverture, visible en dépassant tout autour du bloc de
+   pages (voir le commentaire dans Lore.tsx). Centré indépendamment du
+   flex de .lore-stage (inset:0 + margin:auto, pas une largeur flex) :
+   une taille fixe, TOUJOURS au format double-page (même formule que
+   .lore-book-wrap ci-dessous) qu'on soit sur la couverture ou en plein
+   livre ouvert — un vrai livre garde ses plats à leur taille, qu'il soit
+   ouvert ou fermé, ce fond ne doit donc pas rétrécir avec
+   .lore-book-wrap--cover. aspect-ratio calque le ratio implicite de cette
+   même formule (1.64 = largeur/hauteur quand le terme de hauteur est
+   déterminant) pour ne jamais avoir à dupliquer un calc() de hauteur.
+   Avant .lore-book-wrap dans le DOM → peint derrière lui (tous deux
+   position:relative, z-index:auto : l'ordre du DOM tranche). */
+.lore-book-backdrop {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: calc(min(1105px, 92vw, calc((100vh - 48px) * 1.64)) + 28px);
+	max-height: calc(100vh - 20px);
+	aspect-ratio: 1.64;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 6px;
+	box-shadow: 0 30px 60px var(--lore-book-shadow);
+}
+
 .lore-book-wrap {
 	/* react-pageflip mesure SA PROPRE boîte (.lore-flipbook, via offsetWidth)
 	   pour la taille "stretch" — mais il lui écrit lui-même un style inline
@@ -263,11 +289,11 @@
    qu'on lui tend. Un sélecteur descendant (avec espace) ne matchait donc
    rien depuis le début, bug repéré en vérifiant l'animation ci-dessous. */
 .stf__item.--right.lore-page-face {
-	box-shadow: inset 12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5);
 	transition: box-shadow 0.25s ease;
 }
 .stf__item.--left.lore-page-face {
-	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5);
 	transition: box-shadow 0.25s ease;
 }
 /* Variante "coin déchiré" : quelques feuilles du livre (voir `torn` dans
@@ -333,12 +359,15 @@
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
    vérifié dans sa source), donc une tranche réellement extrudée n'a rien à
-   quoi s'accrocher. On accentue à la place l'ombre de tranche déjà posée
-   ci-dessus et on ajoute une ombre portée externe le temps du geste, pour
-   lui donner un peu de corps sans se battre contre la géométrie de la lib.
-   isFlipping (Lore.tsx, via onChangeState) pose la classe sur tout le
-   livre, mais seule la page en mouvement est visible bouger ; les autres,
-   au repos, ne changent de rendu que par cette ombre, discrète par design. */
+   quoi s'accrocher. On ajoute une ombre portée externe le temps du geste,
+   pour lui donner un peu de corps sans se battre contre la géométrie de la
+   lib — l'ombre de reliure (inset) elle-même est désormais permanente (voir
+   .stf__item.--right/--left.lore-page-face plus haut, demande explicite :
+   elle donnait tout son effet de profondeur et ne devait plus se limiter au
+   tournage). isFlipping (Lore.tsx, via onChangeState) pose la classe sur
+   tout le livre, mais seule la page en mouvement est visible bouger ; les
+   autres, au repos, ne changent de rendu que par cette ombre portée,
+   discrète par design. */
 .lore-room--flipping .stf__item.--right.lore-page-face {
 	box-shadow:
 		inset 20px 0 26px -12px rgba(0, 0, 0, 0.5),

@@ -386,6 +386,18 @@ const Lore = () => {
 				← Retour
 			</button>
 			<div className="lore-stage">
+				{/* Dos de la couverture, derrière le bloc de pages (demande
+				   explicite) : pas d'illustration dédiée pour l'intérieur/dos de
+				   la reliure, on réutilise donc la texture de book-01.png — posé
+				   un peu plus grand que le livre pour dépasser visiblement sur
+				   les côtés et en bas, comme les plats d'un vrai livre vus de
+				   derrière le bloc de pages (même logique que le léger débord de
+				   0.5px sur .lore-cover, en plus prononcé puisque visible en
+				   continu et pas seulement sur la tranche). */}
+				<div
+					className="lore-book-backdrop"
+					style={{ backgroundImage: `url(${book01CoverUrl})` }}
+				/>
 				<div
 					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}
 					ref={wrapRef}
