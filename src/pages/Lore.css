@@ -64,15 +64,18 @@
    attendant une vraie tranche illustrée, posé sur l'étagère centrale basse
    repérée comme la plus dégagée de archives.jpg (voir commentaire dans
    Lore.tsx). Position/taille en % de l'image source (1344x768) pour rester
-   justes quel que soit le redimensionnement du fond en cover. */
+   justes quel que soit le redimensionnement du fond en cover. Taille calée
+   sur la largeur/hauteur moyenne des tranches du petit groupe de livres
+   juste à gauche (~10x50px sur l'image source, mesuré à l'oeil sur un
+   agrandissement x3 de ce groupe) plutôt qu'une taille arbitraire.*/
 .lore-archive-book {
 	position: absolute;
-	left: 59.5%;
-	top: 76.6%;
-	width: 2.3%;
-	height: 8.9%;
-	min-width: 14px;
-	min-height: 40px;
+	left: 60%;
+	top: 78.5%;
+	width: 0.75%;
+	height: 6.5%;
+	min-width: 6px;
+	min-height: 30px;
 	padding: 0;
 	border: none;
 	border-radius: 1px;
@@ -243,28 +246,40 @@
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
 		url("../assets/site/parchment2-br.webp"),
 		url("../assets/site/parchment.jpg");
-	background-position: right bottom, right bottom, center;
+	background-position:
+		right bottom,
+		right bottom,
+		center;
 }
 .lore-torn-bottom.stf__item.--left.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
 		url("../assets/site/parchment2-bl.webp"),
 		url("../assets/site/parchment.jpg");
-	background-position: left bottom, left bottom, center;
+	background-position:
+		left bottom,
+		left bottom,
+		center;
 }
 .lore-torn-top.stf__item.--right.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
 		url("../assets/site/parchment2-tr.webp"),
 		url("../assets/site/parchment.jpg");
-	background-position: right top, right top, center;
+	background-position:
+		right top,
+		right top,
+		center;
 }
 .lore-torn-top.stf__item.--left.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
 		url("../assets/site/parchment2-tl.webp"),
 		url("../assets/site/parchment.jpg");
-	background-position: left top, left top, center;
+	background-position:
+		left top,
+		left top,
+		center;
 }
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
@@ -308,7 +323,7 @@
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
 	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
-	line-height: 1.25;
+	line-height: 1.15;
 	color: var(--lore-ink);
 }
 .lore-page p {
@@ -338,14 +353,13 @@
 /* background-image posé en inline par Lore.tsx (couverture book-01.png).
    .lore-cover est un enfant de .lore-page-face, en retrait de son padding :
    position absolute + inset:0 pour un visuel plein cadre (bord à bord),
-   indépendant du padding appliqué aux pages de texte. contain (pas cover)
-   pour ne jamais rogner la couverture, le fond sombre raccorde avec le noir
-   déjà présent dans book-01.png. */
+   indépendant du padding appliqué aux pages de texte. cover (pas contain) :
+   la couverture doit remplir toute la page, pas garder la fine marge noire
+   présente dans book-01.png — léger rognage des bords acceptable. */
 .lore-cover {
 	position: absolute;
 	inset: 0;
-	background-color: #0a0806;
-	background-size: contain;
+	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
