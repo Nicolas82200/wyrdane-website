@@ -30,7 +30,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: radial-gradient(ellipse at 50% 20%, var(--lore-room-bg-2), var(--lore-room-bg) 75%);
+	background: radial-gradient(
+		ellipse at 50% 20%,
+		var(--lore-room-bg-2),
+		var(--lore-room-bg) 75%
+	);
 	color: var(--lore-ink);
 	font-family: var(--lore-font-hand);
 }
@@ -141,10 +145,14 @@
    livre, mais seule la page en mouvement est visible bouger ; les autres,
    au repos, ne changent de rendu que par cette ombre, discrète par design. */
 .lore-room--flipping .stf__item.--right.lore-page-face {
-	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5), 3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset 20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 .lore-room--flipping .stf__item.--left.lore-page-face {
-	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5), -3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset -20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		-3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 
 .lore-page {
@@ -169,7 +177,7 @@
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
 	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
-	line-height: 1.5;
+	line-height: 1.25;
 	color: var(--lore-ink);
 }
 .lore-page p {
@@ -209,8 +217,14 @@
 	height: 72px;
 	margin: 0 auto 18px;
 	border-radius: 50%;
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 0 2px var(--lore-seal-gold);
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--lore-seal-red),
+		#241209 75%
+	);
+	box-shadow:
+		0 2px 10px rgba(0, 0, 0, 0.45),
+		inset 0 0 0 2px var(--lore-seal-gold);
 	display: grid;
 	place-items: center;
 	font-family: var(--lore-font-display);
@@ -279,8 +293,14 @@
 	font-family: var(--lore-font-display);
 	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.035), 0.85rem);
 	color: var(--lore-seal-gold);
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(122, 90, 30, 0.6);
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--lore-seal-red),
+		#241209 75%
+	);
+	box-shadow:
+		0 2px 8px rgba(0, 0, 0, 0.4),
+		inset 0 0 0 2px rgba(122, 90, 30, 0.6);
 }
 
 .lore-page-no {
