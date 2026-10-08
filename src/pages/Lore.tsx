@@ -2,6 +2,8 @@ import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
+import archivesBgUrl from "../assets/site/archives.jpg";
+import book01CoverUrl from "../assets/site/book-01.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
@@ -31,11 +33,10 @@ const Page = forwardRef(
 		switch (page.kind) {
 			case "cover":
 				content = (
-					<div className="lore-page lore-cover">
-						<div className="lore-seal-big">A</div>
-						<p className="lore-cover-title">Journal d'Aldrenia</p>
-						<p className="lore-cover-sub">Chancellerie du Royaume</p>
-					</div>
+					<div
+						className="lore-page lore-cover"
+						style={{ backgroundImage: `url(${book01CoverUrl})` }}
+					/>
 				);
 				break;
 			case "divider":
@@ -126,6 +127,11 @@ Page.displayName = "JournalPage";
 
 const Lore = () => {
 	const prefersReducedMotion = usePrefersReducedMotion();
+	// false = salle des archives (étagères, livre à cliquer) ; true = livre
+	// ouvert (flipbook). Un seul livre écrit pour l'instant (book-01) — les
+	// emplacements vides repérés sur archives.jpg pour les prochains sont
+	// documentés sur .lore-archive-book-01 ci-dessous et dans Lore.css.
+	const [opened, setOpened] = useState(false);
 	const wrapRef = useRef<HTMLDivElement | null>(null);
 	// Largeur d'UNE page (pas de la double-page), poussée en variable CSS pour
 	// que police/marges se calent dessus. Les container queries (cqw) se sont
@@ -220,11 +226,35 @@ const Lore = () => {
 		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
 	};
 
+	if (!opened) {
+		return (
+			<div className="lore-room lore-archive-room">
+				<img className="lore-archive-bg" src={archivesBgUrl} alt="" />
+				{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
+				   l'image 1344x768 source, pour rester justes quelle que soit la
+				   taille d'affichage) : la grande étagère centrale basse
+				   (x: 28%-73%, y: 77%-85%, quelques livres déjà au centre) a le
+				   plus de place pour de futurs tomes des deux côtés de
+				   .lore-archive-book-01 ; un petit creux existe aussi vers
+				   x: 63%-69%, y: 56%-62% (un seul livret isolé). */}
+				<button
+					type="button"
+					className="lore-archive-book lore-archive-book-01"
+					onClick={() => setOpened(true)}
+					aria-label="Ouvrir le Journal d'Aldrenia"
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div
 			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
 			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
 		>
+			<button type="button" className="lore-back-button" onClick={() => setOpened(false)}>
+				← Retour
+			</button>
 			<div className="lore-stage">
 				<div className="lore-book-wrap" ref={wrapRef} onClick={handleBookClick}>
 					<HTMLFlipBook

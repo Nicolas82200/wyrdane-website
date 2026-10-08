@@ -45,6 +45,89 @@
 	}
 }
 
+/* --- Salle des archives (avant ouverture d'un livre) --- */
+.lore-archive-room {
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+	background: #0a0806;
+}
+.lore-archive-bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+/* Placeholder du premier livre écrit (book-01) : rectangle orange, en
+   attendant une vraie tranche illustrée, posé sur l'étagère centrale basse
+   repérée comme la plus dégagée de archives.jpg (voir commentaire dans
+   Lore.tsx). Position/taille en % de l'image source (1344x768) pour rester
+   justes quel que soit le redimensionnement du fond en cover. */
+.lore-archive-book {
+	position: absolute;
+	left: 59.5%;
+	top: 76.6%;
+	width: 2.3%;
+	height: 8.9%;
+	min-width: 14px;
+	min-height: 40px;
+	padding: 0;
+	border: none;
+	border-radius: 1px;
+	background: #c9631a;
+	cursor: pointer;
+	box-shadow:
+		0 0 8px 3px rgba(255, 150, 40, 0.65),
+		0 0 22px 10px rgba(255, 150, 40, 0.35);
+	animation: lore-archive-aura 2.4s ease-in-out infinite;
+}
+.lore-archive-book:hover,
+.lore-archive-book:focus-visible {
+	background: #e5781f;
+	box-shadow:
+		0 0 10px 4px rgba(255, 170, 60, 0.85),
+		0 0 30px 14px rgba(255, 170, 60, 0.5);
+}
+@keyframes lore-archive-aura {
+	0%,
+	100% {
+		box-shadow:
+			0 0 8px 3px rgba(255, 150, 40, 0.65),
+			0 0 22px 10px rgba(255, 150, 40, 0.35);
+	}
+	50% {
+		box-shadow:
+			0 0 12px 5px rgba(255, 170, 60, 0.85),
+			0 0 32px 16px rgba(255, 170, 60, 0.5);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.lore-archive-book {
+		animation: none;
+	}
+}
+
+.lore-back-button {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	z-index: 20;
+	padding: 8px 16px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+.lore-back-button:hover {
+	background: var(--lore-room-bg);
+}
+
 .lore-stage {
 	width: 100%;
 	display: flex;
@@ -252,44 +335,19 @@
 	text-align: center;
 }
 
+/* background-image posé en inline par Lore.tsx (couverture book-01.png).
+   .lore-cover est un enfant de .lore-page-face, en retrait de son padding :
+   position absolute + inset:0 pour un visuel plein cadre (bord à bord),
+   indépendant du padding appliqué aux pages de texte. contain (pas cover)
+   pour ne jamais rogner la couverture, le fond sombre raccorde avec le noir
+   déjà présent dans book-01.png. */
 .lore-cover {
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	background-image:
-		linear-gradient(rgba(20, 14, 8, 0.25), rgba(20, 14, 8, 0.25)),
-		url("../assets/site/parchment.jpg");
-}
-.lore-seal-big {
-	width: 72px;
-	height: 72px;
-	margin: 0 auto 18px;
-	border-radius: 50%;
-	background: radial-gradient(
-		circle at 35% 30%,
-		var(--lore-seal-red),
-		#241209 75%
-	);
-	box-shadow:
-		0 2px 10px rgba(0, 0, 0, 0.45),
-		inset 0 0 0 2px var(--lore-seal-gold);
-	display: grid;
-	place-items: center;
-	font-family: var(--lore-font-display);
-	font-size: 32px;
-	color: var(--lore-seal-gold);
-}
-.lore-cover-title {
-	font-family: var(--lore-font-display);
-	font-size: 2rem;
-	margin: 0 0 0.3em;
-}
-.lore-cover-sub {
-	font-family: var(--lore-font-hand);
-	font-weight: 600;
-	letter-spacing: 0.06em;
-	color: var(--lore-room-ink-dim);
-	margin: 0;
+	position: absolute;
+	inset: 0;
+	background-color: #0a0806;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .lore-divider {
