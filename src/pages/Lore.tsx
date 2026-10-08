@@ -393,9 +393,12 @@ const Lore = () => {
 				   les côtés et en bas, comme les plats d'un vrai livre vus de
 				   derrière le bloc de pages (même logique que le léger débord de
 				   0.5px sur .lore-cover, en plus prononcé puisque visible en
-				   continu et pas seulement sur la tranche). */}
+				   continu et pas seulement sur la tranche). Même bascule
+				   couverture/double-page que .lore-book-wrap ci-dessous : un
+				   fond resté en permanence à la taille double-page avait l'air
+				   énorme derrière la seule couverture, bien plus étroite. */}
 				<div
-					className="lore-book-backdrop"
+					className={`lore-book-backdrop${isCoverWidth ? " lore-book-backdrop--cover" : ""}`}
 					style={{ backgroundImage: `url(${book01CoverUrl})` }}
 				/>
 				<div

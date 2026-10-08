@@ -163,14 +163,15 @@
 
 /* Dos de la couverture, visible en dépassant tout autour du bloc de
    pages (voir le commentaire dans Lore.tsx). Centré indépendamment du
-   flex de .lore-stage (inset:0 + margin:auto, pas une largeur flex) :
-   une taille fixe, TOUJOURS au format double-page (même formule que
-   .lore-book-wrap ci-dessous) qu'on soit sur la couverture ou en plein
-   livre ouvert — un vrai livre garde ses plats à leur taille, qu'il soit
-   ouvert ou fermé, ce fond ne doit donc pas rétrécir avec
-   .lore-book-wrap--cover. aspect-ratio calque le ratio implicite de cette
-   même formule (1.64 = largeur/hauteur quand le terme de hauteur est
-   déterminant) pour ne jamais avoir à dupliquer un calc() de hauteur.
+   flex de .lore-stage (inset:0 + margin:auto, pas une largeur flex).
+   Bascule couverture/double-page EN MÊME TEMPS que .lore-book-wrap
+   ci-dessous (même classe --cover posée par Lore.tsx) : le laisser fixe
+   à la taille double-page en permanence le rendait énorme derrière la
+   seule couverture (bien plus étroite), largement plus qu'un léger
+   débord. +28px de marge sur chaque formule pour qu'il dépasse visible-
+   ment, et aspect-ratio calque le ratio implicite de la formule active
+   (1.64 en double-page, 0.82 pour la couverture seule — même rapport que
+   .lore-book-wrap--cover) pour ne jamais dupliquer un calc() de hauteur.
    Avant .lore-book-wrap dans le DOM → peint derrière lui (tous deux
    position:relative, z-index:auto : l'ordre du DOM tranche). */
 .lore-book-backdrop {
@@ -185,6 +186,10 @@
 	background-repeat: no-repeat;
 	border-radius: 6px;
 	box-shadow: 0 30px 60px var(--lore-book-shadow);
+}
+.lore-book-backdrop.lore-book-backdrop--cover {
+	width: calc(min(552.5px, 46vw, calc((100vh - 48px) * 0.82)) + 28px);
+	aspect-ratio: 0.82;
 }
 
 .lore-book-wrap {
