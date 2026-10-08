@@ -96,7 +96,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Aldrenia",
 		dropcap: true,
-		torn: "bottom",
 		paragraphs: [
 			"Aldrenia est le royaume ancien, celui dont les autres racontent qu'il était déjà vieux quand le leur n'était encore qu'un campement. Sa capitale, Caldrath, se dresse à l'est des forêts de Dreamar, les pieds tournés vers la Mer de l'Est, bâtie au croisement de routes commerciales si anciennes que nul ne se souvient de les avoir tracées, et que certains jurent plus vieilles que la ville elle-même.",
 		],
@@ -112,6 +111,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Ses terres ne sont pas les plus riches de Mydaria, loin derrière les plaines généreuses d'Eorthal, mais son sol porte des forêts de chêne séculaires, des mines de fer dans les collines de l'est et des vignes sur les coteaux qui descendent vers la mer. Caldrath elle-même s'étend en terrasses de pierre pâle, ses toits de tuile rousse serrés autour d'un palais royal qui domine le port depuis des générations.",
 			"C'est une capitale qui sent la pierre chaude et le sel, où les cloches des temples d'Aldrene répondent aux cornes des navires marchands, et où l'on croise, sur les mêmes marchés, des armuriers skeldariens de passage et des négociants venus d'Eorthal pour vendre leur grain. Peu de villes de Mydaria mêlent autant de langues en un seul après-midi de marché.",
@@ -200,6 +200,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Le grenier de Mydaria",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Ce que le royaume perd en force militaire, il le regagne cent fois en puissance économique. La fertilité de ses terres nourrit à elle seule une bonne part de Mydaria, et aucun royaume, pas même Aldrenia, ne pourrait aujourd'hui se passer longtemps de ses exportations de grain sans en ressentir la faim.",
 
@@ -220,7 +221,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
-		torn: "top",
 		paragraphs: [
 			"Sa capitale, Dunmarr, est une forteresse autant qu'une ville, cernée de remparts de pierre grise encerclant des halls de pierre plus grise encore, construits à flanc de montagne de telle sorte qu'aucune armée ne pourrait l'approcher sans être vue des heures à l'avance. Elle est dirigée par le roi Gorath Thorne, dont la lignée règne sans partage depuis plusieurs générations, et que les officiers aldreniens qui l'ont affronté décrivent comme un chef aussi redouté par ses propres troupes que par ses ennemis.",
 		],

@@ -151,29 +151,37 @@
    .lore-page-face) rognait la déchirure elle-même (tout en bas/haut de
    l'image, perdue dans le recadrage symétrique). Ancré sur le coin concerné
    à la place, pour que ce soit justement ce qui ne saute jamais à la coupe. */
+/* Troisième calque (parchemin plein, derrière les deux premiers) : la
+   déchirure du calque du dessus est transparente à cet endroit, elle doit
+   donc révéler le papier de la page suivante plutôt que le fond de la salle
+   derrière le livre. */
 .lore-torn-bottom.stf__item.--right.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
-		url("../assets/site/parchment2-br.webp");
-	background-position: right bottom;
+		url("../assets/site/parchment2-br.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: right bottom, right bottom, center;
 }
 .lore-torn-bottom.stf__item.--left.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
-		url("../assets/site/parchment2-bl.webp");
-	background-position: left bottom;
+		url("../assets/site/parchment2-bl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: left bottom, left bottom, center;
 }
 .lore-torn-top.stf__item.--right.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
-		url("../assets/site/parchment2-tr.webp");
-	background-position: right top;
+		url("../assets/site/parchment2-tr.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: right top, right top, center;
 }
 .lore-torn-top.stf__item.--left.lore-page-face {
 	background-image:
 		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
-		url("../assets/site/parchment2-tl.webp");
-	background-position: left top;
+		url("../assets/site/parchment2-tl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: left top, left top, center;
 }
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,

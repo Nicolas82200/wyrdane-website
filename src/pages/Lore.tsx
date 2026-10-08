@@ -94,7 +94,7 @@ const Page = forwardRef((props: { page: JournalPage; folio: number | null }, ref
 	return (
 		<div className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}`} ref={ref}>
 			{content}
-			{folio !== null && <span className="lore-page-no">{folio} p.</span>}
+			{folio !== null && !torn && <span className="lore-page-no">{folio} p.</span>}
 		</div>
 	);
 });
