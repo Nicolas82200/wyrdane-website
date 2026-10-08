@@ -412,13 +412,15 @@
 /* background-image posé en inline par Lore.tsx (couverture book-01.png).
    .lore-cover est un enfant de .lore-page-face, en retrait de son padding :
    position absolute + inset:0 pour un visuel plein cadre (bord à bord),
-   indépendant du padding appliqué aux pages de texte. cover (pas contain) :
-   la couverture doit remplir toute la page, pas garder la fine marge noire
-   présente dans book-01.png — léger rognage des bords acceptable. */
+   indépendant du padding appliqué aux pages de texte. 100% 100% (étiré,
+   pas cover) : cover rognait les bords de la couverture — à chaque fois
+   que son ratio ne correspond pas exactement à celui de la page, une
+   bordure ornementale entière finissait coupée. Un léger étirement est
+   préférable à perdre un morceau du visuel (demande explicite). */
 .lore-cover {
 	position: absolute;
 	inset: 0;
-	background-size: cover;
+	background-size: 100% 100%;
 	background-position: center;
 	background-repeat: no-repeat;
 }
