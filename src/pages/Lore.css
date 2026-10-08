@@ -485,3 +485,44 @@
 .stf__item.--left .lore-page-no {
 	left: 16px;
 }
+
+/* Police un peu plus petite sur un écran moins haut que l'écran principal
+   (demande explicite). Seuil provisoire : impossible de lire la hauteur du
+   VRAI écran principal depuis ce contexte (le navigateur piloté ne reflète
+   pas forcément le moniteur réellement utilisé), 900px couvre les écrans
+   secondaires/portables courants sans toucher un moniteur 1080p+ — à
+   ajuster si ça ne correspond pas à l'écran secondaire visé.
+   Doit rester APRÈS les règles non-media ci-dessus dans le fichier : à
+   spécificité égale, seul l'ORDRE dans la feuille départage le
+   cascade, qu'une règle soit dans un @media ou non — placée plus tôt,
+   celle-ci se ferait écraser par la règle .lore-book-title normale plus
+   bas (ligne ~437).
+   Chaque borne du clamp() décalée de -2px individuellement plutôt que le
+   résultat final : clamp() étant invariant par translation, ça revient
+   exactement à soustraire 2px sur toute sa plage (pas seulement à une
+   extrémité), donc au même comportement responsive, 2px plus petit. */
+@media (max-height: 900px) {
+	.lore-page,
+	.lore-cover-title,
+	.lore-book-title {
+		font-size: clamp(
+			calc(0.84rem - 2px),
+			calc(var(--lore-page-w) * 0.068 - 2px),
+			calc(1.5rem - 2px)
+		);
+	}
+	.lore-page-title {
+		font-size: clamp(
+			calc(0.92rem - 2px),
+			calc(var(--lore-page-w) * 0.076 - 2px),
+			calc(1.88rem - 2px)
+		);
+	}
+	.lore-book-title {
+		font-size: clamp(
+			calc(1rem - 2px),
+			calc(var(--lore-page-w) * 0.085 - 2px),
+			calc(2.13rem - 2px)
+		);
+	}
+}
