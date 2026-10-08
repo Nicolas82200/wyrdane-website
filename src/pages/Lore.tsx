@@ -115,7 +115,7 @@ const Page = forwardRef(
 		const torn = page.kind === "content" ? page.torn : undefined;
 		return (
 			<div
-				className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}`}
+				className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}${page.kind === "cover" ? " lore-page-face--cover" : ""}`}
 				ref={ref}
 			>
 				{content}

@@ -424,6 +424,19 @@
 	background-position: center;
 	background-repeat: no-repeat;
 }
+/* Déborde très légèrement sur trois côtés (haut, droite, bas) — jamais à
+   gauche, côté reliure/charnière — comme les plats cartonnés d'un vieux
+   livre, toujours un peu plus grands que le bloc de pages qu'ils
+   protègent (demande explicite). .lore-page-face a overflow:hidden par
+   défaut (nécessaire aux pages de texte, pour ne jamais laisser déborder
+   un paragraphe trop long) : --cover le repasse à visible, seule
+   exception, puisque cette page n'a aucun texte à contenir. */
+.lore-page-face.lore-page-face--cover {
+	overflow: visible;
+}
+.lore-page-face--cover .lore-cover {
+	inset: -0.5px -0.5px -0.5px 0;
+}
 
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
