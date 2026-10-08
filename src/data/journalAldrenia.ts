@@ -23,7 +23,18 @@ export type JournalPage =
 			note: string;
 	  }
 	| { kind: "colophon"; title: string; paragraphs: string[] }
-	| { kind: "content"; title?: string; dropcap?: boolean; paragraphs: string[] }
+	| {
+			kind: "content";
+			title?: string;
+			dropcap?: boolean;
+			paragraphs: string[];
+			// Coin déchiré en variante de texture (voir parchment2-*.webp) :
+			// marquer DEUX pages consécutives (un recto et son verso, la même
+			// feuille physique) avec la même valeur suffit, le CSS choisit tout
+			// seul l'image br/bl (bottom) ou tr/tl (top) selon le côté
+			// --left/--right que react-pageflip assigne à chacune.
+			torn?: "bottom" | "top";
+	  }
 	| { kind: "content-italic"; text: string };
 
 export const JOURNAL_PAGES: JournalPage[] = [
@@ -68,12 +79,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Des siècles de caravanes, de traités et de mariages de raison ont fini par faire naître, entre les six royaumes, l'Averan, une langue de personne et de tout le monde à la fois, qu'on dit née sur les routes marchandes bien avant qu'aucun scribe n'ait songé à la coucher par écrit, et que plus personne ne sait attribuer à un seul royaume d'origine.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
 			"Sans lui, un marchand d'Eorthal ne saurait pas négocier à Dunmarr, ni un diplomate aldrenien se faire comprendre sur les quais de Thelbridge. C'est la langue des comptoirs, des traités scellés à la hâte et des campements où se croisent des soldats de trois royaumes à la fois.",
 		],
 	},
@@ -82,12 +87,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Mais l'Averan n'efface aucune des langues du foyer. L'aldrenien, l'eorthalien, le skeldarien, le dreamarien, le thelmérien et l'ostranais restent celles qu'on parle entre soi, au coin du feu, et qu'un étranger ne maîtrise jamais vraiment, même après des années passées à commercer sur place. Un marchand peut conclure une vente entière dans l'Averan sans jamais en apprendre davantage sur celui qu'il a en face de lui.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
 			"C'est une langue de passage, pas une langue de confidence. Ce que chaque royaume pense réellement de ses voisins, il continue de le dire dans sa propre langue, et c'est précisément ce qu'Aldrenia ne peut jamais tout à fait entendre.",
 		],
 	},
@@ -104,6 +103,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"D'autres royaumes humains ont existé avant lui sur ces mêmes terres, dont il ne reste que des noms à moitié oubliés dans de vieux parchemins et des fondations de pierre que les laboureurs déterrent encore parfois. Aldrenia est le seul de cette lignée à avoir traversé les âges sans jamais s'éteindre, et c'est de cette endurance, plus que de toute conquête, qu'elle tire sa fierté.",
 		],
@@ -111,14 +111,9 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Ses terres ne sont pas les plus riches de Mydaria, loin derrière les plaines généreuses d'Eorthal, mais son sol porte des forêts de chêne séculaires, des mines de fer dans les collines de l'est et des vignes sur les coteaux qui descendent vers la mer. Caldrath elle-même s'étend en terrasses de pierre pâle, ses toits de tuile rousse serrés autour d'un palais royal qui domine le port depuis des générations.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
 			"C'est une capitale qui sent la pierre chaude et le sel, où les cloches des temples d'Aldrene répondent aux cornes des navires marchands, et où l'on croise, sur les mêmes marchés, des armuriers skeldariens de passage et des négociants venus d'Eorthal pour vendre leur grain. Peu de villes de Mydaria mêlent autant de langues en un seul après-midi de marché.",
 		],
 	},
@@ -128,12 +123,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Aldrenia est gouvernée par le roi Varic Rhen, qu'on surnomme déjà, à mi-voix et avec un respect prudent, le Vieux Roi. Il ne décide jamais seul. Un Conseil du Roi siège à ses côtés, composé de ses plus hauts généraux et des prêtres les plus influents d'Aldrene, et aucune décision de poids, guerre, traité ou famine, ne se prend sans que cette assemblée n'ait été consultée.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
+
 			"La majorité des Aldreniens vénèrent Aldrene, qu'ils tiennent pour une déesse salvatrice et protectrice. Dans leur tradition, c'est Mydare, et non elle, qui porte la responsabilité d'une grande part des souffrances du monde, maladie, guerre, famine, catastrophe.",
 		],
 	},
@@ -210,14 +200,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Le grenier de Mydaria",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Ce que le royaume perd en force militaire, il le regagne cent fois en puissance économique. La fertilité de ses terres nourrit à elle seule une bonne part de Mydaria, et aucun royaume, pas même Aldrenia, ne pourrait aujourd'hui se passer longtemps de ses exportations de grain sans en ressentir la faim.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
+
 			"Les Eorthaliens expliquent cette abondance par une bénédiction que Mydare leur aurait elle-même accordée, voilà si longtemps que plus personne, à Eorthal, ne songe à en douter. Que la cause en soit divine ou simplement le fruit d'une terre généreuse, le résultat est le même. C'est le blé d'Eorthal qui, plus que n'importe quelle légion, tient aujourd'hui l'équilibre entre les royaumes.",
 		],
 	},
@@ -227,6 +213,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Skeldara",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Au nord, au-delà des contreforts que les éclaireurs aldreniens n'osent franchir qu'en groupe, s'accrochent les pics et les cols de Skeldara. C'est une terre de pierre nue et de vent constant, où les villages se blottissent dans les failles des montagnes et où, dit-on, un enfant apprend à tenir une lame avant de savoir lire. Les soldats aldreniens qui en reviennent décrivent un pays sans tendresse apparente, mais dont chaque pierre semble taillée pour la guerre.",
 		],
@@ -276,12 +263,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			"Entre Aldrenia et le reste du continent s'étendent les forêts profondes de Dreamar, un royaume que les voyageurs aldreniens décrivent moins qu'ils ne le devinent. La canopée y est si dense, disent-ils, que le jour y prend la couleur du crépuscule même à midi, et les sentiers qu'on y trace une saison ont souvent disparu sous la mousse à la suivante.",
-		],
-	},
-	{
-		kind: "content",
-		dropcap: true,
-		paragraphs: [
+
 			"Sa capitale, Nyrelle, se dissimule si bien parmi les arbres que les rares visiteurs aldreniens peinent à dire où elle commence vraiment. On raconte que ses toits sont tressés de branches vivantes, et que certains quartiers entiers changent de place au fil des saisons, selon une logique que nul étranger n'a jamais su suivre.",
 		],
 	},
@@ -368,6 +350,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Ostrane",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Repliée sur les terres méridionales du continent, Ostrane rompt avec tout ce schéma. Seul des six royaumes à s'être toujours tenu à l'écart du commerce, des guerres et des alliances des cinq autres, il n'a jamais laissé le temps construire sur lui le même savoir accumulé que sur ses voisins. Les voyageurs aldreniens qui s'y aventurent en reviennent avec des récits qui se contredisent presque tous, terres arides pour les uns, collines verdoyantes pour les autres.",
 		],
@@ -375,6 +358,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Même le nom de sa capitale, Farwatch, n'est connu que par ouï-dire, rapporté de bouche en bouche par des marchands qui n'y ont jamais mis les pieds eux-mêmes. Aucune carte dressée à Aldrenia ne s'accorde tout à fait avec une autre sur l'emplacement exact de ses frontières.",
 		],
@@ -510,6 +494,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Les éclaireurs",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Face à ce silence et à ces questions sans réponse, le roi Varic Rhen ne peut se permettre d'attendre que les réponses viennent d'elles-mêmes. Dans les jours qui suivent, des éclaireurs sont choisis parmi les plus endurants et les plus discrets de ses armées, puis envoyés dans toutes les directions à la fois, vers chacun des royaumes voisins, avec pour seule instruction de voir, d'écouter, et de revenir.",
 		],
@@ -517,6 +502,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Le voyage est long. Il faut compter environ cinq jours pour atteindre les terres skeldariennes et autant pour en revenir. Aucune réponse n'est donc attendue avant une bonne dizaine de jours, et sans doute davantage pour les royaumes plus éloignés. En attendant, le peuple d'Aldrenia n'a d'autre choix que d'apprendre à vivre avec l'inconnu, un jour après l'autre.",
 		],

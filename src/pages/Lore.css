@@ -30,7 +30,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: radial-gradient(ellipse at 50% 20%, var(--lore-room-bg-2), var(--lore-room-bg) 75%);
+	background: radial-gradient(
+		ellipse at 50% 20%,
+		var(--lore-room-bg-2),
+		var(--lore-room-bg) 75%
+	);
 	color: var(--lore-ink);
 	font-family: var(--lore-font-hand);
 }
@@ -131,6 +135,54 @@
 	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
 	transition: box-shadow 0.25s ease;
 }
+/* Variante "coin déchiré" : quelques feuilles du livre (voir `torn` dans
+   journalAldrenia.ts) utilisent une texture différente plutôt que la
+   parchment.jpg uniforme. Une seule image source (coin bas-droite déchiré,
+   fond transparent au-delà de la déchirure), déclinée en 4 fichiers déjà
+   retournés/pivotés (voir le script qui les a générés, non versionné) :
+   bottom = bas-droite au recto, bas-gauche au verso (miroir horizontal,
+   même feuille physique vue de l'autre côté) ; top = pareil en haut. On ne
+   sait pas à l'avance si une page donnée tombera côté --right ou --left
+   (ça dépend de la parité globale du livre, pas de l'index local), donc le
+   choix bottom/top se marque sur la donnée mais le choix recto/verso de
+   l'image se fait ici, en combinant avec la classe que la lib pose déjà. */
+/* background-position précisé à chaque fois : le ratio de l'image source ne
+   correspond pas à celui de la page, et le cover centré par défaut (voir
+   .lore-page-face) rognait la déchirure elle-même (tout en bas/haut de
+   l'image, perdue dans le recadrage symétrique). Ancré sur le coin concerné
+   à la place, pour que ce soit justement ce qui ne saute jamais à la coupe. */
+/* Troisième calque (parchemin plein, derrière les deux premiers) : la
+   déchirure du calque du dessus est transparente à cet endroit, elle doit
+   donc révéler le papier de la page suivante plutôt que le fond de la salle
+   derrière le livre. */
+.lore-torn-bottom.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-br.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: right bottom, right bottom, center;
+}
+.lore-torn-bottom.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-bl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: left bottom, left bottom, center;
+}
+.lore-torn-top.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tr.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: right top, right top, center;
+}
+.lore-torn-top.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position: left top, left top, center;
+}
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
    vérifié dans sa source), donc une tranche réellement extrudée n'a rien à
@@ -141,10 +193,14 @@
    livre, mais seule la page en mouvement est visible bouger ; les autres,
    au repos, ne changent de rendu que par cette ombre, discrète par design. */
 .lore-room--flipping .stf__item.--right.lore-page-face {
-	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5), 3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset 20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 .lore-room--flipping .stf__item.--left.lore-page-face {
-	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5), -3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset -20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		-3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 
 .lore-page {
@@ -169,7 +225,7 @@
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
 	   page. */
 	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
-	line-height: 1.5;
+	line-height: 1.25;
 	color: var(--lore-ink);
 }
 .lore-page p {
@@ -209,8 +265,14 @@
 	height: 72px;
 	margin: 0 auto 18px;
 	border-radius: 50%;
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 0 2px var(--lore-seal-gold);
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--lore-seal-red),
+		#241209 75%
+	);
+	box-shadow:
+		0 2px 10px rgba(0, 0, 0, 0.45),
+		inset 0 0 0 2px var(--lore-seal-gold);
 	display: grid;
 	place-items: center;
 	font-family: var(--lore-font-display);
@@ -279,8 +341,14 @@
 	font-family: var(--lore-font-display);
 	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.035), 0.85rem);
 	color: var(--lore-seal-gold);
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(122, 90, 30, 0.6);
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--lore-seal-red),
+		#241209 75%
+	);
+	box-shadow:
+		0 2px 8px rgba(0, 0, 0, 0.4),
+		inset 0 0 0 2px rgba(122, 90, 30, 0.6);
 }
 
 .lore-page-no {

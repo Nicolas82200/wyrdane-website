@@ -2,101 +2,126 @@ import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
+import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import "./Lore.css";
 
+// Instance StPageFlip exposée par react-pageflip via ref.current.pageFlip()
+// (voir node_modules/react-pageflip/build/index.es.js) — non typée par le
+// paquet, d'où ce typage minimal couvrant juste ce qu'on utilise ici.
+interface PageFlipInstance {
+	flipNext: (corner?: "top" | "bottom") => void;
+	flipPrev: (corner?: "top" | "bottom") => void;
+	getState: () => "user_fold" | "fold_corner" | "flipping" | "read";
+}
+type FlipBookHandle = { pageFlip: () => PageFlipInstance };
+
 // react-pageflip appose lui-même les classes --left/--right/--hard/--soft sur
 // la racine qu'on lui donne (voir Nodlik/StPageFlip, HTMLPage.ts) : le CSS de
 // Lore.css s'appuie sur ces classes plutôt que de recalculer une parité.
-const Page = forwardRef((props: { page: JournalPage; folio: number | null }, ref: ForwardedRef<HTMLDivElement>) => {
-	const { page, folio } = props;
+const Page = forwardRef(
+	(
+		props: { page: JournalPage; folio: number | null },
+		ref: ForwardedRef<HTMLDivElement>,
+	) => {
+		const { page, folio } = props;
 
-	let content: React.ReactNode;
-	switch (page.kind) {
-		case "cover":
-			content = (
-				<div className="lore-page lore-cover">
-					<div className="lore-seal-big">A</div>
-					<p className="lore-cover-title">Journal d'Aldrenia</p>
-					<p className="lore-cover-sub">Chancellerie du Royaume</p>
-				</div>
-			);
-			break;
-		case "divider":
-			content = (
-				<div className="lore-page lore-divider">
-					<p className="lore-book-no">{page.bookNo}</p>
-					<p className="lore-book-title">
-						{page.bookTitle.split("\n").map((line, i) => (
-							<span key={i}>
-								{i > 0 && <br />}
-								{line}
-							</span>
-						))}
-					</p>
-					<p className="lore-book-sub">{page.bookSub}</p>
-					<p className="lore-ornament">&#10047;</p>
-				</div>
-			);
-			break;
-		case "sealed":
-			content = (
-				<div className="lore-page lore-divider">
-					<p className="lore-book-no">{page.bookNo}</p>
-					<p className="lore-book-title">{page.bookTitle}</p>
-					<p className="lore-book-sub">{page.bookSub}</p>
-					<div className="lore-wax-row">
-						{page.waxList.map((w) => (
-							<div className="lore-wax" key={w}>
-								{w}
-							</div>
+		let content: React.ReactNode;
+		switch (page.kind) {
+			case "cover":
+				content = (
+					<div className="lore-page lore-cover">
+						<div className="lore-seal-big">A</div>
+						<p className="lore-cover-title">Journal d'Aldrenia</p>
+						<p className="lore-cover-sub">Chancellerie du Royaume</p>
+					</div>
+				);
+				break;
+			case "divider":
+				content = (
+					<div className="lore-page lore-divider">
+						<p className="lore-book-no">{page.bookNo}</p>
+						<p className="lore-book-title">
+							{page.bookTitle.split("\n").map((line, i) => (
+								<span key={i}>
+									{i > 0 && <br />}
+									{line}
+								</span>
+							))}
+						</p>
+						<p className="lore-book-sub">{page.bookSub}</p>
+						<p className="lore-ornament">&#10047;</p>
+					</div>
+				);
+				break;
+			case "sealed":
+				content = (
+					<div className="lore-page lore-divider">
+						<p className="lore-book-no">{page.bookNo}</p>
+						<p className="lore-book-title">{page.bookTitle}</p>
+						<p className="lore-book-sub">{page.bookSub}</p>
+						<div className="lore-wax-row">
+							{page.waxList.map((w) => (
+								<div className="lore-wax" key={w}>
+									{w}
+								</div>
+							))}
+						</div>
+						<p className="lore-book-sub" style={{ marginTop: 14 }}>
+							{page.note}
+						</p>
+					</div>
+				);
+				break;
+			case "colophon":
+				content = (
+					<div className="lore-page">
+						<p className="lore-page-title">{page.title}</p>
+						{page.paragraphs.map((p, i) => (
+							<p key={i}>{p}</p>
 						))}
 					</div>
-					<p className="lore-book-sub" style={{ marginTop: 14 }}>
-						{page.note}
-					</p>
-				</div>
-			);
-			break;
-		case "colophon":
-			content = (
-				<div className="lore-page">
-					<p className="lore-page-title">{page.title}</p>
-					{page.paragraphs.map((p, i) => (
-						<p key={i}>{p}</p>
-					))}
-				</div>
-			);
-			break;
-		case "content-italic":
-			content = (
-				<div className="lore-page">
-					<p style={{ fontStyle: "italic" }}>{page.text}</p>
-				</div>
-			);
-			break;
-		case "content":
-			content = (
-				<div className="lore-page">
-					{page.title && <p className="lore-page-title">{page.title}</p>}
-					{page.paragraphs.map((p, i) => (
-						<p key={i} className={i === 0 && page.dropcap ? "lore-dropcap" : undefined}>
-							{p}
-						</p>
-					))}
-				</div>
-			);
-			break;
-	}
+				);
+				break;
+			case "content-italic":
+				content = (
+					<div className="lore-page">
+						<p style={{ fontStyle: "italic" }}>{page.text}</p>
+					</div>
+				);
+				break;
+			case "content":
+				content = (
+					<div className="lore-page">
+						{page.title && <p className="lore-page-title">{page.title}</p>}
+						{page.paragraphs.map((p, i) => (
+							<p
+								key={i}
+								className={i === 0 && page.dropcap ? "lore-dropcap" : undefined}
+							>
+								{p}
+							</p>
+						))}
+					</div>
+				);
+				break;
+		}
 
-	return (
-		<div className="lore-page-face" ref={ref}>
-			{content}
-			{folio !== null && <span className="lore-page-no">{folio} p.</span>}
-		</div>
-	);
-});
+		const torn = page.kind === "content" ? page.torn : undefined;
+		return (
+			<div
+				className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}`}
+				ref={ref}
+			>
+				{content}
+				{folio !== null && !torn && (
+					<span className="lore-page-no">{folio} p.</span>
+				)}
+			</div>
+		);
+	},
+);
 Page.displayName = "JournalPage";
 
 const Lore = () => {
@@ -118,7 +143,61 @@ const Lore = () => {
 	// qui se rapproche le plus d'un "vrai papier" sans se battre contre sa
 	// géométrie.
 	const [isFlipping, setIsFlipping] = useState(false);
-	const handleChangeState = (e: { data: string }) => setIsFlipping(e.data === "flipping");
+	const flipBookRef = useRef<FlipBookHandle | null>(null);
+	// react-pageflip/StPageFlip ne met pas en file les clics reçus pendant une
+	// animation en cours : un clic pendant un flip annule/retasse l'animation
+	// en route plutôt que de l'enchaîner, ce qui faisait "sauter" plusieurs
+	// pages et changer tout le texte d'un coup. On gère donc nous-mêmes le
+	// clic (plus de flip par clic coté librairie, voir disableFlipByClick/
+	// showPageCorners plus bas) : chaque clic empile une direction, et on ne
+	// dépile vers le pageFlip que lorsque l'animation précédente est bien
+	// revenue à l'état "read".
+	const flipQueueRef = useRef<Array<"next" | "prev">>([]);
+	const isFlipBusyRef = useRef(false);
+
+	const playPageTurnSound = () => {
+		const audio = new Audio(pageTurnSoundUrl);
+		audio.volume = 0.4;
+		audio.play().catch(() => {});
+	};
+
+	const processFlipQueue = () => {
+		if (isFlipBusyRef.current) return;
+		const next = flipQueueRef.current.shift();
+		if (!next) return;
+		const pageFlip = flipBookRef.current?.pageFlip();
+		if (!pageFlip) return;
+		isFlipBusyRef.current = true;
+		playPageTurnSound();
+		if (next === "next") pageFlip.flipNext();
+		else pageFlip.flipPrev();
+	};
+
+	const enqueueFlip = (direction: "next" | "prev") => {
+		flipQueueRef.current.push(direction);
+		processFlipQueue();
+	};
+
+	const handleBookClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const clickedRight = e.clientX - rect.left > rect.width / 2;
+		enqueueFlip(clickedRight ? "next" : "prev");
+	};
+
+	const handleChangeState = (e: { data: string }) => {
+		setIsFlipping(e.data === "flipping");
+		if (e.data === "read") {
+			isFlipBusyRef.current = false;
+			// Rappeler flipNext()/flipPrev() de façon SYNCHRONE depuis ce
+			// handler (donc depuis l'intérieur du traitement interne de
+			// StPageFlip de la fin du flip précédent) fait résoudre le flip
+			// suivant instantanément, sans animation (vérifié : les clics en
+			// rafale sautaient directement à la page finale). Décaler au tick
+			// suivant laisse StPageFlip terminer proprement son nettoyage
+			// interne avant de redémarrer une animation.
+			setTimeout(processFlipQueue, 0);
+		}
+	};
 
 	useEffect(() => {
 		const el = wrapRef.current;
@@ -147,8 +226,9 @@ const Lore = () => {
 			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
 		>
 			<div className="lore-stage">
-				<div className="lore-book-wrap" ref={wrapRef}>
+				<div className="lore-book-wrap" ref={wrapRef} onClick={handleBookClick}>
 					<HTMLFlipBook
+						ref={flipBookRef}
 						className="lore-flipbook"
 						style={{}}
 						onChangeOrientation={handleChangeOrientation}
@@ -168,7 +248,7 @@ const Lore = () => {
 						maxHeight={1000}
 						startPage={0}
 						showCover
-						flippingTime={prefersReducedMotion ? 1 : 900}
+						flippingTime={prefersReducedMotion ? 1 : 500}
 						maxShadowOpacity={0.6}
 						// StPageFlip bascule tout seul en page unique dès que la largeur
 						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
@@ -185,8 +265,16 @@ const Lore = () => {
 						swipeDistance={30}
 						clickEventForward
 						useMouseEvents
-						showPageCorners
-						disableFlipByClick={false}
+						// Le flip par clic est désormais géré entièrement à la main
+						// (handleBookClick + file d'attente ci-dessus) : la librairie
+						// ne doit plus déclencher de flip toute seule au clic, sans
+						// quoi les deux déclencheurs se chevaucheraient. showPageCorners
+						// à false pour la même raison (le survol/clic d'un coin replié
+						// déclenche aussi un flip côté librairie, même avec
+						// disableFlipByClick). Le glisser-déposer (useMouseEvents) reste
+						// natif, il n'a pas le problème des clics multiples.
+						showPageCorners={false}
+						disableFlipByClick
 					>
 						{JOURNAL_PAGES.map((page, i) => (
 							<Page key={i} page={page} folio={i === 0 ? null : i + 1} />
