@@ -370,8 +370,14 @@
 	font-family: var(--lore-font-hand);
 	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
-	   page. */
-	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
+	   page. -1px (demande explicite, toutes tailles d'écran) en décalant
+	   chaque borne du clamp() : invariant par translation, voir le
+	   commentaire détaillé sur le @media plus bas. */
+	font-size: clamp(
+		calc(0.84rem - 1px),
+		calc(var(--lore-page-w) * 0.068 - 1px),
+		calc(1.5rem - 1px)
+	);
 	line-height: 1.15;
 	color: var(--lore-ink);
 }
@@ -393,7 +399,11 @@
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.076), 1.88rem);
+	font-size: clamp(
+		calc(0.92rem - 1px),
+		calc(var(--lore-page-w) * 0.076 - 1px),
+		calc(1.88rem - 1px)
+	);
 	color: var(--lore-seal-red);
 	margin: 0 0 0.5em;
 	text-align: center;
@@ -434,7 +444,11 @@
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(1rem, calc(var(--lore-page-w) * 0.085), 2.13rem);
+	font-size: clamp(
+		calc(1rem - 1px),
+		calc(var(--lore-page-w) * 0.085 - 1px),
+		calc(2.13rem - 1px)
+	);
 	margin: 0 0 0.5em;
 }
 .lore-book-sub {
@@ -495,32 +509,37 @@
    cascade, qu'une règle soit dans un @media ou non — placée plus tôt,
    celle-ci se ferait écraser par la règle .lore-book-title normale plus
    bas (ligne ~437).
-   Chaque borne du clamp() décalée de -2px individuellement plutôt que le
-   résultat final : clamp() étant invariant par translation, ça revient
-   exactement à soustraire 2px sur toute sa plage (pas seulement à une
-   extrémité), donc au même comportement responsive, 2px plus petit. */
+   -4px au total par rapport aux tailles de base d'ORIGINE (pas -4px en
+   plus du -1px déjà appliqué partout ci-dessus : une media query qui
+   matche REMPLACE entièrement font-size sur l'élément, elle ne s'ajoute
+   pas à la règle non-media) : -2px déjà demandés précédemment pour les
+   petits écrans, +2px de plus (demande explicite). Chaque borne du
+   clamp() décalée individuellement plutôt que le résultat final : clamp()
+   étant invariant par translation, ça revient exactement à soustraire 4px
+   sur toute sa plage (pas seulement à une extrémité), donc au même
+   comportement responsive, 4px plus petit. */
 @media (max-height: 650px) {
 	.lore-page,
 	.lore-cover-title,
 	.lore-book-title {
 		font-size: clamp(
-			calc(0.84rem - 2px),
-			calc(var(--lore-page-w) * 0.068 - 2px),
-			calc(1.5rem - 2px)
+			calc(0.84rem - 4px),
+			calc(var(--lore-page-w) * 0.068 - 4px),
+			calc(1.5rem - 4px)
 		);
 	}
 	.lore-page-title {
 		font-size: clamp(
-			calc(0.92rem - 2px),
-			calc(var(--lore-page-w) * 0.076 - 2px),
-			calc(1.88rem - 2px)
+			calc(0.92rem - 4px),
+			calc(var(--lore-page-w) * 0.076 - 4px),
+			calc(1.88rem - 4px)
 		);
 	}
 	.lore-book-title {
 		font-size: clamp(
-			calc(1rem - 2px),
-			calc(var(--lore-page-w) * 0.085 - 2px),
-			calc(2.13rem - 2px)
+			calc(1rem - 4px),
+			calc(var(--lore-page-w) * 0.085 - 4px),
+			calc(2.13rem - 4px)
 		);
 	}
 }
