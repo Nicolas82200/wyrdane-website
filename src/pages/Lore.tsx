@@ -5,6 +5,7 @@ import HTMLFlipBook from "react-pageflip";
 
 import archivesBgUrl from "../assets/site/archives.jpg";
 import book01CoverUrl from "../assets/site/book-01.png";
+import book01SpineUrl from "../assets/site/book01-spine.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
@@ -351,6 +352,7 @@ const Lore = () => {
 				<button
 					type="button"
 					className="lore-archive-book lore-archive-book-01"
+					style={{ backgroundImage: `url(${book01SpineUrl})` }}
 					onClick={() => setOpened(true)}
 					aria-label="Ouvrir le Journal d'Aldrenia"
 				/>

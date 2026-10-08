@@ -69,50 +69,56 @@
 .lore-room-bg--dim {
 	filter: brightness(0.4) saturate(0.85);
 }
-/* Placeholder du premier livre écrit (book-01) : rectangle orange, en
-   attendant une vraie tranche illustrée, posé sur l'étagère centrale basse
-   repérée comme la plus dégagée de archives.jpg (voir commentaire dans
-   Lore.tsx). Position/taille en % de l'image source (1344x768) pour rester
-   justes quel que soit le redimensionnement du fond en cover. Taille calée
-   sur la largeur/hauteur moyenne des tranches du petit groupe de livres
-   juste à gauche (~10x50px sur l'image source, mesuré à l'oeil sur un
-   agrandissement x3 de ce groupe) plutôt qu'une taille arbitraire.*/
+/* Tranche illustrée du premier livre écrit (book01-spine.png, posée en
+   inline par Lore.tsx — fond transparent, le halo lumineux autour du livre
+   est déjà peint dans l'image elle-même). Posée sur l'étagère centrale
+   basse repérée comme la plus dégagée de archives.jpg (voir commentaire
+   plus bas dans Lore.tsx). Position/taille en % de l'image source
+   (1344x768) pour rester justes quel que soit le redimensionnement du
+   fond en cover.
+   La boîte garde le même ratio que le canevas de l'image (1024x1536,
+   0.667) pour que `contain` ne laisse aucune bande vide sur les côtés ;
+   sa hauteur est calée pour que la tranche VISIBLE (environ 92% de la
+   hauteur du canevas, le reste étant du halo transparent) tombe à peu
+   près à la même hauteur que les tranches voisines (~50px sur l'image
+   source) ; top ajusté en conséquence pour garder le même bas d'étagère
+   qu'avant. */
 .lore-archive-book {
 	position: absolute;
 	left: 60%;
-	top: 78.5%;
-	width: 0.75%;
-	height: 6.5%;
-	min-width: 6px;
-	min-height: 30px;
+	top: 77.25%;
+	width: 2.95%;
+	height: 7.75%;
+	min-width: 24px;
+	min-height: 36px;
 	padding: 0;
 	border: none;
-	border-radius: 1px;
-	background: #c9631a;
+	background-color: transparent;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 	cursor: pointer;
-	box-shadow:
-		0 0 8px 3px rgba(255, 150, 40, 0.65),
-		0 0 22px 10px rgba(255, 150, 40, 0.35);
+	/* drop-shadow (pas box-shadow) suit le contour réel de la tranche au
+	   lieu d'illuminer tout son cadre transparent — l'aura s'ajoute à
+	   celle déjà peinte dans l'image plutôt que de la dédoubler. */
+	filter: drop-shadow(0 0 5px rgba(255, 150, 40, 0.7))
+		drop-shadow(0 0 14px rgba(255, 150, 40, 0.4));
 	animation: lore-archive-aura 2.4s ease-in-out infinite;
 }
 .lore-archive-book:hover,
 .lore-archive-book:focus-visible {
-	background: #e5781f;
-	box-shadow:
-		0 0 10px 4px rgba(255, 170, 60, 0.85),
-		0 0 30px 14px rgba(255, 170, 60, 0.5);
+	filter: drop-shadow(0 0 8px rgba(255, 170, 60, 0.9))
+		drop-shadow(0 0 20px rgba(255, 170, 60, 0.55));
 }
 @keyframes lore-archive-aura {
 	0%,
 	100% {
-		box-shadow:
-			0 0 8px 3px rgba(255, 150, 40, 0.65),
-			0 0 22px 10px rgba(255, 150, 40, 0.35);
+		filter: drop-shadow(0 0 5px rgba(255, 150, 40, 0.7))
+			drop-shadow(0 0 14px rgba(255, 150, 40, 0.4));
 	}
 	50% {
-		box-shadow:
-			0 0 12px 5px rgba(255, 170, 60, 0.85),
-			0 0 32px 16px rgba(255, 170, 60, 0.5);
+		filter: drop-shadow(0 0 8px rgba(255, 170, 60, 0.85))
+			drop-shadow(0 0 20px rgba(255, 170, 60, 0.5));
 	}
 }
 @media (prefers-reduced-motion: reduce) {
