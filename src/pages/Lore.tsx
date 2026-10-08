@@ -1,6 +1,7 @@
 import { animate } from "motion";
 import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import HTMLFlipBook from "react-pageflip";
 
 import archivesBgUrl from "../assets/site/archives.jpg";
@@ -181,6 +182,15 @@ const Lore = () => {
 	// revenue à l'état "read".
 	const flipQueueRef = useRef<Array<"next" | "prev">>([]);
 	const isFlipBusyRef = useRef(false);
+	// Vrai depuis le tout premier clic sur la couverture jusqu'à ce que le
+	// livre soit effectivement ouvert (tournage compris) — tant qu'il l'est,
+	// enqueueFlip ignore purement et simplement tout nouveau clic au lieu de
+	// l'empiler (demande explicite) : empiler aurait fait rejouer tout seul,
+	// une fois le livre ouvert, les clics reçus entre temps (6 clics rapides
+	// sur la couverture faisaient par exemple feuilleter jusqu'à la page 6).
+	// Distinct de isFlipBusyRef, qui lui reste utile APRÈS l'ouverture pour
+	// mettre en file les tournages de page normaux.
+	const isOpeningRef = useRef(false);
 
 	const playPageTurnSound = () => {
 		const audio = new Audio(pageTurnSoundUrl);
@@ -219,17 +229,20 @@ const Lore = () => {
 		}
 		const commitSpread = () => {
 			isCoverWidthRef.current = false;
-			setIsCoverWidth(false);
-			// La classe --cover retirée au prochain rendu passe le wrap à sa
-			// largeur double page, centrée — ce qui replace pile la moitié
-			// droite (où vit la couverture) à l'endroit que le glissement
-			// venait de rejoindre (voir le calcul ci-dessus) : effacer la
-			// translation ici ne produit donc aucun saut visible.
-			requestAnimationFrame(() => {
-				el.style.transform = "";
-				window.dispatchEvent(new Event("resize"));
-				onDone();
-			});
+			// flushSync (pas de useState + requestAnimationFrame) : on avait un
+			// bref flash juste avant l'ouverture, le temps d'une frame où la
+			// classe --cover était déjà retirée (React ne l'applique qu'au
+			// PROCHAIN paint) mais où l'inline transform posé par motion était
+			// encore là — le wrap se retrouvait un instant à sa largeur double
+			// page ET décalé du glissement en même temps, trop loin à droite,
+			// avant de se recaler d'un coup. flushSync force le changement de
+			// classe (donc de largeur) à être peint AVANT la ligne suivante qui
+			// efface la translation : les deux ne sont donc plus jamais vrais
+			// en même temps sur un même paint.
+			flushSync(() => setIsCoverWidth(false));
+			el.style.transform = "";
+			window.dispatchEvent(new Event("resize"));
+			onDone();
 		};
 		if (prefersReducedMotion) {
 			commitSpread();
@@ -249,10 +262,11 @@ const Lore = () => {
 		if (isCoverWidthRef.current && next === "next") {
 			// Premier clic : on quitte la couverture. Le livre doit avoir
 			// fini de glisser à sa place ouverte avant que la page ne
-			// tourne (demande explicite) — isFlipBusyRef reste à true tout
-			// ce temps, donc les clics suivants s'empilent dans la file sans
-			// rien déclencher (voir enqueueFlip) au lieu de faire buguer
-			// l'animation en cours.
+			// tourne (demande explicite) — isOpeningRef reste à true tout ce
+			// temps, donc enqueueFlip ignore tout nouveau clic au lieu de
+			// l'empiler (voir plus haut) tant que l'ouverture n'est pas
+			// entièrement terminée.
+			isOpeningRef.current = true;
 			slideToSpreadSlot(() => {
 				playPageTurnSound();
 				pageFlip.flipNext();
@@ -265,6 +279,7 @@ const Lore = () => {
 	};
 
 	const enqueueFlip = (direction: "next" | "prev") => {
+		if (isOpeningRef.current) return;
 		flipQueueRef.current.push(direction);
 		processFlipQueue();
 	};
@@ -291,6 +306,7 @@ const Lore = () => {
 		setIsFlipping(e.data === "flipping");
 		if (e.data === "read") {
 			isFlipBusyRef.current = false;
+			isOpeningRef.current = false;
 			const wasCover = isCoverWidthRef.current;
 			isCoverWidthRef.current = pendingIsCoverRef.current;
 			setIsCoverWidth(pendingIsCoverRef.current);

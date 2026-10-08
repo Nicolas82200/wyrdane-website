@@ -76,25 +76,27 @@
    plus bas dans Lore.tsx). Position/taille en % de l'image source
    (1344x768) pour rester justes quel que soit le redimensionnement du
    fond en cover.
-   La boîte garde le même ratio que le canevas de l'image (1024x1536,
-   0.667) pour que `contain` ne laisse aucune bande vide sur les côtés ;
-   sa hauteur est calée pour que la tranche VISIBLE (environ 92% de la
-   hauteur du canevas, le reste étant du halo transparent) tombe à peu
-   près à la même hauteur que les tranches voisines (~50px sur l'image
-   source) ; top ajusté en conséquence pour garder le même bas d'étagère
-   qu'avant. */
+   La hauteur est calée pour que la tranche VISIBLE (environ 92% de la
+   hauteur du canevas 1024x1536, le reste étant du halo transparent)
+   tombe à peu près à la même hauteur que les tranches voisines (~50px sur
+   l'image source) ; top ajusté en conséquence pour garder le même bas
+   d'étagère qu'avant. Largeur élargie par rapport au ratio natif du
+   canevas (demande explicite, la hauteur seule suffisait) : background-
+   size en deux valeurs (pas contain) étire le visuel pour qu'il remplisse
+   réellement cette largeur au lieu de se re-centrer dans une boîte plus
+   large en laissant du vide transparent sur les côtés. */
 .lore-archive-book {
 	position: absolute;
 	left: 60%;
 	top: 77.25%;
-	width: 2.95%;
+	width: 3.7%;
 	height: 7.75%;
-	min-width: 24px;
+	min-width: 30px;
 	min-height: 36px;
 	padding: 0;
 	border: none;
 	background-color: transparent;
-	background-size: contain;
+	background-size: 100% 100%;
 	background-position: center;
 	background-repeat: no-repeat;
 	cursor: pointer;
