@@ -2,7 +2,7 @@ import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
-import pageTurnSoundUrl from "../assets/site/page-turn.mp3";
+import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import "./Lore.css";
@@ -20,95 +20,108 @@ type FlipBookHandle = { pageFlip: () => PageFlipInstance };
 // react-pageflip appose lui-même les classes --left/--right/--hard/--soft sur
 // la racine qu'on lui donne (voir Nodlik/StPageFlip, HTMLPage.ts) : le CSS de
 // Lore.css s'appuie sur ces classes plutôt que de recalculer une parité.
-const Page = forwardRef((props: { page: JournalPage; folio: number | null }, ref: ForwardedRef<HTMLDivElement>) => {
-	const { page, folio } = props;
+const Page = forwardRef(
+	(
+		props: { page: JournalPage; folio: number | null },
+		ref: ForwardedRef<HTMLDivElement>,
+	) => {
+		const { page, folio } = props;
 
-	let content: React.ReactNode;
-	switch (page.kind) {
-		case "cover":
-			content = (
-				<div className="lore-page lore-cover">
-					<div className="lore-seal-big">A</div>
-					<p className="lore-cover-title">Journal d'Aldrenia</p>
-					<p className="lore-cover-sub">Chancellerie du Royaume</p>
-				</div>
-			);
-			break;
-		case "divider":
-			content = (
-				<div className="lore-page lore-divider">
-					<p className="lore-book-no">{page.bookNo}</p>
-					<p className="lore-book-title">
-						{page.bookTitle.split("\n").map((line, i) => (
-							<span key={i}>
-								{i > 0 && <br />}
-								{line}
-							</span>
-						))}
-					</p>
-					<p className="lore-book-sub">{page.bookSub}</p>
-					<p className="lore-ornament">&#10047;</p>
-				</div>
-			);
-			break;
-		case "sealed":
-			content = (
-				<div className="lore-page lore-divider">
-					<p className="lore-book-no">{page.bookNo}</p>
-					<p className="lore-book-title">{page.bookTitle}</p>
-					<p className="lore-book-sub">{page.bookSub}</p>
-					<div className="lore-wax-row">
-						{page.waxList.map((w) => (
-							<div className="lore-wax" key={w}>
-								{w}
-							</div>
+		let content: React.ReactNode;
+		switch (page.kind) {
+			case "cover":
+				content = (
+					<div className="lore-page lore-cover">
+						<div className="lore-seal-big">A</div>
+						<p className="lore-cover-title">Journal d'Aldrenia</p>
+						<p className="lore-cover-sub">Chancellerie du Royaume</p>
+					</div>
+				);
+				break;
+			case "divider":
+				content = (
+					<div className="lore-page lore-divider">
+						<p className="lore-book-no">{page.bookNo}</p>
+						<p className="lore-book-title">
+							{page.bookTitle.split("\n").map((line, i) => (
+								<span key={i}>
+									{i > 0 && <br />}
+									{line}
+								</span>
+							))}
+						</p>
+						<p className="lore-book-sub">{page.bookSub}</p>
+						<p className="lore-ornament">&#10047;</p>
+					</div>
+				);
+				break;
+			case "sealed":
+				content = (
+					<div className="lore-page lore-divider">
+						<p className="lore-book-no">{page.bookNo}</p>
+						<p className="lore-book-title">{page.bookTitle}</p>
+						<p className="lore-book-sub">{page.bookSub}</p>
+						<div className="lore-wax-row">
+							{page.waxList.map((w) => (
+								<div className="lore-wax" key={w}>
+									{w}
+								</div>
+							))}
+						</div>
+						<p className="lore-book-sub" style={{ marginTop: 14 }}>
+							{page.note}
+						</p>
+					</div>
+				);
+				break;
+			case "colophon":
+				content = (
+					<div className="lore-page">
+						<p className="lore-page-title">{page.title}</p>
+						{page.paragraphs.map((p, i) => (
+							<p key={i}>{p}</p>
 						))}
 					</div>
-					<p className="lore-book-sub" style={{ marginTop: 14 }}>
-						{page.note}
-					</p>
-				</div>
-			);
-			break;
-		case "colophon":
-			content = (
-				<div className="lore-page">
-					<p className="lore-page-title">{page.title}</p>
-					{page.paragraphs.map((p, i) => (
-						<p key={i}>{p}</p>
-					))}
-				</div>
-			);
-			break;
-		case "content-italic":
-			content = (
-				<div className="lore-page">
-					<p style={{ fontStyle: "italic" }}>{page.text}</p>
-				</div>
-			);
-			break;
-		case "content":
-			content = (
-				<div className="lore-page">
-					{page.title && <p className="lore-page-title">{page.title}</p>}
-					{page.paragraphs.map((p, i) => (
-						<p key={i} className={i === 0 && page.dropcap ? "lore-dropcap" : undefined}>
-							{p}
-						</p>
-					))}
-				</div>
-			);
-			break;
-	}
+				);
+				break;
+			case "content-italic":
+				content = (
+					<div className="lore-page">
+						<p style={{ fontStyle: "italic" }}>{page.text}</p>
+					</div>
+				);
+				break;
+			case "content":
+				content = (
+					<div className="lore-page">
+						{page.title && <p className="lore-page-title">{page.title}</p>}
+						{page.paragraphs.map((p, i) => (
+							<p
+								key={i}
+								className={i === 0 && page.dropcap ? "lore-dropcap" : undefined}
+							>
+								{p}
+							</p>
+						))}
+					</div>
+				);
+				break;
+		}
 
-	const torn = page.kind === "content" ? page.torn : undefined;
-	return (
-		<div className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}`} ref={ref}>
-			{content}
-			{folio !== null && !torn && <span className="lore-page-no">{folio} p.</span>}
-		</div>
-	);
-});
+		const torn = page.kind === "content" ? page.torn : undefined;
+		return (
+			<div
+				className={`lore-page-face${torn ? ` lore-torn-${torn}` : ""}`}
+				ref={ref}
+			>
+				{content}
+				{folio !== null && !torn && (
+					<span className="lore-page-no">{folio} p.</span>
+				)}
+			</div>
+		);
+	},
+);
 Page.displayName = "JournalPage";
 
 const Lore = () => {
@@ -144,7 +157,7 @@ const Lore = () => {
 
 	const playPageTurnSound = () => {
 		const audio = new Audio(pageTurnSoundUrl);
-		audio.volume = 0.6;
+		audio.volume = 0.4;
 		audio.play().catch(() => {});
 	};
 
