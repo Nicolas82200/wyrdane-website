@@ -184,14 +184,22 @@
 	   avec `transition: width 0.3s` ici). Le saut est donc volontairement
 	   instantané. */
 }
-/* Tant que seule la couverture est visible (currentPage === 0, voir
-   Lore.tsx), le livre n'a qu'une page réelle à montrer : une largeur bien
-   sous le seuil recto/verso de la librairie (minWidth*2 = 760px, voir le
+/* Tant que seule la couverture est visible (isCoverWidth, voir Lore.tsx),
+   le livre n'a qu'une page réelle à montrer : une largeur bien sous le
+   seuil recto/verso de la librairie (minWidth*2 = 760px, voir le
    commentaire sur <HTMLFlipBook>) la fait basculer elle-même en page
    unique centrée, au lieu du spread page-vierge/couverture décalé à droite
-   qu'on avait avec la largeur double-page ci-dessus. */
+   qu'on avait avec la largeur double-page ci-dessus.
+   Chaque terme du min() est ici VOLONTAIREMENT la moitié exacte du terme
+   correspondant de .lore-book-wrap ci-dessus (1105/2, 92vw/2, 0.82 = 1.64/2
+   déjà partagé) : cette largeur doit toujours rester exactement la moitié
+   de la largeur double-page, c'est ce qui permet à l'animation d'ouverture
+   (Lore.tsx, slideToSpreadSlot) de ne faire glisser le wrap que d'un demi
+   de sa propre largeur pour l'amener pile dans la moitié droite de la
+   largeur double-page, sans aucun redimensionnement ni saut. Modifier une
+   des deux règles sans l'autre casse ce calcul. */
 .lore-book-wrap.lore-book-wrap--cover {
-	width: min(620px, 90vw, calc((100vh - 48px) * 0.82));
+	width: min(552.5px, 46vw, calc((100vh - 48px) * 0.82));
 }
 
 .lore-flipbook {
