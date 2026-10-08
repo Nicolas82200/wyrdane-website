@@ -487,16 +487,9 @@
 }
 
 /* Police un peu plus petite sur un écran moins haut que l'écran principal
-   (demande explicite). Seuil mesuré en conditions réelles sur le
-   navigateur de l'utilisateur, confirmé comme son écran principal : écran
-   1360x768, fenêtre maximisée -> 623px de hauteur de VIEWPORT une fois le
-   chrome du navigateur déduit (barre d'adresse, onglets...) — c'est ce
-   viewport que `max-height` évalue, jamais window.screen.height
-   directement, qu'aucune media query standard n'expose. 620px (3px de
-   marge sous 623) pour ne jamais se déclencher par erreur sur l'écran
-   principal lui-même tout en restant aussi proche que possible du seuil
-   réel ; à remesurer si la hauteur de chrome du navigateur change
-   notablement (barre de favoris affichée, zoom navigateur...).
+   (demande explicite). Seuil : 650px de hauteur de VIEWPORT (demande
+   explicite) — c'est ce que `max-height` évalue, jamais window.screen.height
+   directement, qu'aucune media query standard n'expose.
    Doit rester APRÈS les règles non-media ci-dessus dans le fichier : à
    spécificité égale, seul l'ORDRE dans la feuille départage le
    cascade, qu'une règle soit dans un @media ou non — placée plus tôt,
@@ -506,7 +499,7 @@
    résultat final : clamp() étant invariant par translation, ça revient
    exactement à soustraire 2px sur toute sa plage (pas seulement à une
    extrémité), donc au même comportement responsive, 2px plus petit. */
-@media (max-height: 620px) {
+@media (max-height: 650px) {
 	.lore-page,
 	.lore-cover-title,
 	.lore-book-title {
