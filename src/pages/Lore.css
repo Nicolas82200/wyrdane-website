@@ -135,6 +135,46 @@
 	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
 	transition: box-shadow 0.25s ease;
 }
+/* Variante "coin déchiré" : quelques feuilles du livre (voir `torn` dans
+   journalAldrenia.ts) utilisent une texture différente plutôt que la
+   parchment.jpg uniforme. Une seule image source (coin bas-droite déchiré,
+   fond transparent au-delà de la déchirure), déclinée en 4 fichiers déjà
+   retournés/pivotés (voir le script qui les a générés, non versionné) :
+   bottom = bas-droite au recto, bas-gauche au verso (miroir horizontal,
+   même feuille physique vue de l'autre côté) ; top = pareil en haut. On ne
+   sait pas à l'avance si une page donnée tombera côté --right ou --left
+   (ça dépend de la parité globale du livre, pas de l'index local), donc le
+   choix bottom/top se marque sur la donnée mais le choix recto/verso de
+   l'image se fait ici, en combinant avec la classe que la lib pose déjà. */
+/* background-position précisé à chaque fois : le ratio de l'image source ne
+   correspond pas à celui de la page, et le cover centré par défaut (voir
+   .lore-page-face) rognait la déchirure elle-même (tout en bas/haut de
+   l'image, perdue dans le recadrage symétrique). Ancré sur le coin concerné
+   à la place, pour que ce soit justement ce qui ne saute jamais à la coupe. */
+.lore-torn-bottom.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-br.webp");
+	background-position: right bottom;
+}
+.lore-torn-bottom.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-bl.webp");
+	background-position: left bottom;
+}
+.lore-torn-top.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tr.webp");
+	background-position: right top;
+}
+.lore-torn-top.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tl.webp");
+	background-position: left top;
+}
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
    vérifié dans sa source), donc une tranche réellement extrudée n'a rien à

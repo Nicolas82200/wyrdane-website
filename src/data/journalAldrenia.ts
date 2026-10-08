@@ -23,7 +23,18 @@ export type JournalPage =
 			note: string;
 	  }
 	| { kind: "colophon"; title: string; paragraphs: string[] }
-	| { kind: "content"; title?: string; dropcap?: boolean; paragraphs: string[] }
+	| {
+			kind: "content";
+			title?: string;
+			dropcap?: boolean;
+			paragraphs: string[];
+			// Coin déchiré en variante de texture (voir parchment2-*.webp) :
+			// marquer DEUX pages consécutives (un recto et son verso, la même
+			// feuille physique) avec la même valeur suffit, le CSS choisit tout
+			// seul l'image br/bl (bottom) ou tr/tl (top) selon le côté
+			// --left/--right que react-pageflip assigne à chacune.
+			torn?: "bottom" | "top";
+	  }
 	| { kind: "content-italic"; text: string };
 
 export const JOURNAL_PAGES: JournalPage[] = [
@@ -85,6 +96,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Aldrenia",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Aldrenia est le royaume ancien, celui dont les autres racontent qu'il était déjà vieux quand le leur n'était encore qu'un campement. Sa capitale, Caldrath, se dresse à l'est des forêts de Dreamar, les pieds tournés vers la Mer de l'Est, bâtie au croisement de routes commerciales si anciennes que nul ne se souvient de les avoir tracées, et que certains jurent plus vieilles que la ville elle-même.",
 		],
@@ -92,6 +104,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"D'autres royaumes humains ont existé avant lui sur ces mêmes terres, dont il ne reste que des noms à moitié oubliés dans de vieux parchemins et des fondations de pierre que les laboureurs déterrent encore parfois. Aldrenia est le seul de cette lignée à avoir traversé les âges sans jamais s'éteindre, et c'est de cette endurance, plus que de toute conquête, qu'elle tire sa fierté.",
 		],
@@ -199,6 +212,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Skeldara",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Au nord, au-delà des contreforts que les éclaireurs aldreniens n'osent franchir qu'en groupe, s'accrochent les pics et les cols de Skeldara. C'est une terre de pierre nue et de vent constant, où les villages se blottissent dans les failles des montagnes et où, dit-on, un enfant apprend à tenir une lame avant de savoir lire. Les soldats aldreniens qui en reviennent décrivent un pays sans tendresse apparente, mais dont chaque pierre semble taillée pour la guerre.",
 		],
@@ -206,6 +220,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Sa capitale, Dunmarr, est une forteresse autant qu'une ville, cernée de remparts de pierre grise encerclant des halls de pierre plus grise encore, construits à flanc de montagne de telle sorte qu'aucune armée ne pourrait l'approcher sans être vue des heures à l'avance. Elle est dirigée par le roi Gorath Thorne, dont la lignée règne sans partage depuis plusieurs générations, et que les officiers aldreniens qui l'ont affronté décrivent comme un chef aussi redouté par ses propres troupes que par ses ennemis.",
 		],
@@ -335,6 +350,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Ostrane",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Repliée sur les terres méridionales du continent, Ostrane rompt avec tout ce schéma. Seul des six royaumes à s'être toujours tenu à l'écart du commerce, des guerres et des alliances des cinq autres, il n'a jamais laissé le temps construire sur lui le même savoir accumulé que sur ses voisins. Les voyageurs aldreniens qui s'y aventurent en reviennent avec des récits qui se contredisent presque tous, terres arides pour les uns, collines verdoyantes pour les autres.",
 		],
@@ -342,6 +358,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "bottom",
 		paragraphs: [
 			"Même le nom de sa capitale, Farwatch, n'est connu que par ouï-dire, rapporté de bouche en bouche par des marchands qui n'y ont jamais mis les pieds eux-mêmes. Aucune carte dressée à Aldrenia ne s'accorde tout à fait avec une autre sur l'emplacement exact de ses frontières.",
 		],
@@ -477,6 +494,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: "Les éclaireurs",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Face à ce silence et à ces questions sans réponse, le roi Varic Rhen ne peut se permettre d'attendre que les réponses viennent d'elles-mêmes. Dans les jours qui suivent, des éclaireurs sont choisis parmi les plus endurants et les plus discrets de ses armées, puis envoyés dans toutes les directions à la fois, vers chacun des royaumes voisins, avec pour seule instruction de voir, d'écouter, et de revenir.",
 		],
@@ -484,6 +502,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content",
 		dropcap: true,
+		torn: "top",
 		paragraphs: [
 			"Le voyage est long. Il faut compter environ cinq jours pour atteindre les terres skeldariennes et autant pour en revenir. Aucune réponse n'est donc attendue avant une bonne dizaine de jours, et sans doute davantage pour les royaumes plus éloignés. En attendant, le peuple d'Aldrenia n'a d'autre choix que d'apprendre à vivre avec l'inconnu, un jour après l'autre.",
 		],
