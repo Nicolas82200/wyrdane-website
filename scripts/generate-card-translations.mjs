@@ -88,7 +88,13 @@ if (frIdx === -1 || enIdx === -1) {
 // les autres fichiers du site (ex. src/data/keywords.ts, tapés à la main
 // avec de vrais retours à la ligne JS) utilisent comme clé de lookup.
 function unescapeNewlines(value) {
-	return value.replace(/\\n/g, "\n");
+	// Un champ CSV entre guillemets peut aussi contenir un vrai saut de
+	// ligne CRLF (pas l'échappement \n ci-dessus) si la source l'a écrit
+	// tel quel plutôt que de l'échapper — sans cette normalisation, la clé
+	// gardait le \r, ne correspondant alors plus jamais au texte réel
+	// (LF uniquement) renvoyé par le backend, et toute description
+	// multi-lignes restait non traduite en anglais sur le site.
+	return value.replace(/\\n/g, "\n").replace(/\r\n/g, "\n");
 }
 
 const table = {};
