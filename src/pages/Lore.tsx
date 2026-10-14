@@ -387,19 +387,18 @@ const Lore = () => {
 			</button>
 			<div className="lore-stage">
 				{/* Dos de la couverture, derrière le bloc de pages (demande
-				   explicite) : pas d'illustration dédiée pour l'intérieur/dos de
-				   la reliure, on réutilise donc la texture de book-01.png — posé
-				   un peu plus grand que le livre pour dépasser visiblement sur
-				   les côtés et en bas, comme les plats d'un vrai livre vus de
-				   derrière le bloc de pages (même logique que le léger débord de
-				   0.5px sur .lore-cover, en plus prononcé puisque visible en
-				   continu et pas seulement sur la tranche). Même bascule
-				   couverture/double-page que .lore-book-wrap ci-dessous : un
-				   fond resté en permanence à la taille double-page avait l'air
+				   explicite) : posé un peu plus grand que le livre pour dépasser
+				   visiblement sur les côtés et en bas, comme les plats d'un vrai
+				   livre vus de derrière le bloc de pages. Couleur unie (pas la
+				   texture de book-01.png) — la réutiliser ici créait l'effet
+				   inverse de celui recherché, une deuxième couverture qui se
+				   devine en transparence aux bords plutôt qu'un simple carton
+				   (signalé explicitement : "2 couvertures, c'est pas bon"). Même
+				   bascule couverture/double-page que .lore-book-wrap ci-dessous :
+				   un fond resté en permanence à la taille double-page avait l'air
 				   énorme derrière la seule couverture, bien plus étroite. */}
 				<div
 					className={`lore-book-backdrop${isCoverWidth ? " lore-book-backdrop--cover" : ""}`}
-					style={{ backgroundImage: `url(${book01CoverUrl})` }}
 				/>
 				<div
 					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}

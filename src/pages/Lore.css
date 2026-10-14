@@ -173,7 +173,10 @@
    (1.64 en double-page, 0.82 pour la couverture seule — même rapport que
    .lore-book-wrap--cover) pour ne jamais dupliquer un calc() de hauteur.
    Avant .lore-book-wrap dans le DOM → peint derrière lui (tous deux
-   position:relative, z-index:auto : l'ordre du DOM tranche). */
+   position:relative, z-index:auto : l'ordre du DOM tranche). Couleur
+   cuir unie, pas la texture de book-01.png (voir Lore.tsx) : légèrement
+   plus sombre que la couverture pour lire comme "en retrait/dans
+   l'ombre" plutôt que comme une seconde couverture. */
 .lore-book-backdrop {
 	position: absolute;
 	inset: 0;
@@ -181,9 +184,7 @@
 	width: calc(min(1105px, 92vw, calc((100vh - 48px) * 1.64)) + 28px);
 	max-height: calc(100vh - 20px);
 	aspect-ratio: 1.64;
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	background: linear-gradient(160deg, #6b3a1c, #4a2510);
 	border-radius: 6px;
 	box-shadow: 0 30px 60px var(--lore-book-shadow);
 }
@@ -591,4 +592,22 @@
 			calc(2.13rem - 4px)
 		);
 	}
+}
+
+/* La couverture est un carton rigide, pas une page de papier : elle ne
+   doit jamais recevoir l'ombre de reliure ci-dessus (ni sa variante
+   accentuée pendant un tournage, voir .lore-room--flipping plus haut) —
+   appliquée par erreur, elle traçait un pli au milieu de la couverture
+   PENDANT qu'elle tournait, comme si elle était en papier plutôt qu'en
+   carton (signalé explicitement : la "bordure intérieure" du livre
+   semblait apparaître avant même la fin de l'animation d'ouverture).
+   Sélecteurs à spécificité égale aux deux règles qu'ils annulent,
+   placés après elles dans le fichier pour gagner le cascade. */
+.stf__item.--right.lore-page-face--cover,
+.stf__item.--left.lore-page-face--cover {
+	box-shadow: none;
+}
+.lore-room--flipping .stf__item.--right.lore-page-face--cover,
+.lore-room--flipping .stf__item.--left.lore-page-face--cover {
+	box-shadow: none;
 }
