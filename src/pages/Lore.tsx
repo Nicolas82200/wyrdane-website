@@ -390,15 +390,16 @@ const Lore = () => {
 				   explicite) : posé un peu plus grand que le livre pour dépasser
 				   visiblement sur les côtés et en bas, comme les plats d'un vrai
 				   livre vus de derrière le bloc de pages. Couleur unie (pas la
-				   texture de book-01.png) — la réutiliser ici créait l'effet
-				   inverse de celui recherché, une deuxième couverture qui se
-				   devine en transparence aux bords plutôt qu'un simple carton
-				   (signalé explicitement : "2 couvertures, c'est pas bon"). Même
-				   bascule couverture/double-page que .lore-book-wrap ci-dessous :
-				   un fond resté en permanence à la taille double-page avait l'air
-				   énorme derrière la seule couverture, bien plus étroite. */}
+				   texture de book-01.png) : la réutiliser créait l'effet d'une
+				   deuxième couverture qui se devine en transparence aux bords.
+				   TOUJOURS à la taille double-page (demande explicite), que le
+				   livre soit fermé ou ouvert — un livre garde physiquement ses
+				   plats à leur taille dans les deux cas ; .lore-book-wrap, lui,
+				   gagne overflow:hidden (Lore.css) pour que ce fond plus large ne
+				   laisse jamais deviner les pages suivantes quand le livre est
+				   fermé. */}
 				<div
-					className={`lore-book-backdrop${isCoverWidth ? " lore-book-backdrop--cover" : ""}`}
+					className="lore-book-backdrop"
 				/>
 				<div
 					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}

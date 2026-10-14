@@ -164,19 +164,18 @@
 /* Dos de la couverture, visible en dépassant tout autour du bloc de
    pages (voir le commentaire dans Lore.tsx). Centré indépendamment du
    flex de .lore-stage (inset:0 + margin:auto, pas une largeur flex).
-   Bascule couverture/double-page EN MÊME TEMPS que .lore-book-wrap
-   ci-dessous (même classe --cover posée par Lore.tsx) : le laisser fixe
-   à la taille double-page en permanence le rendait énorme derrière la
-   seule couverture (bien plus étroite), largement plus qu'un léger
-   débord. +28px de marge sur chaque formule pour qu'il dépasse visible-
-   ment, et aspect-ratio calque le ratio implicite de la formule active
-   (1.64 en double-page, 0.82 pour la couverture seule — même rapport que
-   .lore-book-wrap--cover) pour ne jamais dupliquer un calc() de hauteur.
-   Avant .lore-book-wrap dans le DOM → peint derrière lui (tous deux
-   position:relative, z-index:auto : l'ordre du DOM tranche). Couleur
-   cuir unie, pas la texture de book-01.png (voir Lore.tsx) : légèrement
-   plus sombre que la couverture pour lire comme "en retrait/dans
-   l'ombre" plutôt que comme une seconde couverture. */
+   TOUJOURS à la taille double-page, que le livre soit fermé ou ouvert
+   (demande explicite — l'essai précédent le réduisait à la taille
+   couverture pour éviter un effet "énorme", mais c'était avec la
+   texture de book-01.png en fond ; une fois passé à une couleur unie,
+   ce n'est plus un souci et un livre garde physiquement ses plats à
+   leur taille qu'il soit ouvert ou fermé). +28px de marge pour qu'il
+   dépasse visiblement sur les côtés et en bas. Couleur cuir unie, pas la
+   texture de book-01.png (voir Lore.tsx) : légèrement plus sombre que la
+   couverture pour lire comme "en retrait/dans l'ombre" plutôt que comme
+   une seconde couverture. Avant .lore-book-wrap dans le DOM → peint
+   derrière lui (tous deux position:relative, z-index:auto : l'ordre du
+   DOM tranche). */
 .lore-book-backdrop {
 	position: absolute;
 	inset: 0;
@@ -187,10 +186,6 @@
 	background: linear-gradient(160deg, #6b3a1c, #4a2510);
 	border-radius: 6px;
 	box-shadow: 0 30px 60px var(--lore-book-shadow);
-}
-.lore-book-backdrop.lore-book-backdrop--cover {
-	width: calc(min(552.5px, 46vw, calc((100vh - 48px) * 0.82)) + 28px);
-	aspect-ratio: 0.82;
 }
 
 .lore-book-wrap {
@@ -249,6 +244,15 @@
 		0 5px 0 -2px rgba(120, 96, 60, 0.4),
 		0 9px 0 -4px rgba(120, 96, 60, 0.3),
 		0 30px 60px var(--lore-book-shadow);
+	/* overflow:hidden (demande explicite) : en mode couverture, le wrap est
+	   deux fois plus étroit que la largeur double-page à laquelle
+	   react-pageflip garde ses pages suivantes positionnées en interne —
+	   sans ce clip, on voyait leur tranche dépasser du cadre pendant que le
+	   livre était fermé ("on voit les pages quand le livre est fermé"). Posé
+	   ici plutôt que sur .lore-book-wrap (son parent) : overflow:hidden ne
+	   rogne jamais le box-shadow du même élément (seulement ses enfants),
+	   alors que sur le parent il aurait coupé celui ci-dessus. */
+	overflow: hidden;
 }
 
 /* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
@@ -459,20 +463,6 @@
 	background-position: center;
 	background-repeat: no-repeat;
 }
-/* Déborde très légèrement sur trois côtés (haut, droite, bas) — jamais à
-   gauche, côté reliure/charnière — comme les plats cartonnés d'un vieux
-   livre, toujours un peu plus grands que le bloc de pages qu'ils
-   protègent (demande explicite). .lore-page-face a overflow:hidden par
-   défaut (nécessaire aux pages de texte, pour ne jamais laisser déborder
-   un paragraphe trop long) : --cover le repasse à visible, seule
-   exception, puisque cette page n'a aucun texte à contenir. */
-.lore-page-face.lore-page-face--cover {
-	overflow: visible;
-}
-.lore-page-face--cover .lore-cover {
-	inset: -0.5px -0.5px -0.5px 0;
-}
-
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
 	   align-items/justify-content étaient des no-op et le centrage vertical
