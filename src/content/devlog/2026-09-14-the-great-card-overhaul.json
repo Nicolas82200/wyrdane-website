@@ -43,13 +43,13 @@
 					"Screaming Possessed: 5/1 with an exile-on-death effect → 1/5, exile effect removed.",
 					"Necrotic Howler: its buff used to hit only your front row → now hits all your Undead allies.",
 					"Circle of Sacrifice: its buff used to be temporary and apply to anyone → now permanent, and Undead-only.",
-					"Decayed Colossus: first gained the REVENANT keyword, then had all its active effects removed entirely → it now only carries the FORTIFICATION / DEAD FLESH / REVENANT keywords, no other effect.",
+					"Decayed Colossus: first gained the REVENANT keyword, then had all its active effects removed entirely → it now only carries the TAUNT / DEAD FLESH / REVENANT keywords, no other effect.",
 					"Living Cemetery: dropped its \"only once ever per minion\" revival limit (still capped at once per turn); also fixed a bug where a revived minion sometimes came back at full HP instead of the intended 1 HP.",
 					"Cadaverous Insect Swarm: used to hit only enemy minions → now hits every minion in play, allies included.",
 					"Eclipse Ritual: used to cancel spells aimed at an Undead ally only → now cancels spells aimed at any ally.",
 					"Infected Berserker: FURY → CHARGE, and its Death Rage effect went from a flat +3/+0 boost to granting an extra attack instead.",
 					"Aura of Decrepitude: fixed a bug where it simply never triggered on a hero attack as intended.",
-					"Flesh-cost rebalance (no rule change, just cheaper or pricier): Zombie Apocalypse, Bloated Giant, Blood Pact, Doomed Whisper, Infectious Bite, Plague Reaper, Bottomless Pit Ritual.",
+					"Flesh cost rebalance, the race-specific part of their cost rather than the generic part, no rule change, just cheaper or pricier: Zombie Apocalypse, Bloated Giant, Blood Pact, Doomed Whisper, Infectious Bite, Plague Reaper, Bottomless Pit Ritual.",
 					"Wandering Corpse, Minor Zombie, and Crawler (tokens) had their text clarified to state they never join the graveyard when they die.",
 					"Wording-only clarity pass, no actual rule change: Zombie Banshee, Pestilential Fog, Zombie Rider, Circle of Summoning, Putrid Scavenger, Toxic Exhalation, Idol of the Apocalypse, The Reaper, Patient Zero, Putrefied Leviathan, Bone Chewer, Putrefied Ravager, Exhumation Ritual, Doomed Bond Ritual, Necrotic Sanctuary, Gaunt Servant, Ancestral Charnel Breath (Arena), Cadaverous Symbiosis, Wave of Putrefaction, Zombie, Epidemic, Icy Embrace."
 				]
@@ -71,10 +71,10 @@
 					"Heroes' Memorial now summons a single token instead of several.",
 					"War Temple and Empire's Aegis: fixed a bug in which race they were actually supposed to affect.",
 					"Impregnable Fortress: used to only trigger on enemy Carnage → now triggers on any Carnage.",
-					"Standard Bearer's cost: 3 → 4.",
-					"Ancient Order: rarity Epic → Legendary, cost 5 → 6.",
+					"Standard Bearer now costs 4 instead of 3, but that extra point is entirely generic cost (1 → 2); its Royal Seal cost stays at 2.",
+					"Ancient Order: rarity Epic → Legendary, total cost 5 → 6; same story, the extra point is generic cost (2 → 3), its Royal Seal cost stays at 3.",
 					"The Living Rampart's Wound trigger is now capped at once per turn (it had no limit before).",
-					"Seal-cost rebalance (also applies to Dawn Paladin and Divine Judgment above): Last Stand Commander, Royal Decree, Infiltrator Scout.",
+					"Royal Seal cost rebalance, the race-specific part of their cost (also applies to Dawn Paladin and Divine Judgment above): Last Stand Commander, Royal Decree, Infiltrator Scout.",
 					"Seasoned Footman, Shield Bearer, Swift Scout, Town Militia, and Militia Captain (tokens) had their text clarified.",
 					"Wording-only clarity pass: Watchtower Archer, Faith Shield, Death-Breaker, War Blessing, Front Blessing (Arena), Knight's Code, General Counterattack, Counter-Offensive, Coordinated Strike, Brother in Arms, Iron Inquisitor, Supreme Inquisitor, The Eternal Guardian, The Soldier King, Lineage of the Brave, Forced March, Campaign Marshal, Advance Order, Hold the Line, Pact of Resistance, Tactical Retreat, Troop Sergeant, Blood Oath, Arrow Volley."
 				]
@@ -87,7 +87,7 @@
 					"Crimson Eclipse Ritual: used to cancel one spell → now grants a permanent spell-immunity aura instead.",
 					"Eternal Pact Ritual: used to summon a Hellspawn Larva → now summons an Abyssal Thrall or Abyssal Stalker instead.",
 					"Infernal Apocalypse and Pact Brand: used to duplicate their own buffs → now grant the BLACK BLOOD keyword instead.",
-					"Soul-cost rebalance (also applies to Infernal Apocalypse and The Grand Pact above): Abyss Reaper, Black Flame Prophet, Crimson Communion, Crimson Demon King, Crimson Dominion, Hasty Pact.",
+					"Soul cost rebalance, the race-specific part of their cost (also applies to Infernal Apocalypse and The Grand Pact above): Abyss Reaper, Black Flame Prophet, Crimson Communion, Crimson Demon King, Crimson Dominion, Hasty Pact.",
 					"Abyssal Sentinel and Blood Rite (along with The Grand Pact above) had a broken English translation fixed.",
 					"Ascending Hellspawn, Hellspawn Larva, Abyssal Thrall, and Abyssal Stalker (tokens) had their text clarified.",
 					"Wording-only clarity pass: Pact Architect, Aura of Corruption, Abyssal Banshee, Circle of Corruption, Circle of the Grand Pact, Whisperfiend, Embermaw, Heart of the Chasm, Infernal Flame, Crimson Scourge, Infernal Warden, Grand Pact Ritual, Idol of the Grand Pact, Crimson Invasion, Novice Summoner, The Corrupter, The Soul Merchant, Blood Market, Swarm of Torments, Seal of Respite, Corrupting Breath, Soul Devourer, Infernal Symbiosis, Ash Titan, Wave of Corruption, Pact Emissary, Abyssal Grasp."
@@ -171,7 +171,7 @@
 					"Rituel de l'Éclipse : n'annulait que les sorts visant un allié Mort-Vivant → annule désormais ceux visant n'importe quel allié.",
 					"Berserker Infecté : FRÉNÉSIE → ASSAUT, et son effet Mort-rage passe d'un bonus fixe de +3/+0 à une attaque supplémentaire.",
 					"Aura de Décrépitude : correction d'un bug où elle ne se déclenchait tout simplement jamais sur une attaque du héros, comme prévu pourtant.",
-					"Rééquilibrage du coût en Chair (pas de changement de règle, juste plus ou moins cher) : Apocalypse Zombie, Géant Boursouflé, Pacte Sanglant, Murmure Funeste, Morsure Infectieuse, Faucheur de la Plaie, Rituel de la Fosse Sans Fond.",
+					"Rééquilibrage du coût en Chair, la part du coût spécifique à la race plutôt que la part générique, pas de changement de règle, juste plus ou moins cher : Apocalypse Zombie, Géant Boursouflé, Pacte Sanglant, Murmure Funeste, Morsure Infectieuse, Faucheur de la Plaie, Rituel de la Fosse Sans Fond.",
 					"Cadavre Errant, Zombie Mineur et Rampant (jetons) ont leur texte clarifié pour préciser qu'ils ne rejoignent jamais le cimetière à leur mort.",
 					"Passe de clarification de formulation uniquement, sans changement de règle : Banshee Zombie, Brouillard Pestilentiel, Cavalier Zombie, Cercle de Convocation, Charognard Putride, Exhalation Toxique, Idole de l'Apocalypse, La Faucheuse, Le Patient Zéro, Léviathan Putréfié, Mâcheur d'Os, Ravageur Putréfié, Rituel d'Exhumation, Rituel du Lien Funeste, Sanctuaire Nécrotique, Servant Décharné, Souffle du Charnier Ancestral (Arena), Symbiose Cadavérique, Vague de Putréfaction, Zombie, Épidémie, Étreinte Glaciale."
 				]
@@ -193,10 +193,10 @@
 					"Mémorial des Héros invoque désormais un seul jeton au lieu de plusieurs.",
 					"Temple de Guerre et Aegis de l'Empire : correction d'un bug sur la race qu'ils étaient censés viser.",
 					"Forteresse Imprenable : ne se déclenchait que sur un Carnage ennemi → se déclenche désormais sur n'importe quel Carnage.",
-					"Le coût de Porte-Étendard : 3 → 4.",
-					"Ordre des Anciens : rareté Épique → Légendaire, coût 5 → 6.",
+					"Porte-Étendard coûte désormais 4 au lieu de 3, mais ce point supplémentaire va entièrement dans son coût générique (1 → 2) ; son coût en Sceau reste à 2.",
+					"Ordre des Anciens : rareté Épique → Légendaire, coût total 5 → 6 ; même histoire, le point supplémentaire va dans son coût générique (2 → 3), son coût en Sceau reste à 3.",
 					"Le déclencheur Blessure du Rempart Vivant est désormais plafonné à une fois par tour (pas de limite avant).",
-					"Rééquilibrage du coût en Sceau (aussi valable pour Paladin de l'Aube et Jugement Divin cités plus haut) : Commandant des Derniers, Décret Royal, Éclaireur Infiltré.",
+					"Rééquilibrage du coût en Sceau, la part du coût spécifique à la race (aussi valable pour Paladin de l'Aube et Jugement Divin cités plus haut) : Commandant des Derniers, Décret Royal, Éclaireur Infiltré.",
 					"Fantassin Aguerri, Porteur de Bouclier, Éclaireur Rapide, Milicien du Bourg et Capitaine de Milice (jetons) ont leur texte clarifié.",
 					"Passe de clarification de formulation uniquement : Archer de Guet, Bouclier de Foi, Brise-Mort, Bénédiction de Guerre, Bénédiction du Front (Arena), Code du Chevalier, Contre-Attaque Générale, Contre-Offensive, Frappe Coordonnée, Frère d'Armes, Inquisiteur de Fer, Inquisiteur Suprême, L'Éternel Gardien, Le Roi Soldat, Lignée des Braves, Marche Forcée, Maréchal de Campagne, Ordre d'Avancer, Ordre de Tenir, Pacte de Résistance, Repli Tactique, Sergent de Troupe, Serment du Sang, Volée de Flèches."
 				]
@@ -209,7 +209,7 @@
 					"Rituel de l'Éclipse Rouge : annulait un sort → accorde désormais une aura d'immunité aux sorts permanente à la place.",
 					"Rituel du Pacte Éternel : invoquait Larve Infernale → invoque désormais Suppôt des Abysses ou Chasseur des Abysses.",
 					"Apocalypse Infernale et Marque du Pacte : dupliquaient leurs propres bonus → accordent désormais le mot-clé SANG NOIR à la place.",
-					"Rééquilibrage du coût en Âme (aussi valable pour Apocalypse Infernale et Le Grand Pacte cités plus haut) : Faucheur des Abysses, Grand Prophète Écarlate, Communion Écarlate, Roi Démon Écarlate, Emprise Écarlate, Pacte Hâtif.",
+					"Rééquilibrage du coût en Âme, la part du coût spécifique à la race (aussi valable pour Apocalypse Infernale et Le Grand Pacte cités plus haut) : Faucheur des Abysses, Grand Prophète Écarlate, Communion Écarlate, Roi Démon Écarlate, Emprise Écarlate, Pacte Hâtif.",
 					"Sentinelle du Gouffre et Rite de Sang (en plus du Grand Pacte cité plus haut) ont vu leur traduction anglaise corrigée.",
 					"Larve Ascendante, Larve Infernale, Suppôt des Abysses et Chasseur des Abysses (jetons) ont leur texte clarifié.",
 					"Passe de clarification de formulation uniquement : Architecte du Pacte, Aura de Corruption, Banshee des Abysses, Cercle de Corruption, Cercle du Grand Pacte, Chuchoteur Malin, Croc de Braise, Cœur du Gouffre, Flamme Infernale, Fléau Écarlate, Garde Infernal, Grand Rituel du Pacte, Idole du Grand Pacte, Invasion Écarlate, Invocateur Novice, Le Corrupteur, Le Marchand d'Âmes, Marché de Sang, Nuée de Tourments, Sceau du Répit, Souffle Corrupteur, Suceur d'Âmes, Symbiose Infernale, Titan de Cendres, Vague de Corruption, Émissaire du Pacte, Étreinte du Gouffre."
