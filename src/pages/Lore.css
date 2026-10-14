@@ -244,14 +244,26 @@
 		0 5px 0 -2px rgba(120, 96, 60, 0.4),
 		0 9px 0 -4px rgba(120, 96, 60, 0.3),
 		0 30px 60px var(--lore-book-shadow);
-	/* overflow:hidden (demande explicite) : en mode couverture, le wrap est
-	   deux fois plus étroit que la largeur double-page à laquelle
-	   react-pageflip garde ses pages suivantes positionnées en interne —
-	   sans ce clip, on voyait leur tranche dépasser du cadre pendant que le
-	   livre était fermé ("on voit les pages quand le livre est fermé"). Posé
-	   ici plutôt que sur .lore-book-wrap (son parent) : overflow:hidden ne
-	   rogne jamais le box-shadow du même élément (seulement ses enfants),
-	   alors que sur le parent il aurait coupé celui ci-dessus. */
+}
+/* overflow:hidden SEULEMENT pendant l'état couverture (.lore-book-wrap--
+   cover, posée par Lore.tsx tant que isCoverWidth est vrai) : le wrap est
+   alors deux fois plus étroit que la largeur double-page à laquelle
+   react-pageflip garde ses pages suivantes positionnées en interne — sans
+   ce clip, on voyait leur tranche dépasser du cadre pendant que le livre
+   était fermé ("on voit les pages quand le livre est fermé"). Le poser en
+   permanence (plutôt que juste ici, scopé à --cover) rognait aussi
+   l'animation de tournage elle-même une fois le livre ouvert, les pages
+   ayant besoin d'un peu plus d'espace que leur propre boîte pendant leur
+   rotation ("les pages sont coupées pendant l'animation, par la taille du
+   fond cuir") — isCoverWidth passe à faux (donc cette classe disparaît)
+   AVANT que le tournage ne commence (voir slideToSpreadSlot/commitSpread
+   dans Lore.tsx), donc aucun tournage de page n'est jamais concerné par
+   ce clip, qu'il s'agisse du tout premier ou d'un suivant. Posé sur
+   .lore-flipbook plutôt que sur .lore-book-wrap (son parent) :
+   overflow:hidden ne rogne jamais le box-shadow du même élément
+   (seulement ses enfants), alors que sur le parent il aurait coupé celui
+   ci-dessus. */
+.lore-book-wrap--cover .lore-flipbook {
 	overflow: hidden;
 }
 
