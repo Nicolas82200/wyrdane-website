@@ -1,25 +1,25 @@
 {
 	"date": "2026-10-13",
 	"title": {
-		"en": "Devlog 11: the lore journal becomes a real book, and a CRLF bug chased across two repos",
-		"fr": "Devlog 11 : le journal de lore devient un vrai livre, et un bug de CRLF traqué sur deux dépôts"
+		"en": "Devlog 11: the lore journal becomes a real book, and a sneaky translation bug gets caught",
+		"fr": "Devlog 11 : le journal de lore devient un vrai livre, et un bug de traduction sournois est attrapé"
 	},
 	"lede": {
-		"en": "This entry covers the week since Devlog 10 (2026-10-05). Most of it went into the website's lore journal: an archive room to walk into before the book, a cover that grows open instead of snapping, a page-turn sound with a proper click queue, torn parchment pages, and a font-size breakpoint finally calibrated against a real screen instead of a guess. On the game side, Human cards got regional names, the old LORE.md was split into era files, and a stray CRLF in card text turned into a two-repo translation bug hunt.",
-		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 10 (2026-10-05). L'essentiel du travail a porté sur le journal de lore du site : une salle d'archives à traverser avant d'atteindre le livre, une couverture qui s'ouvre en grandissant au lieu de sauter d'un coup, un son de page tournée avec une vraie file de clics, des pages de parchemin déchirées, et un seuil de taille de police enfin calibré sur un écran réel plutôt que deviné. Côté jeu, les cartes Humain ont reçu des noms régionaux, l'ancien LORE.md a été scindé en fichiers par ère, et un CRLF égaré dans un texte de carte s'est transformé en chasse au bug de traduction sur deux dépôts."
+		"en": "This entry covers the week since Devlog 10 (2026-10-05). Most of it went into the website's lore journal: an archive room to walk into before the book, a cover that grows open instead of snapping, a page-turn sound with a proper click queue, torn parchment pages, and a text size finally calibrated against a real screen instead of a guess. On the game side, Human cards got regional names, the lore was reorganized into era files, and a sneaky bug kept some card text from translating properly.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 10 (2026-10-05). L'essentiel du travail a porté sur le journal de lore du site : une salle d'archives à traverser avant d'atteindre le livre, une couverture qui s'ouvre en grandissant au lieu de sauter d'un coup, un son de page tournée avec une vraie file de clics, des pages de parchemin déchirées, et une taille de texte enfin calibrée sur un écran réel plutôt que devinée. Côté jeu, les cartes Humain ont reçu des noms régionaux, le lore a été réorganisé en fichiers par ère, et un bug sournois empêchait certains textes de carte de bien se traduire."
 	},
 	"stats": {
 		"en": [
 			{ "value": "0/304", "label": "cards still missing an English translation, after an audit found 14 gaps" },
-			{ "value": "500ms", "label": "page-flip duration, down from 900ms" },
+			{ "value": "500ms", "label": "page-turn duration, down from 900ms" },
 			{ "value": "5", "label": "Human regions newly named: Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien" },
-			{ "value": "2", "label": "repos carrying the same CRLF bug, fixed in both" }
+			{ "value": "2", "label": "places the same hidden translation bug had to be fixed" }
 		],
 		"fr": [
 			{ "value": "0/304", "label": "cartes encore sans traduction anglaise, après un audit qui en a trouvé 14" },
 			{ "value": "500ms", "label": "durée d'un tour de page, contre 900ms avant" },
 			{ "value": "5", "label": "régions humaines nouvellement nommées : Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien" },
-			{ "value": "2", "label": "dépôts portant le même bug de CRLF, corrigé dans les deux" }
+			{ "value": "2", "label": "endroits où le même bug de traduction caché a dû être corrigé" }
 		]
 	},
 	"sections": {
@@ -27,41 +27,41 @@
 			{
 				"heading": "The lore journal turns into an actual book",
 				"paragraphs": [
-					"/lore no longer opens straight on the flipbook: it now opens on a library scene, with a placeholder book sitting in an empty shelf spot that you click to enter, a back button returns to the shelf. That placeholder went through two passes of its own, first a flat orange rectangle with a glowing box-shadow, then the real illustrated spine art, sized to its own aspect ratio and lit with a `drop-shadow` that follows the spine's actual silhouette instead of lighting up the whole transparent box around it.",
-					"Opening the book used to snap instantly from its closed, single-page width to the open double-page spread. The first click now grows that width smoothly (~0.45s) before the page-turn animation starts, reduced-motion users skip straight to the final size, and clicking repeatedly during the animation queues the clicks instead of interrupting it.",
-					"Page flips themselves got faster (900ms to 500ms) and gained a sound on every turn. Getting rapid clicks to animate each flip in turn, rather than jumping straight to the final page, took disabling the library's own click-to-flip and replacing it with a small queue: each click enqueues a direction, and the next queued flip only fires once the previous one has actually finished (the previous bug was calling `flipNext()`/`flipPrev()` from inside the library's own \"read\"-state callback, which made it resolve the next flip instantly instead of animating it).",
-					"The physical details kept compounding: a backdrop board behind the page stack, reusing the cover texture since no dedicated back-cover art exists, peeking out past the pages like a real hardcover's boards; the inter-page gutter shadow that gives the book its depth is now permanent instead of only showing up mid-flip; and a handful of pages got a torn-corner parchment variant, which took a second pass to get right once it became clear that a torn page's recto and verso aren't shown side by side in the same spread, but as the right page of one spread and the left page of the next."
+					"/lore no longer opens straight on the book: it now opens on a library scene, with a placeholder book sitting on an empty shelf that you click to enter, a back button returns you to the shelf. That placeholder went through two looks of its own before settling on the real illustrated book spine, properly sized and glowing along its own silhouette instead of lighting up the whole box around it.",
+					"Opening the book used to snap instantly from closed to fully open. The first click now grows it open smoothly in under half a second before the pages start turning, players who prefer reduced motion skip straight to the open book. Clicking several times quickly now queues those clicks up nicely instead of breaking the animation.",
+					"Page turns themselves got faster (900ms down to 500ms) and gained a page-turn sound. Making rapid clicks animate each turn properly, instead of jumping straight to whatever page you ended up on, took some real fiddling to get the click-queueing right.",
+					"The physical details kept compounding: a backdrop now sits behind the stack of pages so the book looks like a real hardcover with the pages inset slightly, not a flat stack; the shadow between pages that gives the book its sense of depth is now always visible instead of only during a page turn; and a handful of pages got a torn-corner parchment look, which took a second pass to get the page order right, since a torn page's front and back aren't shown side by side, they're one page apart in the book."
 				]
 			},
 			{
-				"heading": "A font-size breakpoint, calibrated for real this time",
+				"heading": "A text size, calibrated for real this time",
 				"paragraphs": [
-					"The lore page's text size needed to shrink below a certain viewport height, but the actual height cutoff got revised three times this week, first a guess, then raised, then finally measured directly against the user's own 1360x768 screen (a maximized browser window there leaves 623px of actual viewport once browser chrome is subtracted), and set 3px under that so it only fires on genuinely smaller screens instead of the user's everyday setup."
+					"The lore page's text needed to shrink a bit on smaller screens, but figuring out exactly how small a screen counts as \"small\" took three tries this week: first a guess, then a slightly bigger guess, then finally a measurement taken directly against a real, modest-sized screen, so the text now only shrinks on screens that genuinely need it instead of on an everyday setup."
 				]
 			},
 			{
-				"heading": "Regional names for Humans, and the lore gets split by era",
+				"heading": "Regional names for Humans, and the lore gets organized by era",
 				"paragraphs": [
-					"Human minions were renamed to carry regional origins, Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien, across their names, flavor text, and any effect text referencing them. On the lore side, the old single `LORE.md` was folded into a `Wyrdane_LORE_complet.md` source of truth and started being split into per-era files under `lore/eras/`."
+					"Human minions were renamed to carry regional origins, Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien, across their names, flavor text, and any card text referencing them. On the lore side, everything that used to live in a single document was reorganized into separate files, one per historical era, to make it easier to keep growing."
 				]
 			},
 			{
-				"heading": "A CRLF bug, chased across two repos",
+				"heading": "A sneaky translation bug, caught in two places",
 				"paragraphs": [
-					"The regional renaming pass surfaced a translation bug that had nothing to do with renaming: multi-line card effect text never translated to English on the site. The lookup is keyed by the exact French string, and the translation generator only unescaped a literal `\\n` from the CSV, leaving a real `\\r\\n` in the key whenever the source field contained an actual newline rather than an escaped one, while the backend's own extraction read the same field as LF-only, so the two sides' keys silently stopped matching on every multi-line effect. Fixed on the website's translation table, and the same normalization was added to the backend's own `cards_data.sql` generator, since the `.tres` files themselves carry whichever line ending their last editor used.",
-					"A full audit of all 304 cards against their translations (prompted by a report that \"some cards have no translation, probably from card edits in the game\") turned up a second, unrelated gap: 14 entries genuinely missing from `translations/game.csv`, all introduced by the Human renaming pass, since the old pre-rename effect text had a translation but the new text referencing renamed sub-cards never got one added. All 14 are now in, and 0 of the 304 cards are missing a name, effect, or flavor-text translation."
+					"The Human renaming work accidentally surfaced an older, unrelated bug: card descriptions that spanned multiple lines were never translating to English on the site, showing the French text instead even in English mode. The cause was a tiny, invisible mismatch in how line breaks inside card text were stored between the game and the website, which quietly broke the lookup for any multi-line card description. It's now fixed in both places where the game's card data is prepared, so the mismatch can't happen again.",
+					"That discovery prompted a full check of every single card's translation, rather than just a spot check, and turned up a second, unrelated gap: 14 card descriptions genuinely had no English translation at all, all of them introduced by the Human renaming work, where the new wording referencing renamed cards never got translated. All 14 are now filled in, and every one of the game's 304 cards has a complete English translation for its name, effect and flavor text."
 				]
 			},
 			{
 				"heading": "Small fixes",
 				"paragraphs": [
-					"The incoming-invite poll interval was eased from 4 to 6 seconds to lighten backend load. Right-click no longer gets picked up while a card is mid-drag, and the Counterattack keyword description was reworded again to describe the result rather than the mechanism. `SteamService` now skips its initialization under a headless process, which had been leaving a stale \"in-game\" Steam status behind."
+					"Friend-invite checks now happen a little less often in the background, to go easier on the server. Right-click no longer gets picked up while a card is mid-drag, and the Counterattack keyword description was reworded again to describe what it does rather than how it works internally. A leftover technical check was also fixed that could incorrectly leave a player's Steam status showing \"in-game\" when they weren't actually playing."
 				]
 			},
 			{
 				"heading": "What's next",
 				"paragraphs": [
-					"Still open: the Steam build and depot, achievements on the partner dashboard, Arena validated over a real network, the new Elf and Dwarf races, shader animations, ranked seasons, and finishing the era-by-era split of the lore canon."
+					"Still open: the Steam build and depot, achievements on the partner dashboard, Arena validated over a real network, the new Elf and Dwarf races, shader animations, ranked seasons, and finishing the era-by-era reorganization of the lore."
 				]
 			}
 		],
@@ -69,41 +69,41 @@
 			{
 				"heading": "Le journal de lore devient un vrai livre",
 				"paragraphs": [
-					"/lore ne s'ouvre plus directement sur le livre feuilletable : il ouvre désormais sur une scène de bibliothèque, avec un livre provisoire posé dans un emplacement vide de l'étagère, qu'on clique pour entrer, un bouton retour ramène à l'étagère. Ce livre provisoire a lui-même connu deux passes, d'abord un simple rectangle orange avec une lueur en `box-shadow`, puis la vraie illustration de tranche, dimensionnée selon son propre ratio et éclairée par un `drop-shadow` qui suit la silhouette réelle de la tranche au lieu d'illuminer toute la boîte transparente autour.",
-					"Ouvrir le livre faisait auparavant sauter instantanément sa largeur fermée, page unique, vers l'étalement en double page ouvert. Le premier clic fait désormais grandir cette largeur en douceur (~0,45s) avant que l'animation de tour de page ne démarre, les utilisateurs en mouvement réduit passent directement à la taille finale, et cliquer plusieurs fois pendant l'animation met les clics en file au lieu de l'interrompre.",
-					"Les tours de page eux-mêmes sont devenus plus rapides (900ms à 500ms) et ont gagné un son à chaque tour. Faire animer chaque tour l'un après l'autre lors de clics rapides, plutôt que de sauter directement à la page finale, a demandé de désactiver le clic-pour-tourner propre à la bibliothèque et de le remplacer par une petite file : chaque clic met une direction en attente, et le tour suivant ne se déclenche qu'une fois le précédent réellement terminé (le bug précédent appelait `flipNext()`/`flipPrev()` depuis le propre callback d'état « lu » de la bibliothèque, ce qui résolvait le tour suivant instantanément au lieu de l'animer).",
-					"Les détails physiques se sont accumulés : un panneau de fond derrière la pile de pages, réutilisant la texture de couverture puisqu'aucune illustration de dos dédiée n'existe, qui dépasse des pages comme les plats d'une vraie reliure ; l'ombre de gouttière entre les pages, qui donne au livre sa profondeur, est désormais permanente au lieu de ne s'intensifier qu'en plein tour ; et quelques pages ont reçu une variante de parchemin au coin déchiré, qui a demandé une seconde passe une fois compris qu'un recto et un verso de page déchirée ne s'affichent pas côte à côte dans le même étalement, mais comme la page droite d'un étalement et la page gauche du suivant."
+					"/lore ne s'ouvre plus directement sur le livre : il ouvre désormais sur une scène de bibliothèque, avec un livre provisoire posé sur une étagère vide, qu'on clique pour entrer, un bouton retour ramène à l'étagère. Ce livre provisoire a connu deux apparences avant de se stabiliser sur la vraie illustration de tranche, bien dimensionnée et dont la lueur suit maintenant sa propre silhouette au lieu d'illuminer toute la boîte autour.",
+					"Ouvrir le livre faisait auparavant sauter instantanément de fermé à grand ouvert. Le premier clic le fait désormais s'ouvrir en douceur en moins d'une demi-seconde avant que les pages ne commencent à tourner, les joueurs préférant un mouvement réduit passent directement au livre ouvert. Cliquer plusieurs fois rapidement met maintenant ces clics en file proprement au lieu de casser l'animation.",
+					"Les tours de page eux-mêmes sont devenus plus rapides (900ms à 500ms) et ont gagné un son à chaque tour. Faire animer chaque tour correctement lors de clics rapides, plutôt que de sauter directement sur la page où l'on finit, a demandé un vrai travail de mise au point sur la file d'attente des clics.",
+					"Les détails physiques se sont accumulés : un fond est désormais posé derrière la pile de pages pour que le livre ressemble à une vraie reliure avec les pages légèrement en retrait, pas une pile plate ; l'ombre entre les pages, qui donne au livre sa profondeur, est désormais toujours visible au lieu de ne s'intensifier qu'en plein tour de page ; et quelques pages ont reçu un look de parchemin au coin déchiré, ce qui a demandé une seconde passe pour obtenir le bon ordre, puisque le recto et le verso d'une page déchirée ne s'affichent pas côte à côte mais à une page d'écart dans le livre."
 				]
 			},
 			{
-				"heading": "Un seuil de taille de police, calibré pour de vrai cette fois",
+				"heading": "Une taille de texte, calibrée pour de vrai cette fois",
 				"paragraphs": [
-					"La taille du texte de la page de lore devait se réduire sous une certaine hauteur de fenêtre, mais le seuil exact a été révisé trois fois cette semaine, d'abord une estimation, puis relevée, puis finalement mesurée directement sur le vrai écran 1360x768 de l'utilisateur (une fenêtre de navigateur maximisée y laisse 623px de hauteur réelle une fois l'habillage du navigateur déduit), et calée 3px en dessous pour ne se déclencher que sur des écrans réellement plus petits plutôt que sur l'usage quotidien de l'utilisateur."
+					"Le texte de la page de lore devait se réduire un peu sur les petits écrans, mais déterminer exactement à partir de quelle taille un écran compte comme « petit » a demandé trois essais cette semaine : d'abord une estimation, puis une estimation légèrement plus large, puis finalement une mesure prise directement sur un écran réel de taille modeste, si bien que le texte ne se réduit désormais que sur les écrans qui en ont vraiment besoin, et non sur un usage quotidien classique."
 				]
 			},
 			{
-				"heading": "Des noms régionaux pour les Humains, et le lore scindé par ère",
+				"heading": "Des noms régionaux pour les Humains, et le lore organisé par ère",
 				"paragraphs": [
-					"Les serviteurs Humain ont été renommés pour porter des origines régionales, Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien, dans leurs noms, leur texte d'ambiance, et tout texte d'effet y faisant référence. Côté lore, l'ancien `LORE.md` unique a été fondu dans un `Wyrdane_LORE_complet.md` faisant désormais référence, et a commencé à être scindé en fichiers par ère sous `lore/eras/`."
+					"Les serviteurs Humain ont été renommés pour porter des origines régionales, Eorthalien, Ostranien, Skeldarien, Dreamarien, Aldrenien, dans leurs noms, leur texte d'ambiance, et tout texte de carte y faisant référence. Côté lore, tout ce qui vivait auparavant dans un seul document a été réorganisé en fichiers séparés, un par ère historique, pour faciliter sa croissance future."
 				]
 			},
 			{
-				"heading": "Un bug de CRLF, traqué sur deux dépôts",
+				"heading": "Un bug de traduction sournois, attrapé à deux endroits",
 				"paragraphs": [
-					"La passe de renommage régional a fait remonter un bug de traduction qui n'avait rien à voir avec le renommage : le texte d'effet multi-lignes de certaines cartes ne se traduisait jamais en anglais sur le site. La recherche se fait par la chaîne française exacte comme clé, et le générateur de traductions ne dé-échappait qu'un `\\n` littéral issu du CSV, laissant un vrai `\\r\\n` dans la clé chaque fois que le champ source contenait un véritable retour à la ligne plutôt qu'un caractère échappé, tandis que l'extraction côté serveur lisait ce même champ en LF pur, si bien que les clés des deux côtés cessaient silencieusement de correspondre sur chaque effet multi-lignes. Corrigé dans la table de traduction du site, et la même normalisation a été ajoutée au générateur `cards_data.sql` du serveur, puisque les fichiers `.tres` eux-mêmes portent la fin de ligne du dernier éditeur qui les a enregistrés.",
-					"Un audit complet des 304 cartes face à leurs traductions (déclenché par un signalement disant que « certaines cartes n'ont pas de traduction, probablement à cause de modifications de cartes dans le jeu ») a révélé un second trou, sans rapport : 14 entrées réellement manquantes dans `translations/game.csv`, toutes introduites par la passe de renommage Humain, le texte d'effet d'avant renommage étant traduit mais le nouveau texte faisant référence aux sous-cartes renommées n'ayant jamais reçu de traduction. Les 14 ont été ajoutées, et 0 des 304 cartes ne manque plus de traduction pour son nom, son effet ou son texte d'ambiance."
+					"Le travail de renommage des Humains a accidentellement fait remonter un bug plus ancien, sans rapport : les descriptions de carte sur plusieurs lignes ne se traduisaient jamais en anglais sur le site, affichant le texte français même en mode anglais. La cause était un minuscule décalage invisible dans la façon dont les retours à la ligne, à l'intérieur du texte des cartes, étaient enregistrés entre le jeu et le site, ce qui cassait silencieusement la recherche de traduction pour toute description de carte sur plusieurs lignes. C'est désormais corrigé aux deux endroits où les données de carte du jeu sont préparées, pour que ce décalage ne puisse plus se reproduire.",
+					"Cette découverte a motivé une vérification complète de la traduction de chaque carte, plutôt qu'un simple sondage, et a révélé un second trou, sans rapport : 14 descriptions de carte n'avaient vraiment aucune traduction anglaise, toutes introduites par le travail de renommage Humain, où le nouveau texte faisant référence aux cartes renommées n'avait jamais été traduit. Les 14 ont été complétées, et chacune des 304 cartes du jeu a désormais une traduction anglaise complète pour son nom, son effet et son texte d'ambiance."
 				]
 			},
 			{
 				"heading": "Petits correctifs",
 				"paragraphs": [
-					"L'intervalle de sondage des invitations entrantes est passé de 4 à 6 secondes pour alléger la charge du serveur. Le clic droit n'est plus pris en compte pendant qu'une carte est en plein glissé, et la description du mot-clé Contre-attaque a de nouveau été reformulée pour décrire le résultat plutôt que le mécanisme. `SteamService` ignore désormais son initialisation sous un processus headless, qui laissait un statut Steam « en partie » périmé."
+					"Les vérifications d'invitations entre amis se font désormais un peu moins souvent en arrière-plan, pour soulager le serveur. Le clic droit n'est plus pris en compte pendant qu'une carte est en plein glissé, et la description du mot-clé Contre-attaque a de nouveau été reformulée pour décrire ce qu'elle fait plutôt que son fonctionnement interne. Une vérification technique oubliée a également été corrigée, qui pouvait laisser le statut Steam d'un joueur afficher « en partie » alors qu'il ne jouait pas réellement."
 				]
 			},
 			{
 				"heading": "La suite",
 				"paragraphs": [
-					"Restent ouverts : le build et le dépôt Steam, les succès côté tableau de bord partenaire, la validation du mode Arène en réseau réel, les nouvelles races Elfe et Nain, les animations en shaders, les saisons classées, et terminer le découpage du canon de lore ère par ère."
+					"Restent ouverts : le build et le dépôt Steam, les succès côté tableau de bord partenaire, la validation du mode Arène en réseau réel, les nouvelles races Elfe et Nain, les animations en shaders, les saisons classées, et terminer la réorganisation du lore ère par ère."
 				]
 			}
 		]

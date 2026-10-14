@@ -5,8 +5,8 @@
 		"fr": "Devlog 4 : fin de la Campagne, débuts du classé"
 	},
 	"lede": {
-		"en": "This entry covers the week since Devlog 3: the solo Campaign mode was fully removed, several combat quality-of-life fixes landed, accessibility got four new options, and the bulk of the week went into client-side groundwork for ranked tiers, matchmaking, daily quests and login rewards.",
-		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 3 : le mode solo Campagne a été entièrement retiré, plusieurs correctifs d'ergonomie ont atterri en combat, l'accessibilité gagne quatre nouvelles options, et l'essentiel de la semaine est parti dans la préparation côté client des paliers de rang, du matchmaking classé, des quêtes quotidiennes et de la récompense de connexion."
+		"en": "This entry covers the week since Devlog 3: the solo Campaign mode was fully removed, several combat quality-of-life fixes landed, accessibility got four new options, and the bulk of the week went into laying the groundwork for ranked tiers, matchmaking, daily quests and login rewards.",
+		"fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 3 : le mode solo Campagne a été entièrement retiré, plusieurs correctifs d'ergonomie ont atterri en combat, l'accessibilité gagne quatre nouvelles options, et l'essentiel de la semaine est parti dans la préparation des paliers de rang, du matchmaking classé, des quêtes quotidiennes et de la récompense de connexion."
 	},
 	"stats": {
 		"en": [
@@ -25,89 +25,89 @@
 	"sections": {
 		"en": [
 			{
-				"heading": "The deck builder protects itself from itself",
+				"heading": "The deck builder stops you from saving a broken deck",
 				"paragraphs": [
-					"First project of the week: stop players from silently saving a broken deck. A new warning label now appears under the deck list whenever a race played in the deck doesn't have enough resource cards to cover the race cost of its most expensive card, or conversely when resource cards for a race are present without a single playable card of that race in the deck (wasted resources). The Save button now stays greyed out until something actually changed since the last load or save, or while the deck is invalid. Closing the screen with unsaved changes now opens a real confirmation popup (Save / Quit without saving) instead of silently auto-saving like before. Duplicate deck names (creation, duplication, import) are also automatically de-duplicated with a numeric suffix."
+					"First project of the week: no more silently saving a deck that can't actually be played. A warning now shows under the deck list whenever a race you're playing doesn't have enough resource cards to afford its most expensive card, or the opposite, resource cards for a race with no playable card of that race in the deck (wasted slots). The Save button now stays greyed out until you've actually changed something, or while the deck is invalid. Closing the screen with unsaved changes now opens a real confirmation popup (Save / Quit without saving) instead of silently saving for you like before. Duplicate deck names, whether from creating, duplicating or importing a deck, now get a number added automatically instead of colliding."
 				]
 			},
 			{
-				"heading": "The Campaign is over",
+				"heading": "The Campaign mode is gone",
 				"paragraphs": [
-					"The Campaign mode (solo roguelite run) was removed entirely: scripts, scenes, dedicated documentation, seven test suites, the menu button, and close to 70 translation keys. Not a quality problem with the existing mode, but the remaining scope (event content, rarity table balancing for elites/bosses, how card upgrades would fit into the shop...) was judged too large a commitment for the road ahead. The collectible card \"Campaign Marshal\" stays in the game, its name only overlapping with the removed mode by coincidence."
+					"The Campaign mode (the solo roguelite run) has been removed entirely, menu button included. It wasn't a quality problem with what existed, the remaining work to make it great (event content, balancing elites and bosses, fitting card upgrades into the shop...) was judged too big a commitment for where the project is headed. The collectible card \"Campaign Marshal\" stays in the game, its name is just a coincidence."
 				]
 			},
 			{
-				"heading": "Combat ergonomics",
+				"heading": "Smoother combat",
 				"paragraphs": [
-					"The in-game Escape menu was enlarged and reorganized: secondary buttons (Close, Concede, Report, Apply) shrank so they no longer visually dominate the Audio/Graphics/Controls tabs, and the Report button now switches the menu content to an embedded report form instead of opening a separate window on top.",
-					"An annoying occasional double-draw bug at the start of the player's turn was also fixed. Cause: end_turn() could be called twice in parallel if the player clicked End Turn right as the turn timer expired, since the button is only disabled and the timer stopped from inside the AI's own turn handling, which only runs after several internal awaits (end-of-turn triggers, Infection, expiring temporary effects). If one of those awaits took a bit of time, the timer could expire in the meantime and fire a second, concurrent end_turn(), sometimes a ghost AI turn, and an extra draw for the player. Fixed with a simple re-entrancy guard at the very start of end_turn().",
-					"In the same vein, the Pact keyword choice (paying HP to activate a Demon effect) moved from a generic confirmation dialog to a themed panel anchored right under the card in question, so the player keeps the effect text in view while making the choice."
+					"The in-game Escape menu was enlarged and reorganized: the secondary buttons (Close, Concede, Report, Apply) shrank so they stop visually overpowering the Audio/Graphics/Controls tabs, and reporting a match now happens in an embedded form instead of a separate window popping up on top.",
+					"An annoying bug where you'd occasionally draw two cards instead of one at the start of your turn is fixed, it could happen if you clicked End Turn at the exact moment the turn timer ran out, which very rarely made the game process the end of your turn twice in a row.",
+					"Also, the Pact choice (paying HP to activate a Demon card's effect) no longer pops up as a generic yes/no box, it now appears as a themed panel right under the card itself, so you can keep reading what the effect actually does while you decide."
 				]
 			},
 			{
 				"heading": "Accessibility: four new options",
 				"paragraphs": [
-					"The Settings menu gains four options, on top of the text scale and colorblind assistance already in place: a high contrast filter that stacks with colorblind assistance, reduced motion (screen shake disabled, movement tweens shortened to 35%), a rarity symbol on the card type banner so it no longer relies on color alone, and a warning icon in front of the hero's HP once it drops below 30% of its maximum, since no low-HP indicator existed before this. Keyboard rebinding was also audited: only three actions in the whole project have a keyboard shortcut, nothing else to expose for now.",
-					"Along the way, the Mutation keyword tooltip (Abomination) now spells out the three possible outcomes and their odds directly, instead of pointing elsewhere to look them up. And the card type banner, which was drifting slightly off-center depending on where it's displayed (hand, deck builder, preview), is now anchored to the card's actual center instead of a fixed pixel."
+					"The Settings menu gains four new options, on top of the text scale and colorblind assistance already there: a high-contrast filter you can combine with colorblind assistance, a reduced-motion mode (screen shake off, animations shortened), a rarity symbol on the card type banner so rarity no longer relies on color alone, and a warning icon on the hero portrait once its HP drops below 30%, since there was no low-HP warning before this. Keyboard shortcuts were also reviewed: only three actions in the whole game use one, so there was nothing else worth exposing for rebinding yet.",
+					"Along the way, the Mutation keyword tooltip (Abomination) now spells out all three possible outcomes and their odds directly, instead of sending you elsewhere to look them up. And the card type banner, which used to drift slightly off-center depending on where it was shown (hand, deck builder, preview), is now properly centered everywhere."
 				]
 			},
 			{
-				"heading": "First steps toward ranked and retention",
+				"heading": "First steps toward ranked play and daily rewards",
 				"paragraphs": [
-					"The biggest chunk of the week: laying the client-side groundwork for rank tracking and the retention loop, ahead of the matching backend routes, not implemented yet as of this writing.",
-					"Rank tiers (Bronze/Silver/Gold/Legend) are computed entirely client-side from the raw MMR already returned by the player profile, no backend change needed for that. They show up as a persistent badge in the main menu and as a detailed badge with progress toward the next tier in the Profile view.",
-					"The Ranked Match button in the network lobby sets up the client side of MMR-based matchmaking: a queue, then reusing the existing Steam lobby flow once two players are paired (the host hands its freshly created lobby id straight to the guest, skipping the public lobby list). Since the backend routes don't exist yet, the button fails gracefully in the meantime instead of breaking.",
-					"Two new pieces for the retention loop also landed in the main menu: a Daily Quests view with progress and claiming, and a daily login reward popup that never reveals the amount before claiming, so as not to duplicate the backend's reward table client-side."
+					"The biggest chunk of the week went into building the groundwork for ranked rank tracking and daily rewards on the game's side, ahead of the matching work still needed on the server to make them fully functional, not done yet as of this writing.",
+					"Rank tiers (Bronze/Silver/Gold/Legend) can already be shown from your existing rating, no server change needed for that part. They appear as a badge in the main menu, and as a detailed badge with progress toward the next tier in your Profile.",
+					"The Ranked Match button in the multiplayer lobby is wired up to join a ranked queue and pair two players together once the matching server work lands, for now it fails gracefully instead of breaking, since that server work isn't live yet.",
+					"Two new pieces also landed in the main menu: a Daily Quests view where you can track progress and claim rewards, and a daily login reward popup that never reveals the amount before you claim it, so as not to leak the full reward table early."
 				]
 			},
 			{
 				"heading": "Up next",
 				"paragraphs": [
-					"The ranked effort continues with implementing the matching backend routes (matchmaking, quests, login reward), still pending on the wyrdane-backend side. Also still open: the Steam build, extending the Arena prototype to 8-player networking, shader-based animations, and continuing to grow automated test coverage."
+					"The ranked effort continues with the matching server-side work (matchmaking, quests, login reward) still pending. Also still open: the Steam build, extending the Arena prototype to 8-player matches, shader-based animations, and continued testing."
 				]
 			}
 		],
 		"fr": [
 			{
-				"heading": "Le deck builder se protège de lui-même",
+				"heading": "Le deck builder empêche de sauvegarder un deck cassé",
 				"paragraphs": [
-					"Premier chantier de la semaine : empêcher de sauvegarder un deck silencieusement cassé. Un nouveau label d'avertissement apparaît sous la liste dès qu'une race jouée dans le deck n'a pas assez de cartes-ressource pour financer le coût de race de sa carte la plus chère, ou à l'inverse quand des ressources d'une race sont posées sans qu'aucune carte de cette race ne soit dans le deck (ressources gâchées). Le bouton Sauvegarder reste grisé tant que rien n'a changé depuis le dernier chargement, ou tant que le deck est invalide. Fermer l'écran avec des modifications non enregistrées ouvre désormais une vraie popup de confirmation (Sauvegarder / Quitter sans sauvegarder) au lieu de sauvegarder automatiquement et silencieusement comme avant. Les noms de deck en doublon (création, duplication, import) sont aussi dédoublonnés tout seuls avec un suffixe numérique."
+					"Premier chantier de la semaine : impossible désormais de sauvegarder silencieusement un deck injouable. Un avertissement apparaît sous la liste dès qu'une race jouée dans le deck n'a pas assez de cartes-ressource pour payer sa carte la plus chère, ou à l'inverse quand des ressources d'une race sont posées sans qu'aucune carte de cette race ne soit dans le deck (emplacements gâchés). Le bouton Sauvegarder reste grisé tant que rien n'a réellement changé, ou tant que le deck est invalide. Fermer l'écran avec des modifications non enregistrées ouvre désormais une vraie popup de confirmation (Sauvegarder / Quitter sans sauvegarder) au lieu de sauvegarder automatiquement à ta place comme avant. Les noms de deck en double, à la création, à la duplication ou à l'import, reçoivent maintenant un numéro automatiquement au lieu d'entrer en collision."
 				]
 			},
 			{
 				"heading": "La Campagne, c'est terminé",
 				"paragraphs": [
-					"Le mode Campagne (run roguelite solo) a été retiré entièrement : scripts, scènes, documentation dédiée, sept suites de tests, bouton de menu et près de 70 clés de traduction. Pas un problème de qualité du mode existant, mais un chantier restant (contenu d'événements, équilibrage des tables de rareté, amélioration de carte en boutique...) jugé trop lourd pour la suite du projet. La carte collectible « Maréchal de Campagne » reste en jeu, son nom n'ayant qu'un rapport de coïncidence avec le mode supprimé."
+					"Le mode Campagne (le run roguelite solo) a été retiré entièrement, bouton de menu compris. Pas un problème de qualité du mode existant, mais le travail restant pour le rendre vraiment bon (contenu d'événements, équilibrage des élites et boss, amélioration de carte en boutique...) a été jugé trop lourd pour la suite du projet. La carte collectible « Maréchal de Campagne » reste en jeu, son nom n'a qu'un rapport de coïncidence avec le mode supprimé."
 				]
 			},
 			{
-				"heading": "Ergonomie en combat",
+				"heading": "Un combat plus fluide",
 				"paragraphs": [
-					"Le menu Échap a été agrandi et réorganisé : les boutons secondaires (Fermer, Concéder, Signaler, Appliquer) ont rétréci pour ne plus écraser visuellement les onglets Audio/Graphismes/Contrôles, et le bouton Signaler ouvre désormais un formulaire intégré au menu plutôt qu'une fenêtre séparée par-dessus.",
-					"Un bug agaçant de double pioche en tout début de tour a aussi été corrigé : si le joueur cliquait Fin du tour juste avant l'expiration du minuteur, les deux déclenchaient chacun un end_turn(), avec parfois un tour IA fantôme et une pioche en trop côté joueur à la clé. Une simple garde de réentrée a suffi à fermer la fenêtre de course.",
-					"Dans la même veine, le choix du mot-clé Pacte (payer des PV pour activer un effet Démon) a quitté la boîte de dialogue générique au profit d'un panneau thématisé affiché juste sous la carte concernée, pour que le joueur garde sous les yeux le texte d'effet en faisant son choix."
+					"Le menu Échap a été agrandi et réorganisé : les boutons secondaires (Fermer, Concéder, Signaler, Appliquer) ont rétréci pour ne plus écraser visuellement les onglets Audio/Graphismes/Contrôles, et signaler une partie se fait désormais via un formulaire intégré au menu plutôt qu'une fenêtre séparée par-dessus.",
+					"Un bug agaçant qui faisait parfois piocher deux cartes au lieu d'une en début de tour est corrigé : il pouvait se produire en cliquant Fin du tour pile au moment où le minuteur expirait, ce qui faisait très rarement traiter la fin du tour deux fois de suite.",
+					"Par ailleurs, le choix Pacte (payer des PV pour activer l'effet d'une carte Démon) ne s'affiche plus comme une simple boîte de dialogue oui/non : il apparaît maintenant sous forme d'un panneau thématisé juste sous la carte elle-même, pour pouvoir garder sous les yeux ce que fait réellement l'effet en décidant."
 				]
 			},
 			{
 				"heading": "Accessibilité : quatre nouvelles options",
 				"paragraphs": [
-					"Le menu Réglages s'enrichit de quatre options, en plus de l'échelle de texte et de l'assistance daltonisme déjà en place : un filtre de contraste élevé cumulable avec l'assistance daltonisme, une réduction des animations (shake d'écran désactivé, tweens de déplacement raccourcis à 35 %), un symbole de rareté sur le bandeau de type des cartes pour ne plus dépendre uniquement de la couleur, et une icône d'alerte devant les PV du héros sous 30 % de son maximum, aucun indicateur de PV bas n'existait avant. Le rebind clavier a aussi été audité : seules trois actions ont un raccourci dans tout le projet, rien d'autre à exposer pour l'instant.",
-					"Au passage, le tooltip du mot-clé Mutation (Abomination) détaille maintenant directement les trois issues possibles et leurs probabilités, au lieu de renvoyer vers une table à chercher ailleurs. Et le bandeau de type des cartes, qui se décentrait légèrement selon le contexte d'affichage (main, deck builder, aperçu), est maintenant ancré au centre réel de la carte plutôt qu'à un pixel fixe."
+					"Le menu Réglages s'enrichit de quatre nouvelles options, en plus de l'échelle de texte et de l'assistance daltonisme déjà en place : un filtre de contraste élevé combinable avec l'assistance daltonisme, un mode de réduction des animations (tremblement d'écran désactivé, animations raccourcies), un symbole de rareté sur le bandeau de type des cartes pour que la rareté ne dépende plus uniquement de la couleur, et une icône d'alerte sur le portrait du héros dès que ses PV passent sous 30 %, aucun avertissement de PV bas n'existait avant. Les raccourcis clavier ont aussi été passés en revue : seules trois actions dans tout le jeu en utilisent un, rien d'autre à proposer en reconfiguration pour l'instant.",
+					"Au passage, le tooltip du mot-clé Mutation (Abomination) détaille maintenant directement les trois issues possibles et leurs probabilités, au lieu de renvoyer ailleurs pour les chercher. Et le bandeau de type des cartes, qui se décentrait légèrement selon l'endroit où il s'affichait (main, deck builder, aperçu), est maintenant correctement centré partout."
 				]
 			},
 			{
-				"heading": "Premiers pas du classé et de la rétention",
+				"heading": "Premiers pas vers le classé et les récompenses quotidiennes",
 				"paragraphs": [
-					"Le plus gros morceau de la semaine : la préparation du suivi de rang et de la boucle de rétention côté client, en amont des routes backend correspondantes, pas encore implémentées à l'heure d'écrire ces lignes.",
-					"Les paliers de rang (Bronze/Argent/Or/Légende) sont calculés entièrement côté client à partir du MMR brut déjà renvoyé par le profil, aucun changement backend nécessaire pour ça. Ils s'affichent en badge permanent dans le menu principal et en badge détaillé avec progression vers le palier suivant dans la vue Profil.",
-					"Le bouton « Partie classée » du lobby réseau met en place le côté client d'un appariement par MMR : file d'attente, puis réutilisation du flow Steam existant une fois deux joueurs appariés (l'hôte transmet directement l'id de son lobby à l'invité, sans passer par la liste publique). Les routes backend n'existant pas encore, le bouton échoue proprement en attendant plutôt que de planter.",
-					"Deux nouvelles pièces pour la boucle de rétention ont aussi été posées côté menu principal : une vue Quêtes quotidiennes avec progression et réclamation, et une popup de récompense de connexion journalière qui ne révèle jamais le montant avant réclamation, pour ne pas dupliquer côté client la table de récompenses du backend."
+					"Le plus gros morceau de la semaine : poser les bases du suivi de rang classé et des récompenses quotidiennes côté jeu, en amont du travail serveur correspondant encore nécessaire pour les rendre pleinement fonctionnels, pas encore fait à l'heure d'écrire ces lignes.",
+					"Les paliers de rang (Bronze/Argent/Or/Légende) peuvent déjà s'afficher à partir du niveau existant du joueur, sans changement serveur nécessaire pour cette partie. Ils apparaissent en badge dans le menu principal, et en badge détaillé avec progression vers le palier suivant dans le Profil.",
+					"Le bouton « Partie classée » du lobby multijoueur est prêt à rejoindre une file d'attente classée et apparier deux joueurs une fois le travail serveur correspondant en place ; en attendant, il échoue proprement au lieu de planter, puisque ce travail serveur n'est pas encore en ligne.",
+					"Deux nouvelles pièces ont aussi été posées dans le menu principal : une vue Quêtes quotidiennes avec suivi de progression et réclamation, et une popup de récompense de connexion journalière qui ne révèle jamais le montant avant réclamation, pour ne pas dévoiler tout le barème de récompenses à l'avance."
 				]
 			},
 			{
 				"heading": "La suite",
 				"paragraphs": [
-					"Le chantier ranked continue avec l'implémentation des routes backend correspondantes (matchmaking, quêtes, récompense de connexion), toujours en attente côté wyrdane-backend. Restent aussi ouverts : le build Steam, l'extension du prototype Arena au réseau à huit joueurs, les animations en shaders, et l'élargissement continu de la couverture de tests automatisés."
+					"Le chantier classé continue avec le travail serveur correspondant (matchmaking, quêtes, récompense de connexion) toujours en attente. Restent aussi ouverts : le build Steam, l'extension du prototype Arena à des parties à huit joueurs, les animations en shaders, et la poursuite des tests."
 				]
 			}
 		]
