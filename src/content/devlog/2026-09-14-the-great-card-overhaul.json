@@ -28,114 +28,114 @@
 				"heading": "The great card overhaul",
 				"paragraphs": [
 					"The biggest project of the two weeks: a near-complete correction pass across the card database, built from a list of fixes established together with the community feedback loop (wording consistency, buggy or inconsistent effects, cost balance). In total, 186 cards changed, more than half the game. The full card-by-card breakdown is below, by race.",
-					"Two shared keyword mechanics changed in the process: DISCIPLINE (Human) and DEAD FLESH (Undead) now also block Corruption and Infection on top of fear/silence/mind-control, COUNTER-ATTACK is now symmetric (a minion that survives attacking also strikes back, not just when defending), TERROR now triggers on any damage source rather than melee attacks only, and PACT rituals now run their base effect even when the player declines to pay the bonus.",
-					"A related bug turned up along the way: bringing back the last dead minion never actually removed it from the graveyard once revived, so it stayed listed as dead and could be brought back a second time. Fixed across the 13 cards that revive from the graveyard."
+					"Four shared keywords also changed how they work for everyone at once: DISCIPLINE (Human) and DEAD FLESH (Undead) used to only block fear/silence/mind-control → they now also block Corruption and Infection. COUNTER-ATTACK used to only strike back while defending → it's now symmetric, a minion that survives attacking also strikes back. TERROR used to only trigger on melee attacks → it now triggers on any source of damage. PACT rituals used to do nothing if you declined to pay the bonus → they now always run their base effect regardless of your choice.",
+					"A related bug was also found and fixed: bringing a minion back from the graveyard didn't properly remove it from there, so it could sometimes be brought back a second time. Fixed across all 13 cards that revive minions from the graveyard."
 				]
 			},
 			{
 				"heading": "Undead: 43 cards",
 				"paragraphs": [
-					"Sudden Awakening now returns the last dead minion to hand instead of reviving it into play.",
-					"Necrotic Breath can now target the enemy hero or an enemy minion.",
-					"Gift of Flesh gets the same new target option, and its sacrifice is now automatic (the weakest ally).",
-					"Grave Grip can now target an ally or an enemy minion.",
-					"Communion with the Dead was reworked from a Grief/draw ritual (4 charges) into a Sacrifice/return-from-graveyard ritual (2 charges), then adjusted again to target a specific Undead minion in the graveyard instead of always returning whatever was just sacrificed.",
-					"Screaming Possessed dropped from 5/1 to 1/5 and lost its exile-on-death deathrattle.",
-					"Necrotic Howler's buff now hits all allied Undead, not just the front row.",
-					"Circle of Sacrifice's buff is now fixed to be permanent and Undead-only (it was temporary and unfiltered before).",
-					"Decayed Colossus first gained REVENANT, then was stripped down to keywords only, no active effect (REMPART/DEAD FLESH/REVENANT).",
-					"Living Cemetery dropped its once-per-minion-ever revival limit (keeping the once-per-turn cap), and a bug that sometimes revived a minion at full HP instead of 1 HP was fixed.",
-					"Cadaverous Insect Swarm now hits every minion in play, not just enemy ones.",
-					"Eclipse Ritual now counters spells targeting any ally, not just an Undead one.",
-					"Infected Berserker: FURY became CHARGE, and Death Rage changed from a flat +3/+0 to an extra attack.",
-					"Aura of Decrepitude was fixed: it never triggered on a hero attack (copy-pasted from another card and never caught).",
-					"Zombie Apocalypse, Bloated Giant, Blood Pact, Doomed Whisper, Infectious Bite, Plague Reaper, and Bottomless Pit Ritual had their Flesh cost rebalanced (race-locked vs. generic split).",
-					"Wandering Corpse, Minor Zombie, and Crawler (tokens) had their description updated to state they never join the graveyard on death.",
-					"Wording consistency pass only, no rule change: Zombie Banshee, Pestilential Fog, Zombie Rider, Circle of Summoning, Putrid Scavenger, Toxic Exhalation, Idol of the Apocalypse, The Reaper, Patient Zero, Putrefied Leviathan, Bone Chewer, Putrefied Ravager, Exhumation Ritual, Doomed Bond Ritual, Necrotic Sanctuary, Gaunt Servant, Ancestral Charnel Breath (Arena), Cadaverous Symbiosis, Wave of Putrefaction, Zombie, Epidemic, Icy Embrace."
+					"Sudden Awakening: used to revive the last dead minion straight into play → now returns it to your hand instead.",
+					"Necrotic Breath can now also target the enemy hero, on top of enemy minions.",
+					"Gift of Flesh gets that same new target option (the enemy hero), and its sacrifice is now automatic (it always picks your weakest ally).",
+					"Grave Grip can now target an ally as well as an enemy minion.",
+					"Communion with the Dead was reworked twice: a Grief/draw ritual (4 charges) → a Sacrifice/return-from-graveyard ritual (2 charges) → then adjusted again so you pick a specific Undead minion to bring back from the graveyard, instead of always getting back whatever you just sacrificed.",
+					"Screaming Possessed: 5/1 with an exile-on-death effect → 1/5, exile effect removed.",
+					"Necrotic Howler: its buff used to hit only your front row → now hits all your Undead allies.",
+					"Circle of Sacrifice: its buff used to be temporary and apply to anyone → now permanent, and Undead-only.",
+					"Decayed Colossus: first gained the REVENANT keyword, then had all its active effects removed entirely → it now only carries the TAUNT / DEAD FLESH / REVENANT keywords, no other effect.",
+					"Living Cemetery: dropped its \"only once ever per minion\" revival limit (still capped at once per turn); also fixed a bug where a revived minion sometimes came back at full HP instead of the intended 1 HP.",
+					"Cadaverous Insect Swarm: used to hit only enemy minions → now hits every minion in play, allies included.",
+					"Eclipse Ritual: used to cancel spells aimed at an Undead ally only → now cancels spells aimed at any ally.",
+					"Infected Berserker: FURY → CHARGE, and its Death Rage effect went from a flat +3/+0 boost to granting an extra attack instead.",
+					"Aura of Decrepitude: fixed a bug where it simply never triggered on a hero attack as intended.",
+					"Flesh cost rebalance, the race-specific part of their cost rather than the generic part, no rule change, just cheaper or pricier: Zombie Apocalypse, Bloated Giant, Blood Pact, Doomed Whisper, Infectious Bite, Plague Reaper, Bottomless Pit Ritual.",
+					"Wandering Corpse, Minor Zombie, and Crawler (tokens) had their text clarified to state they never join the graveyard when they die.",
+					"Wording-only clarity pass, no actual rule change: Zombie Banshee, Pestilential Fog, Zombie Rider, Circle of Summoning, Putrid Scavenger, Toxic Exhalation, Idol of the Apocalypse, The Reaper, Patient Zero, Putrefied Leviathan, Bone Chewer, Putrefied Ravager, Exhumation Ritual, Doomed Bond Ritual, Necrotic Sanctuary, Gaunt Servant, Ancestral Charnel Breath (Arena), Cadaverous Symbiosis, Wave of Putrefaction, Zombie, Epidemic, Icy Embrace."
 				]
 			},
 			{
 				"heading": "Human: 55 cards",
 				"paragraphs": [
-					"Dawn Paladin gains FORTIFICATION, a reworked Arrival effect, and a rebalanced cost.",
-					"Fierce Resistance's heal was bumped to 2 HP.",
-					"Citadel of Men's row aura now benefits Human allies only.",
-					"Defensive Formation's duration wording was clarified.",
-					"Oath-Blade and March Veteran had their stats adjusted.",
-					"Camp Healer and War Priest had their heal converted into a permanent buff.",
-					"Spear Wall's trigger changed from Carnage to Execution.",
-					"Horde Breaker, Sacred Slaughter, and Holy Purge were widened from \"Undead\" to \"non-Human\".",
-					"Counter-Shock Footman: TAUNT became AEGIS.",
-					"Divine Judgment and Impassable Wall had their target restrictions dropped.",
-					"Shield of Faith was fully reworked: it no longer cancels a spell, it now grants AEGIS on the turn's first attack instead, since its description had never followed an earlier code simplification.",
-					"Heroes' Memorial was reduced to a single summoned token.",
-					"War Temple and Empire's Aegis had their race filter fixed.",
-					"Impregnable Fortress: \"enemy Carnage\" became \"Carnage\".",
-					"Standard Bearer's cost went from 3 to 4.",
-					"Ancient Order's rarity went from Epic to Legendary, cost from 5 to 6.",
-					"The Living Rampart's Wound trigger is now capped at once per turn.",
-					"Last Stand Commander, Royal Decree, and Infiltrator Scout had their Seal cost rebalanced, alongside Dawn Paladin and Divine Judgment above.",
-					"Seasoned Footman, Shield Bearer, Swift Scout, Town Militia, and Militia Captain (tokens) had their description updated.",
-					"Wording consistency pass only: Watchtower Archer, Faith Shield, Death-Breaker, War Blessing, Front Blessing (Arena), Knight's Code, General Counterattack, Counter-Offensive, Coordinated Strike, Brother in Arms, Iron Inquisitor, Supreme Inquisitor, The Eternal Guardian, The Soldier King, Lineage of the Brave, Forced March, Campaign Marshal, Advance Order, Hold the Line, Pact of Resistance, Tactical Retreat, Troop Sergeant, Blood Oath, Arrow Volley."
+					"Dawn Paladin gains the FORTIFICATION keyword, a reworked Arrival effect, and an adjusted cost.",
+					"Fierce Resistance's heal effect was increased, now restores 2 HP.",
+					"Citadel of Men's row buff is now restricted to Human allies only (it used to help any ally in the row).",
+					"Defensive Formation's effect duration was clarified in its text (no rule change).",
+					"Oath-Blade and March Veteran had their attack/health stats adjusted.",
+					"Camp Healer and War Priest: their one-time heal → a permanent buff instead.",
+					"Spear Wall's trigger: Carnage → Execution.",
+					"Horde Breaker, Sacred Slaughter, and Holy Purge: targeted \"Undead\" → now target \"non-Human\" (a wider pool of targets).",
+					"Counter-Shock Footman: TAUNT → AEGIS.",
+					"Divine Judgment and Impassable Wall: lost their target restrictions, can now target more things.",
+					"Shield of Faith was fully reworked: used to cancel a spell → now grants AEGIS on the turn's first attack instead. Its old text had been out of date for a while and never properly matched what the card actually did.",
+					"Heroes' Memorial now summons a single token instead of several.",
+					"War Temple and Empire's Aegis: fixed a bug in which race they were actually supposed to affect.",
+					"Impregnable Fortress: used to only trigger on enemy Carnage → now triggers on any Carnage.",
+					"Standard Bearer now costs 4 instead of 3, but that extra point is entirely generic cost (1 → 2); its Royal Seal cost stays at 2.",
+					"Ancient Order: rarity Epic → Legendary, total cost 5 → 6; same story, the extra point is generic cost (2 → 3), its Royal Seal cost stays at 3.",
+					"The Living Rampart's Wound trigger is now capped at once per turn (it had no limit before).",
+					"Royal Seal cost rebalance, the race-specific part of their cost (also applies to Dawn Paladin and Divine Judgment above): Last Stand Commander, Royal Decree, Infiltrator Scout.",
+					"Seasoned Footman, Shield Bearer, Swift Scout, Town Militia, and Militia Captain (tokens) had their text clarified.",
+					"Wording-only clarity pass: Watchtower Archer, Faith Shield, Death-Breaker, War Blessing, Front Blessing (Arena), Knight's Code, General Counterattack, Counter-Offensive, Coordinated Strike, Brother in Arms, Iron Inquisitor, Supreme Inquisitor, The Eternal Guardian, The Soldier King, Lineage of the Brave, Forced March, Campaign Marshal, Advance Order, Hold the Line, Pact of Resistance, Tactical Retreat, Troop Sergeant, Blood Oath, Arrow Volley."
 				]
 			},
 			{
 				"heading": "Demon: 46 cards",
 				"paragraphs": [
-					"The Grand Pact was rebuilt: it's now gated by the enemy's resource cost (a new target_max_cost filter).",
-					"Crimson Wail now swaps between healing and dealing damage depending on how many allies of that race are in play.",
-					"Crimson Eclipse Ritual swapped its reactive spell-cancel for a permanent spell-immunity aura.",
-					"Eternal Pact Ritual now summons an Abyssal Thrall or Abyssal Stalker instead of a Hellspawn Larva.",
-					"Infernal Apocalypse and Pact Brand now grant BLACK BLOOD instead of duplicating their own buffs.",
-					"Abyss Reaper, Black Flame Prophet, Crimson Communion, Crimson Demon King, Crimson Dominion, and Hasty Pact had their Soul cost rebalanced, alongside Infernal Apocalypse and The Grand Pact above.",
-					"Abyssal Sentinel and Blood Rite had a broken English translation fixed (truncated or copy-pasted from another card by mistake), alongside The Grand Pact above.",
-					"Ascending Hellspawn, Hellspawn Larva, Abyssal Thrall, and Abyssal Stalker (tokens) had their description updated.",
-					"Wording consistency pass only: Pact Architect, Aura of Corruption, Abyssal Banshee, Circle of Corruption, Circle of the Grand Pact, Whisperfiend, Embermaw, Heart of the Chasm, Infernal Flame, Crimson Scourge, Infernal Warden, Grand Pact Ritual, Idol of the Grand Pact, Crimson Invasion, Novice Summoner, The Corrupter, The Soul Merchant, Blood Market, Swarm of Torments, Seal of Respite, Corrupting Breath, Soul Devourer, Infernal Symbiosis, Ash Titan, Wave of Corruption, Pact Emissary, Abyssal Grasp."
+					"The Grand Pact was rebuilt: it can now only target enemies below a certain resource cost, instead of any target.",
+					"Crimson Wail now switches between healing and dealing damage, depending on how many Demon allies are in play.",
+					"Crimson Eclipse Ritual: used to cancel one spell → now grants a permanent spell-immunity aura instead.",
+					"Eternal Pact Ritual: used to summon a Hellspawn Larva → now summons an Abyssal Thrall or Abyssal Stalker instead.",
+					"Infernal Apocalypse and Pact Brand: used to duplicate their own buffs → now grant the BLACK BLOOD keyword instead.",
+					"Soul cost rebalance, the race-specific part of their cost (also applies to Infernal Apocalypse and The Grand Pact above): Abyss Reaper, Black Flame Prophet, Crimson Communion, Crimson Demon King, Crimson Dominion, Hasty Pact.",
+					"Abyssal Sentinel and Blood Rite (along with The Grand Pact above) had a broken English translation fixed.",
+					"Ascending Hellspawn, Hellspawn Larva, Abyssal Thrall, and Abyssal Stalker (tokens) had their text clarified.",
+					"Wording-only clarity pass: Pact Architect, Aura of Corruption, Abyssal Banshee, Circle of Corruption, Circle of the Grand Pact, Whisperfiend, Embermaw, Heart of the Chasm, Infernal Flame, Crimson Scourge, Infernal Warden, Grand Pact Ritual, Idol of the Grand Pact, Crimson Invasion, Novice Summoner, The Corrupter, The Soul Merchant, Blood Market, Swarm of Torments, Seal of Respite, Corrupting Breath, Soul Devourer, Infernal Symbiosis, Ash Titan, Wave of Corruption, Pact Emissary, Abyssal Grasp."
 				]
 			},
 			{
 				"heading": "Abomination: 36 cards",
 				"paragraphs": [
-					"Voice Beneath the Skin was simplified: it now carries ADAPTIVE FLESH directly instead of granting it to an adjacent ally on play.",
-					"The Nameless finally works as intended: it used to steal its target instead of disguising itself as it, and its targeting was reworked (any minion, not just enemy) alongside a real visual disguise, so it now copies the target's name, art, keywords, and effects while keeping its own stats.",
-					"Formless Mass, Mutant Formless Mass, and Reformed Formless Mass (tokens) had their description updated.",
-					"Wording consistency pass only: Target Appetite, Altar That Recognizes Nothing, That-Which-Shares-Itself, Circle of Degeneration, Devouring Chant (Arena), Finger in the Nerves, Self-Born Effigy, Instant Borrowing, Living Fracture, Great Return in Another Form, The Great Contamination, The Earth That Refuses to Keep, The First Deviation, The Handless Sculptor, The Flesh Sorter, Slow Alteration, Bond Without Membrane, Mount-and-Rider-Made-One, Air Bite, Forced Sharing, Changing Rain, Changing Dust, First Twitch, The Magic-Digesting Lair, The Breath That Changes Everything, Flesh-Mending Ritual, Ever-Shifting Ritual, Underskin Thread Ritual, Rotting Slumber, Final Spasm, Clinging Vapor, Fresh-Flesh Vise."
+					"Voice Beneath the Skin was simplified: used to grant ADAPTIVE FLESH to an adjacent ally on play → now just carries that keyword itself.",
+					"The Nameless finally works as intended: it used to steal its target outright instead of disguising itself as it → it now disguises itself properly, copying the target's name, art, keywords and effects while keeping its own stats. It can also now target any minion, not just an enemy one.",
+					"Formless Mass, Mutant Formless Mass, and Reformed Formless Mass (tokens) had their text clarified.",
+					"Wording-only clarity pass: Target Appetite, Altar That Recognizes Nothing, That-Which-Shares-Itself, Circle of Degeneration, Devouring Chant (Arena), Finger in the Nerves, Self-Born Effigy, Instant Borrowing, Living Fracture, Great Return in Another Form, The Great Contamination, The Earth That Refuses to Keep, The First Deviation, The Handless Sculptor, The Flesh Sorter, Slow Alteration, Bond Without Membrane, Mount-and-Rider-Made-One, Air Bite, Forced Sharing, Changing Rain, Changing Dust, First Twitch, The Magic-Digesting Lair, The Breath That Changes Everything, Flesh-Mending Ritual, Ever-Shifting Ritual, Underskin Thread Ritual, Rotting Slumber, Final Spasm, Clinging Vapor, Fresh-Flesh Vise."
 				]
 			},
 			{
 				"heading": "Arena network: laying the foundation",
 				"paragraphs": [
-					"The Arena prototype is currently solo-only (1 player + 7 bots). Its eventual 8-player networked version can't reuse the existing 1v1 network layer, which is hardwired for exactly two peers at several levels, so a parallel path is being built without touching the 1v1 code running in production.",
-					"Seven stages shipped this cycle: a seat-controller abstraction with a stable seat id, a star-topology transport with its own lobby tag, an opening handshake protocol (seat assignment plus a shared RNG seed), a host-authoritative game protocol for buys/sells/rerolls/positioning, a router wiring the protocol to the transport, the ability to start a match with bot-filled empty seats (useful for testing without gathering 7 real players), and finally the actual wiring into the Arena scene itself with a new dedicated lobby screen.",
-					"A full review of the first four stages, requested mid-project, caught several bugs (a fragile host-seat registration order, fusion stats getting lost in transit, an overly strict reconnection check) and one real design gap: the protocol had no private channel to tell a requesting client what happened to their own hand, shop, or gold, since the public board sync deliberately never carries that. Fixed with a dedicated private-state sync message.",
-					"The full test suite (770 tests) stayed green throughout, and solo behavior is completely unchanged. What's still missing before this can be called done: an actual test with a second real Steam account, which hasn't happened yet."
+					"The Arena mode is currently solo-only (1 player + 7 bots). Making it work online for 8 real players at once needs a whole new networking foundation, built separately from the existing 1v1 online system (which only ever expects exactly two players) so the 1v1 experience that's already live stays untouched.",
+					"Seven building blocks were put in place this cycle to get there: assigning each player a stable seat at the table, connecting all 8 players together, a proper handshake when the match starts, a trusted way to process buys/sells/rerolls/positioning fairly for everyone, the plumbing to connect it all, the ability to fill empty seats with bots for testing without needing 7 real players, and finally hooking all of this into the actual Arena screen with a new lobby.",
+					"A thorough review of the first few pieces, done partway through, caught several bugs and one real gap: there was no way to privately tell a player what happened to their own hand, shop, or gold, since the shared game state deliberately never includes that private information. A dedicated private channel for exactly that was added.",
+					"The full automated test suite (770 tests) stayed green throughout, and solo play is completely unaffected. What's still missing before this can be called done: an actual test with a second real player over the internet, which hasn't happened yet."
 				]
 			},
 			{
 				"heading": "Multiplayer matchmaking and network security",
 				"paragraphs": [
 					"Picking Normal/Ranked/Friend no longer opens a separate lobby screen, it's inline under the deck list and launches the search immediately. A persistent search banner now floats over any menu screen (players can keep browsing while searching, and cancel any time), shows elapsed time and a rough average wait, and a new face-off screen shows both players' Steam name and deck race right before the match loads.",
-					"On the security side: a third party could get accepted as a P2P peer before the real opponent connected, since the lobby's owner was readable by anyone listing lobbies without joining, now verified against actual lobby membership at connection time. A required CSRF header was added to every backend request. A nested network capture (a combat triggered mid-effect) was wiping out the outer capture's data before it reached the remote peer, fixed with a proper capture-level stack. A missing await on hero damage left a brief window where a lethal hit could be followed by another action before the match was flagged as over."
+					"On the security side: a bug in how matches were set up could, in theory, have let an unintended third party sneak in and connect as if they were the real opponent, before the real opponent had a chance to. That hole is now closed with a proper identity check at connection time. A separate protection was also added against a type of attack where a malicious website could trick a logged-in player's browser into sending unwanted requests to the game's servers on their behalf. Two more bugs were fixed where the game could, in rare cases, briefly lose track of in-match information meant for the other player, or let one extra action slip in right after a match should already have ended."
 				]
 			},
 			{
 				"heading": "Account progression, social, and cosmetics",
 				"paragraphs": [
-					"A batch of local-only features shipped this cycle: an account level with native Steam social features, a local match-history panel, and a post-match combat log replay viewer. Level-unlocked profile titles and avatar frames were added, then removed entirely a few days later as out of scope for now, along with the level-gated card-back system, replaced by a proper shop (five tinted variants, priced rather than unlocked by level, no real payment wired up yet, that needs Steamworks Micro-Transactions).",
+					"A batch of features shipped this cycle: an account level with Steam-integrated social features, a local match-history panel, and a post-match replay viewer for the combat log. Level-unlocked profile titles and avatar frames were added, then removed entirely a few days later as out of scope for now, along with the level-gated card-back system, replaced by a proper shop (five tinted variants, priced rather than unlocked by level; real-money purchases aren't wired up yet).",
 					"Also new: cosmetic emotes, a supporter pack showcase, a customizable AI difficulty for solo matches, a quick \"test deck\" button in the deck builder, and a Gameplay settings tab (attack/sacrifice confirmations, a conservative auto-pass-turn option)."
 				]
 			},
 			{
 				"heading": "Shop and interface polish",
 				"paragraphs": [
-					"The shop no longer opens a separate screen for packs, Packs and Card Backs are two tabs side by side. The mana pool display was redesigned as a grid of race-colored cells with logo and count instead of a strip of crystals. Gold, keyword, and race-resource icons got a second sharpness pass (mipmap generation had been left off on import) and were enlarged for readability, and the gold balance now reads \"amount, icon\" instead of the reverse.",
+					"The shop no longer opens a separate screen for packs, Packs and Card Backs are two tabs side by side. The mana pool display was redesigned as a grid of race-colored cells with logo and count instead of a strip of crystals. Gold, keyword, and race-resource icons got sharper and bigger for better readability, and the gold balance now reads \"amount, icon\" instead of the reverse.",
 					"Smaller fixes: the deck builder's buy button now shows just the price instead of a too-long \"Buy (price)\" label, the profile panel is now scrollable (it had started overflowing with all the new sections), settings menu buttons and dropdowns stopped stretching to fill their row by default, and the pack shop got another visual pass (faster reveal pacing, hoverable revealed cards, a fixed positioning bug)."
 				]
 			},
 			{
-				"heading": "Backend and documentation",
+				"heading": "Behind the scenes",
 				"paragraphs": [
-					"Cards were resynced between the game, the backend, and this website after drifting out of sync for a while (200-304 rows depending on the repo), both sides now have a repeatable sync script instead of a manual one-off. Ranked MMR matchmaking, weekly quests, and referrals, all written client-side for a while, went fully live in production on 2026-09-12 once the last missing step (a manual database sync for the new tables) was done. 14 new Steam achievements shipped client-side, bringing the total to 17 (the Steamworks partner-dashboard entries still need to be created before any of them can actually unlock in-game)."
+					"Card data had drifted out of sync between the game, the server, and this website for a while; everything is now realigned, with a repeatable process in place to keep it that way automatically going forward instead of needing manual fixes each time. Ranked matchmaking by skill, weekly quests, and the referral system, all ready in the game for a while, went fully live on the server on 2026-09-12. 14 new Steam achievements were added in-game, bringing the total to 17 (they still need to be set up on Steam's side before any of them can actually unlock for real)."
 				]
 			},
 			{
@@ -150,114 +150,114 @@
 				"heading": "La grande refonte des cartes",
 				"paragraphs": [
 					"Le plus gros chantier de ces deux semaines : une repasse de correctifs quasi complète sur la base de cartes, construite à partir d'une liste de correctifs établie avec les retours de la communauté (cohérence de formulation, effets buggés ou incohérents, équilibrage des coûts). Au total, 186 cartes ont changé, plus de la moitié du jeu. Le détail complet, carte par carte, ci-dessous, par race.",
-					"Deux mécaniques de mots-clés partagées ont changé au passage : DISCIPLINE (Humain) et CHAIR MORTE (Mort-Vivant) bloquent désormais aussi la Corruption et l'Infection en plus de la peur/silence/contrôle mental, CONTRE-ATTAQUE est désormais symétrique (un serviteur qui survit en attaquant riposte aussi, pas seulement en défense), TERREUR se déclenche désormais sur n'importe quelle source de dégâts plutôt que les seules attaques au corps-à-corps, et les rituels de PACTE exécutent désormais leur effet de base même quand le joueur refuse de payer le bonus.",
-					"Un bug lié est apparu au passage : ramener le dernier serviteur mort ne le retirait jamais vraiment du cimetière une fois ramené, donc il restait listé comme mort et pouvait être ramené une seconde fois. Corrigé sur les 13 cartes qui ressuscitent depuis le cimetière."
+					"Quatre mots-clés partagés changent aussi de fonctionnement pour tout le monde d'un coup : DISCIPLINE (Humain) et CHAIR MORTE (Mort-Vivant) ne bloquaient que la peur/le silence/le contrôle mental → ils bloquent désormais aussi la Corruption et l'Infection. CONTRE-ATTAQUE ne ripostait qu'en défense → elle est désormais symétrique, un serviteur qui survit en attaquant riposte aussi. TERREUR ne se déclenchait que sur une attaque au corps-à-corps → elle se déclenche désormais sur n'importe quelle source de dégâts. Les rituels de PACTE ne faisaient rien si le joueur refusait de payer le bonus → ils exécutent désormais toujours leur effet de base, quel que soit le choix du joueur.",
+					"Un bug lié a aussi été trouvé et corrigé : ramener un serviteur depuis le cimetière ne le retirait pas vraiment de là, donc il pouvait parfois être ramené une seconde fois. Corrigé sur les 13 cartes qui ressuscitent des serviteurs depuis le cimetière."
 				]
 			},
 			{
 				"heading": "Mort-Vivant : 43 cartes",
 				"paragraphs": [
-					"Réveil Soudain ramène désormais le dernier mort en main plutôt que de le ressusciter en jeu.",
-					"Souffle Nécrotique peut désormais cibler le héros ennemi ou un serviteur ennemi.",
-					"Don de Chair gagne la même nouvelle cible, et son sacrifice devient automatique (le plus faible allié).",
-					"Poigne du Cimetière peut désormais cibler un serviteur allié ou ennemi.",
-					"Communion avec les Morts a été reconçue de fond en comble : d'un rituel Deuil/pioche à 4 charges, elle devient un rituel Sacrifice/retour du cimetière à 2 charges, puis ajustée pour cibler un Mort-Vivant précis du cimetière au lieu de toujours ramener le dernier sacrifié.",
-					"Possédé Hurlant passe de 5/1 à 1/5 et perd son Dernier Souffle d'exil.",
-					"Le bonus de Hurleur Nécrotique touche désormais tous les alliés Mort-Vivants, plus seulement la rangée Avant.",
-					"Le bonus de Cercle de Sacrifice est désormais corrigé pour être permanent et réservé aux Mort-Vivants (il était temporaire et sans filtre de race).",
-					"Colosse Décomposé a d'abord gagné REVENANT, puis a été entièrement dépouillé de tout effet actif : il ne garde que REMPART/CHAIR MORTE/REVENANT.",
-					"Cimetière Vivant perd sa limite « une fois par serviteur, à vie » (garde le plafond 1×/tour), et un bug qui ressuscitait parfois à pleins PV au lieu d'1 PV a été corrigé.",
-					"Nuée d'Insectes Cadavériques touche désormais tous les serviteurs en jeu, plus seulement les ennemis.",
-					"Rituel de l'Éclipse annule désormais les sorts ciblant n'importe quel allié, plus seulement un Mort-Vivant.",
-					"Berserker Infecté : FRÉNÉSIE devient ASSAUT, et Mort-rage passe d'un +3/+0 fixe à une attaque supplémentaire.",
-					"Aura de Décrépitude a été corrigée : elle ne se déclenchait jamais sur une attaque du héros (copié-collé fautif d'une autre carte, jamais rattrapé).",
-					"Apocalypse Zombie, Géant Boursouflé, Pacte Sanglant, Murmure Funeste, Morsure Infectieuse, Faucheur de la Plaie et Rituel de la Fosse Sans Fond voient leur coût en Chair rééquilibré (portion raciale/générique).",
-					"Cadavre Errant, Zombie Mineur et Rampant (jetons) ont leur description mise à jour pour préciser qu'ils ne rejoignent jamais le cimetière à leur mort.",
-					"Passe de cohérence de formulation uniquement, sans changement de règle : Banshee Zombie, Brouillard Pestilentiel, Cavalier Zombie, Cercle de Convocation, Charognard Putride, Exhalation Toxique, Idole de l'Apocalypse, La Faucheuse, Le Patient Zéro, Léviathan Putréfié, Mâcheur d'Os, Ravageur Putréfié, Rituel d'Exhumation, Rituel du Lien Funeste, Sanctuaire Nécrotique, Servant Décharné, Souffle du Charnier Ancestral (Arena), Symbiose Cadavérique, Vague de Putréfaction, Zombie, Épidémie, Étreinte Glaciale."
+					"Réveil Soudain : ressuscitait le dernier mort directement en jeu → le ramène désormais en main.",
+					"Souffle Nécrotique peut désormais aussi cibler le héros ennemi, en plus des serviteurs ennemis.",
+					"Don de Chair gagne cette même nouvelle cible (le héros ennemi), et son sacrifice devient automatique (il choisit toujours l'allié le plus faible).",
+					"Poigne du Cimetière peut désormais aussi cibler un allié, en plus des serviteurs ennemis.",
+					"Communion avec les Morts a été reconçue deux fois : rituel Deuil/pioche (4 charges) → rituel Sacrifice/retour du cimetière (2 charges) → puis ajustée à nouveau pour choisir un Mort-Vivant précis à ramener du cimetière, au lieu de toujours récupérer le dernier sacrifié.",
+					"Possédé Hurlant : 5/1 avec un effet d'exil à la mort → 1/5, effet d'exil retiré.",
+					"Hurleur Nécrotique : son bonus ne touchait que la rangée Avant → touche désormais tous les alliés Mort-Vivants.",
+					"Cercle de Sacrifice : son bonus était temporaire et profitait à tout le monde → désormais permanent, réservé aux Mort-Vivants.",
+					"Colosse Décomposé : a d'abord gagné le mot-clé REVENANT, puis a perdu tout effet actif → ne garde plus que les mots-clés REMPART / CHAIR MORTE / REVENANT, sans aucun autre effet.",
+					"Cimetière Vivant : perd sa limite « une fois par serviteur, à vie » (garde le plafond d'une fois par tour) ; un bug qui ressuscitait parfois à pleins PV au lieu du 1 PV prévu a aussi été corrigé.",
+					"Nuée d'Insectes Cadavériques : ne touchait que les serviteurs ennemis → touche désormais tous les serviteurs en jeu, alliés compris.",
+					"Rituel de l'Éclipse : n'annulait que les sorts visant un allié Mort-Vivant → annule désormais ceux visant n'importe quel allié.",
+					"Berserker Infecté : FRÉNÉSIE → ASSAUT, et son effet Mort-rage passe d'un bonus fixe de +3/+0 à une attaque supplémentaire.",
+					"Aura de Décrépitude : correction d'un bug où elle ne se déclenchait tout simplement jamais sur une attaque du héros, comme prévu pourtant.",
+					"Rééquilibrage du coût en Chair, la part du coût spécifique à la race plutôt que la part générique, pas de changement de règle, juste plus ou moins cher : Apocalypse Zombie, Géant Boursouflé, Pacte Sanglant, Murmure Funeste, Morsure Infectieuse, Faucheur de la Plaie, Rituel de la Fosse Sans Fond.",
+					"Cadavre Errant, Zombie Mineur et Rampant (jetons) ont leur texte clarifié pour préciser qu'ils ne rejoignent jamais le cimetière à leur mort.",
+					"Passe de clarification de formulation uniquement, sans changement de règle : Banshee Zombie, Brouillard Pestilentiel, Cavalier Zombie, Cercle de Convocation, Charognard Putride, Exhalation Toxique, Idole de l'Apocalypse, La Faucheuse, Le Patient Zéro, Léviathan Putréfié, Mâcheur d'Os, Ravageur Putréfié, Rituel d'Exhumation, Rituel du Lien Funeste, Sanctuaire Nécrotique, Servant Décharné, Souffle du Charnier Ancestral (Arena), Symbiose Cadavérique, Vague de Putréfaction, Zombie, Épidémie, Étreinte Glaciale."
 				]
 			},
 			{
 				"heading": "Humain : 55 cartes",
 				"paragraphs": [
-					"Paladin de l'Aube gagne FORTIFICATION, un effet d'Arrivée reconçu et un coût rééquilibré.",
-					"Le soin de Résistance Acharnée est porté à 2 PV.",
-					"L'aura de rangée de Citadelle des Hommes ne bénéficie plus qu'aux alliés Humains.",
-					"La formulation de durée de Formation Défensive a été clarifiée.",
-					"Lame-Jurée et Vétéran des Marches ont vu leurs statistiques ajustées.",
-					"Le soin de Guérisseur de Camp et Prêtre de Guerre est converti en bonus permanent.",
-					"Le trigger de Mur de Lances passe de Carnage à Exécution.",
-					"Briseur de Horde, Massacre Sacré et Purge Sainte sont élargis de « Mort-Vivant » à « non-Humain ».",
-					"Fantassin de Contre-Choc : REMPART devient ÉGIDE.",
-					"Jugement Divin et Mur Infranchissable perdent leurs restrictions de cible.",
-					"Bouclier de la Foi est entièrement reconçue : elle n'annule plus un sort, elle accorde désormais ÉGIDE à la première attaque du tour, sa description n'ayant jamais suivi une simplification passée du code.",
-					"Mémorial des Héros est réduit à un seul jeton invoqué.",
-					"Temple de Guerre et Aegis de l'Empire ont leur filtre de race corrigé.",
-					"Forteresse Imprenable : « Carnage ennemi » devient « Carnage ».",
-					"Le coût de Porte-Étendard passe de 3 à 4.",
-					"La rareté d'Ordre des Anciens passe d'Épique à Légendaire, son coût de 5 à 6.",
-					"Le trigger Blessure du Rempart Vivant est désormais plafonné à 1×/tour.",
-					"Commandant des Derniers, Décret Royal et Éclaireur Infiltré voient leur coût en Sceau rééquilibré, en plus de Paladin de l'Aube et Jugement Divin déjà cités.",
-					"Fantassin Aguerri, Porteur de Bouclier, Éclaireur Rapide, Milicien du Bourg et Capitaine de Milice (jetons) ont leur description mise à jour.",
-					"Passe de cohérence de formulation uniquement : Archer de Guet, Bouclier de Foi, Brise-Mort, Bénédiction de Guerre, Bénédiction du Front (Arena), Code du Chevalier, Contre-Attaque Générale, Contre-Offensive, Frappe Coordonnée, Frère d'Armes, Inquisiteur de Fer, Inquisiteur Suprême, L'Éternel Gardien, Le Roi Soldat, Lignée des Braves, Marche Forcée, Maréchal de Campagne, Ordre d'Avancer, Ordre de Tenir, Pacte de Résistance, Repli Tactique, Sergent de Troupe, Serment du Sang, Volée de Flèches."
+					"Paladin de l'Aube gagne le mot-clé FORTIFICATION, un effet d'Arrivée reconçu et un coût ajusté.",
+					"Le soin de Résistance Acharnée a été augmenté, restaure désormais 2 PV.",
+					"L'aura de rangée de Citadelle des Hommes est désormais réservée aux alliés Humains (elle profitait à tout le monde avant).",
+					"La durée d'effet de Formation Défensive a été clarifiée dans son texte (pas de changement de règle).",
+					"Lame-Jurée et Vétéran des Marches ont vu leurs statistiques d'attaque/PV ajustées.",
+					"Guérisseur de Camp et Prêtre de Guerre : leur soin ponctuel → un bonus permanent à la place.",
+					"Le déclencheur de Mur de Lances : Carnage → Exécution.",
+					"Briseur de Horde, Massacre Sacré et Purge Sainte : ciblaient « Mort-Vivant » → ciblent désormais « non-Humain » (plus de cibles possibles).",
+					"Fantassin de Contre-Choc : REMPART → ÉGIDE.",
+					"Jugement Divin et Mur Infranchissable : perdent leurs restrictions de cible, peuvent désormais viser plus de choses.",
+					"Bouclier de la Foi entièrement reconçue : annulait un sort → accorde désormais ÉGIDE à la première attaque du tour. Son ancien texte était obsolète depuis un moment et ne correspondait plus vraiment à ce que faisait la carte.",
+					"Mémorial des Héros invoque désormais un seul jeton au lieu de plusieurs.",
+					"Temple de Guerre et Aegis de l'Empire : correction d'un bug sur la race qu'ils étaient censés viser.",
+					"Forteresse Imprenable : ne se déclenchait que sur un Carnage ennemi → se déclenche désormais sur n'importe quel Carnage.",
+					"Porte-Étendard coûte désormais 4 au lieu de 3, mais ce point supplémentaire va entièrement dans son coût générique (1 → 2) ; son coût en Sceau reste à 2.",
+					"Ordre des Anciens : rareté Épique → Légendaire, coût total 5 → 6 ; même histoire, le point supplémentaire va dans son coût générique (2 → 3), son coût en Sceau reste à 3.",
+					"Le déclencheur Blessure du Rempart Vivant est désormais plafonné à une fois par tour (pas de limite avant).",
+					"Rééquilibrage du coût en Sceau, la part du coût spécifique à la race (aussi valable pour Paladin de l'Aube et Jugement Divin cités plus haut) : Commandant des Derniers, Décret Royal, Éclaireur Infiltré.",
+					"Fantassin Aguerri, Porteur de Bouclier, Éclaireur Rapide, Milicien du Bourg et Capitaine de Milice (jetons) ont leur texte clarifié.",
+					"Passe de clarification de formulation uniquement : Archer de Guet, Bouclier de Foi, Brise-Mort, Bénédiction de Guerre, Bénédiction du Front (Arena), Code du Chevalier, Contre-Attaque Générale, Contre-Offensive, Frappe Coordonnée, Frère d'Armes, Inquisiteur de Fer, Inquisiteur Suprême, L'Éternel Gardien, Le Roi Soldat, Lignée des Braves, Marche Forcée, Maréchal de Campagne, Ordre d'Avancer, Ordre de Tenir, Pacte de Résistance, Repli Tactique, Sergent de Troupe, Serment du Sang, Volée de Flèches."
 				]
 			},
 			{
 				"heading": "Démon : 46 cartes",
 				"paragraphs": [
-					"Le Grand Pacte a été reconstruit : il est désormais conditionné au coût de la ressource ennemie.",
-					"Hurlement Écarlate échange désormais soin et dégâts selon le nombre d'alliés de cette race en jeu.",
-					"Rituel de l'Éclipse Rouge échange son annulation réactive de sort contre une aura d'immunité aux sorts permanente.",
-					"Rituel du Pacte Éternel invoque désormais Suppôt des Abysses ou Chasseur des Abysses au lieu de Larve Infernale.",
-					"Apocalypse Infernale et Marque du Pacte accordent désormais SANG NOIR au lieu de dupliquer leurs propres bonus.",
-					"Faucheur des Abysses, Grand Prophète Écarlate, Communion Écarlate, Roi Démon Écarlate, Emprise Écarlate et Pacte Hâtif voient leur coût en Âme rééquilibré, en plus d'Apocalypse Infernale et Le Grand Pacte déjà cités.",
-					"Sentinelle du Gouffre et Rite de Sang ont vu leur traduction anglaise corrigée (texte tronqué ou copié-collé d'une autre carte par erreur), en plus du Grand Pacte déjà cité.",
-					"Larve Ascendante, Larve Infernale, Suppôt des Abysses et Chasseur des Abysses (jetons) ont leur description mise à jour.",
-					"Passe de cohérence de formulation uniquement : Architecte du Pacte, Aura de Corruption, Banshee des Abysses, Cercle de Corruption, Cercle du Grand Pacte, Chuchoteur Malin, Croc de Braise, Cœur du Gouffre, Flamme Infernale, Fléau Écarlate, Garde Infernal, Grand Rituel du Pacte, Idole du Grand Pacte, Invasion Écarlate, Invocateur Novice, Le Corrupteur, Le Marchand d'Âmes, Marché de Sang, Nuée de Tourments, Sceau du Répit, Souffle Corrupteur, Suceur d'Âmes, Symbiose Infernale, Titan de Cendres, Vague de Corruption, Émissaire du Pacte, Étreinte du Gouffre."
+					"Le Grand Pacte a été reconstruit : il ne peut désormais plus viser que des ennemis sous un certain coût en ressource, au lieu de n'importe quelle cible.",
+					"Hurlement Écarlate alterne désormais entre soin et dégâts selon le nombre d'alliés Démon en jeu.",
+					"Rituel de l'Éclipse Rouge : annulait un sort → accorde désormais une aura d'immunité aux sorts permanente à la place.",
+					"Rituel du Pacte Éternel : invoquait Larve Infernale → invoque désormais Suppôt des Abysses ou Chasseur des Abysses.",
+					"Apocalypse Infernale et Marque du Pacte : dupliquaient leurs propres bonus → accordent désormais le mot-clé SANG NOIR à la place.",
+					"Rééquilibrage du coût en Âme, la part du coût spécifique à la race (aussi valable pour Apocalypse Infernale et Le Grand Pacte cités plus haut) : Faucheur des Abysses, Grand Prophète Écarlate, Communion Écarlate, Roi Démon Écarlate, Emprise Écarlate, Pacte Hâtif.",
+					"Sentinelle du Gouffre et Rite de Sang (en plus du Grand Pacte cité plus haut) ont vu leur traduction anglaise corrigée.",
+					"Larve Ascendante, Larve Infernale, Suppôt des Abysses et Chasseur des Abysses (jetons) ont leur texte clarifié.",
+					"Passe de clarification de formulation uniquement : Architecte du Pacte, Aura de Corruption, Banshee des Abysses, Cercle de Corruption, Cercle du Grand Pacte, Chuchoteur Malin, Croc de Braise, Cœur du Gouffre, Flamme Infernale, Fléau Écarlate, Garde Infernal, Grand Rituel du Pacte, Idole du Grand Pacte, Invasion Écarlate, Invocateur Novice, Le Corrupteur, Le Marchand d'Âmes, Marché de Sang, Nuée de Tourments, Sceau du Répit, Souffle Corrupteur, Suceur d'Âmes, Symbiose Infernale, Titan de Cendres, Vague de Corruption, Émissaire du Pacte, Étreinte du Gouffre."
 				]
 			},
 			{
 				"heading": "Abomination : 36 cartes",
 				"paragraphs": [
-					"Voix-Sous-la-Peau a été simplifiée : elle porte désormais directement CHAIR ADAPTATIVE au lieu de l'accorder à un allié adjacent en jeu.",
-					"L'Innommable fonctionne enfin comme prévu : elle volait sa cible au lieu de se déguiser en elle ; son ciblage a été retravaillé (n'importe quel serviteur, plus seulement ennemi) avec un vrai déguisement visuel, elle copie donc maintenant le nom, l'illustration, les mots-clés et les effets de la cible tout en gardant ses propres statistiques.",
-					"Amas Informe, Amas Informe Mutant et Amas Informe Reformé (jetons) ont leur description mise à jour.",
-					"Passe de cohérence de formulation uniquement : Appétit Ciblé, Autel Qui Ne Reconnaît Rien, Ce-Qui-Se-Partage, Cercle de Dégénérescence, Chant Dévorant (Arena), Doigt-Dans-les-Nerfs, Effigie Née d'Elle-Même, Emprunt Instantané, Fracture Vivante, Grand Retour Sous une Autre Forme, La Grande Contamination, La Terre Qui Refuse de Garder, Le Premier Écart, Le Sculpteur Sans Mains, Le Trieur de Chairs, Lente Altération, Lien Sans Membrane, Monture-et-Cavalier-Ne-Font-Qu'Un, Morsure de l'Air, Partage Forcé, Pluie Qui Change, Poussière Qui Change, Premier Tressaut, Repaire Qui Digère la Magie, Respir Qui Change Tout, Rituel de la Chair Qui Recoud, Rituel de la Forme Jamais Fixée, Rituel du Fil Sous la Peau, Sommeil Qui Ronge, Sursaut Final, Vapeur Qui S'Accroche, Étau de Chair Neuve."
+					"Voix-Sous-la-Peau simplifiée : accordait CHAIR ADAPTATIVE à un allié adjacent en jeu → porte désormais directement ce mot-clé elle-même.",
+					"L'Innommable fonctionne enfin comme prévu : volait carrément sa cible au lieu de se déguiser en elle → se déguise désormais correctement, copiant le nom, l'illustration, les mots-clés et les effets de la cible tout en gardant ses propres statistiques. Elle peut aussi désormais cibler n'importe quel serviteur, plus seulement un ennemi.",
+					"Amas Informe, Amas Informe Mutant et Amas Informe Reformé (jetons) ont leur texte clarifié.",
+					"Passe de clarification de formulation uniquement : Appétit Ciblé, Autel Qui Ne Reconnaît Rien, Ce-Qui-Se-Partage, Cercle de Dégénérescence, Chant Dévorant (Arena), Doigt-Dans-les-Nerfs, Effigie Née d'Elle-Même, Emprunt Instantané, Fracture Vivante, Grand Retour Sous une Autre Forme, La Grande Contamination, La Terre Qui Refuse de Garder, Le Premier Écart, Le Sculpteur Sans Mains, Le Trieur de Chairs, Lente Altération, Lien Sans Membrane, Monture-et-Cavalier-Ne-Font-Qu'Un, Morsure de l'Air, Partage Forcé, Pluie Qui Change, Poussière Qui Change, Premier Tressaut, Repaire Qui Digère la Magie, Respir Qui Change Tout, Rituel de la Chair Qui Recoud, Rituel de la Forme Jamais Fixée, Rituel du Fil Sous la Peau, Sommeil Qui Ronge, Sursaut Final, Vapeur Qui S'Accroche, Étau de Chair Neuve."
 				]
 			},
 			{
 				"heading": "Réseau Arena : poser les fondations",
 				"paragraphs": [
-					"Le prototype Arena est aujourd'hui solo uniquement (1 joueur + 7 bots). Sa future version réseau à 8 joueurs ne peut pas réutiliser la couche réseau 1v1 existante, câblée en dur pour exactement deux pairs à plusieurs niveaux, donc un chemin parallèle est construit sans toucher au code 1v1 en production.",
-					"Sept étapes livrées ce cycle : une abstraction de contrôleur de siège avec un identifiant stable, un transport en topologie étoile avec son propre tag de lobby, un protocole de handshake d'ouverture (attribution des sièges plus une graine RNG partagée), un protocole de partie hôte-autoritaire pour les achats/ventes/rerolls/positionnement, un relais reliant le protocole au transport, la possibilité de démarrer une partie avec des sièges vacants comblés par des bots (utile pour tester sans réunir 7 vrais joueurs), et enfin le branchement effectif sur la scène Arena avec un nouvel écran de lobby dédié.",
-					"Une relecture complète des quatre premières étapes, demandée en cours de projet, a repéré plusieurs bugs (ordre d'inscription du siège hôte fragile, statistiques de fusion perdues en transit, vérification de reconnexion trop stricte) et une vraie lacune de conception : le protocole n'avait aucun canal privé pour indiquer à un client ce qui s'était passé dans sa propre main, sa boutique ou son or, puisque la synchronisation publique du plateau ne transporte volontairement jamais ces données. Corrigé avec un message de synchronisation d'état privé dédié.",
-					"La suite complète de tests (770 tests) est restée au vert tout du long, et le comportement solo est totalement inchangé. Ce qui manque encore avant de pouvoir dire que c'est terminé : un vrai test avec un second compte Steam réel, qui n'a pas encore eu lieu."
+					"Le mode Arena est aujourd'hui solo uniquement (1 joueur + 7 bots). Le faire fonctionner en ligne à 8 vrais joueurs à la fois demande une toute nouvelle base réseau, construite séparément du système réseau 1v1 existant (qui ne prévoit que deux joueurs exactement), pour que le 1v1 déjà en ligne reste inchangé.",
+					"Sept briques ont été posées ce cycle pour y arriver : attribuer à chaque joueur une place stable à la table, connecter les 8 joueurs entre eux, une vraie poignée de main au lancement de la partie, une façon fiable de traiter achats/ventes/rerolls/positionnement équitablement pour tout le monde, la plomberie pour relier tout ça, la possibilité de combler les places vides avec des bots pour tester sans réunir 7 vrais joueurs, et enfin le branchement de tout ça sur l'écran Arena avec un nouveau lobby.",
+					"Une relecture complète des premières briques, faite en cours de route, a repéré plusieurs bugs et une vraie lacune : il n'y avait aucun moyen de dire en privé à un joueur ce qui s'était passé dans sa propre main, sa boutique ou son or, puisque l'état de jeu partagé ne transporte volontairement jamais ces informations privées. Un canal privé dédié à ça a été ajouté.",
+					"La suite complète de tests automatisés (770 tests) est restée au vert tout du long, et le jeu en solo n'est absolument pas affecté. Ce qui manque encore avant de pouvoir dire que c'est terminé : un vrai test avec un second joueur réel sur internet, qui n'a pas encore eu lieu."
 				]
 			},
 			{
 				"heading": "Matchmaking multijoueur et sécurité réseau",
 				"paragraphs": [
 					"Choisir Normal/Classé/Ami n'ouvre plus un écran de lobby séparé : c'est intégré directement sous la liste de decks et la recherche démarre immédiatement. Un bandeau de recherche persistant flotte désormais par-dessus n'importe quel écran de menu (le joueur peut continuer à naviguer pendant la recherche et l'annuler à tout moment), affiche le temps écoulé et une estimation d'attente moyenne, et un nouvel écran face-à-face montre le pseudo Steam et la race du deck des deux joueurs juste avant le chargement du match.",
-					"Côté sécurité : un tiers pouvait se faire accepter comme pair P2P avant le vrai adversaire, le propriétaire du lobby étant lisible par n'importe qui listant les lobbies sans y avoir rejoint, désormais vérifié contre l'appartenance réelle au lobby au moment de la connexion. Un header CSRF requis a été ajouté à toute requête backend. Une capture réseau imbriquée (un combat déclenché en pleine résolution d'effet) effaçait les données de la capture englobante avant qu'elles n'atteignent le pair distant, corrigée avec une vraie pile de niveaux de capture. Un await manquant sur les dégâts au héros laissait une brève fenêtre où un coup fatal pouvait être suivi d'une autre action avant que la partie ne soit déclarée terminée."
+					"Côté sécurité : un bug dans la mise en relation des deux joueurs aurait en théorie pu permettre à un tiers mal intentionné de s'incruster et de se faire passer pour le véritable adversaire, avant que celui-ci n'ait eu le temps de se connecter. Cette faille est désormais bouchée par une vraie vérification d'identité au moment de la connexion. Une protection a aussi été ajoutée contre un type d'attaque où un site malveillant pourrait piéger le navigateur d'un joueur connecté pour lui faire envoyer, à son insu, des requêtes indésirables aux serveurs du jeu. Deux autres bugs ont été corrigés, où le jeu pouvait dans de rares cas perdre temporairement des informations de partie destinées à l'autre joueur, ou laisser passer une action de trop juste après la fin d'un match."
 				]
 			},
 			{
 				"heading": "Progression de compte, social et cosmétique",
 				"paragraphs": [
-					"Un lot de fonctionnalités purement locales est arrivé ce cycle : un niveau de compte avec des fonctionnalités sociales natives Steam, un panneau d'historique de match local, et un visualiseur de replay du journal de combat post-match. Des titres et cadres d'avatar déblocables par niveau ont été ajoutés puis entièrement retirés quelques jours plus tard (jugés hors scope pour l'instant), de même que le système de dos de carte débloqué par niveau, remplacé par une vraie boutique (cinq variantes teintées, à prix fixe plutôt que débloquées par niveau, aucun paiement réel encore branché : il faudra Steamworks Micro-Transactions pour ça).",
+					"Un lot de fonctionnalités est arrivé ce cycle : un niveau de compte avec des fonctionnalités sociales Steam intégrées, un panneau d'historique de match, et un visualiseur de replay du journal de combat après une partie. Des titres et cadres d'avatar déblocables par niveau ont été ajoutés puis entièrement retirés quelques jours plus tard (jugés hors scope pour l'instant), de même que le système de dos de carte débloqué par niveau, remplacé par une vraie boutique (cinq variantes teintées, à prix fixe plutôt que débloquées par niveau ; les achats en argent réel ne sont pas encore branchés).",
 					"Également nouveau : des émotes cosmétiques, une vitrine de pack de soutien, une difficulté d'IA personnalisable pour un match solo, un bouton « deck de test » rapide dans le deck builder, et un onglet de réglages Gameplay (confirmations d'attaque/de sacrifice, passage de tour automatique prudent)."
 				]
 			},
 			{
 				"heading": "Boutique et interface",
 				"paragraphs": [
-					"La boutique n'ouvre plus un écran séparé pour les packs : Packs et Dos de cartes sont deux onglets côte à côte. L'affichage du pool de mana a été reconçu en une grille de cellules colorées par race (logo + compteur) à la place d'une bande de cristaux. Les icônes d'or, de mots-clés et de ressources de race ont reçu une deuxième passe de netteté (la génération de mipmaps avait été oubliée à l'import) et ont été agrandies pour la lisibilité, et le solde d'or s'affiche désormais « montant, icône » au lieu de l'inverse.",
+					"La boutique n'ouvre plus un écran séparé pour les packs : Packs et Dos de cartes sont deux onglets côte à côte. L'affichage du pool de mana a été reconçu en une grille de cellules colorées par race (logo + compteur) à la place d'une bande de cristaux. Les icônes d'or, de mots-clés et de ressources de race sont plus nettes et plus grandes pour une meilleure lisibilité, et le solde d'or s'affiche désormais « montant, icône » au lieu de l'inverse.",
 					"Plus petits correctifs : le bouton d'achat du deck builder affiche désormais juste le prix au lieu d'un « Acheter (prix) » trop long, le panneau Profil est maintenant scrollable (il débordait avec toutes les nouvelles sections), les boutons et menus déroulants des réglages ont arrêté de s'étirer sur toute la largeur par défaut, et la boutique de packs a reçu une nouvelle passe visuelle (révélation plus rapide, cartes révélées survolables, bug de positionnement corrigé)."
 				]
 			},
 			{
-				"heading": "Backend et documentation",
+				"heading": "Dans les coulisses",
 				"paragraphs": [
-					"Les cartes ont été resynchronisées entre le jeu, le backend et ce site, désynchronisées depuis un moment (200 à 304 lignes selon le dépôt) : les deux côtés ont maintenant un script de resynchronisation répétable au lieu d'un correctif ponctuel. Le matchmaking classé par MMR, les quêtes hebdomadaires et le parrainage, écrits côté client depuis un moment, sont pleinement passés en production le 2026-09-12 une fois la dernière étape manquante (une synchronisation manuelle de base de données pour les nouvelles tables) effectuée. 14 nouveaux succès Steam ont été livrés côté client, portant le total à 17 (les entrées côté dashboard partenaire Steamworks restent à créer avant qu'aucun d'eux ne puisse réellement se débloquer en jeu)."
+					"Les données de cartes avaient dérivé entre le jeu, le serveur et ce site depuis un moment ; tout est désormais réaligné, avec un processus répétable en place pour que ça le reste automatiquement, au lieu de correctifs manuels à chaque fois. Le matchmaking classé par niveau, les quêtes hebdomadaires et le parrainage, prêts côté jeu depuis un moment, sont pleinement passés en production le 2026-09-12. 14 nouveaux succès Steam ont été ajoutés en jeu, portant le total à 17 (ils doivent encore être configurés côté Steam avant de pouvoir réellement se débloquer)."
 				]
 			},
 			{

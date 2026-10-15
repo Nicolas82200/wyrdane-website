@@ -27,7 +27,7 @@
 			{
 				"heading": "The core game",
 				"paragraphs": [
-					"The core game is playable end to end: two players fight across Front and Back rows to bring the enemy hero to 0 HP, with a fully data-driven effect engine handling triggers, enchantments and auras. Four races are implemented, for 317 cards in total (tokens included): Undead (80 cards), Human (81), Demon (77) and Abomination (79), each with its own keywords and its own mana pool through the race-based resource system."
+					"The core game is playable end to end: two players fight across Front and Back rows to bring the enemy hero to 0 HP, with a full system handling card triggers, enchantments and auras. Four races are implemented, for 317 cards in total (tokens included): Undead (80 cards), Human (81), Demon (77) and Abomination (79), each with its own keywords and its own mana pool through the race-based resource system."
 				]
 			},
 			{
@@ -69,7 +69,7 @@
 			{
 				"heading": "The resource zone: built, then shelved",
 				"paragraphs": [
-					"One choice players might notice if they look closely: resource cards, the ones that grow a race's mana pool, don't stay visible on the board once played. Earlier in development, they did: Wyrdane built, and still has in its code, a dedicated zone on each side of the board for resource cards to sit in, complete with a polished animation for absorbing the card into the mana pool. That zone is switched off for now. The board space it used got reassigned to fit the deck and graveyard more comfortably after a later layout pass. Rather than rip the feature out, the underlying system was left in place and simply disabled: a resource card played today is consumed and removed from the game instead of parked on the board. Turning it back on is a matter of flipping a flag, not rebuilding it from scratch, once there's board room for it again."
+					"One choice players might notice if they look closely: resource cards, the ones that grow a race's mana pool, don't stay visible on the board once played. Earlier in development, they did: Wyrdane built, and still has in its code, a dedicated zone on each side of the board for resource cards to sit in, complete with a polished animation for absorbing the card into the mana pool. That zone is switched off for now. The board space it used got reassigned to fit the deck and graveyard more comfortably after a later layout pass. Rather than rip the feature out, the underlying system was left in place and simply disabled: a resource card played today is consumed and removed from the game instead of parked on the board. Turning it back on will just mean flipping it on again, not rebuilding it from scratch, once there's board room for it."
 				]
 			},
 			{
@@ -81,7 +81,7 @@
 			{
 				"heading": "Tests, and their limits",
 				"paragraphs": [
-					"Not everything is bullet-proof yet, and this log won't pretend otherwise. 121 automated tests now cover the effect engine, costs, auras, sacrifices, triggers, death handling, and the Abomination mutation table, but a couple of core systems, combat resolution and turn orchestration, are still too tangled up with the live game scene to unit-test cleanly. Elf and Dwarf also remain nothing more than placeholder entries for now, waiting on a full design pass before a single card gets written for either of them."
+					"Not everything is bullet-proof yet, and this log won't pretend otherwise. 121 automated tests now cover card effects, costs, auras, sacrifices, triggers, death handling, and the Abomination mutation table, but a couple of core systems, combat resolution and turn order, are still too tangled up with the live game screen to test cleanly on their own. Elf and Dwarf also remain nothing more than placeholder entries for now, waiting on a full design pass before a single card gets written for either of them."
 				]
 			},
 			{
@@ -95,7 +95,7 @@
 			{
 				"heading": "Le cœur du jeu",
 				"paragraphs": [
-					"Le cœur du jeu est jouable de bout en bout : deux joueurs s'affrontent sur des rangées Avant et Arrière pour réduire le héros adverse à 0 HP, avec un moteur d'effets entièrement data-driven qui gère triggers, enchantements et auras. Quatre races sont implémentées, pour 317 cartes au total (jetons compris) : Mort-Vivant (80 cartes), Humain (81), Démon (77) et Abomination (79), chacune avec ses propres mots-clés et son propre pool de mana via le système de Ressources par Race."
+					"Le cœur du jeu est jouable de bout en bout : deux joueurs s'affrontent sur des rangées Avant et Arrière pour réduire le héros adverse à 0 HP, avec un système complet qui gère les déclencheurs de carte, enchantements et auras. Quatre races sont implémentées, pour 317 cartes au total (jetons compris) : Mort-Vivant (80 cartes), Humain (81), Démon (77) et Abomination (79), chacune avec ses propres mots-clés et son propre pool de mana via le système de Ressources par Race."
 				]
 			},
 			{
@@ -149,7 +149,7 @@
 			{
 				"heading": "Les tests, et leurs limites",
 				"paragraphs": [
-					"Tout n'est pas encore blindé, et ce journal ne fera pas semblant du contraire. 121 tests automatisés couvrent aujourd'hui le moteur d'effets, les coûts, les auras, les sacrifices, les triggers, la gestion des morts et la table de mutation Abomination, mais deux systèmes centraux, la résolution de combat et l'orchestration des tours, restent trop imbriqués dans la scène de jeu réelle pour être testés proprement en isolation. Elfe et Nain ne sont eux aussi encore que des entrées placeholder, en attente d'une passe de design complète avant qu'une seule carte ne soit écrite pour l'une ou l'autre."
+					"Tout n'est pas encore blindé, et ce journal ne fera pas semblant du contraire. 121 tests automatisés couvrent aujourd'hui les effets de carte, les coûts, les auras, les sacrifices, les déclencheurs, la gestion des morts et la table de mutation Abomination, mais deux systèmes centraux, la résolution de combat et l'enchaînement des tours, restent trop imbriqués dans l'écran de jeu réel pour être testés proprement à part. Elfe et Nain ne sont eux aussi encore que des entrées placeholder, en attente d'une passe de design complète avant qu'une seule carte ne soit écrite pour l'une ou l'autre."
 				]
 			},
 			{
