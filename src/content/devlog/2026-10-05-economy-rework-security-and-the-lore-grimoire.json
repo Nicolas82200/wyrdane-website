@@ -1,8 +1,8 @@
 {
 	"date": "2026-10-05",
 	"title": {
-		"en": "Devlog 10: the economy rebalanced, extra account security, and the lore grimoire goes online",
-		"fr": "Devlog 10 : l'économie rééquilibrée, plus de sécurité pour les comptes, et le grimoire de lore en ligne"
+		"en": "Devlog 10: the economy rebalanced, a security pass, and the lore grimoire goes online",
+		"fr": "Devlog 10 : l'économie rééquilibrée, une passe sécurité, et le grimoire de lore en ligne"
 	},
 	"lede": {
 		"en": "This entry covers the week since Devlog 9 (2026-09-28). The progression system got a full retune: a shorter, more honest daily login streak, a single reward scale for quests, and a pack duplicate protection that actually makes a full collection reachable. Alongside that: extra protections for player accounts and data, a stubborn bug where the offline banner lied to players after a match, and on the website, 1024 lines of freshly written lore now readable as a flip-through grimoire at /lore.",
