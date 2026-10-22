@@ -69,6 +69,31 @@
 .lore-room-bg--dim {
 	filter: brightness(0.4) saturate(0.85);
 }
+/* Cadre à ratio fixe (1344x768, taille native d'archives.jpg) qui reproduit
+   le recadrage object-fit:cover du fond, mais comme une vraie boîte, pour
+   que .lore-archive-book (positionne EN % DEDANS CE CADRE, pas dans
+   .lore-archive-room) tombe toujours sur le meme point de l'image, quel que
+   soit le ratio de la fenetre. Avant ce cadre, le bouton etait positionne en
+   % contre .lore-archive-room (dont le ratio varie avec l'ecran) alors que
+   le fond, lui, se recadre differemment selon ce meme ratio : les deux
+   derivaient l'un par rapport a l'autre des que l'ecran n'etait pas proche
+   de 16:9 (ex. un second ecran plus petit/plus carre), decalant la tranche
+   cliquable loin de celle dessinee dans l'image.
+   Le triplet width/height:auto + min-width/min-height:100% + aspect-ratio
+   est l'equivalent CSS pur de object-fit:cover applique a une boite plutot
+   qu'a une image : le navigateur choisit la plus grande des deux dimensions
+   necessaires pour couvrir le parent tout en gardant le ratio imposé. */
+.lore-cover-frame {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	aspect-ratio: 1344 / 768;
+	transform: translate(-50%, -50%);
+}
 /* Tranche illustrée du premier livre écrit (book01-spine.png, posée en
    inline par Lore.tsx — fond transparent, le halo lumineux autour du livre
    est déjà peint dans l'image elle-même). Posée sur l'étagère centrale
@@ -183,7 +208,31 @@
 	width: calc(min(1105px, 92vw, calc((100vh - 48px) * 1.64)) + 28px);
 	max-height: calc(100vh - 20px);
 	aspect-ratio: 1.64;
-	background: linear-gradient(160deg, #6b3a1c, #4a2510);
+	/* Texture bois en CSS pur (pas d'asset dédié dans le dépôt) : deux
+	   repeating-linear-gradient en diagonale légère (veinage clair/sombre)
+	   par-dessus le dégradé cuir d'origine, pour donner un peu de grain au
+	   pupitre derrière le livre plutôt qu'un aplat uni. */
+	background:
+		repeating-linear-gradient(
+			95deg,
+			rgba(0, 0, 0, 0.1) 0px,
+			rgba(0, 0, 0, 0.1) 1px,
+			transparent 1px,
+			transparent 4px
+		),
+		repeating-linear-gradient(
+			95deg,
+			rgba(255, 220, 180, 0.05) 0px,
+			rgba(255, 220, 180, 0.05) 2px,
+			transparent 2px,
+			transparent 9px
+		),
+		radial-gradient(
+			ellipse at 50% 35%,
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0.3) 100%
+		),
+		linear-gradient(160deg, #6b3a1c, #4a2510);
 	border-radius: 6px;
 	box-shadow: 0 30px 60px var(--lore-book-shadow);
 }
@@ -431,10 +480,15 @@
 	);
 	line-height: 1.15;
 	color: var(--lore-ink);
+	/* Ombre renforcée (demande explicite, "tout les textes") : posée ici,
+	   sur l'ancêtre commun des titres/dropcap/paragraphes, pour qu'elle
+	   s'hérite partout sans la redéclarer sur chaque classe de texte — les
+	   quelques classes qui ne descendent pas de .lore-page (book-no,
+	   page-no...) la reprennent explicitement plus bas. */
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .lore-page p {
 	margin: 0 0 0.85em;
-	text-shadow: 0 0.4px 0 rgba(0, 0, 0, 0.15);
 	mix-blend-mode: multiply;
 }
 .lore-page p:last-child {
@@ -446,7 +500,7 @@
 	line-height: 0.8;
 	float: left;
 	padding: 0.03em 0.08em 0 0;
-	color: var(--lore-seal-red);
+	color: var(--lore-ink);
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
@@ -455,7 +509,7 @@
 		calc(var(--lore-page-w) * 0.076 - 1px),
 		calc(1.88rem - 1px)
 	);
-	color: var(--lore-seal-red);
+	color: var(--lore-ink);
 	margin: 0 0 0.5em;
 	text-align: center;
 }
@@ -475,6 +529,34 @@
 	background-position: center;
 	background-repeat: no-repeat;
 }
+/* Carte de Mydaria (lore/carte-mydaria.jpg cote card-game) : une page de
+   carte, pas une page de texte — image encadree plutot que plein cadre
+   comme .lore-cover, pour garder l'air "feuillet relie dans le registre"
+   plutot que "couverture rigide". object-fit:contain (la carte est au
+   format paysage, les pages du livre au format portrait) : toute la carte
+   reste visible, quitte a laisser du parchemin au-dessus/en dessous plutot
+   que d'en rogner un bord. */
+.lore-map {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	gap: 0.6em;
+}
+.lore-map-img {
+	max-width: 100%;
+	max-height: 85%;
+	object-fit: contain;
+	border: 1px solid var(--lore-rule);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.lore-map-caption {
+	font-style: italic;
+	color: var(--lore-room-ink-dim);
+	text-align: center;
+	margin: 0;
+}
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
 	   align-items/justify-content étaient des no-op et le centrage vertical
@@ -493,6 +575,7 @@
 	text-transform: uppercase;
 	color: var(--lore-room-ink-dim);
 	margin: 0 0 0.4em;
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
@@ -544,6 +627,7 @@
 	font-family: var(--lore-font-hand);
 	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.04), 0.85rem);
 	color: var(--lore-room-ink-dim);
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .stf__item.--right .lore-page-no {
 	right: 16px;
@@ -575,25 +659,103 @@
 	.lore-cover-title,
 	.lore-book-title {
 		font-size: clamp(
-			calc(0.84rem - 4px),
-			calc(var(--lore-page-w) * 0.068 - 4px),
-			calc(1.5rem - 4px)
+			calc(0.84rem - 6px),
+			calc(var(--lore-page-w) * 0.068 - 6px),
+			calc(1.55rem - 4px)
 		);
+		line-height: 1.08;
 	}
 	.lore-page-title {
 		font-size: clamp(
-			calc(0.92rem - 4px),
-			calc(var(--lore-page-w) * 0.076 - 4px),
-			calc(1.88rem - 4px)
+			calc(0.92rem - 6px),
+			calc(var(--lore-page-w) * 0.076 - 6px),
+			calc(1.88rem - 6px)
 		);
 	}
 	.lore-book-title {
 		font-size: clamp(
-			calc(1rem - 4px),
-			calc(var(--lore-page-w) * 0.085 - 4px),
-			calc(2.13rem - 4px)
+			calc(1rem - 6px),
+			calc(var(--lore-page-w) * 0.085 - 6px),
+			calc(2.13rem - 6px)
 		);
 	}
+	.lore-page p {
+		margin-bottom: 0.6em;
+	}
+}
+
+/* Marque-pages (voir BOOKMARKS dans Lore.tsx) : un onglet par page titree,
+   accroche au bord du livre. Position verticale FIXE par onglet (`top` en
+   px, pose en inline par React avec `slot * TAB_HEIGHT`, TAB_HEIGHT = 24
+   cote JS) — ne depend jamais du cote gauche/droite choisi, c'est ca qui
+   garde "le marque-page Aldrenia a la 3e place" meme apres l'avoir
+   depassee. .lore-bookmarks est en inset:0 sur .lore-stage (position:
+   relative deja) : chaque onglet se positionne ensuite par rapport a cette
+   boite pleine page, PAS par rapport a la largeur variable du livre lui-
+   meme (couverture vs double-page) — plus simple, et les onglets ne
+   sautent pas en largeur quand le livre s'ouvre. overflow-y:auto en cas de
+   liste plus haute que l'ecran (beaucoup de titres) : on garde la colonne
+   scrollable plutot que d'ecraser la hauteur de chaque onglet. */
+.lore-bookmarks {
+	/* Pas de bottom/height ni d'overflow:auto ici : les onglets sont tous en
+	   position absolute (ils ne contribuent pas a la hauteur du parent),
+	   donc cette boite n'a besoin d'aucune hauteur propre pour que son
+	   `top` individuel par onglet fonctionne. Un overflow-y:auto dessinait
+	   une scrollbar INUTILE par-dessus la couverture (pointer-events:none
+	   ci-dessous empechant de toute facon de l'actionner a la molette) — si
+	   la liste deborde vraiment de la piece, .lore-room (overflow:hidden)
+	   la coupe proprement plutot que d'afficher une barre morte. */
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	pointer-events: none;
+	z-index: 15;
+}
+.lore-bookmark {
+	position: absolute;
+	pointer-events: auto;
+	height: 28px;
+	max-width: 150px;
+	padding: 2px 12px;
+	font-family: var(--lore-font-hand);
+	font-weight: 700;
+	font-size: 1rem;
+	line-height: 24px;
+	/* Noir + fond beige (demande explicite) : meme teinte que les pages du
+	   livre (--lore-room-bg-2/--lore-room-bg, voir le degrade de .lore-room),
+	   pas la texture bois du pupitre — ca les lit comme des onglets DU livre,
+	   pas comme un element du decor derriere lui. */
+	color: var(--lore-ink);
+	background: linear-gradient(
+		160deg,
+		var(--lore-room-bg-2),
+		var(--lore-room-bg)
+	);
+	border: 1px solid var(--lore-rule);
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+}
+.lore-bookmark:hover,
+.lore-bookmark:focus-visible {
+	background: linear-gradient(160deg, #fff6e0, var(--lore-room-bg-2));
+}
+.lore-bookmark--right {
+	right: 0;
+	transform: translateX(100%);
+	border-radius: 0 4px 4px 0;
+	border-left: none;
+	text-align: left;
+}
+.lore-bookmark--left {
+	left: 0;
+	transform: translateX(-100%);
+	border-radius: 4px 0 0 4px;
+	border-right: none;
+	text-align: right;
 }
 
 /* La couverture est un carton rigide, pas une page de papier : elle ne

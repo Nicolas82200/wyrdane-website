@@ -6,6 +6,7 @@ import HTMLFlipBook from "react-pageflip";
 
 import archivesBgUrl from "../assets/site/archives.jpg";
 import book01CoverUrl from "../assets/site/book-01.png";
+import mydariaMapUrl from "../assets/site/carte-mydaria.jpg";
 import book01SpineUrl from "../assets/site/book01-spine.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
@@ -18,9 +19,43 @@ import "./Lore.css";
 interface PageFlipInstance {
 	flipNext: (corner?: "top" | "bottom") => void;
 	flipPrev: (corner?: "top" | "bottom") => void;
+	// flip()/flipToPage() (saut direct, UN SEUL tournage anime vers une page
+	// arbitraire) a ete essaye deux fois, y compris apres avoir elimine tout
+	// risque de clic concurrent (stopPropagation sur le bouton) : il reste
+	// coince sur la page de depart au lieu de reveler la cible — bug reel de
+	// la librairie sur les sauts a distance. Plutot que de contourner ce
+	// bug avec un saut instantane (turnToPage(), sans animation), jumpToPage
+	// (plus bas) enchaine plusieurs flipNext()/flipPrev() normaux via la
+	// MEME file d'attente que la navigation habituelle (flipQueueRef/
+	// processFlipQueue) : chacun est fiable et anime, le livre feuillette
+	// reellement jusqu'a la page visee. getCurrentPageIndex() sert a savoir,
+	// apres chaque tournage, s'il faut en enchainer un autre.
+	getCurrentPageIndex: () => number;
 	getState: () => "user_fold" | "fold_corner" | "flipping" | "read";
 }
 type FlipBookHandle = { pageFlip: () => PageFlipInstance };
+
+// Marque-pages : une entree par page de JOURNAL_PAGES qui porte un titre
+// (divider.bookNo pour les grandes "Entrees", content.title pour les
+// chapitres). Calcule une seule fois au chargement du module (JOURNAL_PAGES
+// est statique) : l'INDEX de chaque marque-page dans ce tableau est son
+// "emplacement" fixe (voir Lore.css .lore-bookmark, position en
+// `top: slot * TAB_HEIGHT`) — il ne bouge jamais, seul le cote (gauche si
+// deja lue, droite sinon) change selon la page courante.
+const TAB_HEIGHT = 32;
+type Bookmark = { pageIndex: number; label: string };
+// Divider = toujours marque (ce sont les seuls "tomes"/grandes entrees).
+// content = marque UNIQUEMENT si bookmark:true est pose explicitement sur la
+// page (voir journalAldrenia.ts) : un chapitre/royaume, jamais une page de
+// sous-section a l'interieur d'un chapitre deja marque (demande explicite,
+// liste volontairement courte plutot qu'un marque-page par page titree).
+const BOOKMARKS: Bookmark[] = JOURNAL_PAGES.reduce<Bookmark[]>((acc, page, pageIndex) => {
+	if (page.kind === "divider") acc.push({ pageIndex, label: page.bookNo });
+	else if (page.kind === "content" && page.bookmark && page.title) {
+		acc.push({ pageIndex, label: page.title });
+	}
+	return acc;
+}, []);
 
 // react-pageflip appose lui-même les classes --left/--right/--hard/--soft sur
 // la racine qu'on lui donne (voir Nodlik/StPageFlip, HTMLPage.ts) : le CSS de
@@ -54,7 +89,6 @@ const Page = forwardRef(
 								</span>
 							))}
 						</p>
-						<p className="lore-book-sub">{page.bookSub}</p>
 						<p className="lore-ornament">&#10047;</p>
 					</div>
 				);
@@ -66,8 +100,8 @@ const Page = forwardRef(
 						<p className="lore-book-title">{page.bookTitle}</p>
 						<p className="lore-book-sub">{page.bookSub}</p>
 						<div className="lore-wax-row">
-							{page.waxList.map((w) => (
-								<div className="lore-wax" key={w}>
+							{page.waxList.map((w, i) => (
+								<div className="lore-wax" key={i}>
 									{w}
 								</div>
 							))}
@@ -92,6 +126,14 @@ const Page = forwardRef(
 				content = (
 					<div className="lore-page">
 						<p style={{ fontStyle: "italic" }}>{page.text}</p>
+					</div>
+				);
+				break;
+			case "map":
+				content = (
+					<div className="lore-page lore-map">
+						<img className="lore-map-img" src={mydariaMapUrl} alt="Carte de Mydaria" />
+						{page.caption && <p className="lore-map-caption">{page.caption}</p>}
 					</div>
 				);
 				break;
@@ -298,8 +340,43 @@ const Lore = () => {
 	// couverture), rétrécie une fois le tournage retour bien terminé — pas
 	// encore animée avec motion, seule l'ouverture a été demandée.
 	const pendingIsCoverRef = useRef(true);
+	// Pilote le cote (gauche/droite) de chaque marque-page (voir BOOKMARKS
+	// plus haut) : mis a jour a chaque tournage reellement effectue, pas
+	// seulement sur un clic de marque-page (navigation normale au fil de
+	// la lecture aussi prise en compte).
+	const [currentPageIndex, setCurrentPageIndex] = useState(0);
 	const handleFlip = (e: { data: number }) => {
 		pendingIsCoverRef.current = e.data === 0;
+		setCurrentPageIndex(e.data);
+	};
+
+	// Cible d'un saut de marque-page en cours (voir jumpToPage), consommee
+	// par handleChangeState : tant qu'elle est posee, chaque tournage qui se
+	// termine en enchaine un autre vers elle au lieu de laisser la file
+	// d'attente se vider. null = aucun saut en cours (navigation normale).
+	const jumpTargetRef = useRef<number | null>(null);
+	// Filet de securite : un saut ne doit jamais prendre plus de tournages
+	// que de pages dans le livre. Coupe court plutot que de boucler pour de
+	// bon si l'index cible ne finit jamais par matcher getCurrentPageIndex()
+	// (cas qui ne devrait pas arriver, les deux viennent de la meme
+	// collection de pages, mais mieux vaut un saut qui s'arrete tot qu'un
+	// qui ne s'arrete jamais).
+	const JUMP_STEP_LIMIT = JOURNAL_PAGES.length;
+	const jumpStepsLeftRef = useRef(0);
+
+	// Saut vers la page d'un marque-page, feuillete comme une vraie
+	// navigation : enchaine plusieurs flipNext()/flipPrev() normaux via la
+	// MEME file que les clics habituels (flipQueueRef/processFlipQueue,
+	// voir le commentaire sur PageFlipInstance.getCurrentPageIndex plus
+	// haut), un par un, chacun anime. Le premier pas reutilise enqueueFlip
+	// telle quelle (gere deja l'ouverture depuis la couverture) ; les pas
+	// suivants sont ajoutes par handleChangeState, ci-dessous, a la fin de
+	// chaque tournage.
+	const jumpToPage = (target: number) => {
+		if (isFlipBusyRef.current || target === currentPageIndex) return;
+		jumpTargetRef.current = target;
+		jumpStepsLeftRef.current = JUMP_STEP_LIMIT;
+		enqueueFlip(target > currentPageIndex ? "next" : "prev");
 	};
 
 	const handleChangeState = (e: { data: string }) => {
@@ -321,6 +398,37 @@ const Lore = () => {
 			// React "two children with the same key").
 			if (!wasCover && pendingIsCoverRef.current) {
 				requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+			}
+			// Saut de marque-page en cours (jumpTargetRef, voir jumpToPage) :
+			// le tournage qui vient de se terminer a-t-il atteint la cible, ou
+			// faut-il en enchainer un autre ? getCurrentPageIndex() (valeur
+			// fraiche de la librairie) plutot que l'etat React currentPageIndex,
+			// dont la mise a jour par ce meme rendu n'est pas garantie visible
+			// ici. Le pas suivant est empile AVANT le flush de la file ci-
+			// dessous, pour qu'il parte avec les autres tournages en attente.
+			//
+			// PageCollection.showSpread() (node_modules/page-flip/src/
+			// Collection/PageCollection.ts) pose TOUJOURS currentPageIndex a
+			// spread[0], la page de GAUCHE de la double page affichee, jamais
+			// celle de droite. Une cible qui tombe a droite de sa propre
+			// double page ne peut donc jamais egaler `current` au sens
+			// strict — sans la tolerance ci-dessous (`<= 1`, la cible est
+			// soit affichee a gauche, soit juste a droite), le saut
+			// oscillait indefiniment entre les deux pages voisines de la
+			// cible au lieu de s'arreter dessus.
+			const jt = jumpTargetRef.current;
+			if (jt !== null) {
+				const pf = flipBookRef.current?.pageFlip();
+				const current = pf?.getCurrentPageIndex();
+				const reached = current !== undefined && Math.abs(current - jt) <= 1;
+				if (reached || jumpStepsLeftRef.current <= 0) {
+					jumpTargetRef.current = null;
+				} else {
+					jumpStepsLeftRef.current -= 1;
+					flipQueueRef.current.push(
+						current !== undefined && current < jt ? "next" : "prev",
+					);
+				}
 			}
 			// Rappeler flipNext()/flipPrev() de façon SYNCHRONE depuis ce
 			// handler (donc depuis l'intérieur du traitement interne de
@@ -357,21 +465,26 @@ const Lore = () => {
 	if (!opened) {
 		return (
 			<div className="lore-room lore-archive-room">
-				<img className="lore-room-bg" src={archivesBgUrl} alt="" />
-				{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
-				   l'image 1344x768 source, pour rester justes quelle que soit la
-				   taille d'affichage) : la grande étagère centrale basse
-				   (x: 28%-73%, y: 77%-85%, quelques livres déjà au centre) a le
-				   plus de place pour de futurs tomes des deux côtés de
-				   .lore-archive-book-01 ; un petit creux existe aussi vers
-				   x: 63%-69%, y: 56%-62% (un seul livret isolé). */}
-				<button
-					type="button"
-					className="lore-archive-book lore-archive-book-01"
-					style={{ backgroundImage: `url(${book01SpineUrl})` }}
-					onClick={() => setOpened(true)}
-					aria-label="Ouvrir le Journal d'Aldrenia"
-				/>
+				{/* .lore-cover-frame reproduit object-fit:cover comme une vraie
+				   boite (voir Lore.css) : image ET bouton vivent dedans pour
+				   partager le meme repere en %, peu importe le ratio de l'ecran. */}
+				<div className="lore-cover-frame">
+					<img className="lore-room-bg" src={archivesBgUrl} alt="" />
+					{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
+					   l'image 1344x768 source, pour rester justes quelle que soit la
+					   taille d'affichage) : la grande étagère centrale basse
+					   (x: 28%-73%, y: 77%-85%, quelques livres déjà au centre) a le
+					   plus de place pour de futurs tomes des deux côtés de
+					   .lore-archive-book-01 ; un petit creux existe aussi vers
+					   x: 63%-69%, y: 56%-62% (un seul livret isolé). */}
+					<button
+						type="button"
+						className="lore-archive-book lore-archive-book-01"
+						style={{ backgroundImage: `url(${book01SpineUrl})` }}
+						onClick={() => setOpened(true)}
+						aria-label="Ouvrir le Journal d'Aldrenia"
+					/>
+				</div>
 			</div>
 		);
 	}
@@ -428,7 +541,7 @@ const Lore = () => {
 						maxHeight={1000}
 						startPage={0}
 						showCover
-						flippingTime={prefersReducedMotion ? 1 : 500}
+						flippingTime={prefersReducedMotion ? 1 : 260}
 						maxShadowOpacity={0.6}
 						// StPageFlip bascule tout seul en page unique dès que la largeur
 						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
@@ -460,6 +573,35 @@ const Lore = () => {
 							<Page key={i} page={page} folio={i === 0 ? null : i + 1} />
 						))}
 					</HTMLFlipBook>
+					{/* Marque-pages : un par page titree (BOOKMARKS, calcule plus haut).
+					   Enfant de .lore-book-wrap (pas .lore-stage) pour que inset:0 se
+					   resolve contre la largeur REELLE du livre (couverture etroite ou
+					   double-page) — ancre sur .lore-stage, bien plus large que le livre,
+					   les onglets sortaient de l'ecran, loin du bord reel des pages.
+					   Position verticale fixe (slot = index dans BOOKMARKS, voir
+					   Lore.css .lore-bookmark) ; seul le cote change — a droite tant
+					   que la page n'a pas ete atteinte, a gauche une fois depassee —
+					   sans jamais changer l'ordre vertical des onglets entre eux. */}
+					<div className="lore-bookmarks">
+						{BOOKMARKS.map((bm, slot) => {
+							const passed = bm.pageIndex < currentPageIndex;
+							return (
+								<button
+									key={bm.pageIndex}
+									type="button"
+									className={`lore-bookmark ${passed ? "lore-bookmark--left" : "lore-bookmark--right"}`}
+									style={{ top: slot * TAB_HEIGHT }}
+									onClick={(e) => {
+								e.stopPropagation();
+								jumpToPage(bm.pageIndex);
+							}}
+									title={bm.label}
+								>
+									{bm.label}
+								</button>
+							);
+						})}
+					</div>
 				</div>
 			</div>
 		</div>
