@@ -71,7 +71,21 @@
 	font-style: normal;
 }
 
+/* Les @font-face ci-dessus ne servent plus aux textes de la carte depuis le
+   passage a la police systeme (voir .gamecard juste en-dessous), mais ne sont
+   pas supprimes : CinzelDecorative et CrimsonTextCard habillent encore le
+   deck builder (DeckBuilder.css), et CinzelCard reste sous la main le temps
+   que le choix de police soit arrete. */
+
 .gamecard {
+	/* Police unique pour tous les textes de la carte (demande utilisateur
+	   2026-10-23 : "une police plus lisible et basique"). Pile de polices
+	   systeme plutot qu'un fichier a telecharger : c'est la police d'interface
+	   du systeme du lecteur, deja chargee, et surtout celle dont le rendu est
+	   le plus soigne aux petites tailles — exactement le cas de la grille du
+	   deck builder, ou les serifs du jeu (Cinzel/Crimson Text) devenaient
+	   pateux. Ecart assume avec le rendu du jeu, qui garde ses polices. */
+	font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	position: relative;
 	width: 250px;
 	height: 375px;
@@ -174,10 +188,9 @@
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	font-family: "CinzelCard", serif;
-	font-weight: 400;
+	font-weight: 600;
 	font-size: 17px;
-	line-height: 1.15;
+	line-height: 1.2;
 	color: rgb(242, 227, 198);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
@@ -197,7 +210,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: "CinzelCard", serif;
 	font-weight: 900;
 	font-size: 29px;
 	color: rgb(211, 211, 211);
@@ -220,7 +232,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: "CinzelCard", serif;
 	font-weight: 900;
 	font-size: 21px;
 	color: rgb(211, 211, 211);
@@ -249,14 +260,17 @@
 	height: 142.5px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
 	justify-content: center;
 	gap: 6px;
-	text-align: center;
-	font-family: "CrimsonTextCard", serif;
+	text-align: left;
 	font-weight: 400;
-	font-size: 18px;
-	line-height: 1.2;
+	/* Taille baissee de 18 a 16 en passant a une police sans serif : sa
+	   hauteur d'x est nettement plus grande que celle de Crimson Text, donc
+	   16px s'y lisent plus gros que 18px avant, tout en laissant assez de
+	   place pour que peu de cartes declenchent la reduction a 14px. */
+	font-size: 16px;
+	line-height: 1.35;
 	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
@@ -290,8 +304,7 @@
 	   plus aere et filet de separation : il se lit comme un bloc distinct sans
 	   voler le contraste au texte de regle, qui reste blanc. */
 	color: rgb(232, 221, 198);
-	line-height: 1.3;
-	text-wrap: balance;
+	line-height: 1.35;
 }
 
 /* Filet de separation entre texte de regle et flavour (le jeu se contente
@@ -301,12 +314,11 @@
 	margin-top: 1px;
 	padding-top: 5px;
 	border-top: 1px solid rgba(168, 122, 52, 0.45);
-	align-self: stretch;
 }
 
 /* TypeLabel : sur la bordure dorée en haut de carte, centrée, largeur
    mesurée par le navigateur (width: max-content) plutôt qu'au canvas en JS
-   — une mesure figée au premier rendu, avant que la police CinzelCard ait
+   — une mesure figée au premier rendu, avant que la police de la carte ait
    fini de charger, coupait des mots entiers ("Enchantement",
    "Rituel • N charges") derrière overflow: hidden sans jamais se corriger
    une fois la vraie police chargée (voir GameCard.tsx). Cinzel-Bold 13px
@@ -323,7 +335,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: "CinzelCard", serif;
 	font-weight: 700;
 	font-size: 13px;
 	color: #000;
@@ -348,7 +359,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: "CinzelCard", serif;
 	font-weight: 700;
 	font-size: 29px;
 	color: rgba(211, 211, 211, 0.855);
@@ -370,7 +380,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: "CinzelCard", serif;
 	font-weight: 700;
 	font-size: 29px;
 	color: rgba(211, 211, 211, 0.855);

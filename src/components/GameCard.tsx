@@ -154,7 +154,7 @@ const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
 // le bas (plafonnée ici), on réduit plutôt la police (Typography.BODY - 1
 // → Typography.MICRO - 1) pour ne jamais recouper le texte de règle.
 const DESC_LABEL_MAX_GROWTH = 3;
-const DESC_LABEL_DEFAULT_FONT_SIZE = 18;
+const DESC_LABEL_DEFAULT_FONT_SIZE = 16;
 const DESC_LABEL_SHRUNK_FONT_SIZE = 14;
 const STATS_LABEL_DEFAULT_TOP = 330;
 // Card.gd DESC_FLAVOUR_HIDE_THRESHOLD : au-delà de ce nombre de caractères,
@@ -165,7 +165,7 @@ const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
 // Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
 // plutôt qu'au canvas : une mesure JS figée au premier rendu (avant que la
-// police CinzelCard ait fini de charger, voir le même problème sur
+// police de la carte ait fini de charger, voir le même problème sur
 // NameLabel ci-dessus) tombait sur la police de repli du navigateur,
 // produisait une largeur trop étroite, et restait juste — coupant des mots
 // entiers ("Enchantement", "Rituel • N charges") derrière overflow: hidden
@@ -233,8 +233,10 @@ export default function GameCard({ card }: { card: CardData }) {
 			setNameGrowth(growth);
 		};
 		measure();
-		// Les polices (@font-face CinzelCard) ne sont pas forcément chargées
-		// au premier rendu : la mesure ci-dessus tombe alors sur la police de
+		// La carte est désormais en pile de polices système (voir
+		// GameCard.css), donc normalement rien à attendre — ce second passage
+		// reste par sécurité pour le cas où un repli se charge en différé :
+		// sans lui, la mesure ci-dessus tomberait sur la police de
 		// repli du navigateur, souvent plus étroite, qui peut tenir sur une
 		// ligne de moins que la vraie police une fois chargée — sans
 		// remesurer après coup, un nom qui finit par passer sur 2 lignes
