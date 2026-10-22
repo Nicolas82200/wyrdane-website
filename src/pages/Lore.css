@@ -608,14 +608,25 @@
 .lore-map {
 	position: absolute;
 	inset: 0;
+	/* Centre l'image a sa taille REELLE (voir .lore-map-img) plutot que de la
+	   forcer a occuper toute la boite : sans ca, meme avec object-fit:
+	   contain, la zone cliquable de <img> restait la page entiere (bandes de
+	   parchemin "vides" comprises), ce qui empechait tout clic de tournage
+	   de page des qu'une carte etait affichee (demande explicite a corriger). */
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .lore-map-img {
-	/* object-fit:contain (pas cover) : la carte entiere doit rester visible,
-	   quitte a laisser un peu de parchemin nu sur un bord plutot que de
-	   rogner un nom de royaume ou un coin de la carte (demande explicite). */
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
+	/* max-width/max-height + auto (pas width/height:100% + object-fit) : la
+	   boite de <img> epouse alors exactement l'image affichee, jamais plus.
+	   Le parchemin autour reste donc un simple clic de tournage de page
+	   (voir .lore-map ci-dessus), seule l'image elle-meme ouvre la
+	   visionneuse. */
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
 	cursor: zoom-in;
 }
 
