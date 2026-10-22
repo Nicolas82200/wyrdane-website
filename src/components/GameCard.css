@@ -47,6 +47,18 @@
 	font-weight: 600;
 	font-style: italic;
 }
+/* Card.tscn DescLabel.theme_override_fonts/italics_font : le flavour text est
+   dessine en vraie italique par le jeu. Le site le rendait en Regular (400)
+   + font-style: italic sans face italique correspondante, donc en oblique
+   SYNTHETIQUE (glyphes Regular simplement penches par le navigateur) : traits
+   deformes et contours flous, la principale cause d'illisibilite du flavour
+   une fois la carte reduite dans la grille du deck builder. */
+@font-face {
+	font-family: "CrimsonTextCard";
+	src: url("../assets/game/fonts/CrimsonText-Italic.ttf") format("truetype");
+	font-weight: 400;
+	font-style: italic;
+}
 /* Card.tscn DescLabel.theme_override_fonts/bold_font (CrimsonText-Bold.ttf,
    bold_font_size = 13, même taille que le texte normal) — jamais copiée sur
    le site jusqu'ici : les <strong> de .gamecard-effect retombaient sur un
@@ -88,24 +100,64 @@
 	border-radius: 6px;
 }
 
-/* LaneIcon / icône de type en filigrane, teintée par race (Card.gd
-   RACE_ICON_COLORS) via un masque CSS plutôt qu'un simple assombrissement :
-   la couleur vient de background-color, posée en style inline (GameCard.tsx). */
-.gamecard-watermark {
+/* CardTypeIconBg + CardTypeIcon (Card.tscn) : medaillon rond en haut a
+   gauche, symetrique au badge de cout. Remplace l'ancien filigrane central
+   du site, qui n'existe plus dans le jeu — l'information (rangee pour un
+   serviteur, type pour les autres cartes) s'y lisait mal, noyee derriere le
+   texte de regle. */
+.gamecard-type-icon-bg {
 	position: absolute;
-	left: 55px;
-	/* top posé dynamiquement en style inline (GameCard.tsx) : recentré sur
-	   la zone de texte, qui se décale selon la longueur du nom. */
-	width: 140px;
-	height: 140px;
+	left: 13.5px;
+	top: 13.5px;
+	width: 51px;
+	height: 51px;
+	background: rgba(18, 17, 16, 0.85);
+	border: 2px solid rgb(168, 122, 52);
+	border-radius: 26px;
+	box-sizing: border-box;
+	pointer-events: none;
+	z-index: 2;
+}
+
+/* CardTypeIcon : 19,19 -> 40x40, stretch KEEP_ASPECT_CENTERED */
+.gamecard-type-icon {
+	position: absolute;
+	left: 19px;
+	top: 19px;
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+	pointer-events: none;
+	z-index: 3;
+}
+
+/* Icone de type des cartes non-serviteur : silhouette blanche teintee par
+   race (Card.gd RACE_ICON_COLORS), via un masque CSS — la couleur vient de
+   background-color, posee en style inline (GameCard.tsx). Les icones de
+   rangee des serviteurs, elles, sont deja illustrees en couleur et restent
+   de simples <img>. */
+.gamecard-type-icon--tinted {
 	-webkit-mask-repeat: no-repeat;
 	mask-repeat: no-repeat;
 	-webkit-mask-position: center;
 	mask-position: center;
 	-webkit-mask-size: contain;
 	mask-size: contain;
-	opacity: 0.42;
-	pointer-events: none;
+}
+
+/* ResourceIcon (Card.tscn) : icone de race dans le badge de cout des
+   cartes-ressource, a la place du chiffre. Teintee par race plutot que
+   laissee en noir comme le SVG brut du jeu : noir sur le fond sombre du
+   badge, elle etait illisible sur le site. */
+.gamecard-resource-icon {
+	width: 32px;
+	height: 32px;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
 }
 
 /* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx).
@@ -209,6 +261,11 @@
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
 	padding: 4px 6px;
+	/* Le jeu attenue ce fond (Card.gd LABEL_BG_ALPHA_FACTOR = 0.7) pour
+	   laisser transparaitre l'illustration. Le site le garde pleinement
+	   opaque (alpha pose en style inline, voir GameCard.tsx) : a la taille
+	   reduite de la grille du deck builder, l'illustration derriere le texte
+	   le rendait illisible. */
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
@@ -228,6 +285,23 @@
    voir GameCard.tsx). */
 .gamecard-flavor {
 	font-style: italic;
+	/* Blanc pur + italique fine = le flavour se noyait dans le texte de
+	   regle juste au-dessus. Teinte parchemin legerement adoucie, interlignage
+	   plus aere et filet de separation : il se lit comme un bloc distinct sans
+	   voler le contraste au texte de regle, qui reste blanc. */
+	color: rgb(232, 221, 198);
+	line-height: 1.3;
+	text-wrap: balance;
+}
+
+/* Filet de separation entre texte de regle et flavour (le jeu se contente
+   d'un retour a la ligne, trop discret au rendu HTML). Absent quand le
+   flavour est seul dans la case : rien a separer. */
+.gamecard-effect + .gamecard-flavor {
+	margin-top: 1px;
+	padding-top: 5px;
+	border-top: 1px solid rgba(168, 122, 52, 0.45);
+	align-self: stretch;
 }
 
 /* TypeLabel : sur la bordure dorée en haut de carte, centrée, largeur
