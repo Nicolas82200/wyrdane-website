@@ -404,6 +404,20 @@ const Lore = () => {
 		const downX = mouseDownXRef.current;
 		mouseDownXRef.current = null;
 		if (downX !== null && Math.abs(e.clientX - downX) > DRAG_CLICK_THRESHOLD) return;
+		// isPointOnCorners (node_modules/page-flip/.../Flip.ts) ignore
+		// disableFlipByClick pres des coins de la page : un clic la-dessus
+		// declenche quand meme un tournage natif cote librairie, de facon
+		// SYNCHRONE dans son propre mouseup (userStop -> flip()), donc AVANT
+		// que ce handler React ne s'execute. isFlipBusyRef reste a false (on
+		// n'a nous-memes rien declenche) alors que pageFlip.getState() est
+		// deja passe a "flipping" : signature propre a ce cas, qui le
+		// distingue d'un clic recu PENDANT un tournage que CE code a
+		// lui-meme lance (celui-la doit au contraire s'empiler normalement,
+		// voir plus bas) — sans ce garde-fou, le meme clic empilait un
+		// second tournage par-dessus celui de la librairie, d'ou l'animation
+		// qui se detraquait pres des coins du livre.
+		const pageFlip = flipBookRef.current?.pageFlip();
+		if (pageFlip && !isFlipBusyRef.current && pageFlip.getState() !== "read") return;
 		const rect = e.currentTarget.getBoundingClientRect();
 		const clickedRight = e.clientX - rect.left > rect.width / 2;
 		enqueueFlip(clickedRight ? "next" : "prev");
