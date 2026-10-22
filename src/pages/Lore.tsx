@@ -3,15 +3,32 @@ import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import HTMLFlipBook from "react-pageflip";
+import { Link } from "react-router-dom";
 
 import archivesBgUrl from "../assets/site/archives.jpg";
 import book01CoverUrl from "../assets/site/book-01.png";
-import mydariaMapUrl from "../assets/site/carte-mydaria.jpg";
 import book01SpineUrl from "../assets/site/book01-spine.png";
+import mapEnUrl from "../assets/site/map-en.png";
+import mapFrUrl from "../assets/site/map-fr.png";
+import map1awEnUrl from "../assets/site/1aw-map-en.png";
+import map1awFrUrl from "../assets/site/1aw-map-fr.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
-import { JOURNAL_PAGES, type JournalPage } from "../data/journalAldrenia";
+import Portal from "../components/Portal";
+import { JOURNAL_PAGES, type Bi, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+import { useLanguage } from "../i18n/useLanguage";
 import "./Lore.css";
+
+// Les deux cartes (Entree I, Entree III) ont chacune un fichier par langue
+// plutot qu'un seul fichier texte-neutre : resout ici les noms de fichier
+// relatifs portes par les pages kind:"map" (journalAldrenia.ts) vers les
+// imports Vite ci-dessus, selon la langue courante.
+const MAP_URLS: Record<string, string> = {
+	"map-fr.png": mapFrUrl,
+	"map-en.png": mapEnUrl,
+	"1aw-map-fr.png": map1awFrUrl,
+	"1aw-map-en.png": map1awEnUrl,
+};
 
 // Instance StPageFlip exposée par react-pageflip via ref.current.pageFlip()
 // (voir node_modules/react-pageflip/build/index.es.js) — non typée par le
@@ -43,12 +60,14 @@ type FlipBookHandle = { pageFlip: () => PageFlipInstance };
 // `top: slot * TAB_HEIGHT`) — il ne bouge jamais, seul le cote (gauche si
 // deja lue, droite sinon) change selon la page courante.
 const TAB_HEIGHT = 32;
-type Bookmark = { pageIndex: number; label: string };
+type Bookmark = { pageIndex: number; label: Bi };
 // Divider = toujours marque (ce sont les seuls "tomes"/grandes entrees).
 // content = marque UNIQUEMENT si bookmark:true est pose explicitement sur la
 // page (voir journalAldrenia.ts) : un chapitre/royaume, jamais une page de
 // sous-section a l'interieur d'un chapitre deja marque (demande explicite,
 // liste volontairement courte plutot qu'un marque-page par page titree).
+// label reste bilingue (Bi) : choisi a l'affichage selon la langue courante,
+// pas au calcul de ce tableau (module-level, calcule une seule fois).
 const BOOKMARKS: Bookmark[] = JOURNAL_PAGES.reduce<Bookmark[]>((acc, page, pageIndex) => {
 	if (page.kind === "divider") acc.push({ pageIndex, label: page.bookNo });
 	else if (page.kind === "content" && page.bookmark && page.title) {
@@ -62,10 +81,16 @@ const BOOKMARKS: Bookmark[] = JOURNAL_PAGES.reduce<Bookmark[]>((acc, page, pageI
 // Lore.css s'appuie sur ces classes plutôt que de recalculer une parité.
 const Page = forwardRef(
 	(
-		props: { page: JournalPage; folio: number | null },
+		props: {
+			page: JournalPage;
+			folio: number | null;
+			lang: "fr" | "en";
+			onOpenImage?: (src: string, alt: string) => void;
+		},
 		ref: ForwardedRef<HTMLDivElement>,
 	) => {
-		const { page, folio } = props;
+		const { page, folio, lang, onOpenImage } = props;
+		const t = (b: Bi) => b[lang];
 
 		let content: React.ReactNode;
 		switch (page.kind) {
@@ -80,14 +105,16 @@ const Page = forwardRef(
 			case "divider":
 				content = (
 					<div className="lore-page lore-divider">
-						<p className="lore-book-no">{page.bookNo}</p>
+						<p className="lore-book-no">{t(page.bookNo)}</p>
 						<p className="lore-book-title">
-							{page.bookTitle.split("\n").map((line, i) => (
-								<span key={i}>
-									{i > 0 && <br />}
-									{line}
-								</span>
-							))}
+							{t(page.bookTitle)
+								.split("\n")
+								.map((line, i) => (
+									<span key={i}>
+										{i > 0 && <br />}
+										{line}
+									</span>
+								))}
 						</p>
 						<p className="lore-ornament">&#10047;</p>
 					</div>
@@ -96,9 +123,9 @@ const Page = forwardRef(
 			case "sealed":
 				content = (
 					<div className="lore-page lore-divider">
-						<p className="lore-book-no">{page.bookNo}</p>
-						<p className="lore-book-title">{page.bookTitle}</p>
-						<p className="lore-book-sub">{page.bookSub}</p>
+						<p className="lore-book-no">{t(page.bookNo)}</p>
+						<p className="lore-book-title">{t(page.bookTitle)}</p>
+						<p className="lore-book-sub">{t(page.bookSub)}</p>
 						<div className="lore-wax-row">
 							{page.waxList.map((w, i) => (
 								<div className="lore-wax" key={i}>
@@ -107,7 +134,7 @@ const Page = forwardRef(
 							))}
 						</div>
 						<p className="lore-book-sub" style={{ marginTop: 14 }}>
-							{page.note}
+							{t(page.note)}
 						</p>
 					</div>
 				);
@@ -115,9 +142,9 @@ const Page = forwardRef(
 			case "colophon":
 				content = (
 					<div className="lore-page">
-						<p className="lore-page-title">{page.title}</p>
+						<p className="lore-page-title">{t(page.title)}</p>
 						{page.paragraphs.map((p, i) => (
-							<p key={i}>{p}</p>
+							<p key={i}>{t(p)}</p>
 						))}
 					</div>
 				);
@@ -125,28 +152,38 @@ const Page = forwardRef(
 			case "content-italic":
 				content = (
 					<div className="lore-page">
-						<p style={{ fontStyle: "italic" }}>{page.text}</p>
+						<p style={{ fontStyle: "italic" }}>{t(page.text)}</p>
 					</div>
 				);
 				break;
-			case "map":
+			case "map": {
+				const src = MAP_URLS[lang === "fr" ? page.srcFr : page.srcEn];
+				const alt = lang === "fr" ? "Carte de Mydaria" : "Map of Mydaria";
 				content = (
 					<div className="lore-page lore-map">
-						<img className="lore-map-img" src={mydariaMapUrl} alt="Carte de Mydaria" />
-						{page.caption && <p className="lore-map-caption">{page.caption}</p>}
+						<img
+							className="lore-map-img"
+							src={src}
+							alt={alt}
+							onClick={(e) => {
+								e.stopPropagation();
+								onOpenImage?.(src, alt);
+							}}
+						/>
 					</div>
 				);
 				break;
+			}
 			case "content":
 				content = (
 					<div className="lore-page">
-						{page.title && <p className="lore-page-title">{page.title}</p>}
+						{page.title && <p className="lore-page-title">{t(page.title)}</p>}
 						{page.paragraphs.map((p, i) => (
 							<p
 								key={i}
 								className={i === 0 && page.dropcap ? "lore-dropcap" : undefined}
 							>
-								{p}
+								{t(p)}
 							</p>
 						))}
 					</div>
@@ -171,7 +208,25 @@ const Page = forwardRef(
 Page.displayName = "JournalPage";
 
 const Lore = () => {
+	const { language, setLanguage } = useLanguage();
 	const prefersReducedMotion = usePrefersReducedMotion();
+	// Visionneuse plein ecran pour les cartes (demande explicite) : src/alt de
+	// l'image actuellement agrandie, ou null si fermee. Remonte depuis Page
+	// via onOpenImage plutot que gere localement a chaque page, pour pouvoir
+	// la rendre une seule fois, par portail, au-dessus de tout le reste
+	// (voir Portal plus bas — essentiel pendant l'animation d'ouverture du
+	// livre, qui pose un transform inline sur .lore-book-wrap : un position
+	// fixed imbrique dedans se positionnerait contre CE transform plutot que
+	// contre le viewport).
+	const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+	useEffect(() => {
+		if (!lightbox) return;
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") setLightbox(null);
+		};
+		window.addEventListener("keydown", onKey);
+		return () => window.removeEventListener("keydown", onKey);
+	}, [lightbox]);
 	// false = salle des archives (étagères, livre à cliquer) ; true = livre
 	// ouvert (flipbook). Un seul livre écrit pour l'instant (book-01) — les
 	// emplacements vides repérés sur archives.jpg pour les prochains sont
@@ -326,7 +381,43 @@ const Lore = () => {
 		processFlipQueue();
 	};
 
+	// StPageFlip anime lui-meme le glisser-deposer d'une page (useMouseEvents,
+	// natif — ne pas confondre avec son flip-par-simple-clic, explicitement
+	// desactive via disableFlipByClick plus bas). Le probleme : un VRAI clic
+	// React se declenche quand meme a la fin d'un drag (mousedown puis
+	// mouseup, meme avec un deplacement important entre les deux), donc
+	// handleBookClick se declenchait EN PLUS de l'animation de glisser deja
+	// jouee par la librairie — selon ou la souris finissait (typiquement sur
+	// la page opposee une fois le drag termine), ca enclenchait un second
+	// tournage, parfois dans le sens inverse de celui du drag, d'ou l'aller-
+	// retour ou le livre qui se detraque carrement pres de la couverture (la
+	// chorégraphie glissement+tournage de l'ouverture ne tolere pas un
+	// second tournage concurrent). mouseDownXRef retient la position de
+	// depart ; un clic dont le point d'arrivee s'en est trop ecarte est un
+	// drag deja gere par la librairie, pas un vrai clic — on l'ignore.
+	const mouseDownXRef = useRef<number | null>(null);
+	const DRAG_CLICK_THRESHOLD = 8;
+	const handleBookMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+		mouseDownXRef.current = e.clientX;
+	};
 	const handleBookClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		const downX = mouseDownXRef.current;
+		mouseDownXRef.current = null;
+		if (downX !== null && Math.abs(e.clientX - downX) > DRAG_CLICK_THRESHOLD) return;
+		// isPointOnCorners (node_modules/page-flip/.../Flip.ts) ignore
+		// disableFlipByClick pres des coins de la page : un clic la-dessus
+		// declenche quand meme un tournage natif cote librairie, de facon
+		// SYNCHRONE dans son propre mouseup (userStop -> flip()), donc AVANT
+		// que ce handler React ne s'execute. isFlipBusyRef reste a false (on
+		// n'a nous-memes rien declenche) alors que pageFlip.getState() est
+		// deja passe a "flipping" : signature propre a ce cas, qui le
+		// distingue d'un clic recu PENDANT un tournage que CE code a
+		// lui-meme lance (celui-la doit au contraire s'empiler normalement,
+		// voir plus bas) — sans ce garde-fou, le meme clic empilait un
+		// second tournage par-dessus celui de la librairie, d'ou l'animation
+		// qui se detraquait pres des coins du livre.
+		const pageFlip = flipBookRef.current?.pageFlip();
+		if (pageFlip && !isFlipBusyRef.current && pageFlip.getState() !== "read") return;
 		const rect = e.currentTarget.getBoundingClientRect();
 		const clickedRight = e.clientX - rect.left > rect.width / 2;
 		enqueueFlip(clickedRight ? "next" : "prev");
@@ -462,6 +553,40 @@ const Lore = () => {
 		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
 	};
 
+	// Lien de sortie, partage par les deux vues : cette page n'a pas de
+	// Navbar (plein ecran immersif, voir App.tsx), donc sans lui il n'existe
+	// aucun moyen de quitter /lore autrement que le bouton precedent/retour
+	// du navigateur. Vers "/" faute de page d'origine identifiee (aucune
+	// page du site ne lie encore vers /lore a ce jour).
+	const siteLink = (
+		<Link to="/" className="lore-site-link">
+			{language === "fr" ? "↩ Retour au site" : "↩ Back to the site"}
+		</Link>
+	);
+
+	// Bouton FR/EN partage par les deux vues (archives + lecture) — meme
+	// LanguageContext que le reste du site (voir Navbar.tsx), juste un
+	// habillage different puisque cette page n'a pas de Navbar.
+	const langToggle = (
+		<div className="lore-lang-toggle">
+			<button
+				type="button"
+				className={language === "fr" ? "active" : ""}
+				onClick={() => setLanguage("fr")}
+			>
+				FR
+			</button>
+			<span>/</span>
+			<button
+				type="button"
+				className={language === "en" ? "active" : ""}
+				onClick={() => setLanguage("en")}
+			>
+				EN
+			</button>
+		</div>
+	);
+
 	if (!opened) {
 		return (
 			<div className="lore-room lore-archive-room">
@@ -482,9 +607,13 @@ const Lore = () => {
 						className="lore-archive-book lore-archive-book-01"
 						style={{ backgroundImage: `url(${book01SpineUrl})` }}
 						onClick={() => setOpened(true)}
-						aria-label="Ouvrir le Journal d'Aldrenia"
+						aria-label={
+							language === "fr" ? "Ouvrir le Journal d'Aldrenia" : "Open the Journal of Aldrenia"
+						}
 					/>
 				</div>
+				{siteLink}
+				{langToggle}
 			</div>
 		);
 	}
@@ -496,8 +625,10 @@ const Lore = () => {
 		>
 			<img className="lore-room-bg lore-room-bg--dim" src={archivesBgUrl} alt="" />
 			<button type="button" className="lore-back-button" onClick={() => setOpened(false)}>
-				← Retour
+				{language === "fr" ? "← Retour" : "← Back"}
 			</button>
+			{siteLink}
+			{langToggle}
 			<div className="lore-stage">
 				{/* Dos de la couverture, derrière le bloc de pages (demande
 				   explicite) : posé un peu plus grand que le livre pour dépasser
@@ -517,6 +648,7 @@ const Lore = () => {
 				<div
 					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}
 					ref={wrapRef}
+					onMouseDown={handleBookMouseDown}
 					onClick={handleBookClick}
 				>
 					<HTMLFlipBook
@@ -570,7 +702,13 @@ const Lore = () => {
 						disableFlipByClick
 					>
 						{JOURNAL_PAGES.map((page, i) => (
-							<Page key={i} page={page} folio={i === 0 ? null : i + 1} />
+							<Page
+								key={i}
+								page={page}
+								folio={i === 0 ? null : i + 1}
+								lang={language}
+								onOpenImage={(src, alt) => setLightbox({ src, alt })}
+							/>
 						))}
 					</HTMLFlipBook>
 					{/* Marque-pages : un par page titree (BOOKMARKS, calcule plus haut).
@@ -595,15 +733,42 @@ const Lore = () => {
 								e.stopPropagation();
 								jumpToPage(bm.pageIndex);
 							}}
-									title={bm.label}
+									title={bm.label[language]}
 								>
-									{bm.label}
+									{bm.label[language]}
 								</button>
 							);
 						})}
 					</div>
 				</div>
 			</div>
+			{lightbox && (
+				<Portal>
+					{/* Visionneuse plein ecran (demande explicite), meme principe
+					   qu'un lightbox de site classique : fond assombri, image
+					   centree, fermeture au clic n'importe ou dessus ou sur Echap.
+					   Les cartes sont tournees en portrait pour tenir dans une page
+					   du livre (voir le script de rotation, hors depot) ; ici on les
+					   remontre a l'horizontale (rotate(-90deg), l'inverse exact de
+					   cette rotation) pour les lire confortablement en grand. */}
+					<div
+						className="lore-lightbox"
+						onClick={() => setLightbox(null)}
+						role="button"
+						tabIndex={0}
+						aria-label={language === "fr" ? "Fermer" : "Close"}
+					>
+						<button
+							type="button"
+							className="lore-lightbox-close"
+							onClick={() => setLightbox(null)}
+						>
+							×
+						</button>
+						<img className="lore-lightbox-img" src={lightbox.src} alt={lightbox.alt} />
+					</div>
+				</Portal>
+			)}
 		</div>
 	);
 };

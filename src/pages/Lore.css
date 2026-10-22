@@ -4,6 +4,16 @@
    maison. Scopé sous .lore-room pour ne jamais fuiter sur le reste du site. */
 
 .lore-room {
+	/* Curseur plume personnalise (demande explicite) : image source la
+	   pointe en bas-gauche, pivotee (ROTATE_270, voir le script de
+	   generation, hors depot) pour l'amener en haut-gauche — hotspot CSS
+	   cale dessus (3 11, mesure sur l'image generee), jamais sur le coin
+	   0 0 par defaut, sinon le point de clic reel se serait retrouve a
+	   l'ecart visible de la pointe dessinee. Variante :active avec le
+	   contenu legerement decale dans un canevas identique (meme hotspot
+	   fixe des deux cotes) : la pointe semble reculer/s'enfoncer le temps
+	   du clic, avant de revenir des que le bouton est relache. */
+	cursor: url("../assets/site/cursor-quill.png") 3 11, auto;
 	--lore-room-bg: #cdbf9e;
 	--lore-room-bg-2: #e3d8bb;
 	--lore-ink: #110c07;
@@ -171,6 +181,71 @@
 }
 .lore-back-button:hover {
 	background: var(--lore-room-bg);
+}
+
+/* Lien de sortie vers le reste du site (demande explicite) : coin
+   superieur gauche, comme .lore-back-button. Seul a cet endroit dans la
+   salle des archives ; empile sous .lore-back-button dans la vue de
+   lecture (combinateur + : il le suit toujours directement dans le DOM,
+   voir Lore.tsx). */
+.lore-site-link {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	z-index: 20;
+	padding: 8px 16px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+.lore-site-link:hover {
+	background: var(--lore-room-bg);
+}
+.lore-back-button + .lore-site-link {
+	top: 66px;
+}
+
+/* Bascule FR/EN (demande explicite, 2026-10) : meme LanguageContext que le
+   reste du site (voir Navbar.tsx, .navbar-lang-btn), habillage propre a
+   cette page puisqu'elle n'a pas de Navbar. Coin oppose au bouton Retour
+   dans les deux vues (archives et lecture). */
+.lore-lang-toggle {
+	position: absolute;
+	top: 18px;
+	right: 18px;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+}
+.lore-lang-toggle button {
+	border: none;
+	background: none;
+	color: var(--lore-room-ink-dim);
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	cursor: pointer;
+	padding: 0;
+}
+.lore-lang-toggle button.active {
+	color: var(--lore-ink);
+	text-decoration: underline;
+}
+.lore-lang-toggle span {
+	color: var(--lore-room-ink-dim);
 }
 
 .lore-stage {
@@ -536,26 +611,82 @@
    format paysage, les pages du livre au format portrait) : toute la carte
    reste visible, quitte a laisser du parchemin au-dessus/en dessous plutot
    que d'en rogner un bord. */
+/* Plein cadre (demande explicite, "je ne veux pas de legende, je veux
+   qu'elle prenne tout l'espace de la page") : meme traitement que
+   .lore-cover, position absolute + inset:0 pour echapper au padding de
+   .lore-page-face plutot que de s'y loger comme une page de texte. */
 .lore-map {
+	position: absolute;
+	inset: 0;
+	/* Centre l'image a sa taille REELLE (voir .lore-map-img) plutot que de la
+	   forcer a occuper toute la boite : sans ca, meme avec object-fit:
+	   contain, la zone cliquable de <img> restait la page entiere (bandes de
+	   parchemin "vides" comprises), ce qui empechait tout clic de tournage
+	   de page des qu'une carte etait affichee (demande explicite a corriger). */
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
-	gap: 0.6em;
 }
 .lore-map-img {
+	/* max-width/max-height + auto (pas width/height:100% + object-fit) : la
+	   boite de <img> epouse alors exactement l'image affichee, jamais plus.
+	   Le parchemin autour reste donc un simple clic de tournage de page
+	   (voir .lore-map ci-dessus), seule l'image elle-meme ouvre la
+	   visionneuse. */
 	max-width: 100%;
-	max-height: 85%;
-	object-fit: contain;
-	border: 1px solid var(--lore-rule);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	cursor: zoom-in;
 }
-.lore-map-caption {
-	font-style: italic;
-	color: var(--lore-room-ink-dim);
-	text-align: center;
-	margin: 0;
+
+/* Visionneuse plein ecran (demande explicite, comme sur n'importe quel
+   site) : rendue par portail (voir Portal, Lore.tsx) directement sous
+   <body>, donc jamais affectee par le transform inline que motion pose sur
+   .lore-book-wrap pendant l'animation d'ouverture — un position:fixed
+   imbrique SOUS un ancetre avec transform se positionnerait contre cet
+   ancetre, pas contre le viewport. */
+.lore-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.85);
+	cursor: zoom-out;
+}
+.lore-lightbox-img {
+	/* Les cartes sont tournees en portrait pour tenir dans une page du livre
+	   (voir le commentaire dans Lore.tsx) : remontrees a l'horizontale ici,
+	   l'inverse exact de cette rotation, pour rester lisibles en grand —
+	   d'ou max-height/max-width inverses par rapport a l'affichage normal
+	   d'une image (la boite de rotation garde les dimensions non pivotees). */
+	max-width: 90vh;
+	max-height: 90vw;
+	width: auto;
+	height: auto;
+	transform: rotate(-90deg);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+	cursor: default;
+}
+.lore-lightbox-close {
+	position: absolute;
+	top: 18px;
+	right: 18px;
+	z-index: 1001;
+	width: 40px;
+	height: 40px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.4);
+	color: #f3e6c8;
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+}
+.lore-lightbox-close:hover {
+	background: rgba(0, 0, 0, 0.65);
 }
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
@@ -774,4 +905,12 @@
 .lore-room--flipping .stf__item.--right.lore-page-face--cover,
 .lore-room--flipping .stf__item.--left.lore-page-face--cover {
 	box-shadow: none;
+}
+
+/* Variante :active du curseur plume (voir .lore-room plus haut) : :active se
+   propage a tous les ancetres de l'element presse tant que le bouton est
+   maintenu (comportement standard CSS), donc ce selecteur s'applique quel
+   que soit l'endroit precis du clic dans la piece. */
+.lore-room:active {
+	cursor: url("../assets/site/cursor-quill-active.png") 3 11, auto;
 }
