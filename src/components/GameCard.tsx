@@ -16,6 +16,10 @@ import hybridLane from "../assets/game/icons/hibrid_lane.png";
 import instantIcon from "../assets/game/icons/instant.png";
 import ritualIcon from "../assets/game/icons/ritual.png";
 import enchantmentIcon from "../assets/game/icons/enchantment.png";
+import undeadResourceIcon from "../assets/game/icons/fleshy-mass.svg";
+import humanResourceIcon from "../assets/game/icons/wax-seal.svg";
+import demonResourceIcon from "../assets/game/icons/soul.svg";
+import abominationResourceIcon from "../assets/game/icons/internal-organ.svg";
 
 // Réplique de scenes/card/Card.tscn + scripts/card/Card.gd du jeu (E:\card-game),
 // à partir des données servies par wyrdane-backend (valeurs en français).
@@ -57,6 +61,15 @@ const TYPE_ICONS: Record<string, string> = {
 	Incantation: instantIcon,
 	Rituel: ritualIcon,
 	Enchantement: enchantmentIcon,
+};
+
+// Card.gd RACE_RESOURCE_ICONS : les cartes-ressource affichent l'icone de
+// leur race dans le badge de cout, a la place du chiffre.
+const RACE_RESOURCE_ICONS: Record<string, string> = {
+	"Mort-Vivant": undeadResourceIcon,
+	Humain: humanResourceIcon,
+	Demon: demonResourceIcon,
+	Abomination: abominationResourceIcon,
 };
 
 // CostSystem.RACE_LOCK_PCT — % du coût verrouillé sur le pool de race, par rareté
@@ -149,11 +162,6 @@ const STATS_LABEL_DEFAULT_TOP = 330;
 // plutôt que d'aggraver le débordement.
 const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
 
-// Card.gd LANE_ICON_DEFAULT_TOP/BOTTOM (filigrane central) : hauteur fixe de
-// 140, recentrée sur la zone de texte par _center_lane_icon (voir plus bas).
-const LANE_ICON_DEFAULT_TOP = 176;
-const LANE_ICON_DEFAULT_BOTTOM = 316;
-
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
 // Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
 // plutôt qu'au canvas : une mesure JS figée au premier rendu (avant que la
@@ -175,7 +183,14 @@ export default function GameCard({ card }: { card: CardData }) {
 	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
 	const rarityColor = RARITY_COLORS[card.rarity ?? ""] ?? "#808080";
 	const borderTexture = BORDER_TEXTURES[card.race];
-	const watermark = isMinion ? LANE_ICONS[card.lane ?? ""] : TYPE_ICONS[card.card_type];
+	// Card.gd update_display : medaillon en haut a gauche, symetrique au badge
+	// de cout. Serviteur = icone de rangee, deja illustree en couleur (aucune
+	// teinte appliquee). Autre type = silhouette blanche teintee par race. Les
+	// cartes-ressource n'en ont pas : leur icone de race vit dans le badge de
+	// cout a la place du chiffre (Card.gd _apply_resource_icon).
+	const laneIcon = isMinion ? LANE_ICONS[card.lane ?? ""] : undefined;
+	const typeIcon = !isMinion && !isResource ? TYPE_ICONS[card.card_type] : undefined;
+	const resourceIcon = isResource ? RACE_RESOURCE_ICONS[card.race] : undefined;
 
 	// Card.gd _apply_type_style : le bandeau affiche le type, plus les charges des Rituels
 	let typeText = translateCardText(card.card_type, language);
@@ -279,59 +294,64 @@ export default function GameCard({ card }: { card: CardData }) {
 	const descHeight = descAvailableHeight + descGrowth;
 	const statsTop = STATS_LABEL_DEFAULT_TOP + descGrowth;
 
-	// Card.gd _center_lane_icon : le filigrane garde une hauteur fixe, seul
-	// son centre suit celui de la zone de texte (qui descend avec la
-	// croissance du nom) - jusqu'ici fixé en dur en CSS (top: 176px), donc
-	// jamais recentré sur les cartes au nom assez long pour agrandir
-	// NameLabel, ce qui pouvait le pousser hors de la zone visible/sous le
-	// bandeau de type sur certaines cartes (Incantation/Rituel/Enchantement
-	// ont souvent des noms plus longs).
-	const watermarkHeight = LANE_ICON_DEFAULT_BOTTOM - LANE_ICON_DEFAULT_TOP;
-	const watermarkTop = descTop + descHeight / 2 - watermarkHeight / 2;
-
 	return (
 		<div className="gamecard">
 			<div className="gamecard-black-frame" />
 			{card.image_path && (
 				<img className="gamecard-art" src={`${API_URL}${card.image_path}`} alt="" draggable={false} />
 			)}
-			{watermark && (
-				<div
-					className="gamecard-watermark"
-					style={{
-						top: watermarkTop,
-						backgroundColor: raceIconColor,
-						WebkitMaskImage: `url(${watermark})`,
-						maskImage: `url(${watermark})`,
-					}}
-				/>
+			{(laneIcon || typeIcon) && (
+				<>
+					<div className="gamecard-type-icon-bg" />
+					{laneIcon ? (
+						<img className="gamecard-type-icon" src={laneIcon} alt="" draggable={false} />
+					) : (
+						<div
+							className="gamecard-type-icon gamecard-type-icon--tinted"
+							style={{
+								backgroundColor: raceIconColor,
+								WebkitMaskImage: `url(${typeIcon})`,
+								maskImage: `url(${typeIcon})`,
+							}}
+						/>
+					)}
+				</>
 			)}
 			<div
 				ref={nameRef}
 				className="gamecard-name"
-				style={{ background: raceColor, height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth }}
+				style={{ background: withAlpha(raceColor, 0.96), height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth }}
 			>
 				{translateCardText(card.name, language)}
 			</div>
 			{!isResource && genericCost > 0 && (
 				<div className="gamecard-generic-cost">{genericCost}</div>
 			)}
-			{!isResource && (
-				<div
-					className="gamecard-cost"
-					style={{
-						background: withAlpha(raceColor, 0.9),
-						borderColor: withAlpha(raceColor, 0.9),
-					}}
-				>
-					{raceCost}
-				</div>
-			)}
+			<div
+				className="gamecard-cost"
+				style={{
+					background: withAlpha(raceColor, 0.9),
+					borderColor: withAlpha(raceColor, 0.9),
+				}}
+			>
+				{isResource
+					? resourceIcon && (
+							<div
+								className="gamecard-resource-icon"
+								style={{
+									backgroundColor: raceIconColor,
+									WebkitMaskImage: `url(${resourceIcon})`,
+									maskImage: `url(${resourceIcon})`,
+								}}
+							/>
+						)
+					: raceCost}
+			</div>
 			<div
 				ref={descRef}
 				className="gamecard-desc"
 				style={{
-					background: raceColor,
+					background: withAlpha(raceColor, 0.96),
 					top: descTop,
 					height: descHeight,
 					fontSize: descFontSize,
