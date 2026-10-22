@@ -173,6 +173,44 @@
 	background: var(--lore-room-bg);
 }
 
+/* Bascule FR/EN (demande explicite, 2026-10) : meme LanguageContext que le
+   reste du site (voir Navbar.tsx, .navbar-lang-btn), habillage propre a
+   cette page puisqu'elle n'a pas de Navbar. Coin oppose au bouton Retour
+   dans les deux vues (archives et lecture). */
+.lore-lang-toggle {
+	position: absolute;
+	top: 18px;
+	right: 18px;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+}
+.lore-lang-toggle button {
+	border: none;
+	background: none;
+	color: var(--lore-room-ink-dim);
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	cursor: pointer;
+	padding: 0;
+}
+.lore-lang-toggle button.active {
+	color: var(--lore-ink);
+	text-decoration: underline;
+}
+.lore-lang-toggle span {
+	color: var(--lore-room-ink-dim);
+}
+
 .lore-stage {
 	/* position:relative uniquement pour entrer dans le même ordre
 	   d'empilement que .lore-room-bg (position:absolute) : sans ça, un
