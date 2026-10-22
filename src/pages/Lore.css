@@ -610,9 +610,12 @@
 	inset: 0;
 }
 .lore-map-img {
+	/* object-fit:contain (pas cover) : la carte entiere doit rester visible,
+	   quitte a laisser un peu de parchemin nu sur un bord plutot que de
+	   rogner un nom de royaume ou un coin de la carte (demande explicite). */
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	object-fit: contain;
 	cursor: zoom-in;
 }
 
