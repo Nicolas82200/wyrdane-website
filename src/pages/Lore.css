@@ -4,6 +4,16 @@
    maison. Scopé sous .lore-room pour ne jamais fuiter sur le reste du site. */
 
 .lore-room {
+	/* Curseur plume personnalise (demande explicite) : image source la
+	   pointe en bas-gauche, tournee verticalement (voir le script de
+	   generation, hors depot) pour l'amener en haut-gauche — hotspot CSS
+	   cale dessus (11 3, mesure sur l'image generee), jamais sur le coin
+	   0 0 par defaut, sinon le point de clic reel se serait retrouve a
+	   l'ecart visible de la pointe dessinee. Variante :active avec le
+	   contenu legerement decale dans un canevas identique (meme hotspot
+	   fixe des deux cotes) : la pointe semble reculer/s'enfoncer le temps
+	   du clic, avant de revenir des que le bouton est relache. */
+	cursor: url("../assets/site/cursor-quill.png") 11 3, auto;
 	--lore-room-bg: #cdbf9e;
 	--lore-room-bg-2: #e3d8bb;
 	--lore-ink: #110c07;
@@ -895,4 +905,12 @@
 .lore-room--flipping .stf__item.--right.lore-page-face--cover,
 .lore-room--flipping .stf__item.--left.lore-page-face--cover {
 	box-shadow: none;
+}
+
+/* Variante :active du curseur plume (voir .lore-room plus haut) : :active se
+   propage a tous les ancetres de l'element presse tant que le bouton est
+   maintenu (comportement standard CSS), donc ce selecteur s'applique quel
+   que soit l'endroit precis du clic dans la piece. */
+.lore-room:active {
+	cursor: url("../assets/site/cursor-quill-active.png") 11 3, auto;
 }
