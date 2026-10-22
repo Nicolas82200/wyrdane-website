@@ -51,7 +51,7 @@ export type JournalPage =
 			torn?: "bottom" | "top";
 	  }
 	| { kind: "content-italic"; text: Bi }
-	| { kind: "map"; srcFr: string; srcEn: string; caption?: Bi };
+	| { kind: "map"; srcFr: string; srcEn: string };
 
 export const JOURNAL_PAGES: JournalPage[] = [
 	{ kind: "cover" },
@@ -91,10 +91,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "map",
 		srcFr: "map-fr.png",
 		srcEn: "map-en.png",
-		caption: {
-			fr: "Mydaria, telle qu'on la trouve reproduite dans les archives d'Aldrenia.",
-			en: "Mydaria, as reproduced in the archives of Aldrenia.",
-		},
 	},
 
 	{
@@ -609,10 +605,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "map",
 		srcFr: "1aw-map-fr.png",
 		srcEn: "1aw-map-en.png",
-		caption: {
-			fr: "Mydaria, un an après la secousse, telle que la Chancellerie la redessine.",
-			en: "Mydaria, a year after the tremor, as redrawn by the Chancellery.",
-		},
 	},
 
 	// --- Ostrane ---------------------------------------------------------

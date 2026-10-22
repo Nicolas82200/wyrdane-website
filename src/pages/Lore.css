@@ -574,26 +574,68 @@
    format paysage, les pages du livre au format portrait) : toute la carte
    reste visible, quitte a laisser du parchemin au-dessus/en dessous plutot
    que d'en rogner un bord. */
+/* Plein cadre (demande explicite, "je ne veux pas de legende, je veux
+   qu'elle prenne tout l'espace de la page") : meme traitement que
+   .lore-cover, position absolute + inset:0 pour echapper au padding de
+   .lore-page-face plutot que de s'y loger comme une page de texte. */
 .lore-map {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	gap: 0.6em;
+	position: absolute;
+	inset: 0;
 }
 .lore-map-img {
-	max-width: 100%;
-	max-height: 85%;
-	object-fit: contain;
-	border: 1px solid var(--lore-rule);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	cursor: zoom-in;
 }
-.lore-map-caption {
-	font-style: italic;
-	color: var(--lore-room-ink-dim);
-	text-align: center;
-	margin: 0;
+
+/* Visionneuse plein ecran (demande explicite, comme sur n'importe quel
+   site) : rendue par portail (voir Portal, Lore.tsx) directement sous
+   <body>, donc jamais affectee par le transform inline que motion pose sur
+   .lore-book-wrap pendant l'animation d'ouverture — un position:fixed
+   imbrique SOUS un ancetre avec transform se positionnerait contre cet
+   ancetre, pas contre le viewport. */
+.lore-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.85);
+	cursor: zoom-out;
+}
+.lore-lightbox-img {
+	/* Les cartes sont tournees en portrait pour tenir dans une page du livre
+	   (voir le commentaire dans Lore.tsx) : remontrees a l'horizontale ici,
+	   l'inverse exact de cette rotation, pour rester lisibles en grand —
+	   d'ou max-height/max-width inverses par rapport a l'affichage normal
+	   d'une image (la boite de rotation garde les dimensions non pivotees). */
+	max-width: 90vh;
+	max-height: 90vw;
+	width: auto;
+	height: auto;
+	transform: rotate(-90deg);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+	cursor: default;
+}
+.lore-lightbox-close {
+	position: absolute;
+	top: 18px;
+	right: 18px;
+	z-index: 1001;
+	width: 40px;
+	height: 40px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.4);
+	color: #f3e6c8;
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+}
+.lore-lightbox-close:hover {
+	background: rgba(0, 0, 0, 0.65);
 }
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces

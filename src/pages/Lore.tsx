@@ -12,6 +12,7 @@ import mapFrUrl from "../assets/site/map-fr.png";
 import map1awEnUrl from "../assets/site/1aw-map-en.png";
 import map1awFrUrl from "../assets/site/1aw-map-fr.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
+import Portal from "../components/Portal";
 import { JOURNAL_PAGES, type Bi, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useLanguage } from "../i18n/useLanguage";
@@ -79,10 +80,15 @@ const BOOKMARKS: Bookmark[] = JOURNAL_PAGES.reduce<Bookmark[]>((acc, page, pageI
 // Lore.css s'appuie sur ces classes plutôt que de recalculer une parité.
 const Page = forwardRef(
 	(
-		props: { page: JournalPage; folio: number | null; lang: "fr" | "en" },
+		props: {
+			page: JournalPage;
+			folio: number | null;
+			lang: "fr" | "en";
+			onOpenImage?: (src: string, alt: string) => void;
+		},
 		ref: ForwardedRef<HTMLDivElement>,
 	) => {
-		const { page, folio, lang } = props;
+		const { page, folio, lang, onOpenImage } = props;
 		const t = (b: Bi) => b[lang];
 
 		let content: React.ReactNode;
@@ -151,14 +157,18 @@ const Page = forwardRef(
 				break;
 			case "map": {
 				const src = MAP_URLS[lang === "fr" ? page.srcFr : page.srcEn];
+				const alt = lang === "fr" ? "Carte de Mydaria" : "Map of Mydaria";
 				content = (
 					<div className="lore-page lore-map">
 						<img
 							className="lore-map-img"
 							src={src}
-							alt={lang === "fr" ? "Carte de Mydaria" : "Map of Mydaria"}
+							alt={alt}
+							onClick={(e) => {
+								e.stopPropagation();
+								onOpenImage?.(src, alt);
+							}}
 						/>
-						{page.caption && <p className="lore-map-caption">{t(page.caption)}</p>}
 					</div>
 				);
 				break;
@@ -199,6 +209,23 @@ Page.displayName = "JournalPage";
 const Lore = () => {
 	const { language, setLanguage } = useLanguage();
 	const prefersReducedMotion = usePrefersReducedMotion();
+	// Visionneuse plein ecran pour les cartes (demande explicite) : src/alt de
+	// l'image actuellement agrandie, ou null si fermee. Remonte depuis Page
+	// via onOpenImage plutot que gere localement a chaque page, pour pouvoir
+	// la rendre une seule fois, par portail, au-dessus de tout le reste
+	// (voir Portal plus bas — essentiel pendant l'animation d'ouverture du
+	// livre, qui pose un transform inline sur .lore-book-wrap : un position
+	// fixed imbrique dedans se positionnerait contre CE transform plutot que
+	// contre le viewport).
+	const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+	useEffect(() => {
+		if (!lightbox) return;
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") setLightbox(null);
+		};
+		window.addEventListener("keydown", onKey);
+		return () => window.removeEventListener("keydown", onKey);
+	}, [lightbox]);
 	// false = salle des archives (étagères, livre à cliquer) ; true = livre
 	// ouvert (flipbook). Un seul livre écrit pour l'instant (book-01) — les
 	// emplacements vides repérés sur archives.jpg pour les prochains sont
@@ -353,7 +380,29 @@ const Lore = () => {
 		processFlipQueue();
 	};
 
+	// StPageFlip anime lui-meme le glisser-deposer d'une page (useMouseEvents,
+	// natif — ne pas confondre avec son flip-par-simple-clic, explicitement
+	// desactive via disableFlipByClick plus bas). Le probleme : un VRAI clic
+	// React se declenche quand meme a la fin d'un drag (mousedown puis
+	// mouseup, meme avec un deplacement important entre les deux), donc
+	// handleBookClick se declenchait EN PLUS de l'animation de glisser deja
+	// jouee par la librairie — selon ou la souris finissait (typiquement sur
+	// la page opposee une fois le drag termine), ca enclenchait un second
+	// tournage, parfois dans le sens inverse de celui du drag, d'ou l'aller-
+	// retour ou le livre qui se detraque carrement pres de la couverture (la
+	// chorégraphie glissement+tournage de l'ouverture ne tolere pas un
+	// second tournage concurrent). mouseDownXRef retient la position de
+	// depart ; un clic dont le point d'arrivee s'en est trop ecarte est un
+	// drag deja gere par la librairie, pas un vrai clic — on l'ignore.
+	const mouseDownXRef = useRef<number | null>(null);
+	const DRAG_CLICK_THRESHOLD = 8;
+	const handleBookMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+		mouseDownXRef.current = e.clientX;
+	};
 	const handleBookClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		const downX = mouseDownXRef.current;
+		mouseDownXRef.current = null;
+		if (downX !== null && Math.abs(e.clientX - downX) > DRAG_CLICK_THRESHOLD) return;
 		const rect = e.currentTarget.getBoundingClientRect();
 		const clickedRight = e.clientX - rect.left > rect.width / 2;
 		enqueueFlip(clickedRight ? "next" : "prev");
@@ -571,6 +620,7 @@ const Lore = () => {
 				<div
 					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}
 					ref={wrapRef}
+					onMouseDown={handleBookMouseDown}
 					onClick={handleBookClick}
 				>
 					<HTMLFlipBook
@@ -624,7 +674,13 @@ const Lore = () => {
 						disableFlipByClick
 					>
 						{JOURNAL_PAGES.map((page, i) => (
-							<Page key={i} page={page} folio={i === 0 ? null : i + 1} lang={language} />
+							<Page
+								key={i}
+								page={page}
+								folio={i === 0 ? null : i + 1}
+								lang={language}
+								onOpenImage={(src, alt) => setLightbox({ src, alt })}
+							/>
 						))}
 					</HTMLFlipBook>
 					{/* Marque-pages : un par page titree (BOOKMARKS, calcule plus haut).
@@ -658,6 +714,33 @@ const Lore = () => {
 					</div>
 				</div>
 			</div>
+			{lightbox && (
+				<Portal>
+					{/* Visionneuse plein ecran (demande explicite), meme principe
+					   qu'un lightbox de site classique : fond assombri, image
+					   centree, fermeture au clic n'importe ou dessus ou sur Echap.
+					   Les cartes sont tournees en portrait pour tenir dans une page
+					   du livre (voir le script de rotation, hors depot) ; ici on les
+					   remontre a l'horizontale (rotate(-90deg), l'inverse exact de
+					   cette rotation) pour les lire confortablement en grand. */}
+					<div
+						className="lore-lightbox"
+						onClick={() => setLightbox(null)}
+						role="button"
+						tabIndex={0}
+						aria-label={language === "fr" ? "Fermer" : "Close"}
+					>
+						<button
+							type="button"
+							className="lore-lightbox-close"
+							onClick={() => setLightbox(null)}
+						>
+							×
+						</button>
+						<img className="lore-lightbox-img" src={lightbox.src} alt={lightbox.alt} />
+					</div>
+				</Portal>
+			)}
 		</div>
 	);
 };
