@@ -24,13 +24,19 @@
 	   d'où un débordement vertical de 48px — et .lore-flipbook plus bas
 	   suppose justement que 100vh inclut déjà ce padding. */
 	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
 	min-height: 100vh;
 	margin: 0;
 	padding: 24px 16px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: radial-gradient(ellipse at 50% 20%, var(--lore-room-bg-2), var(--lore-room-bg) 75%);
+	background: radial-gradient(
+		ellipse at 50% 20%,
+		var(--lore-room-bg-2),
+		var(--lore-room-bg) 75%
+	);
 	color: var(--lore-ink);
 	font-family: var(--lore-font-hand);
 }
@@ -41,11 +47,194 @@
 	}
 }
 
+/* --- Salle des archives (avant ouverture d'un livre) --- */
+.lore-archive-room {
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+	background: #0a0806;
+}
+/* Fond "bibliothèque" (archives.jpg), partagé par la salle des archives ET
+   la vue de lecture (--dim y ajoute un assombrissement : plein éclat dans
+   la salle où c'est le décor principal, tamisé derrière le livre ouvert
+   pour ne pas rivaliser avec le texte des pages). */
+.lore-room-bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+.lore-room-bg--dim {
+	filter: brightness(0.4) saturate(0.85);
+}
+/* Cadre à ratio fixe (1344x768, taille native d'archives.jpg) qui reproduit
+   le recadrage object-fit:cover du fond, mais comme une vraie boîte, pour
+   que .lore-archive-book (positionne EN % DEDANS CE CADRE, pas dans
+   .lore-archive-room) tombe toujours sur le meme point de l'image, quel que
+   soit le ratio de la fenetre. Avant ce cadre, le bouton etait positionne en
+   % contre .lore-archive-room (dont le ratio varie avec l'ecran) alors que
+   le fond, lui, se recadre differemment selon ce meme ratio : les deux
+   derivaient l'un par rapport a l'autre des que l'ecran n'etait pas proche
+   de 16:9 (ex. un second ecran plus petit/plus carre), decalant la tranche
+   cliquable loin de celle dessinee dans l'image.
+   Le triplet width/height:auto + min-width/min-height:100% + aspect-ratio
+   est l'equivalent CSS pur de object-fit:cover applique a une boite plutot
+   qu'a une image : le navigateur choisit la plus grande des deux dimensions
+   necessaires pour couvrir le parent tout en gardant le ratio imposé. */
+.lore-cover-frame {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: auto;
+	height: auto;
+	min-width: 100%;
+	min-height: 100%;
+	aspect-ratio: 1344 / 768;
+	transform: translate(-50%, -50%);
+}
+/* Tranche illustrée du premier livre écrit (book01-spine.png, posée en
+   inline par Lore.tsx — fond transparent, le halo lumineux autour du livre
+   est déjà peint dans l'image elle-même). Posée sur l'étagère centrale
+   basse repérée comme la plus dégagée de archives.jpg (voir commentaire
+   plus bas dans Lore.tsx). Position/taille en % de l'image source
+   (1344x768) pour rester justes quel que soit le redimensionnement du
+   fond en cover.
+   La hauteur est calée pour que la tranche VISIBLE (environ 92% de la
+   hauteur du canevas 1024x1536, le reste étant du halo transparent)
+   tombe à peu près à la même hauteur que les tranches voisines (~50px sur
+   l'image source) ; top ajusté en conséquence pour garder le même bas
+   d'étagère qu'avant. Largeur élargie par rapport au ratio natif du
+   canevas (demande explicite, la hauteur seule suffisait) : background-
+   size en deux valeurs (pas contain) étire le visuel pour qu'il remplisse
+   réellement cette largeur au lieu de se re-centrer dans une boîte plus
+   large en laissant du vide transparent sur les côtés. */
+.lore-archive-book {
+	position: absolute;
+	left: 60%;
+	top: 77.25%;
+	width: 3.7%;
+	height: 7.75%;
+	min-width: 30px;
+	min-height: 36px;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	/* drop-shadow (pas box-shadow) suit le contour réel de la tranche au
+	   lieu d'illuminer tout son cadre transparent — l'aura s'ajoute à
+	   celle déjà peinte dans l'image plutôt que de la dédoubler. */
+	filter: drop-shadow(0 0 5px rgba(255, 150, 40, 0.7))
+		drop-shadow(0 0 14px rgba(255, 150, 40, 0.4));
+	animation: lore-archive-aura 2.4s ease-in-out infinite;
+}
+.lore-archive-book:hover,
+.lore-archive-book:focus-visible {
+	filter: drop-shadow(0 0 8px rgba(255, 170, 60, 0.9))
+		drop-shadow(0 0 20px rgba(255, 170, 60, 0.55));
+}
+@keyframes lore-archive-aura {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 5px rgba(255, 150, 40, 0.7))
+			drop-shadow(0 0 14px rgba(255, 150, 40, 0.4));
+	}
+	50% {
+		filter: drop-shadow(0 0 8px rgba(255, 170, 60, 0.85))
+			drop-shadow(0 0 20px rgba(255, 170, 60, 0.5));
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.lore-archive-book {
+		animation: none;
+	}
+}
+
+.lore-back-button {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	z-index: 20;
+	padding: 8px 16px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+.lore-back-button:hover {
+	background: var(--lore-room-bg);
+}
+
 .lore-stage {
+	/* position:relative uniquement pour entrer dans le même ordre
+	   d'empilement que .lore-room-bg (position:absolute) : sans ça, un
+	   élément positionné passe toujours au-dessus d'un élément statique,
+	   peu importe l'ordre dans le DOM, et le livre se retrouverait sous le
+	   fond bibliothèque de la vue de lecture. */
+	position: relative;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+/* Dos de la couverture, visible en dépassant tout autour du bloc de
+   pages (voir le commentaire dans Lore.tsx). Centré indépendamment du
+   flex de .lore-stage (inset:0 + margin:auto, pas une largeur flex).
+   TOUJOURS à la taille double-page, que le livre soit fermé ou ouvert
+   (demande explicite — l'essai précédent le réduisait à la taille
+   couverture pour éviter un effet "énorme", mais c'était avec la
+   texture de book-01.png en fond ; une fois passé à une couleur unie,
+   ce n'est plus un souci et un livre garde physiquement ses plats à
+   leur taille qu'il soit ouvert ou fermé). +28px de marge pour qu'il
+   dépasse visiblement sur les côtés et en bas. Couleur cuir unie, pas la
+   texture de book-01.png (voir Lore.tsx) : légèrement plus sombre que la
+   couverture pour lire comme "en retrait/dans l'ombre" plutôt que comme
+   une seconde couverture. Avant .lore-book-wrap dans le DOM → peint
+   derrière lui (tous deux position:relative, z-index:auto : l'ordre du
+   DOM tranche). */
+.lore-book-backdrop {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: calc(min(1105px, 92vw, calc((100vh - 48px) * 1.64)) + 28px);
+	max-height: calc(100vh - 20px);
+	aspect-ratio: 1.64;
+	/* Texture bois en CSS pur (pas d'asset dédié dans le dépôt) : deux
+	   repeating-linear-gradient en diagonale légère (veinage clair/sombre)
+	   par-dessus le dégradé cuir d'origine, pour donner un peu de grain au
+	   pupitre derrière le livre plutôt qu'un aplat uni. */
+	background:
+		repeating-linear-gradient(
+			95deg,
+			rgba(0, 0, 0, 0.1) 0px,
+			rgba(0, 0, 0, 0.1) 1px,
+			transparent 1px,
+			transparent 4px
+		),
+		repeating-linear-gradient(
+			95deg,
+			rgba(255, 220, 180, 0.05) 0px,
+			rgba(255, 220, 180, 0.05) 2px,
+			transparent 2px,
+			transparent 9px
+		),
+		radial-gradient(
+			ellipse at 50% 35%,
+			rgba(0, 0, 0, 0),
+			rgba(0, 0, 0, 0.3) 100%
+		),
+		linear-gradient(160deg, #6b3a1c, #4a2510);
+	border-radius: 6px;
+	box-shadow: 0 30px 60px var(--lore-book-shadow);
 }
 
 .lore-book-wrap {
@@ -69,6 +258,32 @@
 	   (un téléphone est étroit ET haut, pas large ET court). */
 	position: relative;
 	width: min(1105px, 92vw, calc((100vh - 48px) * 1.64));
+	/* PAS de transition CSS sur width ici : le changement couverture <->
+	   double-page (voir --cover ci-dessous) déclenche un resize forcé vers
+	   react-pageflip juste après (Lore.tsx, handleChangeState sur "read")
+	   pour qu'il recalcule simple/double page — s'il mesure le conteneur en
+	   PLEIN milieu d'une transition de largeur, il ne voit qu'une valeur
+	   intermédiaire encore sous son seuil (760px) et reste coincé en page
+	   unique pour de bon (vérifié : c'est exactement ce qui se produisait
+	   avec `transition: width 0.3s` ici). Le saut est donc volontairement
+	   instantané. */
+}
+/* Tant que seule la couverture est visible (isCoverWidth, voir Lore.tsx),
+   le livre n'a qu'une page réelle à montrer : une largeur bien sous le
+   seuil recto/verso de la librairie (minWidth*2 = 760px, voir le
+   commentaire sur <HTMLFlipBook>) la fait basculer elle-même en page
+   unique centrée, au lieu du spread page-vierge/couverture décalé à droite
+   qu'on avait avec la largeur double-page ci-dessus.
+   Chaque terme du min() est ici VOLONTAIREMENT la moitié exacte du terme
+   correspondant de .lore-book-wrap ci-dessus (1105/2, 92vw/2, 0.82 = 1.64/2
+   déjà partagé) : cette largeur doit toujours rester exactement la moitié
+   de la largeur double-page, c'est ce qui permet à l'animation d'ouverture
+   (Lore.tsx, slideToSpreadSlot) de ne faire glisser le wrap que d'un demi
+   de sa propre largeur pour l'amener pile dans la moitié droite de la
+   largeur double-page, sans aucun redimensionnement ni saut. Modifier une
+   des deux règles sans l'autre casse ce calcul. */
+.lore-book-wrap.lore-book-wrap--cover {
+	width: min(552.5px, 46vw, calc((100vh - 48px) * 0.82));
 }
 
 .lore-flipbook {
@@ -78,6 +293,27 @@
 		0 5px 0 -2px rgba(120, 96, 60, 0.4),
 		0 9px 0 -4px rgba(120, 96, 60, 0.3),
 		0 30px 60px var(--lore-book-shadow);
+}
+/* overflow:hidden SEULEMENT pendant l'état couverture (.lore-book-wrap--
+   cover, posée par Lore.tsx tant que isCoverWidth est vrai) : le wrap est
+   alors deux fois plus étroit que la largeur double-page à laquelle
+   react-pageflip garde ses pages suivantes positionnées en interne — sans
+   ce clip, on voyait leur tranche dépasser du cadre pendant que le livre
+   était fermé ("on voit les pages quand le livre est fermé"). Le poser en
+   permanence (plutôt que juste ici, scopé à --cover) rognait aussi
+   l'animation de tournage elle-même une fois le livre ouvert, les pages
+   ayant besoin d'un peu plus d'espace que leur propre boîte pendant leur
+   rotation ("les pages sont coupées pendant l'animation, par la taille du
+   fond cuir") — isCoverWidth passe à faux (donc cette classe disparaît)
+   AVANT que le tournage ne commence (voir slideToSpreadSlot/commitSpread
+   dans Lore.tsx), donc aucun tournage de page n'est jamais concerné par
+   ce clip, qu'il s'agisse du tout premier ou d'un suivant. Posé sur
+   .lore-flipbook plutôt que sur .lore-book-wrap (son parent) :
+   overflow:hidden ne rogne jamais le box-shadow du même élément
+   (seulement ses enfants), alors que sur le parent il aurait coupé celui
+   ci-dessus. */
+.lore-book-wrap--cover .lore-flipbook {
+	overflow: hidden;
 }
 
 /* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
@@ -124,27 +360,94 @@
    qu'on lui tend. Un sélecteur descendant (avec espace) ne matchait donc
    rien depuis le début, bug repéré en vérifiant l'animation ci-dessous. */
 .stf__item.--right.lore-page-face {
-	box-shadow: inset 12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5);
 	transition: box-shadow 0.25s ease;
 }
 .stf__item.--left.lore-page-face {
-	box-shadow: inset -12px 0 20px -14px rgba(0, 0, 0, 0.35);
+	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5);
 	transition: box-shadow 0.25s ease;
+}
+/* Variante "coin déchiré" : quelques feuilles du livre (voir `torn` dans
+   journalAldrenia.ts) utilisent une texture différente plutôt que la
+   parchment.jpg uniforme. Une seule image source (coin bas-droite déchiré,
+   fond transparent au-delà de la déchirure), déclinée en 4 fichiers déjà
+   retournés/pivotés (voir le script qui les a générés, non versionné) :
+   bottom = bas-droite au recto, bas-gauche au verso (miroir horizontal,
+   même feuille physique vue de l'autre côté) ; top = pareil en haut. On ne
+   sait pas à l'avance si une page donnée tombera côté --right ou --left
+   (ça dépend de la parité globale du livre, pas de l'index local), donc le
+   choix bottom/top se marque sur la donnée mais le choix recto/verso de
+   l'image se fait ici, en combinant avec la classe que la lib pose déjà. */
+/* background-position précisé à chaque fois : le ratio de l'image source ne
+   correspond pas à celui de la page, et le cover centré par défaut (voir
+   .lore-page-face) rognait la déchirure elle-même (tout en bas/haut de
+   l'image, perdue dans le recadrage symétrique). Ancré sur le coin concerné
+   à la place, pour que ce soit justement ce qui ne saute jamais à la coupe. */
+/* Troisième calque (parchemin plein, derrière les deux premiers) : la
+   déchirure du calque du dessus est transparente à cet endroit, elle doit
+   donc révéler le papier de la page suivante plutôt que le fond de la salle
+   derrière le livre. */
+.lore-torn-bottom.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-br.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position:
+		right bottom,
+		right bottom,
+		center;
+}
+.lore-torn-bottom.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-bl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position:
+		left bottom,
+		left bottom,
+		center;
+}
+.lore-torn-top.stf__item.--right.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tr.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position:
+		right top,
+		right top,
+		center;
+}
+.lore-torn-top.stf__item.--left.lore-page-face {
+	background-image:
+		linear-gradient(var(--lore-spine-shade), var(--lore-spine-shade)),
+		url("../assets/site/parchment2-tl.webp"),
+		url("../assets/site/parchment.jpg");
+	background-position:
+		left top,
+		left top,
+		center;
 }
 /* Épaisseur de page pendant le tournage. StPageFlip anime une page "souple"
    en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D rotateY,
    vérifié dans sa source), donc une tranche réellement extrudée n'a rien à
-   quoi s'accrocher. On accentue à la place l'ombre de tranche déjà posée
-   ci-dessus et on ajoute une ombre portée externe le temps du geste, pour
-   lui donner un peu de corps sans se battre contre la géométrie de la lib.
-   isFlipping (Lore.tsx, via onChangeState) pose la classe sur tout le
-   livre, mais seule la page en mouvement est visible bouger ; les autres,
-   au repos, ne changent de rendu que par cette ombre, discrète par design. */
+   quoi s'accrocher. On ajoute une ombre portée externe le temps du geste,
+   pour lui donner un peu de corps sans se battre contre la géométrie de la
+   lib — l'ombre de reliure (inset) elle-même est désormais permanente (voir
+   .stf__item.--right/--left.lore-page-face plus haut, demande explicite :
+   elle donnait tout son effet de profondeur et ne devait plus se limiter au
+   tournage). isFlipping (Lore.tsx, via onChangeState) pose la classe sur
+   tout le livre, mais seule la page en mouvement est visible bouger ; les
+   autres, au repos, ne changent de rendu que par cette ombre portée,
+   discrète par design. */
 .lore-room--flipping .stf__item.--right.lore-page-face {
-	box-shadow: inset 20px 0 26px -12px rgba(0, 0, 0, 0.5), 3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset 20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 .lore-room--flipping .stf__item.--left.lore-page-face {
-	box-shadow: inset -20px 0 26px -12px rgba(0, 0, 0, 0.5), -3px 0 10px -4px rgba(30, 20, 10, 0.4);
+	box-shadow:
+		inset -20px 0 26px -12px rgba(0, 0, 0, 0.5),
+		-3px 0 10px -4px rgba(30, 20, 10, 0.4);
 }
 
 .lore-page {
@@ -167,14 +470,25 @@
 	font-family: var(--lore-font-hand);
 	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
 	   même ratio caractères/ligne quelle que soit la taille réelle de la
-	   page. */
-	font-size: clamp(0.84rem, calc(var(--lore-page-w) * 0.068), 1.5rem);
-	line-height: 1.5;
+	   page. -1px (demande explicite, toutes tailles d'écran) en décalant
+	   chaque borne du clamp() : invariant par translation, voir le
+	   commentaire détaillé sur le @media plus bas. */
+	font-size: clamp(
+		calc(0.84rem - 1px),
+		calc(var(--lore-page-w) * 0.068 - 1px),
+		calc(1.5rem - 1px)
+	);
+	line-height: 1.15;
 	color: var(--lore-ink);
+	/* Ombre renforcée (demande explicite, "tout les textes") : posée ici,
+	   sur l'ancêtre commun des titres/dropcap/paragraphes, pour qu'elle
+	   s'hérite partout sans la redéclarer sur chaque classe de texte — les
+	   quelques classes qui ne descendent pas de .lore-page (book-no,
+	   page-no...) la reprennent explicitement plus bas. */
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .lore-page p {
 	margin: 0 0 0.85em;
-	text-shadow: 0 0.4px 0 rgba(0, 0, 0, 0.15);
 	mix-blend-mode: multiply;
 }
 .lore-page p:last-child {
@@ -186,50 +500,63 @@
 	line-height: 0.8;
 	float: left;
 	padding: 0.03em 0.08em 0 0;
-	color: var(--lore-seal-red);
+	color: var(--lore-ink);
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(0.92rem, calc(var(--lore-page-w) * 0.076), 1.88rem);
-	color: var(--lore-seal-red);
+	font-size: clamp(
+		calc(0.92rem - 1px),
+		calc(var(--lore-page-w) * 0.076 - 1px),
+		calc(1.88rem - 1px)
+	);
+	color: var(--lore-ink);
 	margin: 0 0 0.5em;
 	text-align: center;
 }
 
+/* background-image posé en inline par Lore.tsx (couverture book-01.png).
+   .lore-cover est un enfant de .lore-page-face, en retrait de son padding :
+   position absolute + inset:0 pour un visuel plein cadre (bord à bord),
+   indépendant du padding appliqué aux pages de texte. 100% 100% (étiré,
+   pas cover) : cover rognait les bords de la couverture — à chaque fois
+   que son ratio ne correspond pas exactement à celui de la page, une
+   bordure ornementale entière finissait coupée. Un léger étirement est
+   préférable à perdre un morceau du visuel (demande explicite). */
 .lore-cover {
+	position: absolute;
+	inset: 0;
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+/* Carte de Mydaria (lore/carte-mydaria.jpg cote card-game) : une page de
+   carte, pas une page de texte — image encadree plutot que plein cadre
+   comme .lore-cover, pour garder l'air "feuillet relie dans le registre"
+   plutot que "couverture rigide". object-fit:contain (la carte est au
+   format paysage, les pages du livre au format portrait) : toute la carte
+   reste visible, quitte a laisser du parchemin au-dessus/en dessous plutot
+   que d'en rogner un bord. */
+.lore-map {
+	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	text-align: center;
-	background-image:
-		linear-gradient(rgba(20, 14, 8, 0.25), rgba(20, 14, 8, 0.25)),
-		url("../assets/site/parchment.jpg");
+	height: 100%;
+	gap: 0.6em;
 }
-.lore-seal-big {
-	width: 72px;
-	height: 72px;
-	margin: 0 auto 18px;
-	border-radius: 50%;
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 0 0 2px var(--lore-seal-gold);
-	display: grid;
-	place-items: center;
-	font-family: var(--lore-font-display);
-	font-size: 32px;
-	color: var(--lore-seal-gold);
+.lore-map-img {
+	max-width: 100%;
+	max-height: 85%;
+	object-fit: contain;
+	border: 1px solid var(--lore-rule);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-.lore-cover-title {
-	font-family: var(--lore-font-display);
-	font-size: 2rem;
-	margin: 0 0 0.3em;
-}
-.lore-cover-sub {
-	font-family: var(--lore-font-hand);
-	font-weight: 600;
-	letter-spacing: 0.06em;
+.lore-map-caption {
+	font-style: italic;
 	color: var(--lore-room-ink-dim);
+	text-align: center;
 	margin: 0;
 }
-
 .lore-divider {
 	/* .lore-page n'a pas de display propre : sans ce display:flex, ces
 	   align-items/justify-content étaient des no-op et le centrage vertical
@@ -248,10 +575,15 @@
 	text-transform: uppercase;
 	color: var(--lore-room-ink-dim);
 	margin: 0 0 0.4em;
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(1rem, calc(var(--lore-page-w) * 0.085), 2.13rem);
+	font-size: clamp(
+		calc(1rem - 1px),
+		calc(var(--lore-page-w) * 0.085 - 1px),
+		calc(2.13rem - 1px)
+	);
 	margin: 0 0 0.5em;
 }
 .lore-book-sub {
@@ -279,8 +611,14 @@
 	font-family: var(--lore-font-display);
 	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.035), 0.85rem);
 	color: var(--lore-seal-gold);
-	background: radial-gradient(circle at 35% 30%, var(--lore-seal-red), #241209 75%);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(122, 90, 30, 0.6);
+	background: radial-gradient(
+		circle at 35% 30%,
+		var(--lore-seal-red),
+		#241209 75%
+	);
+	box-shadow:
+		0 2px 8px rgba(0, 0, 0, 0.4),
+		inset 0 0 0 2px rgba(122, 90, 30, 0.6);
 }
 
 .lore-page-no {
@@ -289,10 +627,151 @@
 	font-family: var(--lore-font-hand);
 	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.04), 0.85rem);
 	color: var(--lore-room-ink-dim);
+	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
 .stf__item.--right .lore-page-no {
 	right: 16px;
 }
 .stf__item.--left .lore-page-no {
 	left: 16px;
+}
+
+/* Police un peu plus petite sur un écran moins haut que l'écran principal
+   (demande explicite). Seuil : 650px de hauteur de VIEWPORT (demande
+   explicite) — c'est ce que `max-height` évalue, jamais window.screen.height
+   directement, qu'aucune media query standard n'expose.
+   Doit rester APRÈS les règles non-media ci-dessus dans le fichier : à
+   spécificité égale, seul l'ORDRE dans la feuille départage le
+   cascade, qu'une règle soit dans un @media ou non — placée plus tôt,
+   celle-ci se ferait écraser par la règle .lore-book-title normale plus
+   bas (ligne ~437).
+   -4px au total par rapport aux tailles de base d'ORIGINE (pas -4px en
+   plus du -1px déjà appliqué partout ci-dessus : une media query qui
+   matche REMPLACE entièrement font-size sur l'élément, elle ne s'ajoute
+   pas à la règle non-media) : -2px déjà demandés précédemment pour les
+   petits écrans, +2px de plus (demande explicite). Chaque borne du
+   clamp() décalée individuellement plutôt que le résultat final : clamp()
+   étant invariant par translation, ça revient exactement à soustraire 4px
+   sur toute sa plage (pas seulement à une extrémité), donc au même
+   comportement responsive, 4px plus petit. */
+@media (max-height: 650px) {
+	.lore-page,
+	.lore-cover-title,
+	.lore-book-title {
+		font-size: clamp(
+			calc(0.84rem - 6px),
+			calc(var(--lore-page-w) * 0.068 - 6px),
+			calc(1.55rem - 4px)
+		);
+		line-height: 1.08;
+	}
+	.lore-page-title {
+		font-size: clamp(
+			calc(0.92rem - 6px),
+			calc(var(--lore-page-w) * 0.076 - 6px),
+			calc(1.88rem - 6px)
+		);
+	}
+	.lore-book-title {
+		font-size: clamp(
+			calc(1rem - 6px),
+			calc(var(--lore-page-w) * 0.085 - 6px),
+			calc(2.13rem - 6px)
+		);
+	}
+	.lore-page p {
+		margin-bottom: 0.6em;
+	}
+}
+
+/* Marque-pages (voir BOOKMARKS dans Lore.tsx) : un onglet par page titree,
+   accroche au bord du livre. Position verticale FIXE par onglet (`top` en
+   px, pose en inline par React avec `slot * TAB_HEIGHT`, TAB_HEIGHT = 24
+   cote JS) — ne depend jamais du cote gauche/droite choisi, c'est ca qui
+   garde "le marque-page Aldrenia a la 3e place" meme apres l'avoir
+   depassee. .lore-bookmarks est en inset:0 sur .lore-stage (position:
+   relative deja) : chaque onglet se positionne ensuite par rapport a cette
+   boite pleine page, PAS par rapport a la largeur variable du livre lui-
+   meme (couverture vs double-page) — plus simple, et les onglets ne
+   sautent pas en largeur quand le livre s'ouvre. overflow-y:auto en cas de
+   liste plus haute que l'ecran (beaucoup de titres) : on garde la colonne
+   scrollable plutot que d'ecraser la hauteur de chaque onglet. */
+.lore-bookmarks {
+	/* Pas de bottom/height ni d'overflow:auto ici : les onglets sont tous en
+	   position absolute (ils ne contribuent pas a la hauteur du parent),
+	   donc cette boite n'a besoin d'aucune hauteur propre pour que son
+	   `top` individuel par onglet fonctionne. Un overflow-y:auto dessinait
+	   une scrollbar INUTILE par-dessus la couverture (pointer-events:none
+	   ci-dessous empechant de toute facon de l'actionner a la molette) — si
+	   la liste deborde vraiment de la piece, .lore-room (overflow:hidden)
+	   la coupe proprement plutot que d'afficher une barre morte. */
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	pointer-events: none;
+	z-index: 15;
+}
+.lore-bookmark {
+	position: absolute;
+	pointer-events: auto;
+	height: 28px;
+	max-width: 150px;
+	padding: 2px 12px;
+	font-family: var(--lore-font-hand);
+	font-weight: 700;
+	font-size: 1rem;
+	line-height: 24px;
+	/* Noir + fond beige (demande explicite) : meme teinte que les pages du
+	   livre (--lore-room-bg-2/--lore-room-bg, voir le degrade de .lore-room),
+	   pas la texture bois du pupitre — ca les lit comme des onglets DU livre,
+	   pas comme un element du decor derriere lui. */
+	color: var(--lore-ink);
+	background: linear-gradient(
+		160deg,
+		var(--lore-room-bg-2),
+		var(--lore-room-bg)
+	);
+	border: 1px solid var(--lore-rule);
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+}
+.lore-bookmark:hover,
+.lore-bookmark:focus-visible {
+	background: linear-gradient(160deg, #fff6e0, var(--lore-room-bg-2));
+}
+.lore-bookmark--right {
+	right: 0;
+	transform: translateX(100%);
+	border-radius: 0 4px 4px 0;
+	border-left: none;
+	text-align: left;
+}
+.lore-bookmark--left {
+	left: 0;
+	transform: translateX(-100%);
+	border-radius: 4px 0 0 4px;
+	border-right: none;
+	text-align: right;
+}
+
+/* La couverture est un carton rigide, pas une page de papier : elle ne
+   doit jamais recevoir l'ombre de reliure ci-dessus (ni sa variante
+   accentuée pendant un tournage, voir .lore-room--flipping plus haut) —
+   appliquée par erreur, elle traçait un pli au milieu de la couverture
+   PENDANT qu'elle tournait, comme si elle était en papier plutôt qu'en
+   carton (signalé explicitement : la "bordure intérieure" du livre
+   semblait apparaître avant même la fin de l'animation d'ouverture).
+   Sélecteurs à spécificité égale aux deux règles qu'ils annulent,
+   placés après elles dans le fichier pour gagner le cascade. */
+.stf__item.--right.lore-page-face--cover,
+.stf__item.--left.lore-page-face--cover {
+	box-shadow: none;
+}
+.lore-room--flipping .stf__item.--right.lore-page-face--cover,
+.lore-room--flipping .stf__item.--left.lore-page-face--cover {
+	box-shadow: none;
 }
