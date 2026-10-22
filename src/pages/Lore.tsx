@@ -3,6 +3,7 @@ import type { ForwardedRef } from "react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import HTMLFlipBook from "react-pageflip";
+import { Link } from "react-router-dom";
 
 import archivesBgUrl from "../assets/site/archives.jpg";
 import book01CoverUrl from "../assets/site/book-01.png";
@@ -538,6 +539,17 @@ const Lore = () => {
 		if (w) setPageWidthPx(isPortraitRef.current ? w : w / 2);
 	};
 
+	// Lien de sortie, partage par les deux vues : cette page n'a pas de
+	// Navbar (plein ecran immersif, voir App.tsx), donc sans lui il n'existe
+	// aucun moyen de quitter /lore autrement que le bouton precedent/retour
+	// du navigateur. Vers "/" faute de page d'origine identifiee (aucune
+	// page du site ne lie encore vers /lore a ce jour).
+	const siteLink = (
+		<Link to="/" className="lore-site-link">
+			{language === "fr" ? "↩ Retour au site" : "↩ Back to the site"}
+		</Link>
+	);
+
 	// Bouton FR/EN partage par les deux vues (archives + lecture) — meme
 	// LanguageContext que le reste du site (voir Navbar.tsx), juste un
 	// habillage different puisque cette page n'a pas de Navbar.
@@ -586,6 +598,7 @@ const Lore = () => {
 						}
 					/>
 				</div>
+				{siteLink}
 				{langToggle}
 			</div>
 		);
@@ -600,6 +613,7 @@ const Lore = () => {
 			<button type="button" className="lore-back-button" onClick={() => setOpened(false)}>
 				{language === "fr" ? "← Retour" : "← Back"}
 			</button>
+			{siteLink}
 			{langToggle}
 			<div className="lore-stage">
 				{/* Dos de la couverture, derrière le bloc de pages (demande

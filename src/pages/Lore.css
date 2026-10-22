@@ -173,6 +173,33 @@
 	background: var(--lore-room-bg);
 }
 
+/* Lien de sortie vers le reste du site (demande explicite) : coin
+   superieur gauche, comme .lore-back-button. Seul a cet endroit dans la
+   salle des archives ; empile sous .lore-back-button dans la vue de
+   lecture (combinateur + : il le suit toujours directement dans le DOM,
+   voir Lore.tsx). */
+.lore-site-link {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	z-index: 20;
+	padding: 8px 16px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	text-decoration: none;
+}
+.lore-site-link:hover {
+	background: var(--lore-room-bg);
+}
+.lore-back-button + .lore-site-link {
+	top: 66px;
+}
+
 /* Bascule FR/EN (demande explicite, 2026-10) : meme LanguageContext que le
    reste du site (voir Navbar.tsx, .navbar-lang-btn), habillage propre a
    cette page puisqu'elle n'a pas de Navbar. Coin oppose au bouton Retour
