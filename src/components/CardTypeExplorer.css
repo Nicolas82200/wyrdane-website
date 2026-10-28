@@ -10,21 +10,81 @@
 	animation: card-type-fade-in 0.35s ease-out both;
 }
 
+.card-type-carousel {
+	position: relative;
+}
+
 .card-type-grid {
 	display: flex;
 	flex-wrap: nowrap;
-	justify-content: center;
+	/* safe center : centre la rangee quand les 4 cartes tiennent (>= ~1180px),
+	   mais retombe sur un alignement a gauche des qu elle deborde — un simple
+	   "center" rend la premiere carte inatteignable au scroll. */
+	justify-content: safe center;
 	gap: 20px;
-	/* Le panneau (.section-wide, voir Home.css) est dimensionne pour que les 4
-	   cartes tiennent sur une rangee : pas de scroll ici. La marge du haut
-	   laisse la place au badge de cout des cartes (GameCard.css), qui deborde
-	   de ~9px au-dessus de leur propre cadre. */
-	padding: 14px 2px 4px;
+	/* Carrousel en dessous de la largeur ou les 4 cartes tiennent : defilement
+	   horizontal magnetique, une carte par cran. Le padding laisse passer le
+	   cadre noir des cartes, qui deborde de ~8px sur les cotes et ~9px en
+	   haut de leur propre boite (GameCard.css) — sans lui, overflow-x le
+	   rognerait sur la premiere et la derniere carte. */
+	padding: 14px 10px 8px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+}
+
+.card-type-grid::-webkit-scrollbar {
+	display: none;
 }
 
 .card-type-grid-item {
 	flex: 0 0 auto;
+	scroll-snap-align: center;
 	animation: card-type-grid-in 0.4s ease-out both;
+}
+
+/* Fleches : seulement quand la rangee deborde reellement. */
+.card-type-arrow {
+	display: none;
+}
+
+@media (max-width: 1180px) {
+	.card-type-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+		width: 36px;
+		height: 36px;
+		padding: 0 0 4px;
+		font-size: 26px;
+		line-height: 1;
+		color: var(--gold);
+		background: rgba(10, 8, 7, 0.85);
+		border: 1px solid var(--panel-border);
+		border-radius: 50%;
+		cursor: pointer;
+		transition:
+			color 0.15s ease,
+			border-color 0.15s ease;
+	}
+
+	.card-type-arrow:hover,
+	.card-type-arrow:focus-visible {
+		color: var(--gold-bright);
+		border-color: var(--btn-border-hover);
+	}
+
+	.card-type-arrow-prev {
+		left: -4px;
+	}
+
+	.card-type-arrow-next {
+		right: -4px;
+	}
 }
 
 @keyframes card-type-fade-in {

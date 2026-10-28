@@ -80,6 +80,18 @@ const ZONES: ZonePosition[] = [
 	},
 ];
 
+// Ancrage horizontal du tooltip. Centre sur la zone par defaut, mais aligne
+// sur le bord de la zone pour les colonnes laterales : un tooltip de 240px
+// centre sur une zone a 9% de la largeur du plateau sortait du plateau (donc
+// de l ecran, ou il etait coupe par l overflow-x: hidden global) des que la
+// fenetre descendait sous ~1060px.
+const hAlign = (style: CSSProperties) => {
+	const center = parseFloat(String(style.left)) + parseFloat(String(style.width)) / 2;
+	if (center < 25) return "h-start";
+	if (center > 75) return "h-end";
+	return "h-center";
+};
+
 const BoardDiagram = () => {
 	const { language } = useLanguage();
 	const content = BOARD_CONTENT[language];
@@ -97,7 +109,9 @@ const BoardDiagram = () => {
 						role="group"
 						aria-label={`${zoneText.label} : ${zoneText.text}`}
 					>
-						<div className={`board-tooltip v-${zone.side === "enemy" ? "below" : "above"}`}>
+						<div
+							className={`board-tooltip ${hAlign(zone.style)} v-${zone.side === "enemy" ? "below" : "above"}`}
+						>
 							<strong>{zoneText.label}</strong>
 							<p>{zoneText.text}</p>
 						</div>

@@ -250,6 +250,9 @@
 	}
 
 	.navbar-link {
+		/* border-box : sans lui, width: 100% + 36px de padding horizontal font
+		   deborder chaque lien du menu hors de l ecran. */
+		box-sizing: border-box;
 		width: 100%;
 		padding: 10.5px 18px;
 	}
