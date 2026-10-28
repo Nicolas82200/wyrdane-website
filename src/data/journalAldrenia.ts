@@ -95,6 +95,22 @@ export const JOURNAL_PAGES: JournalPage[] = [
 
 	{
 		kind: "content",
+		title: { fr: "Les trois mers", en: "The Three Seas" },
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Trois mers bordent Mydaria, et chacune tient une place différente dans la vie des royaumes. À l'ouest, par-delà les plaines d'Eorthal, l'Océan Occidental ferme le continent sur une étendue que nul n'a jamais prétendu traverser. À l'est, la Mer de l'Est est celle de Caldrath, celle dont le port remplit les coffres de la Couronne et vers laquelle le palais royal tourne ses terrasses depuis des générations. Au sud, enfin, la Mer de Mydaria porte les routes de Thelmere et la plus grande part des cargaisons qui circulent entre les six royaumes.",
+				en: "Three seas border Mydaria, and each holds a different place in the life of the kingdoms. To the west, beyond Eorthal's plains, the Occidental Ocean closes the continent upon an expanse no one has ever claimed to cross. To the east, the Eastern Sea is Caldrath's own, the one whose harbour fills the Crown's coffers and toward which the royal palace has turned its terraces for generations. To the south, the Sea of Mydaria carries Thelmere's routes and the greater part of the cargo moving between the six kingdoms.",
+			},
+			{
+				fr: "Toutes trois se longent sans difficulté, et pêcheurs comme caboteurs y travaillent depuis toujours à portée de côte. Ce qui change, c'est ce qui arrive à ceux qui s'en écartent.",
+				en: "All three can be followed along the shore without difficulty, and fishermen and coasters have always worked them within sight of land. What changes is what happens to those who leave it.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
 		title: { fr: "Les mers sans retour", en: "The Seas of No Return" },
 		dropcap: true,
 		paragraphs: [
@@ -224,8 +240,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Aldrenia's strength lies neither in numbers nor in the richness of its lands, but in the discipline of its legions and the age of their doctrine. Whole generations of officers have refined the same wedge formation, the same rampart manoeuvres, until they made of it an army its enemies fear less for its size than for its constancy.",
 			},
 			{
-				fr: "Aux dernières nouvelles parvenues à la cour, ces légions sont engagées dans une guerre de frontière avec Skeldara, un conflit qu'Aldrenia vit au jour le jour. Des soldats y meurent chaque saison, des avant-postes y changent de main, sans qu'aucun des deux royaumes ne paraisse en mesure de l'emporter tout à fait. C'est une guerre d'usure plus que de conquête, et elle façonne depuis des années l'humeur de toute la frontière septentrionale.",
-				en: "By the latest word to reach the court, these legions are engaged in a border war with Skeldara, a conflict Aldrenia lives day by day. Soldiers die there every season, outposts change hands, without either kingdom seeming able to win outright. It is a war of attrition more than conquest, and it has shaped the mood of the whole northern frontier for years.",
+				fr: "Aux dernières nouvelles parvenues à la cour, ces légions sont engagées dans une guerre de frontière avec Skeldara, un conflit qu'Aldrenia vit au jour le jour. Des soldats y meurent chaque saison, des avant-postes y changent de main, sans qu'aucun des deux royaumes ne paraisse en mesure de l'emporter tout à fait. C'est une guerre d'usure plus que de conquête, et elle façonne depuis des années l'humeur de toute la frontière septentrionale. Le gros des légions y est retenu. Du reste, quelques cohortes tiennent les frontières d'Eorthal au titre de l'alliance, et ce qui n'est ni au nord ni à l'ouest garde les routes, les mines et les murs d'Aldrenia elle-même.",
+				en: "By the latest word to reach the court, these legions are engaged in a border war with Skeldara, a conflict Aldrenia lives day by day. Soldiers die there every season, outposts change hands, without either kingdom seeming able to win outright. It is a war of attrition more than conquest, and it has shaped the mood of the whole northern frontier for years. The bulk of the legions is held up there. Of the rest, a few cohorts hold Eorthal's borders under the alliance, and what is neither north nor west guards Aldrenia's own roads, mines and walls.",
 			},
 		],
 	},
@@ -257,8 +273,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "West of Aldrenia stretches Eorthal, a sea of fertile plains running all the way to the Occidental Ocean without a single hill breaking the horizon. Aldrenian travellers who venture there in spring describe wheat fields so vast the wind draws waves across them, and lone farmsteads that seem to float, alone, amid the gold of the harvest.",
 			},
 			{
-				fr: "Sa capitale, Granholt, s'élève au cœur de ces terres comme une île de pierre dans un océan de céréales, des greniers hauts comme des tours, des marchés aux grains qui débordent jusque dans les rues, et un fleuve navigable qui charrie, chaque automne, des barges trop chargées pour sembler sûres. Le comté est gouverné par la comtesse Ysolde Varn, qui a elle-même négocié, de sa propre voix, l'alliance avec Aldrenia destinée à protéger ses terres des appétits de Skeldara.",
-				en: "Its capital, Granholt, rises at the heart of these lands like an island of stone in an ocean of grain, granaries tall as towers, grain markets spilling into the streets, and a navigable river that carries, every autumn, barges loaded too heavily to look safe. The county is governed by Countess Ysolde Varn, who herself negotiated, in her own voice, the alliance with Aldrenia meant to protect her lands from Skeldara's appetite.",
+				fr: "Sa capitale, Granholt, s'élève au cœur de ces terres comme une île de pierre dans un océan de céréales, des greniers hauts comme des tours, des marchés aux grains qui débordent jusque dans les rues, et un fleuve navigable qui charrie, chaque automne, des barges trop chargées pour sembler sûres. Le royaume est gouverné par la comtesse Ysolde Varn, qui a elle-même négocié, de sa propre voix, l'alliance avec Aldrenia destinée à protéger ses terres des appétits de Skeldara.",
+				en: "Its capital, Granholt, rises at the heart of these lands like an island of stone in an ocean of grain, granaries tall as towers, grain markets spilling into the streets, and a navigable river that carries, every autumn, barges loaded too heavily to look safe. The kingdom is governed by Countess Ysolde Varn, who herself negotiated, in her own voice, the alliance with Aldrenia meant to protect her lands from Skeldara's appetite.",
 			},
 		],
 	},
@@ -268,8 +284,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Dépourvu d'une puissance militaire comparable à celle de ses deux puissants voisins, Eorthal ne lève que des milices de récolte, des paysans armés de faux et de piques capables de tenir un instant mais non une bataille. Aux dernières nouvelles, le gros de sa défense repose entièrement sur les légions aldreniennes postées à ses frontières, sans lesquelles le royaume aurait sans doute déjà cédé, au moins en partie, aux raids skeldariens.",
-				en: "Lacking a military power to match either of its two powerful neighbours, Eorthal raises only harvest militias, peasants armed with scythes and pikes able to hold for a moment but not a battle. By the latest word, the bulk of its defence rests entirely on the Aldrenian legions posted at its borders, without which the kingdom would surely have already yielded, at least in part, to Skeldarian raids.",
+				fr: "Dépourvu d'une puissance militaire comparable à celle de ses deux puissants voisins, Eorthal ne lève que des milices de récolte, des paysans armés de faux et de piques capables de tenir un instant mais non une bataille. Aux dernières nouvelles, sa défense repose sur les quelques cohortes aldreniennes postées à ses frontières au titre de l'alliance, et plus encore sur ce qu'elles annoncent, le gros des légions retenu au nord mais prêt à descendre. Sans ce rempart emprunté, le royaume aurait sans doute déjà cédé, au moins en partie, aux raids skeldariens.",
+				en: "Lacking a military power to match either of its two powerful neighbours, Eorthal raises only harvest militias, peasants armed with scythes and pikes able to hold for a moment but not a battle. By the latest word, its defence rests on the few Aldrenian cohorts posted at its borders under the alliance, and still more on what they announce: the bulk of the legions, held in the north but ready to come down. Without that borrowed rampart, the kingdom would surely have already yielded, at least in part, to Skeldarian raids.",
 			},
 			{
 				fr: "Ce déséquilibre n'échappe à personne à Eorthal, et il nourrit une méfiance ancienne envers l'idée même d'une armée permanente. Certains, à Granholt, murmurent qu'une terre trop occupée à nourrir le monde n'a jamais le temps d'apprendre à se défendre elle-même, et que c'est précisément ce que Skeldara attend depuis des générations.",
@@ -380,6 +396,22 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	},
 	{
 		kind: "content",
+		title: { fr: "Le foyer de la magie", en: "The Home of Magic" },
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Si la magie existe à Mydaria, c'est de Dreamar qu'elle vient. Elle reste rare partout, y compris là-bas, et rien n'explique pourquoi la plupart de ceux qui naissent avec elle naissent sous ces arbres. Aucun royaume ne discute pourtant ce fait, Aldrenia comprise, qui envoie depuis des générations ses blessés les plus fortunés chercher dans ces forêts ce qu'aucun de ses propres médecins ne sait faire.",
+				en: "If magic exists in Mydaria, it comes from Dreamar. It remains rare everywhere, there included, and nothing explains why most of those born with it are born beneath those trees. No kingdom disputes the fact, however, Aldrenia included, which has for generations sent its wealthiest wounded into those forests to seek what none of its own physicians can do.",
+			},
+			{
+				fr: "Une part de cette magie guérit, referme certaines blessures, repousse certaines maladies, tient en vie des hommes qu'on avait déjà veillés. Elle n'annule pas tout et ne rend personne à la vie, et les guérisseurs de Dreamar sont les premiers à le dire. L'autre part se dit divine, accordée par Mydare elle-même à qui la sert, et c'est là que le savoir d'Aldrenia s'arrête. Que cette puissance vienne de la déesse ou d'ailleurs, nul ici ne saurait le démontrer, et le culte d'Aldrene se garde bien de l'admettre à voix haute.",
+				en: "Part of that magic heals, closes certain wounds, pushes back certain sicknesses, keeps alive men who had already been watched over. It undoes nothing entirely and returns no one to life, and Dreamar's healers are the first to say so. The other part is called divine, granted by Mydare herself to those who serve her, and that is where Aldrenia's knowledge stops. Whether this power comes from the goddess or from elsewhere, no one here could prove, and the cult of Aldrene is careful not to concede it aloud.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
 		title: { fr: "Une force qu'on ne voit jamais", en: "A Force Never Seen" },
 		dropcap: true,
 		paragraphs: [
@@ -402,12 +434,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		bookmark: true,
 		paragraphs: [
 			{
-				fr: "Seule puissance insulaire parmi les six royaumes, Thelmere se dresse au large, séparée du continent par un bras de mer que seuls ses propres navires franchissent avec assurance. On y accède par une route maritime balisée de phares, et l'on dit que nul capitaine étranger ne s'y aventure sans un pilote thelmérien à son bord, tant les courants y sont réputés traîtres.",
-				en: "The only island power among the six kingdoms, Thelmere stands out at sea, separated from the continent by a strait only its own ships cross with confidence. It is reached by a sea route marked with lighthouses, and it is said that no foreign captain ventures there without a Thelmerian pilot aboard, so treacherous are the currents said to be.",
+				fr: "Seule puissance insulaire parmi les six royaumes, Thelmere se dresse au large, hors d'atteinte de toute route terrestre. On y accède par une route maritime balisée de phares, et l'on dit que nul capitaine étranger ne s'y aventure sans un pilote thelmérien à son bord, tant les courants y sont réputés traîtres.",
+				en: "The only island power among the six kingdoms, Thelmere stands out at sea, beyond the reach of any land road. It is reached by a sea route marked with lighthouses, and it is said that no foreign captain ventures there without a Thelmerian pilot aboard, so treacherous are the currents said to be.",
 			},
 			{
-				fr: "Sa capitale, Thelbridge, se dresse sur cette île comme une ville de mâts et de toits d'ardoise, reliée au continent par un pont si vaste qu'il est devenu, à lui seul, une merveille dont on parle jusqu'à Aldrenia. Les marins l'appellent le Pas-de-Mer, et aucun Thelmérien n'a jamais jugé utile de lui chercher un nom plus savant. Au-delà de ses ports, la vie intérieure de Thelmere reste mal connue des marchands aldreniens, trop occupés à compter leurs cargaisons pour s'y attarder.",
-				en: "Its capital, Thelbridge, stands on this island as a city of masts and slate roofs, linked to the continent by a bridge so vast that it alone has become a wonder spoken of as far as Aldrenia. Sailors call it the Sea-Step, and no Thelmerian has ever thought it needed a more learned name. Beyond its ports, Thelmere's inner life remains little known to Aldrenian merchants, too busy counting their cargoes to linger over it.",
+				fr: "Sa capitale, Thelbridge, se dresse sur cette île comme une ville de mâts et de toits d'ardoise, reliée au reste des terres thelmériennes par un pont si vaste qu'il est devenu, à lui seul, une merveille dont on parle jusqu'à Aldrenia. Il franchit le bras de mer qui sépare l'île de ces terres, et les marins l'appellent le Pas-de-Mer ; aucun Thelmérien n'a jamais jugé utile de lui chercher un nom plus savant. Au-delà de ses ports, la vie intérieure de Thelmere reste mal connue des marchands aldreniens, trop occupés à compter leurs cargaisons pour s'y attarder.",
+				en: "Its capital, Thelbridge, stands on this island as a city of masts and slate roofs, linked to the rest of the Thelmerian lands by a bridge so vast that it alone has become a wonder spoken of as far as Aldrenia. It spans the arm of sea that separates the island from those lands, and sailors call it the Sea-Step; no Thelmerian has ever thought it needed a more learned name. Beyond its ports, Thelmere's inner life remains little known to Aldrenian merchants, too busy counting their cargoes to linger over it.",
 			},
 		],
 	},
@@ -594,8 +626,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Faced with this silence and these unanswered questions, King Varic Rhen cannot afford to wait for answers to come on their own. In the days that follow, scouts are chosen from among the most enduring and discreet of his armies, then sent out in every direction at once, toward each of the neighbouring kingdoms, with the sole instruction to see, to listen, and to return.",
 			},
 			{
-				fr: "Le voyage est long. Il faut compter environ sept à huit jours pour atteindre les terres skeldariennes et autant pour en revenir, un peu moins vers Eorthal, et sans doute bien davantage vers les royaumes les plus reculés. Vers Ostrane, seule exception, la route elle-même est courte, à peine plus longue que celle d'Eorthal. En attendant, le peuple d'Aldrenia n'a d'autre choix que d'apprendre à vivre avec l'inconnu, un jour après l'autre.",
-				en: "The journey is long. It takes roughly seven to eight days to reach Skeldarian lands and as many to return, a little less toward Eorthal, and surely far more toward the most distant kingdoms. Toward Ostrane, the sole exception, the road itself is short, barely longer than the one to Eorthal. In the meantime, the people of Aldrenia have no choice but to learn to live with the unknown, one day after another.",
+				fr: "Le voyage est long. Il faut compter environ sept à huit jours pour atteindre les terres skeldariennes et autant pour en revenir, cinq vers Eorthal, quatre pour n'atteindre que la lisière des forêts de Dreamar, et plus de deux semaines vers Thelmere, le plus reculé des six. Vers Ostrane, seule exception, la route elle-même est courte, à peine plus longue que celle d'Eorthal. En attendant, le peuple d'Aldrenia n'a d'autre choix que d'apprendre à vivre avec l'inconnu, un jour après l'autre.",
+				en: "The journey is long. It takes roughly seven to eight days to reach Skeldarian lands and as many to return, five toward Eorthal, four to reach no more than the edge of Dreamar's forests, and over two weeks toward Thelmere, the most distant of the six. Toward Ostrane, the sole exception, the road itself is short, barely longer than the one to Eorthal. In the meantime, the people of Aldrenia have no choice but to learn to live with the unknown, one day after another.",
 			},
 		],
 	},
@@ -619,26 +651,6 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		srcEn: "1aw-map-en.png",
 	},
 
-	// --- Ostrane ---------------------------------------------------------
-	{
-		kind: "content",
-		title: {
-			fr: "Ce qu'Ostrane n'a pas laissé dire",
-			en: "What Ostrane Did Not Let Be Said",
-		},
-		dropcap: true,
-		paragraphs: [
-			{
-				fr: "Le premier éclaireur à rentrer, de tous, n'est pas celui qu'on attendait en premier. C'est Kerrow Vane, envoyé vers Ostrane, et son retour, aussi rapide qu'inattendu, ne ressemble à aucun des récits qui suivront. La route elle-même n'a rien d'épuisant : quelques jours à peine, des chemins carrossables, un pays qui ressemble, de loin, à n'importe quel autre.",
-				en: "The very first scout to return is not the one anyone expected first. It is Kerrow Vane, sent toward Ostrane, and his return, as swift as it is unexpected, resembles none of the accounts that will follow. The road itself is nothing gruelling: a mere few days, passable paths, a country that, from a distance, looks like any other.",
-			},
-			{
-				fr: "Mais à la frontière, il trouve des sentinelles postées en silence, qui ne le laissent pas passer, ne répondent à aucune question, et le reconduisent sans un geste de violence ni le moindre mot d'explication jusqu'à ce qu'il ait rebroussé chemin de lui-même. Il n'a vu ni ville, ni village, ni le moindre Ostranais disposé à lui parler. Ce registre consigne ce retour avec un embarras qu'il peine à cacher : il n'y avait, pour une fois, presque rien à démêler. Juste un royaume qui a choisi, une fois de plus, de ne rien laisser savoir de lui.",
-				en: "But at the border, he finds sentries posted in silence, who will not let him pass, answer no question, and escort him back without a single act of violence or the slightest word of explanation, until he turns back of his own accord. He saw no city, no village, not a single Ostranai willing to speak with him. This register records this return with an embarrassment it can hardly hide: for once, there was almost nothing to untangle. Just a kingdom that has chosen, once again, to let nothing be known of itself.",
-			},
-		],
-	},
-
 	// --- Retour d'Eorthal ---------------------------------------------------
 	{
 		kind: "content",
@@ -646,12 +658,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Le deuxième à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit que les scribes mettent plusieurs jours à démêler des rumeurs qui l'accompagnent déjà.",
-				en: "The second to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account the scribes take several days to untangle from the rumours already surrounding it.",
+				fr: "Le premier éclaireur à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit que les scribes mettent plusieurs jours à démêler des rumeurs qui l'accompagnent déjà.",
+				en: "The first scout to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account the scribes take several days to untangle from the rumours already surrounding it.",
 			},
 			{
-				fr: "Dans quelques hameaux isolés du comté, des morts ne sont pas restés morts. Pas une armée, pas une invasion, des cas épars, signalés ici et là par des paysans qui préfèrent encore ne pas en parler trop fort, de peur qu'en parler ne fasse revenir autre chose. Ceux qui en ont vu décrivent des proches enterrés depuis des jours, parfois des années, qui se relèvent sans un mot, le regard vide, sans reconnaître ni leur maison ni ceux qui les pleurent. Le mot que les habitants eux-mêmes emploient pour les désigner, un mort-vivant, voyage avec l'éclaireur jusqu'à Caldrath, et c'est sous ce nom, faute d'un meilleur, qu'il entre dans ce registre.",
-				en: "In a few isolated hamlets of the county, the dead have not stayed dead. Not an army, not an invasion: scattered cases, reported here and there by peasants who still prefer not to speak of it too loudly, for fear that speaking might call something else back. Those who have seen them describe kin buried for days, sometimes years, rising without a word, their eyes empty, recognising neither their home nor those who mourn them. The word the people themselves use to name them, undead, travels with the scout all the way to Caldrath, and it is under this name, for lack of a better one, that it enters this register.",
+				fr: "Dans quelques hameaux isolés du royaume, des morts ne sont pas restés morts. Pas une armée, pas une invasion, des cas épars, signalés ici et là par des paysans qui préfèrent encore ne pas en parler trop fort, de peur qu'en parler ne fasse revenir autre chose. Ceux qui en ont vu décrivent des proches enterrés depuis des jours, parfois des années, qui se relèvent sans un mot, le regard vide, sans reconnaître ni leur maison ni ceux qui les pleurent. Le mot que les habitants eux-mêmes emploient pour les désigner, un mort-vivant, voyage avec l'éclaireur jusqu'à Caldrath, et c'est sous ce nom, faute d'un meilleur, qu'il entre dans ce registre.",
+				en: "In a few isolated hamlets of the kingdom, the dead have not stayed dead. Not an army, not an invasion: scattered cases, reported here and there by peasants who still prefer not to speak of it too loudly, for fear that speaking might call something else back. Those who have seen them describe kin buried for days, sometimes years, rising without a word, their eyes empty, recognising neither their home nor those who mourn them. The word the people themselves use to name them, undead, travels with the scout all the way to Caldrath, and it is under this name, for lack of a better one, that it enters this register.",
 			},
 		],
 	},
@@ -660,8 +672,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "C'est en recueillant ces mêmes récits que l'éclaireur entend parler, pour la première fois, d'un certain Edrin Fenn, du hameau d'Ellerwick. Un fermier, disent les villageois des environs, mort le jour de la secousse, et que l'on aurait vu depuis marcher les routes aux abords de sa ferme avec, derrière lui, trois silhouettes qu'il appelle encore sa femme et ses enfants. Il les nomme même, à qui veut l'entendre, Maren, Joren et Liss. Nul à Eorthal ne sait dire avec certitude s'il est à l'origine de ce qui se passe dans le comté ou s'il n'en est qu'un cas parmi d'autres, le premier simplement à avoir un nom.",
-				en: "It is while gathering these same accounts that the scout hears, for the first time, of a certain Edrin Fenn, of the hamlet of Ellerwick. A farmer, say the villagers nearby, dead on the day of the tremor, who has since been seen walking the roads near his farm with, behind him, three figures he still calls his wife and children. He even names them, to anyone who will listen, Maren, Joren and Liss. No one in Eorthal can say for certain whether he is the origin of what is happening in the county, or merely one case among others, the first simply to have a name.",
+				fr: "C'est en recueillant ces mêmes récits que l'éclaireur entend parler, pour la première fois, d'un certain Edrin Fenn, du hameau d'Ellerwick. Un fermier, disent les villageois des environs, mort le jour de la secousse, et que l'on aurait vu depuis marcher les routes aux abords de sa ferme avec, derrière lui, trois silhouettes qu'il appelle encore sa femme et ses enfants. Il les nomme même, à qui veut l'entendre, Maren, Joren et Liss. Nul à Eorthal ne sait dire avec certitude s'il est à l'origine de ce qui se passe dans le royaume ou s'il n'en est qu'un cas parmi d'autres, le premier simplement à avoir un nom.",
+				en: "It is while gathering these same accounts that the scout hears, for the first time, of a certain Edrin Fenn, of the hamlet of Ellerwick. A farmer, say the villagers nearby, dead on the day of the tremor, who has since been seen walking the roads near his farm with, behind him, three figures he still calls his wife and children. He even names them, to anyone who will listen, Maren, Joren and Liss. No one in Eorthal can say for certain whether he is the origin of what is happening in the kingdom, or merely one case among others, the first simply to have a name.",
 			},
 			{
 				fr: "Ce retour ne provoque ni panique ni soulagement. Il remplace une peur sans visage par une peur qui commence, timidement, à en avoir un.",
@@ -677,8 +689,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Le troisième éclaireur, Orvin Drach, rentre quelques jours plus tard, du côté des contreforts du nord où se tient toujours le front. Ce qu'il rapporte est d'une tout autre nature. Des créatures sont apparues sur les lignes skeldariennes, venues de nulle part que quiconque puisse désigner, et assez organisées pour qu'on ne les prenne pas, d'emblée, pour de simples bêtes égarées. Les soldats skeldariens qui les ont affrontées en parlent comme d'un ennemi à part entière, hostile, conscient. Le mot qui circule désormais sur le front, rapporté tel quel par l'éclaireur, est démon, et c'est ce mot qui s'impose dans ce registre à partir de ce jour.",
-				en: "The third scout, Orvin Drach, returns a few days later, from the northern foothills where the front still stands. What he reports is of an altogether different nature. Creatures have appeared along the Skeldarian lines, come from nowhere anyone can point to, and organised enough that they are not mistaken, at first, for mere strayed beasts. The Skeldarian soldiers who have fought them speak of them as a foe in their own right, hostile, aware. The word now circulating along the front, reported exactly as the scout heard it, is demon, and it is this word that takes hold in this register from this day on.",
+				fr: "Le second éclaireur, Orvin Drach, rentre quelques jours plus tard, du côté des contreforts du nord où se tient toujours le front. Ce qu'il rapporte est d'une tout autre nature. Des créatures sont apparues sur les lignes skeldariennes, venues de nulle part que quiconque puisse désigner, et assez organisées pour qu'on ne les prenne pas, d'emblée, pour de simples bêtes égarées. Les soldats skeldariens qui les ont affrontées en parlent comme d'un ennemi à part entière, hostile, conscient. Le mot qui circule désormais sur le front, rapporté tel quel par l'éclaireur, est démon, et c'est ce mot qui s'impose dans ce registre à partir de ce jour.",
+				en: "The second scout, Orvin Drach, returns a few days later, from the northern foothills where the front still stands. What he reports is of an altogether different nature. Creatures have appeared along the Skeldarian lines, come from nowhere anyone can point to, and organised enough that they are not mistaken, at first, for mere strayed beasts. The Skeldarian soldiers who have fought them speak of them as a foe in their own right, hostile, aware. The word now circulating along the front, reported exactly as the scout heard it, is demon, and it is this word that takes hold in this register from this day on.",
 			},
 			{
 				fr: "Les officiers aldreniens restent prudents sur ce que cela change à la guerre elle-même. Rien, pour l'instant, n'indique que Skeldara envisage une trêve, même face à cette menace commune : les deux camps semblent se contenter de se battre sur deux fronts à la fois plutôt que d'en fermer un seul. Certains, à la cour, se demandent déjà combien de temps un royaume peut tenir ainsi.",
@@ -736,12 +748,32 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		torn: "top",
 		paragraphs: [
 			{
-				fr: "Berec Morth, parti vers Thelmere, est l'un des derniers à rentrer, près d'un mois après son départ. Ce qu'il rapporte n'est pas une nouvelle de Thelmere : c'est l'absence de toute possibilité d'en avoir une. Arrivé à l'endroit où la route maritime menait autrefois au Pas-de-Mer, il n'a trouvé que la mer. Pas de ruines, pas de pierres éparses, pas la moindre pile engloutie que la marée aurait pu découvrir, rien, comme si le pont n'avait jamais existé.",
-				en: "Berec Morth, sent toward Thelmere, is one of the last to return, nearly a month after setting out. What he reports is not news of Thelmere: it is the absence of any possibility of having news at all. Arriving at the place where the sea road once led to the Sea-Step, he found only the sea. No ruins, no scattered stones, not the slightest sunken pier the tide might have uncovered, nothing, as though the bridge had never existed.",
+				fr: "Berec Morth, parti vers Thelmere, est l'un des derniers à rentrer, près d'un mois après son départ. Ce qu'il rapporte n'est pas une nouvelle de Thelmere : c'est l'absence de toute possibilité d'en avoir une. Arrivé au terme de la route maritime, là où le Pas-de-Mer joignait autrefois l'île au reste des terres thelmériennes, il n'a trouvé que la mer. Pas de ruines, pas de pierres éparses, pas la moindre pile engloutie que la marée aurait pu découvrir, rien, comme si le pont n'avait jamais existé.",
+				en: "Berec Morth, sent toward Thelmere, is one of the last to return, nearly a month after setting out. What he reports is not news of Thelmere: it is the absence of any possibility of having news at all. Arriving at the end of the sea route, where the Sea-Step once joined the island to the rest of the Thelmerian lands, he found only the sea. No ruins, no scattered stones, not the slightest sunken pier the tide might have uncovered, nothing, as though the bridge had never existed.",
 			},
 			{
-				fr: "Le Pas-de-Mer a disparu. De Thelmere elle-même, depuis, aucune nouvelle n'est jamais parvenue à Caldrath, par aucune voie.",
-				en: "The Sea-Step has vanished. Of Thelmere itself, since then, no word has ever reached Caldrath, by any road.",
+				fr: "Le Pas-de-Mer a disparu, et avec lui tout moyen d'atteindre Thelbridge : pas un navire à l'horizon, pas un pavillon thelmérien sur aucune des trois mers depuis ce jour. De Thelmere elle-même, aucune nouvelle n'est jamais parvenue à Caldrath, par aucune voie.",
+				en: "The Sea-Step is gone, and with it any way of reaching Thelbridge: not a ship on the horizon, not a Thelmerian flag on any of the three seas since that day. Of Thelmere itself, no word has ever reached Caldrath, by any road.",
+			},
+		],
+	},
+
+	// --- Ostrane : l'eclaireur qui ne revient pas ----------------------
+	{
+		kind: "content",
+		title: {
+			fr: "L'éclaireur qui n'est pas revenu",
+			en: "The Scout Who Never Came Back",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Reste Kerrow Vane, envoyé vers Ostrane. De tous, c'est lui qu'on attendait le plus tôt, la route du sud étant la plus courte, à peine plus longue que celle d'Eorthal, et la cour comptait son retour pour le dixième jour. Il n'est jamais rentré. Pas de corps, pas de cheval, pas un mot porté par un marchand de passage. Les dernières sentinelles à l'avoir vu l'ont regardé prendre la route du sud, et personne, depuis, n'a rien à ajouter.",
+				en: "That leaves Kerrow Vane, sent toward Ostrane. Of them all, he was the one expected soonest, the southern road being the shortest, barely longer than the one to Eorthal, and the court counted on his return by the tenth day. He never came back. No body, no horse, not a word carried by a passing merchant. The last sentries to see him watched him take the southern road, and no one, since, has anything to add.",
+			},
+			{
+				fr: "Aldrenia ne sait donc même pas ce qui l'a arrêté, une frontière gardée qui l'aurait refoulé, un refus, une mauvaise rencontre sur la route, ou rien de tout cela. D'Ostrane, aucune nouvelle n'est venue, pas même celle d'un homme renvoyé chez lui. Ce registre consigne ce blanc avec un embarras qu'il peine à cacher, car pour une fois il n'y avait rien à démêler, et c'est précisément ce qui inquiète. Un royaume qui se tait, on sait le lire. Un royaume d'où ne revient pas même le silence, non.",
+				en: "Aldrenia does not even know what stopped him: a guarded border turning him away, a refusal, a bad encounter on the road, or none of these. From Ostrane, no word has come, not even that of a man sent home. This register records the blank with an embarrassment it can hardly hide, for once there was nothing to untangle, and that is precisely what unsettles it. A kingdom that keeps silent can be read. A kingdom from which not even the silence returns cannot.",
 			},
 		],
 	},
@@ -753,12 +785,12 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Depuis ces premiers retours, les mois ont passé, et le monde que la cour d'Aldrenia observe aujourd'hui ne ressemble déjà plus à celui que les éclaireurs avaient décrit à leur arrivée. À Eorthal, ce qui n'était que des cas isolés ne l'est plus. Les morts-vivants s'y sont multipliés mois après mois, assez pour que les marchands aldreniens hésitent désormais à s'aventurer au-delà de certaines routes, et assez pour que le comté tout entier porte maintenant un nom que personne n'emploierait à la légère : le Royaume des Morts.",
-				en: "Since those first returns, months have passed, and the world the Aldrenian court observes today no longer resembles the one the scouts described on their arrival. In Eorthal, what was once a handful of isolated cases is no longer so. The undead have multiplied there month after month, enough that Aldrenian merchants now hesitate to venture beyond certain roads, and enough that the whole county now carries a name no one would use lightly: the Kingdom of the Dead.",
+				fr: "Depuis ces premiers retours, les mois ont passé, et le monde que la cour d'Aldrenia observe aujourd'hui ne ressemble déjà plus à celui que les éclaireurs avaient décrit à leur arrivée. À Eorthal, ce qui n'était que des cas isolés ne l'est plus. Les morts-vivants s'y sont multipliés mois après mois, assez pour que les marchands aldreniens hésitent désormais à s'aventurer au-delà de certaines routes, et assez pour que le royaume tout entier porte maintenant un nom que personne n'emploierait à la légère : le Royaume des Morts.",
+				en: "Since those first returns, months have passed, and the world the Aldrenian court observes today no longer resembles the one the scouts described on their arrival. In Eorthal, what was once a handful of isolated cases is no longer so. The undead have multiplied there month after month, enough that Aldrenian merchants now hesitate to venture beyond certain roads, and enough that the whole kingdom now carries a name no one would use lightly: the Kingdom of the Dead.",
 			},
 			{
-				fr: "On raconte, de bouche en bouche plus que par rapport officiel, qu'Edrin Fenn n'est plus le simple fermier dont on parlait il y a un an. Qu'il a perdu, peu à peu, ce qui lui restait de raison. Qu'il considère toujours sa femme et ses enfants comme vivants, malgré ce qu'en voient tous ceux qui les croisent. Et que des pouvoirs qu'aucun Aldrenien ne saurait nommer avec certitude semblent s'éveiller en lui à mesure que le monde change. Rien de tout cela n'est vérifié de première main.",
-				en: "It is said, mouth to mouth more than by official report, that Edrin Fenn is no longer the simple farmer spoken of a year ago. That he has, little by little, lost what reason remained to him. That he still considers his wife and children to be alive, whatever those who cross their path may see. And that powers no Aldrenian could name with any certainty seem to be awakening in him as the world changes. None of this is verified firsthand.",
+				fr: "On raconte, de bouche en bouche plus que par rapport officiel, qu'Edrin Fenn n'est plus le simple fermier dont on parlait il y a un an. Qu'il a perdu, peu à peu, ce qui lui restait de raison. Qu'il considère toujours sa femme et ses enfants comme vivants, malgré ce qu'en voient tous ceux qui les croisent. Et que des pouvoirs proches de ce que les vieux textes de Caldrath appellent la nécromancie semblent s'éveiller en lui à mesure que le monde change. Rien de tout cela n'est vérifié de première main.",
+				en: "It is said, mouth to mouth more than by official report, that Edrin Fenn is no longer the simple farmer spoken of a year ago. That he has, little by little, lost what reason remained to him. That he still considers his wife and children to be alive, whatever those who cross their path may see. And that powers close to what the old texts of Caldrath call necromancy seem to be awakening in him as the world changes. None of this is verified firsthand.",
 			},
 		],
 	},
@@ -788,8 +820,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "From Eorthal came, that year, the one piece of news the court received with something resembling relief. Granholt holds. Countess Ysolde Varn is entrenched there behind her granaries and walls, alive, and it is in her own hand that the letter is written, calling on Aldrenia for the alliance she herself had negotiated, years before, against a threat that was then only Skeldarian.",
 			},
 			{
-				fr: "Le Conseil du Roi en débat depuis. Les légions rappelées du nord sont disponibles pour la première fois depuis des années, et c'est précisément ce qui rend la décision lourde. Les envoyer, c'est engager l'armée d'Aldrenia dans un comté que l'on nomme déjà le Royaume des Morts. Les garder, c'est laisser mourir seule la seule alliée que ce royaume ait jamais eue. Ce registre ne consigne pas ce qui a été décidé, pour la raison simple que rien ne l'a encore été.",
-				en: "The King's Council has debated it since. The legions recalled from the north are available for the first time in years, and that is precisely what makes the decision so heavy. To send them is to commit Aldrenia's army to a county already called the Kingdom of the Dead. To keep them is to let the one ally this kingdom has ever had die alone. This register does not record what was decided, for the simple reason that nothing has been, yet.",
+				fr: "Le Conseil du Roi en débat depuis. Les quelques cohortes qu'Aldrenia tenait aux frontières d'Eorthal n'ont jamais eu le nombre pour tenir autre chose qu'une route, et c'est bien pour cela que la lettre réclame les légions elles-mêmes. Rappelées du nord, elles sont disponibles pour la première fois depuis des années, et c'est précisément ce qui rend la décision lourde. Les envoyer, c'est engager l'armée d'Aldrenia dans un royaume que l'on nomme déjà le Royaume des Morts. Les garder, c'est laisser mourir seule la seule alliée que ce royaume ait jamais eue. Ce registre ne consigne pas ce qui a été décidé, pour la raison simple que rien ne l'a encore été.",
+				en: "The King's Council has debated it since. The few cohorts Aldrenia held at Eorthal's borders never had the numbers to hold anything but a road, and that is precisely why the letter calls for the legions themselves. Recalled from the north, they are available for the first time in years, and that is precisely what makes the decision so heavy. To send them is to commit Aldrenia's army to a kingdom already called the Kingdom of the Dead. To keep them is to let the one ally this kingdom has ever had die alone. This register does not record what was decided, for the simple reason that nothing has been, yet.",
 			},
 		],
 	},
