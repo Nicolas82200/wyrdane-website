@@ -198,7 +198,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	},
 	{
 		kind: "content",
-		title: { fr: "La question de la suite", en: "The Question of What Follows" },
+		title: {
+			fr: "La question de la suite",
+			en: "The Question of What Follows",
+		},
 		dropcap: true,
 		paragraphs: [
 			{
@@ -326,7 +329,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	},
 	{
 		kind: "content",
-		title: { fr: "Une terre pauvre, une guerre riche", en: "A Poor Land, a Rich War" },
+		title: {
+			fr: "Une terre pauvre, une guerre riche",
+			en: "A Poor Land, a Rich War",
+		},
 		dropcap: true,
 		paragraphs: [
 			{
@@ -473,7 +479,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "divider",
 		bookNo: { fr: "Entrée II", en: "Entry II" },
-		bookTitle: { fr: "Le jour où tout changea", en: "The Day Everything Changed" },
+		bookTitle: {
+			fr: "Le jour où tout changea",
+			en: "The Day Everything Changed",
+		},
 		bookSub: {
 			fr: "Ce que l'on sait, ce que l'on raconte, et ce que personne, pour l'instant, n'ose encore nommer.",
 			en: "What is known, what is told, and what no one, for now, yet dares to name.",
@@ -486,8 +495,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Sans aucun signe annonciateur, Mydaria tout entière est frappée par un cataclysme d'une ampleur inconnue jusque-là. Le ciel, pourtant, ne change pas de couleur. Aucun astre ne tombe, aucune trompette ne sonne. Ce sont la terre elle-même qui se met à trembler sous les pieds de tous à la fois, les bêtes qui se mettent à hurler sans raison dans les étables, et dans certaines maisons les lampes qui s'éteignent toutes ensemble sans qu'aucun souffle ne les ait touchées.",
-				en: "Without any warning sign, the whole of Mydaria is struck by a cataclysm of a scale unknown until then. The sky, however, does not change colour. No star falls, no trumpet sounds. It is the earth itself that begins to shake under everyone's feet at once, the animals that begin howling for no reason in their stalls, and in some houses the lamps that go out all together, though no breath has touched them.",
+				fr: "Sans aucun signe annonciateur, Aldrenia est frappée par un cataclysme d'une ampleur inconnue jusque-là. Le ciel, pourtant, ne change pas de couleur. Aucun astre ne tombe, aucune trompette ne sonne. Ce sont la terre elle-même qui se met à trembler sous les pieds de tous à la fois, les bêtes qui se mettent à hurler sans raison dans les étables, et dans certaines maisons les lampes qui s'éteignent toutes ensemble sans qu'aucun souffle ne les ait touchées.",
+				en: "Without any warning sign, Aldrenia is struck by a cataclysm of a scale unknown until then. The sky, however, does not change colour. No star falls, no trumpet sounds. It is the earth itself that begins to shake under everyone's feet at once, the animals that begin howling for no reason in their stalls, and in some houses the lamps that go out all together, though no breath has touched them.",
 			},
 			{
 				fr: "Ce n'est qu'après coup, dans les heures et les jours qui suivent, une fois les premiers récits recoupés entre eux, que l'on comprend qu'il ne s'agit pas d'un simple tremblement de terre isolé, mais de quelque chose qui a frappé bien plus loin que les frontières d'Aldrenia, peut-être le monde tout entier.",
@@ -495,7 +504,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 			},
 			{
 				fr: "L'événement n'a pas de nom. Dans les jours qui suivent, personne ne sait comment le désigner autrement qu'en le décrivant à sa manière, par « la grande secousse », prononcé à voix basse, comme si lui donner un nom trop précis risquait de lui donner aussi une raison. ",
-				en: "The event has no name. In the days that follow, no one knows how to call it other than by describing it in their own way, as \"the great tremor\", spoken in a hushed voice, as if giving it too precise a name risked also giving it a reason.",
+				en: 'The event has no name. In the days that follow, no one knows how to call it other than by describing it in their own way, as "the great tremor", spoken in a hushed voice, as if giving it too precise a name risked also giving it a reason.',
 			},
 		],
 	},
@@ -594,7 +603,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "divider",
 		bookNo: { fr: "Entrée III", en: "Entry III" },
-		bookTitle: { fr: "Ce que les éclaireurs ont rapporté", en: "What the Scouts Brought Back" },
+		bookTitle: {
+			fr: "Ce que les éclaireurs ont rapporté",
+			en: "What the Scouts Brought Back",
+		},
 		bookSub: {
 			fr: "Le retour, royaume par royaume, et ce que le monde est devenu un an après la secousse.",
 			en: "Their return, kingdom by kingdom, and what the world has become a year after the tremor.",
@@ -610,7 +622,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	// --- Ostrane ---------------------------------------------------------
 	{
 		kind: "content",
-		title: { fr: "Ce qu'Ostrane n'a pas laissé dire", en: "What Ostrane Did Not Let Be Said" },
+		title: {
+			fr: "Ce qu'Ostrane n'a pas laissé dire",
+			en: "What Ostrane Did Not Let Be Said",
+		},
 		dropcap: true,
 		paragraphs: [
 			{
@@ -713,7 +728,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	// --- Thelmere ---------------------------------------------------------
 	{
 		kind: "content",
-		title: { fr: "Ce que Thelmere n'a plus", en: "What Thelmere No Longer Has" },
+		title: {
+			fr: "Ce que Thelmere n'a plus",
+			en: "What Thelmere No Longer Has",
+		},
 		dropcap: true,
 		torn: "top",
 		paragraphs: [
@@ -799,7 +817,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		paragraphs: [
 			{
 				fr: "À mesure que les récits des marchands, des réfugiés et des soldats se mêlent dans les tavernes et sur les routes, un mot commence à circuler pour nommer tout ce qui est arrivé ce jour-là, remplaçant peu à peu « la grande secousse ». Wyrdane.",
-				en: "As the accounts of merchants, refugees and soldiers mingle in taverns and on the roads, a word begins to circulate to name everything that happened that day, slowly replacing \"the great tremor\". Wyrdane.",
+				en: 'As the accounts of merchants, refugees and soldiers mingle in taverns and on the roads, a word begins to circulate to name everything that happened that day, slowly replacing "the great tremor". Wyrdane.',
 			},
 			{
 				fr: "Personne, ne sait dire avec certitude qui l'a prononcé le premier, ni où, ni dans quelle langue il aurait été forgé. Certains jurent l'avoir entendu de la bouche d'un soldat mourant revenu du front skeldarien, d'autres, d'un marchand de passage qui prétendait le tenir d'un peuple dont il ne savait plus le nom, d'autres encore affirment, sans grande conviction, l'avoir toujours connu, comme s'il avait simplement attendu son heure pour être employé.",
@@ -821,7 +839,10 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "sealed",
 		bookNo: { fr: "À venir", en: "To Come" },
-		bookTitle: { fr: "D'autres cahiers suivront", en: "More Volumes Will Follow" },
+		bookTitle: {
+			fr: "D'autres cahiers suivront",
+			en: "More Volumes Will Follow",
+		},
 		bookSub: {
 			fr: "Ce qui n'a pas encore été couché par écrit.",
 			en: "What has not yet been set down in writing.",
