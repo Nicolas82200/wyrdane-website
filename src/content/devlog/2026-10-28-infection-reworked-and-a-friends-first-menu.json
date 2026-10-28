@@ -1,0 +1,151 @@
+{
+  "date": "2026-10-28",
+  "title": {
+    "en": "Devlog 12: Infection stops dealing damage, and the main menu gets reorganized",
+    "fr": "Devlog 12 : l'Infection ne fait plus de dégâts, et le menu principal se réorganise"
+  },
+  "lede": {
+    "en": "This entry covers the two weeks since Devlog 11 (2026-10-13), plus a large rules-and-cards pass from early October that had not been written up anywhere yet. On the menu: Infection fully reworked into a conversion mark, a batch of cards that did not do what they promised, every card description rewritten on one syntax, a main menu reorganized around your friends list, and website cards that finally match the game's.",
+    "fr": "Cette entrée couvre les deux semaines écoulées depuis le Devlog 11 (2026-10-13), plus une grosse passe de règles et de cartes faite début octobre qui n'avait encore été racontée nulle part. Au programme : l'Infection entièrement repensée en marque de conversion, une série de cartes qui ne faisaient pas ce qu'elles annonçaient, toutes les descriptions réécrites dans la même langue, un menu principal réorganisé autour de votre liste d'amis, et les cartes du site enfin identiques à celles du jeu."
+  },
+  "stats": {
+    "en": [
+      { "value": "147", "label": "card descriptions rewritten on a single syntax" },
+      { "value": "608", "label": "card images exported: 304 cards in both languages" },
+      { "value": "46", "label": "missing English translations, caught thanks to that export" },
+      { "value": "0", "label": "cards left with clipped text on the website, after reviewing all 304 in both languages" }
+    ],
+    "fr": [
+      { "value": "147", "label": "descriptions de cartes réécrites sur une syntaxe unique" },
+      { "value": "608", "label": "images de cartes exportées : 304 cartes dans les deux langues" },
+      { "value": "46", "label": "traductions anglaises manquantes, repérées grâce à cet export" },
+      { "value": "0", "label": "carte au texte coupé sur le site, après vérification des 304 dans les deux langues" }
+    ]
+  },
+  "sections": {
+    "en": [
+      {
+        "heading": "Infection no longer deals damage: it takes your dead instead",
+        "paragraphs": [
+          "Infection was the Undead signature mechanic, and it overlapped with half the game: a mark that chips away a few health points per turn is just delayed damage, nothing more. It has been fully reworked. It is now a conversion mark that deals no damage at all: an infected minion that dies while the mark is running does not go to the graveyard, it rises as a 1/1 Zombie on the side of whoever infected it. The mark fades on its own if nobody finishes the job in time.",
+          "What that changes in play: infecting no longer kills anyone, you have to go and secure the kill yourself, which finally gives real weight to combat trades and removal. Sacrificing or fusing a marked unit no longer dodges the conversion, a way out that worked for Demons and Abominations alike. Re-infecting no longer stacks durations, the longest one wins. The Plagued keyword becomes Bite X, with the duration carried by the card, and Revenant now triggers on a sacrifice or a fusion instead of being cancelled by them.",
+          "Cards touched along the way: Putrid Scavenger, The Plagued One, Plague Emissary, Patient Zero (cost 4 to 5), Pestilential Fog (Rare to Epic, with a new effect: it doubles the duration of the Infections you apply), and Icy Embrace, whose text was ambiguous. The Steam achievement tied to Infection now counts conversions, since Infection damage no longer exists."
+        ]
+      },
+      {
+        "heading": "Cards that finally do what they say",
+        "paragraphs": [
+          "A playtest report surfaced a whole series of cards that simply did not do what their text promised, and most causes sat in the engine rather than in the cards themselves. The biggest one: Silence did nothing at all. A silenced minion changed tint on screen and that was it, it kept resolving its effects normally. That is fixed everywhere at once, and its enlarged preview now reads \"Silenced\" instead of its original text, summoned tokens included.",
+          "In the same pass: area damage hit neighbours before the target itself took the blow, so minions died out of order; a minion granted Charge by another effect still could not attack on the turn it arrived; Shield of the Faith never fired; a resurrection could bring back the very minion that cast it; a group attack picked its attackers by the wrong race; and a minion whose arrival asks for a target is now placed on the board before the question, instead of aiming from nowhere. Presence effects, finally, became continuous: a minion that arrives after the card now benefits from it, which was not the case.",
+          "On the readability side, when a single action touches several minions at once, simultaneous mutations or a group attack for instance, reacting cards no longer open one window per minion one after another: it all collapses into a single announcement and a single fan of arrows."
+        ]
+      },
+      {
+        "heading": "Every card rewritten in the same language",
+        "paragraphs": [
+          "The same mechanic was being written three different ways depending on the card and on the day it was written. 147 descriptions have been rewritten on a single syntax, now locked in as a rule for every new card. It was not only a matter of style: the pass surfaced real text bugs, permanent buffs the description never mentioned, a token named by its race instead of its name, a vague heal amount, and on the English side a wrong Pact tier and a spell immunity described as spell cancellation.",
+          "Resource cards got their own pass: their description now explains which mana pool they feed and what it pays for, instead of merely naming the resource, and the \"one per turn\" rule moved down into the flavour text. Their names were shortened in the process, \"Seal of the Realm\" becomes Seal and \"Anomaly Shard\" becomes Anomaly, matching Flesh and Soul, which already fit in one word.",
+          "A new tool now exports every card as an image, in both languages, at hover-zoom size: useful for the Steam page, the website and social posts. The first attempt rendered blurry text, because enlarging an already-drawn card stretches the letters instead of redrawing them; the export now goes through the same mechanism as the game's own interface scale setting, and text is sharp at any size. One surprise while reviewing the English images: 46 cards were showing French. Their translation simply did not exist, and the game silently fell back to the source text. The 46 missing lines are written, and an automated check now fails if a card ever ships without its translation."
+        ]
+      },
+      {
+        "heading": "The lore puts names on what had none",
+        "paragraphs": [
+          "Two weeks spent on the canon and on the Aldrenia Journal, mostly naming and settling what was still vague. The common tongue is called Averan, the journey from Aldrenia to Skeldara takes seven to eight days (the five-day figure was actually the trip to Eorthal), and the war against Skeldara is fought on the northern border, not the eastern one, where there is only the sea.",
+          "The foreign place that appeared on Aldrenian soil finally has a name, the Fold, and a follow-up one year later: it simply vanished from the story after the First Wave chapter. The five scouts sent out by the king are each named, including the one who never came back. The Aldrenian court gains detail with two named voices on the King's Council, one of them a High Voice for the cult, which had no title until now, plus an heir and a new page on the old king's succession. Three human kingdoms that fell before Aldrenia are named, as a deliberate hook for the origin of the word Wyrdane, without confirming anything. Edrin Fenn comes from a hamlet whose name has nothing to do with his own, because he is a peasant and not an established family, and the Journal finally uses the canon first names of his wife and children.",
+          "One substantial change for the following year: the war between Aldrenia and Skeldara ends with neither treaty nor truce, it simply burns out, each army pulling back because it now has another enemy. As a direct consequence the northern stronghold still stands, its commander is alive and calling for an alliance, and the recalled legions are available. Enough to open a dilemma the story does not resolve yet."
+        ]
+      },
+      {
+        "heading": "Website cards finally match the game's",
+        "paragraphs": [
+          "The website deck builder was showing cards that had quietly drifted from the game's. The large watermark symbol in the centre disappeared from the game a long time ago, replaced by a round medallion in the top left corner: the website now carries it too. Resource cards finally show their race icon in the cost badge instead of a number, tinted so it stays readable on the dark background. Flavour text was being slanted by the browser for lack of a real italic font, which is now embedded.",
+          "The real cause of poor legibility at small sizes was not the font but the artwork showing through behind the text: the text box background is now almost opaque, with a parchment tint, more open line spacing and a rule separating rules text from flavour text. Card fonts moved to a system stack, which renders better at the small sizes of the grid, and rules text is left-aligned, since centring across several lines makes reading choppy.",
+          "The worst part was left: text being cut off without warning. The name and description boxes only had two fallback sizes before silently clipping. A measured cascade replaces that: shrink the font, then hide the flavour text (decorative, unlike the rules text), then shrink further as a last resort. Three causes were hiding behind it, none of which would have been visible by re-reading the code: a height measurement that underestimated centred text, a French/English switch that kept the other language's measurement, and cards without flavour text never reaching the final steps. All 304 cards were reviewed one by one, in both languages: no clipped text left."
+        ]
+      },
+      {
+        "heading": "A main menu reorganized around your friends",
+        "paragraphs": [
+          "The left column of the menu no longer holds a list of navigation buttons. It now carries settings at the very top, your player panel, a permanent friends strip taking all the remaining space, and chat at the bottom. The strip shows all of your friends as avatars three times larger than before and without usernames, scrolling if the list is long; hovering it opens the detailed panel over everything else.",
+          "What left the column: currency moves to the top right, next to the unopened packs badge, and account level moves down into the Profile view, right under your username. The home page now has three distinct panels instead of one large frame, with a card back shop preview beside the news, and a customization page (hero, card back, board) put in place as a mock-up for now, with nothing functional behind it. The transition between views, which felt choppy, was reworked: longer, with an ease-out and a fade."
+        ]
+      },
+      {
+        "heading": "Smaller fixes",
+        "paragraphs": [
+          "A modified client could make the same minion attack several times in one turn, ranked matches included, and thus multiply its damage: the missing check is in place. A known limit remains, documented rather than hidden, since a complete fix requires the server to arbitrate combat itself.",
+          "A quest's Claim button stayed shown as claimable after a successful claim, even though the reward was correctly credited; you had to leave and come back to see \"Claimed\". A slightly long username pushed the Accept and Decline buttons of a friend request out of frame, where they could not be reached; same problem in the deck builder, where a long card name pushed the remove cross off the row and made the card impossible to remove. Finally, Discord presence now records its connection failures, so a profile showing nothing can actually be diagnosed."
+        ]
+      },
+      {
+        "heading": "What's next",
+        "paragraphs": [
+          "Still open: the Steam build and depot, achievements on the partner dashboard, validating Arena network mode in real conditions, the new Elf and Dwarf races, shader animations, ranked seasons, and the third lore chapter, the base game one year after the First Wave, whose outline is ready."
+        ]
+      }
+    ],
+    "fr": [
+      {
+        "heading": "L'Infection ne fait plus de dégâts : elle vous prend vos morts",
+        "paragraphs": [
+          "L'Infection était la mécanique signature des Mort-Vivants, et elle faisait doublon avec la moitié du jeu : poser une marque qui grignote quelques points de vie par tour, ce sont des dégâts différés, rien de plus. Elle a été entièrement repensée. C'est désormais une marque de conversion, sans aucun dégât : un serviteur infecté qui meurt pendant que la marque court ne va pas au cimetière, il se relève en Zombie 1/1 dans le camp de celui qui l'a infecté. La marque s'efface toute seule si personne ne l'achève à temps.",
+          "Ce que ça change à la table : infecter ne tue plus personne, il faut aller chercher la mort soi-même, ce qui donne enfin un vrai rôle aux échanges au combat et aux effets de retrait. Sacrifier ou fusionner une unité marquée ne permet plus d'échapper à la conversion, un recours qui marchait jusqu'ici pour les Démons comme pour les Abominations. Réinfecter ne cumule plus les durées, c'est la plus longue qui l'emporte. Le mot-clé Pestiféré devient Morsure X, la durée étant portée par la carte, et Revenant se déclenche maintenant aussi sur un sacrifice ou une fusion au lieu d'être annulé par eux.",
+          "Cartes retouchées au passage : Charognard Putride, Le Pestiféré, Émissaire de la Peste, Patient Zéro qui passe de 4 à 5 de coût, Brouillard Pestilentiel qui passe de Rare à Épique avec un nouvel effet (il double la durée des Infections que vous posez), et Étreinte Glaciale dont le texte était ambigu. Le succès Steam lié à l'Infection compte désormais des conversions, puisque les dégâts d'Infection n'existent plus."
+        ]
+      },
+      {
+        "heading": "Des cartes qui font enfin ce qu'elles annoncent",
+        "paragraphs": [
+          "Un rapport de partie a révélé toute une série de cartes qui ne faisaient tout simplement pas ce que leur texte promettait, et la plupart des causes étaient dans le moteur plutôt que dans les cartes elles-mêmes. La plus grosse : le Silence ne faisait rien du tout. Un serviteur réduit au silence changeait de teinte à l'écran, et c'était tout, il continuait à déclencher ses effets normalement. C'est corrigé partout d'un coup, et son aperçu agrandi affiche maintenant « Réduit au silence » au lieu de son texte d'origine, jetons invoqués compris.",
+          "Dans la même passe : les dégâts de zone frappaient les voisins avant que la cible n'encaisse, donc des serviteurs mouraient dans le désordre ; un serviteur qui recevait Assaut par un autre effet restait incapable d'attaquer le tour de son arrivée ; le Bouclier de la Foi ne se déclenchait jamais ; une résurrection pouvait ramener le serviteur qui venait de la lancer ; une attaque de groupe choisissait ses attaquants d'après la mauvaise race ; et un serviteur dont l'arrivée demande une cible est désormais posé sur le plateau avant la question, au lieu de viser depuis nulle part. Les effets de Présence, enfin, sont devenus continus : un serviteur arrivé après la carte en bénéficie, ce qui n'était pas le cas.",
+          "Côté lisibilité, quand une seule action touche plusieurs serviteurs à la fois, mutations simultanées ou attaque groupée par exemple, les cartes qui réagissent n'ouvrent plus une fenêtre par serviteur les unes après les autres : tout se regroupe en une seule annonce et un seul faisceau de flèches."
+        ]
+      },
+      {
+        "heading": "Toutes les cartes réécrites dans la même langue",
+        "paragraphs": [
+          "La même mécanique s'écrivait jusqu'ici de trois façons différentes selon la carte et selon le jour où elle avait été écrite. 147 descriptions ont été réécrites sur une syntaxe unique, désormais figée comme règle pour toute nouvelle carte. Ce n'était pas qu'une question de style : la passe a fait tomber de vrais bugs de texte, des bonus permanents que la description ne mentionnait pas, un jeton désigné par sa race au lieu de son nom, un soin au montant flou, et côté anglais un palier de Pacte erroné et une immunité aux sorts décrite comme une annulation de sorts.",
+          "Les cartes-ressource ont eu leur propre passe : leur description explique maintenant quel réservoir de mana elles alimentent et ce qu'il paie, au lieu de se contenter de nommer la ressource, et la règle « une seule par tour » est descendue dans le texte d'ambiance. Leurs noms ont été raccourcis dans la foulée, « Sceau du Royaume » devient Sceau et « Éclat d'Anomalie » devient Anomalie, pour s'aligner sur Chair et Âme qui tenaient déjà en un mot.",
+          "Un nouvel outil exporte désormais toutes les cartes en images, dans les deux langues, à la taille du zoom au survol : utile pour la boutique Steam, le site et les réseaux. Le premier essai rendait un texte flou, parce qu'agrandir une carte déjà dessinée étire les lettres au lieu de les redessiner ; l'export passe maintenant par le même mécanisme que le réglage d'échelle de l'interface du jeu, et le texte est net à n'importe quelle taille. Surprise au moment de relire les images anglaises : 46 cartes affichaient du français. Leur traduction n'existait pas, et le jeu se rabattait silencieusement sur le texte source. Les 46 lignes manquantes sont écrites, et une vérification automatique échoue désormais si une carte repart sans sa traduction."
+        ]
+      },
+      {
+        "heading": "Le lore met des noms sur ce qui n'en avait pas",
+        "paragraphs": [
+          "Deux semaines passées sur le canon et sur le Journal d'Aldrenia, surtout pour nommer et trancher ce qui restait flou. La langue commune s'appelle l'Averan, le trajet d'Aldrenia vers Skeldara prend sept à huit jours (les cinq jours étaient en réalité le délai vers Eorthal), et la guerre contre Skeldara se joue sur la frontière nord et non à l'est, où il n'y a que la mer.",
+          "Le lieu étranger apparu sur le sol d'Aldrenia a enfin un nom, la Pliure, et un suivi un an plus tard : il disparaissait purement et simplement du récit après le chapitre de la Première Vague. Les cinq éclaireurs envoyés par le roi sont nommés un par un, dont celui qui n'est jamais rentré. La cour d'Aldrenia se précise avec deux voix nommées au Conseil du Roi, dont une Haute Voix pour le culte qui n'avait aucun titre jusque-là, et un héritier, avec une page neuve sur la succession du vieux roi. Trois royaumes humains disparus avant Aldrenia sont nommés, comme crochet volontaire pour l'origine du mot Wyrdane, sans rien confirmer. Edrin Fenn, lui, vient d'un hameau dont le nom n'a rien à voir avec le sien, parce que c'est un paysan et non une famille établie, et le Journal reprend enfin les prénoms canon de sa femme et de ses enfants.",
+          "Changement de fond sur l'année suivante : la guerre entre Aldrenia et Skeldara ne s'arrête ni par un traité ni par une trêve, elle s'éteint d'elle-même, chaque armée se repliant parce qu'elle a désormais un autre ennemi. Conséquence directe, la place forte du nord tient encore, sa commandante est vivante et réclame l'alliance, et les légions rappelées deviennent disponibles. De quoi ouvrir un dilemme que le récit ne tranche pas encore."
+        ]
+      },
+      {
+        "heading": "Les cartes du site enfin identiques à celles du jeu",
+        "paragraphs": [
+          "Le deck builder du site affichait des cartes qui avaient discrètement divergé de celles du jeu. Le grand symbole en filigrane au centre avait disparu du jeu depuis longtemps, remplacé par un médaillon rond en haut à gauche : le site le porte maintenant aussi. Les cartes-ressource affichent enfin leur icône de race dans le badge de coût à la place du chiffre, teintée pour rester lisible sur fond sombre. Le texte d'ambiance était penché par le navigateur faute de vraie police italique chargée, elle est désormais embarquée.",
+          "La vraie cause d'illisibilité à petite taille n'était pas la police mais l'illustration qui transparaissait derrière le texte : le fond de la case de texte est devenu quasi opaque, avec une teinte parchemin, des lignes plus aérées et un filet qui sépare le texte de règle du texte d'ambiance. Les polices de carte sont passées sur une pile système, mieux rendue aux petites tailles de la grille, et les textes de règle sont alignés à gauche, le centrage sur plusieurs lignes rendant la lecture hachée.",
+          "Restait le pire : du texte coupé sans prévenir. Les cases nom et description n'avaient que deux tailles de repli avant de rogner le texte en silence. Une cascade mesurée les remplace, qui réduit la police, puis masque le texte d'ambiance (décoratif, contrairement au texte de règle), puis réduit encore en dernier recours. Trois causes se cachaient derrière, dont aucune n'était visible en relisant le code : une mesure de hauteur qui sous-estimait les textes centrés, une bascule français/anglais qui conservait la mesure de l'autre langue, et les cartes sans texte d'ambiance qui n'atteignaient jamais les derniers paliers. Les 304 cartes ont été revues une par une, dans les deux langues : plus aucun texte coupé."
+        ]
+      },
+      {
+        "heading": "Un menu principal réorganisé autour de vos amis",
+        "paragraphs": [
+          "La colonne de gauche du menu ne porte plus une liste de boutons de navigation. Elle contient désormais les réglages tout en haut, votre panneau joueur, une bande d'amis permanente qui occupe tout l'espace restant, et le chat en bas. La bande affiche tous vos amis, en avatars trois fois plus grands qu'avant et sans pseudo, avec défilement si la liste est longue ; la survoler ouvre le panneau détaillé par-dessus le reste de l'écran.",
+          "Ce qui a quitté la colonne : la monnaie remonte en haut à droite, à côté de la pastille des packs à ouvrir, et le niveau de compte descend dans la vue Profil, juste sous le pseudo. La page d'accueil passe à trois panneaux distincts au lieu d'un seul grand cadre, avec un aperçu de la boutique de dos de cartes à côté des actualités, et une page de personnalisation (héros, dos de carte, plateau) posée pour l'instant en maquette, sans rien de fonctionnel derrière. L'animation de passage d'une vue à l'autre, jugée saccadée, a été reprise : plus longue, avec une décélération en fin de course et un fondu."
+        ]
+      },
+      {
+        "heading": "Petits correctifs",
+        "paragraphs": [
+          "Un client modifié pouvait faire attaquer plusieurs fois le même serviteur dans un tour, y compris en partie classée, et donc multiplier ses dégâts : la vérification manquante est posée. Une limite connue subsiste et est documentée plutôt que cachée, un correctif complet demandant que le serveur arbitre lui-même les combats.",
+          "Le bouton Réclamer d'une quête restait affiché comme réclamable après une réclamation réussie, alors que la récompense était bien créditée ; il fallait quitter et revenir pour voir « Réclamé ». Un pseudo un peu long poussait hors du cadre les boutons Accepter et Refuser d'une demande d'ami, qui devenaient inatteignables ; même problème dans le deck builder, où un nom de carte long poussait la croix de suppression hors de la ligne et empêchait de retirer la carte. Enfin, la présence Discord note maintenant ses erreurs de connexion, pour pouvoir diagnostiquer un profil qui n'affiche rien."
+        ]
+      },
+      {
+        "heading": "La suite",
+        "paragraphs": [
+          "Restent ouverts : le build et le dépôt Steam, les succès côté tableau de bord partenaire, la validation du mode Arène en réseau réel, les nouvelles races Elfe et Nain, les animations en shaders, les saisons classées, et le troisième chapitre de lore, le jeu de base un an après la Première Vague, dont le plan est prêt."
+        ]
+      }
+    ]
+  }
+}
