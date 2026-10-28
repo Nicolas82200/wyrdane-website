@@ -82,7 +82,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		bookNo: { fr: "Entrée I", en: "Entry I" },
 		bookTitle: { fr: "Le monde tel qu'il était", en: "The World As It Was" },
 		bookSub: {
-			fr: "Ce que Aldrenia savait des 6 Royaumes, avant que la terre ne se mette à trembler.",
+			fr: "Ce qu'Aldrenia savait des six royaumes, avant que la terre ne se mette à trembler.",
 			en: "What Aldrenia knew of the Six Kingdoms, before the earth began to shake.",
 		},
 	},
@@ -117,8 +117,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		bookmark: true,
 		paragraphs: [
 			{
-				fr: "Des siècles de caravanes, de traités et de mariages de raison ont fini par faire naître, entre les six royaumes, l'Averan, une langue de personne et de tout le monde à la fois, qu'on dit née sur les routes marchandes bien avant qu'aucun scribe n'ait songé à la coucher par écrit, et que plus personne ne sait attribuer à un seul royaume d'origine.",
-				en: "Centuries of caravans, treaties, and marriages of convenience eventually gave rise, among the six kingdoms, to the Averan, a language belonging to no one and to everyone at once, said to have been born on the trade roads long before any scribe thought to set it down in writing, and which no one can now trace back to a single kingdom of origin.",
+				fr: "Des siècles de caravanes, de traités et de mariages de raison ont fini par faire naître, entre les six royaumes, l'Averan, une langue de personne et de tout le monde à la fois, qu'on dit née sur les routes marchandes bien avant qu'aucun scribe n'ait songé à l'écrire, et que plus personne ne sait attribuer à un seul royaume d'origine.",
+				en: "Centuries of caravans, treaties, and marriages of convenience eventually gave rise, among the six kingdoms, to the Averan, a language belonging to no one and to everyone at once, said to have been born on the trade roads long before any scribe thought to write it down, and which no one can now trace back to a single kingdom of origin.",
 			},
 			{
 				fr: "Sans lui, un marchand d'Eorthal ne saurait pas négocier à Dunmarr, ni un diplomate aldrenien se faire comprendre sur les quais de Thelbridge. C'est la langue des comptoirs, des traités scellés à la hâte et des campements où se croisent des soldats de trois royaumes à la fois.",
@@ -187,7 +187,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Aldrenia is ruled by King Varic Rhen, already known, in a hushed voice and with wary respect, as the Old King. He never decides alone. A Council sits at his side, made up of his highest generals and the most influential priests of Aldrene, and no decision of weight is made without that assembly being consulted. Two voices there carry more weight than the rest: that of General Dorric Marn, and that of Sereth Vael, High Voice of Aldrene.",
 			},
 			{
-				fr: "La majorité des Aldreniens vénèrent Aldrene, qu'ils tiennent pour une déesse salvatrice et protectrice. Dans leur tradition, c'est Mydare, qui porte la responsabilité d'une grande part des souffrances du monde, maladie, guerre, famine, catastrophe.",
+				fr: "La majorité des Aldreniens vénèrent Aldrene, qu'ils tiennent pour une déesse salvatrice et protectrice. Dans leur tradition, c'est Mydare qui porte la responsabilité d'une grande part des souffrances du monde, maladie, guerre, famine, catastrophe.",
 				en: "Most Aldrenians worship Aldrene, whom they hold to be a saving, protective goddess. In their tradition, it is Mydare who bears the blame for much of the world's suffering: sickness, war, famine, catastrophe.",
 			},
 			{
@@ -209,8 +209,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Varic Rhen has reigned long enough that most of his subjects have never known another king, and that is precisely what worries them. They call him the Old King with affection, but they also count, in silence, the years he has left.",
 			},
 			{
-				fr: "Son fils, le prince Ilyan Rhen, est tenu pour un homme capable et mesuré, qui n'a toutefois jamais eu à décider seul de quoi que ce soit d'important. Le Conseil se partage entre ceux qui voient en lui la continuité du royaume et ceux qui redoutent qu'un règne neuf n'arrive au plus mauvais moment. Un scribe n'a pas à écrire davantage sur la succession d'un roi vivant, et celui qui tient cette plume s'en tiendra là.",
-				en: "His son, Prince Ilyan Rhen, is held to be a capable and measured man, who has nonetheless never had to decide anything of import alone. The Council is split between those who see in him the kingdom's continuity and those who fear a new reign arriving at the worst possible time. A scribe need write no further on the succession of a living king, and the one holding this pen will leave it there.",
+				fr: "Son fils, le prince Ilyan Rhen, est tenu pour un homme capable et mesuré, qui n'a toutefois jamais eu à décider seul de quoi que ce soit d'important. Le Conseil se partage entre ceux qui voient en lui la continuité du royaume et ceux qui redoutent qu'un règne neuf n'arrive au plus mauvais moment. Nul ne dit ces choses à voix haute tant que le roi est vivant. Ce registre note seulement qu'elles se disent.",
+				en: "His son, Prince Ilyan Rhen, is held to be a capable and measured man, who has nonetheless never had to decide anything of import alone. The Council is split between those who see in him the kingdom's continuity and those who fear a new reign arriving at the worst possible time. No one says such things aloud while the king still lives. This register notes only that they are being said.",
 			},
 		],
 	},
@@ -495,7 +495,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Sans aucun signe annonciateur, Aldrenia est frappée par un cataclysme d'une ampleur inconnue jusque-là. Le ciel, pourtant, ne change pas de couleur. Aucun astre ne tombe, aucune trompette ne sonne. Ce sont la terre elle-même qui se met à trembler sous les pieds de tous à la fois, les bêtes qui se mettent à hurler sans raison dans les étables, et dans certaines maisons les lampes qui s'éteignent toutes ensemble sans qu'aucun souffle ne les ait touchées.",
+				fr: "Sans aucun signe annonciateur, Aldrenia est frappée par un cataclysme d'une ampleur inconnue jusque-là. Le ciel, pourtant, ne change pas de couleur. Aucun astre ne tombe, aucune trompette ne sonne. C'est la terre elle-même qui se met à trembler sous les pieds de tous à la fois, les bêtes qui se mettent à hurler sans raison dans les étables, et dans certaines maisons les lampes qui s'éteignent toutes ensemble sans qu'aucun souffle ne les ait touchées.",
 				en: "Without any warning sign, Aldrenia is struck by a cataclysm of a scale unknown until then. The sky, however, does not change colour. No star falls, no trumpet sounds. It is the earth itself that begins to shake under everyone's feet at once, the animals that begin howling for no reason in their stalls, and in some houses the lamps that go out all together, though no breath has touched them.",
 			},
 			{
@@ -503,7 +503,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "It is only afterward, in the hours and days that follow, once the first accounts are cross-checked against one another, that it becomes clear this is no simple isolated earthquake, but something that struck far beyond Aldrenia's borders, perhaps the whole world.",
 			},
 			{
-				fr: "L'événement n'a pas de nom. Dans les jours qui suivent, personne ne sait comment le désigner autrement qu'en le décrivant à sa manière, par « la grande secousse », prononcé à voix basse, comme si lui donner un nom trop précis risquait de lui donner aussi une raison. ",
+				fr: "L'événement n'a pas de nom. Dans les jours qui suivent, personne ne sait comment le désigner autrement qu'en le décrivant à sa manière, par « la grande secousse », prononcé à voix basse, comme si lui donner un nom trop précis risquait de lui donner aussi une raison.",
 				en: 'The event has no name. In the days that follow, no one knows how to call it other than by describing it in their own way, as "the great tremor", spoken in a hushed voice, as if giving it too precise a name risked also giving it a reason.',
 			},
 		],
@@ -524,7 +524,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Unknown stones, landforms no Aldrenian has ever seen, buildings whose architecture belongs to no known style are suddenly there, as though an entire fragment of another world had simply come to rest upon its own.",
 			},
 			{
-				fr: "Les paysans qui découvrent ces lieux au petit matin en parlent avec une prudence presque religieuse, comme s'ils craignaient qu'approcher de trop près ne les y attache à leur tour. Certains plus curieux ou plus désespérés, s'y rendent déjà pour y chercher on ne sait quoi. Faute de mieux, on parle bientôt de la Pliure, du nom de ce que les premiers témoins ont cru voir, la terre se pliant sur elle-même.",
+				fr: "Les paysans qui découvrent ces lieux au petit matin en parlent avec une prudence presque religieuse, comme s'ils craignaient qu'approcher de trop près ne les y attache à leur tour. Certains, plus curieux ou plus désespérés, s'y rendent déjà pour y chercher on ne sait quoi. Faute de mieux, on parle bientôt de la Pliure, du nom de ce que les premiers témoins ont cru voir, la terre se pliant sur elle-même.",
 				en: "The peasants who discover these places at first light speak of them with an almost religious caution, as though fearing that coming too close might bind them to it in turn. Some, more curious or more desperate, already go there in search of they know not what. For lack of a better word, people soon speak of the Fold, after what the first witnesses believed they saw: the earth folding in on itself.",
 			},
 		],
@@ -555,8 +555,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "No two of these accounts quite resemble each other, and yet all describe, in different shapes, the same thing: impossible fusions of flesh, bone, bark, stone or metal, born of nothing and everything at once. No one, at this stage, can give them a name that holds beyond a single street or village.",
 			},
 			{
-				fr: "Les prêtres n'y reconnaissent aucune création connue de Mydare ni d'Aldrene. Les érudits de la cour n'y trouvent ni logique, ni motif, ni la moindre règle qu'on puisse coucher sur le papier avec quelque assurance.",
-				en: "The priests recognise in them no known creation of Mydare or Aldrene. The court's scholars find in them neither logic nor pattern, nor the slightest rule they could set down on paper with any confidence.",
+				fr: "Les prêtres n'y reconnaissent aucune création connue de Mydare ni d'Aldrene. Les érudits de la cour n'y trouvent ni logique, ni motif, ni la moindre règle qu'on puisse noter avec quelque assurance.",
+				en: "The priests recognise in them no known creation of Mydare or Aldrene. The court's scholars find in them neither logic nor pattern, nor the slightest rule they could write down with any confidence.",
 			},
 			{
 				fr: "Ce que l'on sait, en revanche, c'est la peur qu'elles inspirent. Ceux qui les croisent en reviennent rarement capables d'en parler calmement, certains n'en reviennent pas du tout, et leurs familles continuent de les attendre, debout sur le pas de leur porte, plus longtemps qu'il ne serait raisonnable d'espérer. Dans les tavernes et sur les marchés, chacun leur invente déjà un nom de fortune, sans qu'aucun ne s'impose encore sur les autres.",
@@ -646,8 +646,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Le premier éclaireur à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit que les scribes mettent plusieurs jours à démêler des rumeurs qui l'accompagnent déjà.",
-				en: "The first scout to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account the scribes take several days to untangle from the rumours already surrounding it.",
+				fr: "Le deuxième à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit que les scribes mettent plusieurs jours à démêler des rumeurs qui l'accompagnent déjà.",
+				en: "The second to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account the scribes take several days to untangle from the rumours already surrounding it.",
 			},
 			{
 				fr: "Dans quelques hameaux isolés du comté, des morts ne sont pas restés morts. Pas une armée, pas une invasion, des cas épars, signalés ici et là par des paysans qui préfèrent encore ne pas en parler trop fort, de peur qu'en parler ne fasse revenir autre chose. Ceux qui en ont vu décrivent des proches enterrés depuis des jours, parfois des années, qui se relèvent sans un mot, le regard vide, sans reconnaître ni leur maison ni ceux qui les pleurent. Le mot que les habitants eux-mêmes emploient pour les désigner, un mort-vivant, voyage avec l'éclaireur jusqu'à Caldrath, et c'est sous ce nom, faute d'un meilleur, qu'il entre dans ce registre.",
@@ -677,8 +677,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Le second éclaireur, Orvin Drach, rentre quelques jours plus tard, du côté des contreforts du nord où se tient toujours le front. Ce qu'il rapporte est d'une tout autre nature. Des créatures sont apparues sur les lignes skeldariennes, venues de nulle part que quiconque puisse désigner, et assez organisées pour qu'on ne les prenne pas, d'emblée, pour de simples bêtes égarées. Les soldats skeldariens qui les ont affrontées en parlent comme d'un ennemi à part entière, hostile, conscient. Le mot qui circule désormais sur le front, rapporté tel quel par l'éclaireur, est démon, et c'est ce mot qui s'impose dans ce registre à partir de ce jour.",
-				en: "The second scout, Orvin Drach, returns a few days later, from the northern foothills where the front still stands. What he reports is of an altogether different nature. Creatures have appeared along the Skeldarian lines, come from nowhere anyone can point to, and organised enough that they are not mistaken, at first, for mere strayed beasts. The Skeldarian soldiers who have fought them speak of them as a foe in their own right, hostile, aware. The word now circulating along the front, reported exactly as the scout heard it, is demon, and it is this word that takes hold in this register from this day on.",
+				fr: "Le troisième éclaireur, Orvin Drach, rentre quelques jours plus tard, du côté des contreforts du nord où se tient toujours le front. Ce qu'il rapporte est d'une tout autre nature. Des créatures sont apparues sur les lignes skeldariennes, venues de nulle part que quiconque puisse désigner, et assez organisées pour qu'on ne les prenne pas, d'emblée, pour de simples bêtes égarées. Les soldats skeldariens qui les ont affrontées en parlent comme d'un ennemi à part entière, hostile, conscient. Le mot qui circule désormais sur le front, rapporté tel quel par l'éclaireur, est démon, et c'est ce mot qui s'impose dans ce registre à partir de ce jour.",
+				en: "The third scout, Orvin Drach, returns a few days later, from the northern foothills where the front still stands. What he reports is of an altogether different nature. Creatures have appeared along the Skeldarian lines, come from nowhere anyone can point to, and organised enough that they are not mistaken, at first, for mere strayed beasts. The Skeldarian soldiers who have fought them speak of them as a foe in their own right, hostile, aware. The word now circulating along the front, reported exactly as the scout heard it, is demon, and it is this word that takes hold in this register from this day on.",
 			},
 			{
 				fr: "Les officiers aldreniens restent prudents sur ce que cela change à la guerre elle-même. Rien, pour l'instant, n'indique que Skeldara envisage une trêve, même face à cette menace commune : les deux camps semblent se contenter de se battre sur deux fronts à la fois plutôt que d'en fermer un seul. Certains, à la cour, se demandent déjà combien de temps un royaume peut tenir ainsi.",
@@ -708,8 +708,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Ewen Thalm, the scout sent toward Dreamar, reaches the forest's edge within a few days, as expected. He returns far later than all the others, alone, his clothes torn by branches he can no longer place, unable to say for certain how many days he truly spent beneath the cover of the trees.",
 			},
 			{
-				fr: "Son récit ne se laisse pas coucher proprement dans ce registre : des sentiers qui ne menaient nulle part deux fois de suite, des arbres aux formes qu'il ne reconnaît plus, des bruits qu'il n'attribue ni à une bête ni à un homme. Une nuit, dit-il, quelque chose l'a suivi entre les arbres sans jamais se montrer complètement, une silhouette trop grande, faite de bois et d'autre chose encore, qu'il n'a pas cherché à affronter.",
-				en: "His account does not lie down properly in this register: paths that never led anywhere the same way twice, trees shaped into forms he no longer recognises, sounds he attributes to neither beast nor man. One night, he says, something followed him among the trees without ever fully showing itself, a shape too tall, made of wood and something else besides, which he did not try to face.",
+				fr: "Son récit n'entre pas proprement dans ce registre : des sentiers qui ne menaient nulle part deux fois de suite, des arbres aux formes qu'il ne reconnaît plus, des bruits qu'il n'attribue ni à une bête ni à un homme. Une nuit, dit-il, quelque chose l'a suivi entre les arbres sans jamais se montrer complètement, une silhouette trop grande, faite de bois et d'autre chose encore, qu'il n'a pas cherché à affronter.",
+				en: "His account does not fit properly into this register: paths that never led anywhere the same way twice, trees shaped into forms he no longer recognises, sounds he attributes to neither beast nor man. One night, he says, something followed him among the trees without ever fully showing itself, a shape too tall, made of wood and something else besides, which he did not try to face.",
 			},
 		],
 	},
@@ -803,8 +803,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "As for the Fold, it is still there. It has neither grown nor retreated an inch since the first day, and that may be what troubles those living near it most. Everything around it has changed in a year. It alone has remained exactly what it was.",
 			},
 			{
-				fr: "Les légions en interdisent l'approche, sans grande conviction et sans grand succès. Rien de ce qui en est sorti n'a jamais pu être identifié avec certitude, et rien de ce qui y est entré n'en a rapporté de récit qu'on puisse coucher ici. On a cessé d'y compter ceux qui s'y rendent encore. Ce registre note seulement, pour mémoire, que ce ne sont plus les mêmes qu'il y a un an, et qu'ils n'y vont plus par curiosité.",
-				en: "The legions forbid approaching it, without much conviction and with even less success. Nothing that has come out of it has ever been identified with certainty, and nothing that has gone in has brought back an account fit to set down here. People have stopped counting those who still go there. This register notes only, for the record, that they are no longer the same people as a year ago, and that they no longer go out of curiosity.",
+				fr: "Les légions en interdisent l'approche, sans grande conviction et sans grand succès. Rien de ce qui en est sorti n'a jamais pu être identifié avec certitude, et rien de ce qui y est entré n'en a rapporté de récit qu'on puisse écrire ici. On a cessé d'y compter ceux qui s'y rendent encore. Ce registre note seulement, pour mémoire, que ce ne sont plus les mêmes qu'il y a un an, et qu'ils n'y vont plus par curiosité.",
+				en: "The legions forbid approaching it, without much conviction and with even less success. Nothing that has come out of it has ever been identified with certainty, and nothing that has gone in has brought back an account anyone could write down here. People have stopped counting those who still go there. This register notes only, for the record, that they are no longer the same people as a year ago, and that they no longer go out of curiosity.",
 			},
 		],
 	},
@@ -820,7 +820,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: 'As the accounts of merchants, refugees and soldiers mingle in taverns and on the roads, a word begins to circulate to name everything that happened that day, slowly replacing "the great tremor". Wyrdane.',
 			},
 			{
-				fr: "Personne, ne sait dire avec certitude qui l'a prononcé le premier, ni où, ni dans quelle langue il aurait été forgé. Certains jurent l'avoir entendu de la bouche d'un soldat mourant revenu du front skeldarien, d'autres, d'un marchand de passage qui prétendait le tenir d'un peuple dont il ne savait plus le nom, d'autres encore affirment, sans grande conviction, l'avoir toujours connu, comme s'il avait simplement attendu son heure pour être employé.",
+				fr: "Personne ne sait dire avec certitude qui l'a prononcé le premier, ni où, ni dans quelle langue il aurait été forgé. Certains jurent l'avoir entendu de la bouche d'un soldat mourant revenu du front skeldarien, d'autres, d'un marchand de passage qui prétendait le tenir d'un peuple dont il ne savait plus le nom, d'autres encore affirment, sans grande conviction, l'avoir toujours connu, comme s'il avait simplement attendu son heure pour être employé.",
 				en: "No one can say with certainty who spoke it first, nor where, nor in what tongue it might have been forged. Some swear they heard it from the mouth of a dying soldier returned from the Skeldarian front; others, from a passing merchant who claimed to have it from a people whose name he no longer knew; others still claim, without much conviction, to have always known it, as though it had simply been waiting its turn to be used.",
 			},
 			{
@@ -844,8 +844,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 			en: "More Volumes Will Follow",
 		},
 		bookSub: {
-			fr: "Ce qui n'a pas encore été couché par écrit.",
-			en: "What has not yet been set down in writing.",
+			fr: "Ce qui n'a pas encore été écrit.",
+			en: "What has not yet been written down.",
 		},
 		waxList: ["?", "?", "?"],
 		note: {
