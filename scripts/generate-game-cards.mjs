@@ -9,6 +9,40 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const cardGameDir = process.argv[2] ?? "E:/card-game";
 const cardsDir = path.join(cardGameDir, "resources", "cards");
 const outPath = path.join(__dirname, "..", "src", "data", "gameCards.json");
+// Jeu de données de la page de vérification /dev-cards (dev uniquement, voir
+// src/pages/DevCards.tsx) : les mêmes cartes, mais avec les textes et stats
+// nécessaires pour en rendre une vraie carte, afin de repérer d'un coup d'œil
+// tout texte qui ne tiendrait pas dans son cadre.
+const devOutPath = path.join(__dirname, "..", "src", "data", "devAllCards.json");
+
+const CARD_TYPES_FR = {
+	Minion: "Serviteur",
+	Instant: "Incantation",
+	Ritual: "Rituel",
+	Enchantment: "Enchantement",
+	Resource: "Ressource",
+};
+const RARITIES_FR = { Common: "Commune", Rare: "Rare", Epic: "Épique", Legendary: "Légendaire" };
+const LANES_FR = { Front: "Avant", Back: "Arrière", Hybrid: "Hybride" };
+const RACES_FR = {
+	undead: "Mort-Vivant",
+	human: "Humain",
+	demon: "Demon",
+	abomination: "Abomination",
+};
+
+// description et flavour_text courent souvent sur plusieurs lignes, ce que le
+// parseur ligne à ligne de parseCard ne sait pas lire.
+function multilineField(body, key) {
+	// [^] = n'importe quel caractère, saut de ligne compris : description et
+	// flavour_text sont écrits en vrai multiligne dans le .tres.
+	const m = body.match(new RegExp("^" + key + ' = "([^]*?)"$', "m"));
+	if (!m) return null;
+	// Seuls les guillemets y sont échappés (Godot écrit de vrais retours à la
+	// ligne, jamais la séquence littérale).
+	const ESCAPED_QUOTE = String.fromCharCode(92, 34);
+	return m[1].split(ESCAPED_QUOTE).join('"');
+}
 
 const HUMAN_KEYWORDS = {
 	DISCIPLINE: "Discipline",
@@ -148,10 +182,31 @@ function parseCard(filePath) {
 		.split(path.sep)
 		.join("/");
 
+	const cardType = CARD_TYPES_FR[stripQuotes(fields.card_type ?? '"Minion"')] ?? "Serviteur";
+	const num = (k) => Number(fields[k] ?? 0) || 0;
+
 	return {
 		name: cardName,
 		path: `res://${relPath}`,
 		keywords,
+		// Tout ce dont /dev-cards a besoin pour rendre la carte telle qu'en jeu.
+		dev: {
+			name: cardName,
+			race: RACES_FR[path.basename(path.dirname(filePath)).toLowerCase()] ?? "",
+			card_type: cardType,
+			rarity: RARITIES_FR[stripQuotes(fields.rarity ?? '"Common"')] ?? "Commune",
+			cost: num("cost"),
+			lane:
+				cardType === "Serviteur"
+					? (LANES_FR[stripQuotes(fields.board_position ?? '"Front"')] ?? "Avant")
+					: null,
+			attack: num("attack"),
+			hp: num("health"),
+			effect: multilineField(body, "description"),
+			flavor: multilineField(body, "flavour_text"),
+			charges: num("ritual_duration") || null,
+			image_path: null,
+		},
 	};
 }
 
@@ -163,9 +218,11 @@ for (const file of files) {
 	if (result[card.name]) {
 		console.warn(`Nom de carte en double : "${card.name}" (${card.path} vs ${result[card.name].path})`);
 	}
-	result[card.name] = { path: card.path, keywords: card.keywords };
+	result[card.name] = { path: card.path, keywords: card.keywords, dev: card.dev };
 }
 
-const sorted = Object.fromEntries(Object.entries(result).sort(([a], [b]) => a.localeCompare(b, "fr")));
+const entries = Object.entries(result).sort(([a], [b]) => a.localeCompare(b, "fr"));
+const sorted = Object.fromEntries(entries.map(([name, c]) => [name, { path: c.path, keywords: c.keywords }]));
 fs.writeFileSync(outPath, JSON.stringify(sorted, null, "\t") + "\n", "utf8");
-console.log(`${Object.keys(sorted).length} cartes écrites dans ${outPath}`);
+fs.writeFileSync(devOutPath, JSON.stringify(entries.map(([, c]) => c.dev), null, "\t") + "\n", "utf8");
+console.log(`${entries.length} cartes écrites dans ${outPath} et ${devOutPath}`);

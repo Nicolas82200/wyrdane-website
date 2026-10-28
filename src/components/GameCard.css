@@ -1,5 +1,78 @@
 /* Réplique CSS de scenes/card/Card.tscn (base 250×375, positions absolues). */
 
+/* Spectral (OFL, Spectral-OFL.txt a cote des fichiers) : police des textes de
+   carte depuis le 2026-10-28, choisie sur comparatif rendu des 304 cartes
+   (voir /dev-cards et son selecteur de police). Remplace la pile de polices
+   systeme, jugee trop generique — serif d'ecran, dessine pour le texte long,
+   il tient a 15,5px tout en donnant a la carte un caractere que Segoe UI
+   n'avait pas. Fichiers servis en local (jamais fonts.googleapis.com) et
+   decoupes par unicode-range comme les sert Google : seul le sous-ensemble
+   reellement utilise est telecharge. */
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-RegularItalic-latin-ext.woff2") format("woff2");
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-RegularItalic-latin.woff2") format("woff2");
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-BoldItalic-latin-ext.woff2") format("woff2");
+	font-style: italic;
+	font-weight: 700;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-BoldItalic-latin.woff2") format("woff2");
+	font-style: italic;
+	font-weight: 700;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-Regular-latin-ext.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-Regular-latin.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-Bold-latin-ext.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "SpectralCard";
+	src: url("../assets/game/fonts/Spectral-Bold-latin.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @font-face {
 	font-family: "CinzelDecorative";
 	src: url("../assets/game/fonts/CinzelDecorative-Black.otf") format("opentype");
@@ -78,14 +151,14 @@
    que le choix de police soit arrete. */
 
 .gamecard {
-	/* Police unique pour tous les textes de la carte (demande utilisateur
-	   2026-10-23 : "une police plus lisible et basique"). Pile de polices
-	   systeme plutot qu'un fichier a telecharger : c'est la police d'interface
-	   du systeme du lecteur, deja chargee, et surtout celle dont le rendu est
-	   le plus soigne aux petites tailles — exactement le cas de la grille du
-	   deck builder, ou les serifs du jeu (Cinzel/Crimson Text) devenaient
-	   pateux. Ecart assume avec le rendu du jeu, qui garde ses polices. */
-	font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	/* Police unique pour tous les textes de la carte. A ete la pile systeme
+	   entre le 2026-10-23 et le 2026-10-28 (demande d'une police "plus lisible
+	   et basique", apres des serifs du jeu devenus pateux a 18px en SemiBold) ;
+	   Spectral la remplace, assez lisible a 15,5px tout en ayant le caractere
+	   qui manquait a Segoe UI. Georgia en repli a des metriques proches, donc
+	   la mesure des cases ne saute pas si le woff2 manque. Ecart assume avec le
+	   rendu du jeu, qui garde Cinzel/Crimson Text. */
+	font-family: "SpectralCard", Georgia, "Times New Roman", serif;
 	position: relative;
 	width: 250px;
 	height: 375px;
@@ -265,11 +338,14 @@
 	gap: 6px;
 	text-align: left;
 	font-weight: 400;
-	/* Taille baissee de 18 a 16 en passant a une police sans serif : sa
+	/* Taille baissee de 18 a 15,5 en passant a une police sans serif : sa
 	   hauteur d'x est nettement plus grande que celle de Crimson Text, donc
-	   16px s'y lisent plus gros que 18px avant, tout en laissant assez de
-	   place pour que peu de cartes declenchent la reduction a 14px. */
-	font-size: 16px;
+	   15,5px s'y lisent plus gros que 18px avant, tout en laissant assez de
+	   place pour que peu de cartes declenchent une reduction.
+	   Valeur de depart UNIQUEMENT : la taille reelle est posee en style inline
+	   par la cascade de mesure de GameCard.tsx (DESC_LABEL_FONT_SIZES), avec
+	   laquelle celle-ci doit rester alignee. */
+	font-size: 15.5px;
 	line-height: 1.35;
 	color: rgb(255, 255, 255);
 	border: 1px solid rgba(168, 122, 52, 0.39);
