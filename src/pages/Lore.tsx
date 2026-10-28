@@ -597,16 +597,24 @@ const Lore = () => {
 					<img className="lore-room-bg" src={archivesBgUrl} alt="" />
 					{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
 					   l'image 1344x768 source, pour rester justes quelle que soit la
-					   taille d'affichage) : la grande étagère centrale basse
-					   (x: 28%-73%, y: 77%-85%, quelques livres déjà au centre) a le
-					   plus de place pour de futurs tomes des deux côtés de
-					   .lore-archive-book-01 ; un petit creux existe aussi vers
-					   x: 63%-69%, y: 56%-62% (un seul livret isolé). */}
+					   taille d'affichage) : .lore-archive-book-01 occupe la gauche de
+					   l'étagère vide qui suit le pilier central droit (y: 48%-54%),
+					   dont toute la portion x: 61%-71% reste libre pour les prochains
+					   tomes (hors le livret ouvert déjà posé vers x: 65%). Egalement
+					   libres : la grande étagère centrale basse (x: 28%-73%,
+					   y: 77%-85%, quelques livres déjà au centre) et la rangée
+					   quasi vide x: 14%-27%, y: 35%-40%.
+					   title (tooltip natif) : même convention que les marque-pages du
+					   livre ouvert (.lore-bookmark plus bas), plutôt qu'une infobulle
+					   maison à styler. Doublé de l'aria-label, qui lui porte l'ACTION
+					   ("Ouvrir...") attendue par un lecteur d'écran sur un bouton,
+					   quand le tooltip ne fait que nommer le livre. */}
 					<button
 						type="button"
 						className="lore-archive-book lore-archive-book-01"
 						style={{ backgroundImage: `url(${book01SpineUrl})` }}
 						onClick={() => setOpened(true)}
+						title={language === "fr" ? "Journal d'Aldrenia" : "Journal of Aldrenia"}
 						aria-label={
 							language === "fr" ? "Ouvrir le Journal d'Aldrenia" : "Open the Journal of Aldrenia"
 						}

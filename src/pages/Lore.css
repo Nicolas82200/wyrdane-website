@@ -13,7 +13,9 @@
 	   contenu legerement decale dans un canevas identique (meme hotspot
 	   fixe des deux cotes) : la pointe semble reculer/s'enfoncer le temps
 	   du clic, avant de revenir des que le bouton est relache. */
-	cursor: url("../assets/site/cursor-quill.png") 3 11, auto;
+	cursor:
+		url("../assets/site/cursor-quill.png") 3 11,
+		auto;
 	--lore-room-bg: #cdbf9e;
 	--lore-room-bg-2: #e3d8bb;
 	--lore-ink: #110c07;
@@ -106,28 +108,48 @@
 }
 /* Tranche illustrée du premier livre écrit (book01-spine.png, posée en
    inline par Lore.tsx — fond transparent, le halo lumineux autour du livre
-   est déjà peint dans l'image elle-même). Posée sur l'étagère centrale
-   basse repérée comme la plus dégagée de archives.jpg (voir commentaire
-   plus bas dans Lore.tsx). Position/taille en % de l'image source
-   (1344x768) pour rester justes quel que soit le redimensionnement du
-   fond en cover.
-   La hauteur est calée pour que la tranche VISIBLE (environ 92% de la
-   hauteur du canevas 1024x1536, le reste étant du halo transparent)
-   tombe à peu près à la même hauteur que les tranches voisines (~50px sur
-   l'image source) ; top ajusté en conséquence pour garder le même bas
-   d'étagère qu'avant. Largeur élargie par rapport au ratio natif du
-   canevas (demande explicite, la hauteur seule suffisait) : background-
-   size en deux valeurs (pas contain) étire le visuel pour qu'il remplisse
-   réellement cette largeur au lieu de se re-centrer dans une boîte plus
-   large en laissant du vide transparent sur les côtés. */
+   est déjà peint dans l'image elle-même). Position/taille en % de l'image
+   source (1344x768) pour rester justes quel que soit le redimensionnement
+   du fond en cover.
+
+   Emplacement (repéré par l'utilisateur sur une capture annotée) :
+   l'étagère vide de la travée qui suit le pilier central droit, calé le
+   calé à gauche — tranche visible x 806-814, dans l'étagère juste après
+   le pilier qui la borde (il s'arrête à x 800), entre la planche du
+   dessus (y 370) et celle qui la porte (y 414). Sous left 57.8% environ
+   la tranche commence à mordre sur la moulure du pilier. C'est l'étagère où traîne déjà un livret ouvert posé
+   à plat vers x 880, seul autre objet de la rangée.
+
+   Le calage vertical se lit sur le canevas de book01-spine.png (1024x1536)
+   : la tranche OPAQUE y occupe x 41.8%-58.3% et y 3.9%-95.6%, le reste
+   n'étant que du halo transparent. Avec background-size:100% 100% (pas
+   contain — on étire volontairement, voir plus bas), la tranche visible
+   fait donc 16.5% de la largeur de la boîte et 91.7% de sa hauteur : une
+   boîte de 5.9% de haut (45.3px source) donne les ~41px de hauteur sous
+   planche de cette étagère, et left/top placent la tranche (décalée de
+   41.8%/3.9% DANS la boîte, pas à son coin — d'où les ~20px d'écart
+   entre left et le bord visible du livre) contre le pilier, bas posé sur
+   la planche. La boîte CLIQUABLE, elle, reste volontairement bien
+   plus large que la tranche dessinée (3.7% = ~50px pour ~8px visibles) :
+   c'est ce qui la rend attrapable à la souris, le débordement étant
+   transparent. Largeur inchangée par rapport à l'emplacement précédent
+   (demande explicite d'alors, la hauteur seule devait suivre la rangée).
+   background-size en deux valeurs (pas contain) étire le visuel pour qu'il
+   remplisse réellement cette largeur au lieu de se re-centrer dans une
+   boîte plus large en laissant du vide transparent sur les côtés. */
 .lore-archive-book {
 	position: absolute;
-	left: 60%;
-	top: 77.25%;
-	width: 3.7%;
-	height: 7.75%;
+	left: 58.5%;
+	top: 48.2%;
+	width: 3.5%;
+	height: 5.9%;
+	/* Planchers de cible cliquable, pas une taille voulue : en dessous, la
+	   tranche s'etire et ne colle plus a la hauteur de ses voisines. Baisse
+	   de 36 a 30px avec le passage sur cette rangee (plus basse de plafond
+	   que l'ancienne) : a 36px la deformation commencait des ~1050px de
+	   large de fond, contre ~880px maintenant. */
 	min-width: 30px;
-	min-height: 36px;
+	min-height: 30px;
 	padding: 0;
 	border: none;
 	background-color: transparent;
@@ -386,9 +408,28 @@
    .lore-flipbook plutôt que sur .lore-book-wrap (son parent) :
    overflow:hidden ne rogne jamais le box-shadow du même élément
    (seulement ses enfants), alors que sur le parent il aurait coupé celui
-   ci-dessus. */
+   ci-dessus.
+
+   pointer-events:none SUR LE MEME ETAT : isPointOnCorners (node_modules/
+   page-flip/src/Flip/Flip.ts) ignore disableFlipByClick a proximite des
+   coins, donc un clic/glisser dans un coin de la COUVERTURE declenchait un
+   tournage natif cote librairie, en court-circuitant entierement
+   slideToSpreadSlot (Lore.tsx) : le livre tournait sa page sans avoir
+   glisse a sa place de double page ni prevenu la librairie du changement
+   de largeur, d'ou l'animation d'ouverture sautee, la page qui sort du
+   cadre et plus de livre du tout, juste une page. Couper les evenements
+   de pointeur du flipbook tant que la couverture est affichee laisse le
+   clic remonter a .lore-book-wrap, qui porte nos propres handlers
+   (handleBookMouseDown/handleBookClick) : l'ouverture passe alors
+   toujours par la file d'attente et la choregraphie glissement+tournage,
+   peu importe l'endroit clique. La librairie n'ecoute le pointeur que sur
+   son propre element (UI.setHandlers : mousedown sur distElement, le
+   mouseup global etant garde par isUserTouch) — rien ne le reactive donc
+   par un autre chemin. Une fois le livre ouvert la classe disparait et le
+   glisser-deposer natif des pages fonctionne comme avant. */
 .lore-book-wrap--cover .lore-flipbook {
 	overflow: hidden;
+	pointer-events: none;
 }
 
 /* --- Page face : le div qu'on tend à react-pageflip. La lib y ajoute elle-
@@ -912,5 +953,7 @@
    maintenu (comportement standard CSS), donc ce selecteur s'applique quel
    que soit l'endroit precis du clic dans la piece. */
 .lore-room:active {
-	cursor: url("../assets/site/cursor-quill-active.png") 3 11, auto;
+	cursor:
+		url("../assets/site/cursor-quill-active.png") 3 11,
+		auto;
 }
