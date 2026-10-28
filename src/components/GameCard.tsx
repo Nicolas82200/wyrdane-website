@@ -148,14 +148,25 @@ const NAME_LABEL_DEFAULT_HEIGHT = 25; // 183 - 158
 // la police agrandie côté site (voir GameCard.css), un nom sur 2-3 lignes a
 // besoin de plus de place pour ne jamais recouper la description.
 const NAME_LABEL_MAX_GROWTH = 44;
+// Meme principe que la description : la case est en overflow: hidden, donc un
+// nom qui ne tient toujours pas une fois la croissance plafonnee atteinte
+// serait coupe net (cas reels : "Monture-et-Cavalier-Ne-Font-Qu'Un",
+// "Ce-Qui-Ne-Finit-Jamais-de-Grandir"). On reduit la police plutot.
+const NAME_LABEL_FONT_SIZES = [17, 16, 15, 14];
 const DESC_LABEL_DEFAULT_TOP = 186;
 const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
 // Card.gd _fit_desc_label : si le texte débordé malgré la croissance vers
 // le bas (plafonnée ici), on réduit plutôt la police (Typography.BODY - 1
 // → Typography.MICRO - 1) pour ne jamais recouper le texte de règle.
 const DESC_LABEL_MAX_GROWTH = 3;
-const DESC_LABEL_DEFAULT_FONT_SIZE = 16;
-const DESC_LABEL_SHRUNK_FONT_SIZE = 14;
+const DESC_LABEL_DEFAULT_FONT_SIZE = 15.5;
+// Paliers de reduction essayes dans l'ordre (le jeu n'en a que deux, 16 puis
+// 14) : la case est en overflow: hidden, donc tout ce qui ne tient pas a la
+// derniere taille serait rogne en silence — c'est ce qu'on veut eviter.
+const DESC_LABEL_FONT_SIZES = [15.5, 14.5, 13.5];
+// Dernier recours, une fois le flavour deja masque : plus petit que ce que le
+// jeu descend, mais toujours lisible, et prefere a un texte de regle coupe.
+const DESC_LABEL_LAST_RESORT_FONT_SIZES = [12.5, 11.5];
 const STATS_LABEL_DEFAULT_TOP = 330;
 // Card.gd DESC_FLAVOUR_HIDE_THRESHOLD : au-delà de ce nombre de caractères,
 // le texte d'effet seul remplit déjà la case — le flavour text est masqué
@@ -203,24 +214,30 @@ export default function GameCard({ card }: { card: CardData }) {
 	// canvas : le retour à la ligne dépend de la police/largeur réelles).
 	const nameRef = useRef<HTMLDivElement>(null);
 	const [nameGrowth, setNameGrowth] = useState(0);
+	const [nameFontSize, setNameFontSize] = useState(NAME_LABEL_FONT_SIZES[0]);
 	useLayoutEffect(() => {
 		const el = nameRef.current;
 		if (!el) return;
 		let cancelled = false;
 		const measure = () => {
 			if (cancelled) return;
-			el.style.height = `${NAME_LABEL_DEFAULT_HEIGHT}px`;
-			const needed = el.scrollHeight;
-			// .gamecard-name a box-sizing: border-box avec une bordure de 1px
-			// (haut+bas = 2px) : scrollHeight mesure le contenu + le padding
-			// mais PAS cette bordure, alors que NAME_LABEL_DEFAULT_HEIGHT
-			// l'inclut — sans ce correctif, la croissance calculée était
-			// systématiquement sous-évaluée de 2px.
-			const NAME_LABEL_BORDER = 2;
-			const growth = Math.min(
-				Math.max(needed + NAME_LABEL_BORDER - NAME_LABEL_DEFAULT_HEIGHT, 0),
-				NAME_LABEL_MAX_GROWTH,
-			);
+			// Mesure en hauteur libre : la case est un conteneur flex centre
+			// (align-items: center), donc un contenu trop grand deborde des DEUX
+			// cotes et scrollHeight, qui n'en compte que le bas, le sous-estime —
+			// c'est ce qui laissait 19 noms coupes de 5px malgre un calcul
+			// d'apparence correct. offsetHeight en height: auto donne la vraie
+			// hauteur border-box, directement comparable aux constantes.
+			el.style.height = "auto";
+			const maxHeight = NAME_LABEL_DEFAULT_HEIGHT + NAME_LABEL_MAX_GROWTH;
+			let fontSize = NAME_LABEL_FONT_SIZES[0];
+			let needed = 0;
+			for (const size of NAME_LABEL_FONT_SIZES) {
+				fontSize = size;
+				el.style.fontSize = `${size}px`;
+				needed = el.offsetHeight;
+				if (needed <= maxHeight) break;
+			}
+			const growth = Math.min(Math.max(needed - NAME_LABEL_DEFAULT_HEIGHT, 0), NAME_LABEL_MAX_GROWTH);
 			// Remet immédiatement la vraie hauteur sur le DOM, sans attendre le
 			// commit React : si cette mesure retrouve la même croissance qu'une
 			// mesure précédente (voir document.fonts.ready ci-dessous), passer
@@ -231,6 +248,7 @@ export default function GameCard({ card }: { card: CardData }) {
 			// description malgré une croissance correctement calculée).
 			el.style.height = `${NAME_LABEL_DEFAULT_HEIGHT + growth}px`;
 			setNameGrowth(growth);
+			setNameFontSize(fontSize);
 		};
 		measure();
 		// La carte est désormais en pile de polices système (voir
@@ -246,7 +264,11 @@ export default function GameCard({ card }: { card: CardData }) {
 		return () => {
 			cancelled = true;
 		};
-	}, [card.name]);
+		// `language` fait partie des dependances : c'est la traduction qui est
+		// affichee, pas card.name (une cle FR, inchangee d'une langue a l'autre)
+		// — sans elle, une bascule FR/EN gardait la hauteur mesuree pour l'autre
+		// langue et coupait le nom (26 cartes concernees en FR).
+	}, [card.name, language]);
 
 	const descTop = DESC_LABEL_DEFAULT_TOP + nameGrowth;
 	const descAvailableHeight = DESC_LABEL_DEFAULT_BOTTOM - descTop;
@@ -262,21 +284,59 @@ export default function GameCard({ card }: { card: CardData }) {
 	const descRef = useRef<HTMLDivElement>(null);
 	const [descFontSize, setDescFontSize] = useState(DESC_LABEL_DEFAULT_FONT_SIZE);
 	const [descGrowth, setDescGrowth] = useState(0);
+	// Mis a vrai par la mesure ci-dessous quand le flavour doit sauter pour que
+	// le texte de regle tienne dans la case.
+	const [flavorDropped, setFlavorDropped] = useState(false);
 	useLayoutEffect(() => {
 		const el = descRef.current;
 		if (!el) return;
 		let cancelled = false;
 		const measure = () => {
 			if (cancelled) return;
-			el.style.fontSize = `${DESC_LABEL_DEFAULT_FONT_SIZE}px`;
-			el.style.height = `${descAvailableHeight}px`;
-			let overflow = el.scrollHeight - descAvailableHeight;
+			// Meme mesure en hauteur libre que pour le nom ci-dessus (la case est
+			// un conteneur flex centre : scrollHeight y sous-estime le contenu).
+			el.style.height = "auto";
+			const flavorEl = el.querySelector<HTMLElement>(".gamecard-flavor");
+			// Essais successifs, du plus confortable au dernier recours, jusqu'a
+			// ce que le texte tienne : tailles normales avec le flavour, puis les
+			// memes sans lui (il est decoratif, le texte de regle ne l'est pas),
+			// puis deux tailles plus petites. Le premier essai qui passe gagne.
+			const attempts: Array<{ sizes: number[]; drop: boolean }> = flavorEl
+				? [
+						{ sizes: DESC_LABEL_FONT_SIZES, drop: false },
+						{ sizes: DESC_LABEL_FONT_SIZES, drop: true },
+						{ sizes: DESC_LABEL_LAST_RESORT_FONT_SIZES, drop: true },
+					]
+				: [
+						// Sans flavour a sacrifier, il ne reste que la taille : enchainer
+						// directement sur les paliers de dernier recours, sinon une carte
+						// au texte de regle tres long restait rognee (cas reel : Hurlement
+						// Ecarlate, Apocalypse Infernale).
+						{ sizes: DESC_LABEL_FONT_SIZES, drop: false },
+						{ sizes: DESC_LABEL_LAST_RESORT_FONT_SIZES, drop: false },
+					];
 			let fontSize = DESC_LABEL_DEFAULT_FONT_SIZE;
-			if (overflow > DESC_LABEL_MAX_GROWTH) {
-				fontSize = DESC_LABEL_SHRUNK_FONT_SIZE;
-				el.style.fontSize = `${fontSize}px`;
-				overflow = el.scrollHeight - descAvailableHeight;
+			let overflow = 0;
+			let dropFlavor = false;
+			for (const attempt of attempts) {
+				if (flavorEl) flavorEl.style.display = attempt.drop ? "none" : "";
+				dropFlavor = attempt.drop;
+				let fits = false;
+				for (const size of attempt.sizes) {
+					fontSize = size;
+					el.style.fontSize = `${size}px`;
+					overflow = el.offsetHeight - descAvailableHeight;
+					if (overflow <= DESC_LABEL_MAX_GROWTH) {
+						fits = true;
+						break;
+					}
+				}
+				if (fits) break;
 			}
+			// Le flavour reste toujours monte (voir le rendu plus bas) : c'est ce
+			// style qui decide de son affichage, pose ici sans attendre le commit
+			// React — comme la hauteur juste au-dessus, et pour la meme raison.
+			if (flavorEl) flavorEl.style.display = dropFlavor ? "none" : "";
 			const growth = Math.min(Math.max(overflow, 0), DESC_LABEL_MAX_GROWTH);
 			// Même bug que NameLabel (voir ci-dessus) : remet explicitement la
 			// hauteur finale sur le DOM, sans compter uniquement sur le commit
@@ -285,6 +345,7 @@ export default function GameCard({ card }: { card: CardData }) {
 			el.style.height = `${descAvailableHeight + growth}px`;
 			setDescFontSize(fontSize);
 			setDescGrowth(growth);
+			setFlavorDropped(dropFlavor);
 		};
 		measure();
 		document.fonts?.ready?.then(measure);
@@ -322,7 +383,11 @@ export default function GameCard({ card }: { card: CardData }) {
 			<div
 				ref={nameRef}
 				className="gamecard-name"
-				style={{ background: withAlpha(raceColor, 0.96), height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth }}
+				style={{
+					background: withAlpha(raceColor, 0.96),
+					height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth,
+					fontSize: nameFontSize,
+				}}
 			>
 				{translateCardText(card.name, language)}
 			</div>
@@ -361,7 +426,9 @@ export default function GameCard({ card }: { card: CardData }) {
 			>
 				{effectText && <div className="gamecard-effect">{formatEffectText(effectText)}</div>}
 				{showFlavor && card.flavor && (
-					<div className="gamecard-flavor">{translateCardText(card.flavor, language)}</div>
+					<div className="gamecard-flavor" style={{ display: flavorDropped ? "none" : undefined }}>
+						{translateCardText(card.flavor, language)}
+					</div>
 				)}
 			</div>
 			<div

@@ -23,12 +23,15 @@ import { AuthProvider } from "./auth/AuthProvider";
 import "./fonts.css";
 import "./index.css";
 
+import DevCards from "./pages/DevCards";
+
 const router = createBrowserRouter([
 	{
 		element: <App />,
 		errorElement: <RouteError />,
 		children: [
 			{ path: "/", element: <Home /> },
+			...(import.meta.env.DEV ? [{ path: "/dev-cards", element: <DevCards /> }] : []),
 			{ path: "/play", element: <Play /> },
 			{ path: "/news", element: <News /> },
 			// Page unique Actualités/Devlog (voir NewsHub.tsx, filtre ?tab=devlog) :
