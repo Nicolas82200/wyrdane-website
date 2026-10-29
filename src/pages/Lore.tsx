@@ -711,10 +711,12 @@ const Lore = () => {
 				alt=""
 				draggable={false}
 			/>
+			{/* Pas de lien de sortie vers le site dans la vue de lecture (demande
+			   explicite) : on y trouve seulement de quoi refermer le livre et
+			   revenir a l'etagere, ou le lien existe. */}
 			<button type="button" className="lore-back-button" onClick={closeBook}>
 				{language === "fr" ? "← Retour" : "← Back"}
 			</button>
-			{siteLink}
 			{langToggle}
 			<div className="lore-stage">
 				{/* Dos de la couverture, derrière le bloc de pages (demande

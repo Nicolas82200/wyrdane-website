@@ -586,7 +586,7 @@ const VOLUME_II_PAGES: JournalPage[] = [
 
 	{
 		kind: "divider",
-		bookNo: { fr: "Entrée II", en: "Entry II" },
+		bookNo: { fr: "Entrée I", en: "Entry I" },
 		bookTitle: {
 			fr: "Le jour où tout changea",
 			en: "The Day Everything Changed",
@@ -710,7 +710,7 @@ const VOLUME_II_PAGES: JournalPage[] = [
 
 	{
 		kind: "divider",
-		bookNo: { fr: "Entrée III", en: "Entry III" },
+		bookNo: { fr: "Entrée II", en: "Entry II" },
 		bookTitle: {
 			fr: "Ce que les éclaireurs ont rapporté",
 			en: "What the Scouts Brought Back",
@@ -971,7 +971,7 @@ const VOLUME_III_PAGES: JournalPage[] = [
 
 	{
 		kind: "divider",
-		bookNo: { fr: "Entrée IV", en: "Entry IV" },
+		bookNo: { fr: "Entrée I", en: "Entry I" },
 		bookTitle: {
 			fr: "Les deux années d'après",
 			en: "The Two Years After",
@@ -1197,7 +1197,7 @@ const VOLUME_III_PAGES: JournalPage[] = [
 
 	{
 		kind: "divider",
-		bookNo: { fr: "Entrée V", en: "Entry V" },
+		bookNo: { fr: "Entrée II", en: "Entry II" },
 		bookTitle: {
 			fr: "La deuxième secousse",
 			en: "The Second Tremor",

@@ -263,10 +263,10 @@
 }
 
 /* Lien de sortie vers le reste du site (demande explicite) : coin
-   superieur gauche, comme .lore-back-button. Seul a cet endroit dans la
-   salle des archives ; empile sous .lore-back-button dans la vue de
-   lecture (combinateur + : il le suit toujours directement dans le DOM,
-   voir Lore.tsx). */
+   superieur gauche, comme .lore-back-button. Present dans la SEULE salle
+   des archives (voir Lore.tsx) : la vue de lecture n'offre que son bouton
+   Retour, qui ramene a l'etagere. D'ou l'absence de regle d'empilement des
+   deux, ils ne coexistent jamais. */
 .lore-site-link {
 	position: absolute;
 	top: 18px;
@@ -284,9 +284,6 @@
 }
 .lore-site-link:hover {
 	background: var(--lore-room-bg);
-}
-.lore-back-button + .lore-site-link {
-	top: 66px;
 }
 
 /* Bascule FR/EN (demande explicite, 2026-10) : meme LanguageContext que le
