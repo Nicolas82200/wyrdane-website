@@ -139,6 +139,10 @@
    boîte plus large en laissant du vide transparent sur les côtés. */
 .lore-archive-book {
 	position: absolute;
+	/* Repli : chaque tome pose son propre left en style inline (shelfLeft,
+	   voir JOURNAL_BOOKS dans journalAldrenia.ts) pour s'aligner sur
+	   l'etagere sans dupliquer une regle par tome ici. La valeur ci-dessous
+	   reste celle du tome I, calibree sur l'image. */
 	left: 58.5%;
 	top: 48.2%;
 	width: 3.5%;

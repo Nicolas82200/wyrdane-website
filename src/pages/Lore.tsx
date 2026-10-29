@@ -1,6 +1,6 @@
 import { animate } from "motion";
 import type { ForwardedRef } from "react";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import HTMLFlipBook from "react-pageflip";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ import map1awEnUrl from "../assets/site/1aw-map-en.png";
 import map1awFrUrl from "../assets/site/1aw-map-fr.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import Portal from "../components/Portal";
-import { JOURNAL_PAGES, type Bi, type JournalPage } from "../data/journalAldrenia";
+import { JOURNAL_BOOKS, type Bi, type JournalPage } from "../data/journalAldrenia";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useLanguage } from "../i18n/useLanguage";
 import "./Lore.css";
@@ -68,13 +68,14 @@ type Bookmark = { pageIndex: number; label: Bi };
 // liste volontairement courte plutot qu'un marque-page par page titree).
 // label reste bilingue (Bi) : choisi a l'affichage selon la langue courante,
 // pas au calcul de ce tableau (module-level, calcule une seule fois).
-const BOOKMARKS: Bookmark[] = JOURNAL_PAGES.reduce<Bookmark[]>((acc, page, pageIndex) => {
-	if (page.kind === "divider") acc.push({ pageIndex, label: page.bookNo });
-	else if (page.kind === "content" && page.bookmark && page.title) {
-		acc.push({ pageIndex, label: page.title });
-	}
-	return acc;
-}, []);
+const computeBookmarks = (pages: JournalPage[]): Bookmark[] =>
+	pages.reduce<Bookmark[]>((acc, page, pageIndex) => {
+		if (page.kind === "divider") acc.push({ pageIndex, label: page.bookNo });
+		else if (page.kind === "content" && page.bookmark && page.title) {
+			acc.push({ pageIndex, label: page.title });
+		}
+		return acc;
+	}, []);
 
 // react-pageflip appose lui-même les classes --left/--right/--hard/--soft sur
 // la racine qu'on lui donne (voir Nodlik/StPageFlip, HTMLPage.ts) : le CSS de
@@ -227,11 +228,16 @@ const Lore = () => {
 		window.addEventListener("keydown", onKey);
 		return () => window.removeEventListener("keydown", onKey);
 	}, [lightbox]);
-	// false = salle des archives (étagères, livre à cliquer) ; true = livre
-	// ouvert (flipbook). Un seul livre écrit pour l'instant (book-01) — les
-	// emplacements vides repérés sur archives.jpg pour les prochains sont
-	// documentés sur .lore-archive-book-01 ci-dessous et dans Lore.css.
-	const [opened, setOpened] = useState(false);
+	// null = salle des archives (étagères, tranches à cliquer) ; sinon index
+	// du tome ouvert dans JOURNAL_BOOKS (journalAldrenia.ts), un tome par
+	// époque. Les autres emplacements libres repérés sur archives.jpg pour les
+	// tomes suivants sont documentés plus bas, sur le rendu de l'étagère.
+	const [openedBookIndex, setOpenedBookIndex] = useState<number | null>(null);
+	const openedBook = openedBookIndex === null ? null : JOURNAL_BOOKS[openedBookIndex];
+	const pages = openedBook?.pages ?? [];
+	// Recalculé à chaque changement de tome : les emplacements verticaux des
+	// onglets sont des index dans CE tableau, donc propres au tome ouvert.
+	const bookmarks = useMemo(() => computeBookmarks(pages), [pages]);
 	const wrapRef = useRef<HTMLDivElement | null>(null);
 	// Largeur d'UNE page (pas de la double-page), poussée en variable CSS pour
 	// que police/marges se calent dessus. Les container queries (cqw) se sont
@@ -452,7 +458,7 @@ const Lore = () => {
 	// (cas qui ne devrait pas arriver, les deux viennent de la meme
 	// collection de pages, mais mieux vaut un saut qui s'arrete tot qu'un
 	// qui ne s'arrete jamais).
-	const JUMP_STEP_LIMIT = JOURNAL_PAGES.length;
+	const JUMP_STEP_LIMIT = pages.length;
 	const jumpStepsLeftRef = useRef(0);
 
 	// Saut vers la page d'un marque-page, feuillete comme une vraie
@@ -558,6 +564,33 @@ const Lore = () => {
 	// aucun moyen de quitter /lore autrement que le bouton precedent/retour
 	// du navigateur. Vers "/" faute de page d'origine identifiee (aucune
 	// page du site ne lie encore vers /lore a ce jour).
+	// Ouvrir/refermer un tome remet a zero TOUT l'etat de feuilletage, pas
+	// seulement l'index de page : passer d'un tome a l'autre reutilise le meme
+	// composant, donc un livre rouvert apres coup heritait sinon de la
+	// couverture deja "glissee" (isCoverWidth), d'une file de tournages encore
+	// pleine ou d'un saut de marque-page jamais termine, et s'ouvrait en plein
+	// milieu ou restait bloque au premier clic.
+	const resetFlipState = () => {
+		flipQueueRef.current = [];
+		isFlipBusyRef.current = false;
+		isOpeningRef.current = false;
+		jumpTargetRef.current = null;
+		jumpStepsLeftRef.current = 0;
+		pendingIsCoverRef.current = true;
+		isCoverWidthRef.current = true;
+		setIsCoverWidth(true);
+		setIsFlipping(false);
+		setCurrentPageIndex(0);
+	};
+	const openBook = (index: number) => {
+		resetFlipState();
+		setOpenedBookIndex(index);
+	};
+	const closeBook = () => {
+		resetFlipState();
+		setOpenedBookIndex(null);
+	};
+
 	const siteLink = (
 		<Link to="/" className="lore-site-link">
 			{language === "fr" ? "↩ Retour au site" : "↩ Back to the site"}
@@ -587,38 +620,49 @@ const Lore = () => {
 		</div>
 	);
 
-	if (!opened) {
+	if (openedBookIndex === null) {
 		return (
 			<div className="lore-room lore-archive-room">
 				{/* .lore-cover-frame reproduit object-fit:cover comme une vraie
-				   boite (voir Lore.css) : image ET bouton vivent dedans pour
+				   boite (voir Lore.css) : image ET boutons vivent dedans pour
 				   partager le meme repere en %, peu importe le ratio de l'ecran. */}
 				<div className="lore-cover-frame">
 					<img className="lore-room-bg" src={archivesBgUrl} alt="" />
-					{/* Emplacements vides repérés sur archives.jpg (coordonnées en % de
-					   l'image 1344x768 source, pour rester justes quelle que soit la
-					   taille d'affichage) : .lore-archive-book-01 occupe la gauche de
-					   l'étagère vide qui suit le pilier central droit (y: 48%-54%),
-					   dont toute la portion x: 61%-71% reste libre pour les prochains
-					   tomes (hors le livret ouvert déjà posé vers x: 65%). Egalement
-					   libres : la grande étagère centrale basse (x: 28%-73%,
-					   y: 77%-85%, quelques livres déjà au centre) et la rangée
-					   quasi vide x: 14%-27%, y: 35%-40%.
-					   title (tooltip natif) : même convention que les marque-pages du
-					   livre ouvert (.lore-bookmark plus bas), plutôt qu'une infobulle
-					   maison à styler. Doublé de l'aria-label, qui lui porte l'ACTION
-					   ("Ouvrir...") attendue par un lecteur d'écran sur un bouton,
-					   quand le tooltip ne fait que nommer le livre. */}
-					<button
-						type="button"
-						className="lore-archive-book lore-archive-book-01"
-						style={{ backgroundImage: `url(${book01SpineUrl})` }}
-						onClick={() => setOpened(true)}
-						title={language === "fr" ? "Journal d'Aldrenia" : "Journal of Aldrenia"}
-						aria-label={
-							language === "fr" ? "Ouvrir le Journal d'Aldrenia" : "Open the Journal of Aldrenia"
-						}
-					/>
+					{/* Une tranche cliquable par tome de JOURNAL_BOOKS, posee sur
+					   l'etagere vide qui suit le pilier central droit (y: 48%-54%).
+					   Seul shelfLeft change d'un tome a l'autre (en % de l'image
+					   source 1344x768, comme tout le reste de ce cadre) : le calage
+					   vertical et la taille restent ceux calibres sur cette etagere
+					   dans Lore.css, donc tous les tomes se posent exactement sur la
+					   meme planche, comme une vraie collection.
+					   Autres rangees libres relevees sur l'image, pour quand cette
+					   etagere sera pleine (elle porte deja un livret ouvert peint
+					   vers x: 65%) : la grande etagere centrale basse (x: 28%-73%,
+					   y: 77%-85%) et la rangee quasi vide x: 14%-27%, y: 35%-40% —
+					   l'une comme l'autre demanderont leur propre calage vertical.
+					   title (infobulle native) : meme convention que les marque-pages
+					   du livre ouvert (.lore-bookmark plus bas), plutot qu'une
+					   infobulle maison a styler. Double de l'aria-label, qui lui
+					   porte l'ACTION ("Ouvrir...") attendue par un lecteur d'ecran
+					   sur un bouton, quand l'infobulle ne fait que nommer le tome. */}
+					{JOURNAL_BOOKS.map((b, i) => (
+						<button
+							key={b.id}
+							type="button"
+							className="lore-archive-book"
+							style={{
+								backgroundImage: `url(${book01SpineUrl})`,
+								left: b.shelfLeft,
+							}}
+							onClick={() => openBook(i)}
+							title={b.label[language]}
+							aria-label={
+								language === "fr"
+									? `Ouvrir : ${b.label.fr}`
+									: `Open: ${b.label.en}`
+							}
+						/>
+					))}
 				</div>
 				{siteLink}
 				{langToggle}
@@ -632,7 +676,7 @@ const Lore = () => {
 			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
 		>
 			<img className="lore-room-bg lore-room-bg--dim" src={archivesBgUrl} alt="" />
-			<button type="button" className="lore-back-button" onClick={() => setOpened(false)}>
+			<button type="button" className="lore-back-button" onClick={closeBook}>
 				{language === "fr" ? "← Retour" : "← Back"}
 			</button>
 			{siteLink}
@@ -709,7 +753,7 @@ const Lore = () => {
 						showPageCorners={false}
 						disableFlipByClick
 					>
-						{JOURNAL_PAGES.map((page, i) => (
+						{pages.map((page, i) => (
 							<Page
 								key={i}
 								page={page}
@@ -729,7 +773,7 @@ const Lore = () => {
 					   que la page n'a pas ete atteinte, a gauche une fois depassee —
 					   sans jamais changer l'ordre vertical des onglets entre eux. */}
 					<div className="lore-bookmarks">
-						{BOOKMARKS.map((bm, slot) => {
+						{bookmarks.map((bm, slot) => {
 							const passed = bm.pageIndex < currentPageIndex;
 							return (
 								<button

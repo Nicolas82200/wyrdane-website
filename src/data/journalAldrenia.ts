@@ -53,7 +53,25 @@ export type JournalPage =
 	| { kind: "content-italic"; text: Bi }
 	| { kind: "map"; srcFr: string; srcEn: string };
 
-export const JOURNAL_PAGES: JournalPage[] = [
+export type JournalBook = {
+	// Sert de cle React et de fragment d'URL eventuel : stable, jamais traduit.
+	id: string;
+	// Libelle complet du tome, affiche en infobulle sur sa tranche dans la
+	// salle des archives (voir Lore.tsx) et nulle part ailleurs.
+	label: Bi;
+	// Position horizontale de la tranche sur l'etagere d'archives.jpg, en % de
+	// l'image source (1344x768), passee en style inline a .lore-archive-book.
+	// Les boites cliquables font 3.5% de large (Lore.css) : espacer les tomes
+	// de 3.5% exactement les rend jointives sans jamais se recouvrir, sinon la
+	// boite du suivant mangerait la tranche du precedent. L'etagere libre
+	// documentee va de 61% a 71%, avec un livret deja peint vers 65% : au-dela
+	// de deux tomes, prendre les rangees libres notees dans Lore.tsx plutot que
+	// d'empiler ici au risque de tomber sur ce livret.
+	shelfLeft: string;
+	pages: JournalPage[];
+};
+
+const VOLUME_I_PAGES: JournalPage[] = [
 	{ kind: "cover" },
 
 	// --- Ex-libris : ce qu'est ce journal, pourquoi il existe, qui le tient ---
@@ -509,6 +527,18 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	},
 
 	{
+		kind: "content-italic",
+		text: {
+			fr: "Ainsi se referme le premier de ces cahiers. Les scribes y ont consigné le monde tel qu'il tenait encore, pendant que le suivant, déjà commencé sur la même table, s'ouvrait sur le jour où il a cessé de tenir.",
+			en: "Thus closes the first of these volumes. In it the scribes recorded the world as it still stood, while the next one, already begun on the same table, opened on the day it ceased to stand.",
+		},
+	},
+];
+
+const VOLUME_II_PAGES: JournalPage[] = [
+	{ kind: "cover" },
+
+	{
 		kind: "divider",
 		bookNo: { fr: "Entrée II", en: "Entry II" },
 		bookTitle: {
@@ -783,6 +813,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: { fr: "Un an plus tard", en: "A Year Later" },
 		dropcap: true,
+		bookmark: true,
 		paragraphs: [
 			{
 				fr: "Depuis ces premiers retours, les mois ont passé, et le monde que la cour d'Aldrenia observe aujourd'hui ne ressemble déjà plus à celui que les éclaireurs avaient décrit à leur arrivée. À Eorthal, ce qui n'était que des cas isolés ne l'est plus. Les morts-vivants s'y sont multipliés mois après mois, assez pour que les marchands aldreniens hésitent désormais à s'aventurer au-delà de certaines routes, et assez pour que le royaume tout entier porte maintenant un nom que personne n'emploierait à la légère : le Royaume des Morts.",
@@ -894,5 +925,32 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "This register will grow only as there is matter to record in it, and not before. Close it, and return when a wiser hand than ours has added something worth reading.",
 			},
 		],
+	},
+];
+
+// Un tome par epoque, et c'est la regle a tenir pour la suite : tout ce qui
+// decrit le monde tel qu'il etait reste dans le tome I, chaque secousse ouvre
+// un tome neuf qui court jusqu'a la suivante (donc la Deuxieme Vague et les
+// annees qui la suivent iront dans un tome III, et ainsi de suite). Chaque
+// tome commence par sa propre page kind:"cover" (react-pageflip est monte avec
+// showCover et startPage 0, voir Lore.tsx) et renumerote ses folios depuis 1.
+export const JOURNAL_BOOKS: JournalBook[] = [
+	{
+		id: "mydaria",
+		label: {
+			fr: "Journal d'Aldrenia I — Mydaria",
+			en: "Journal of Aldrenia I — Mydaria",
+		},
+		shelfLeft: "58.5%",
+		pages: VOLUME_I_PAGES,
+	},
+	{
+		id: "premiere-vague",
+		label: {
+			fr: "Journal d'Aldrenia II — La grande secousse",
+			en: "Journal of Aldrenia II — The Great Tremor",
+		},
+		shelfLeft: "62%",
+		pages: VOLUME_II_PAGES,
 	},
 ];
