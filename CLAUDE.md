@@ -16,7 +16,8 @@ Toutes les pages/features backend (auth, decks, currency/récompense de premièr
 src/
 ├── pages/        # Home, Play (renvoie vers la fiche Steam, pas de jeu en navigateur), News, DevLog,
 │                  # Contact, LegalPage (mentions légales/CGU/confidentialité/CGV), ShowDecks, DeckBuilder,
-│                  # Admin (tableau de bord, /admin uniquement par URL directe), RouteError
+│                  # Lore (Journal d'Aldrenia, voir plus bas), Admin (tableau de bord, /admin uniquement
+│                  # par URL directe), RouteError
 ├── components/   # Navbar, SiteFooter, GameCard (rendu de carte), BoardDiagram, KeywordsExplorer,
 │                  # AuthPanel, FirstLoginRewardPopup, DeckBuilderMobileNotice, Reveal, SocialLinks, Portal...
 ├── auth/          # AuthProvider (session via GET /api/auth/authVerif), useAuth, useSteamLoginPopup
@@ -34,6 +35,59 @@ scripts/
 public/
 └── feed.json      # généré automatiquement, jamais édité à la main (voir "Actus/devlogs" ci-dessous)
 ```
+
+## Journal d'Aldrenia (page `/lore`)
+
+Livre feuilletable (`react-pageflip`) posé dans une salle des archives. Contenu dans
+`src/data/journalAldrenia.ts`, rendu par `src/pages/Lore.tsx` + `Lore.css`.
+
+**Source canon.** Le dépôt local `E:\wyrdane-lore` est la source de vérité du lore
+(`Wyrdane_LORE_complet.md` + `eras/*.md`, un fichier par époque). Toute donnée factuelle qui
+apparaît dans le Journal — souverain, capitale, délai de voyage, nom propre, événement — doit
+rester cohérente avec ce dépôt, et tout fait *introduit* ici doit y être répercuté : un nom qui
+n'existe que dans ce fichier sera réinventé différemment à la prochaine époque écrite (c'est
+arrivé avec les noms des cinq éclaireurs).
+
+**Un tome par époque.** `JOURNAL_BOOKS` liste les tomes (`id`, `label` bilingue affiché en
+infobulle, `shelfLeft`, `pages`). Règle à tenir : le tome I décrit le monde tel qu'il était, et
+**chaque nouvelle vague ouvre un tome neuf** qui court jusqu'à la suivante. Chaque tome commence
+par sa propre page `kind: "cover"` (le flipbook est monté avec `showCover` et `startPage` 0),
+renumérote ses folios depuis 1, **repart à « Entrée I »** pour ses pages `divider`, et s'ouvre sur
+une page qui donne son rang (« Cahier premier », « Cahier second »...) et la raison pour laquelle
+le registre est tenu. Le cahier scellé et le colophon, qui annoncent la suite, vivent à la fin du
+**dernier** tome et doivent déménager quand un tome est ajouté.
+
+**Voix du registre : première personne du pluriel.** Le Journal est tenu par la Chancellerie de
+Caldrath et parle en « nous » / « notre Chancellerie » (demande explicite). Ne jamais écrire « les
+scribes font ceci » ni « ce registre consigne cela » : « nous consignons », « trois d'entre nous »,
+« l'un de nous ». `ce registre` ne subsiste que lorsqu'il désigne l'objet qu'on tient (« il entre
+dans ce registre »). Les tiers — le Conseil du Roi, les érudits, les prêtres, Aldrenia elle-même —
+restent à la troisième personne. Attention : les fichiers `eras/*.md` du dépôt canon, eux, sont des
+textes *sur* l'époque et restent en troisième personne ; la bascule en « nous » se fait en écrivant
+le tome.
+
+**Salle des archives.** Une tranche cliquable par tome, positionnée par `shelfLeft` en % de
+l'image source `archives.jpg` (1344x768), le reste du calage venant de `.lore-archive-book`. Trois
+points à ne pas casser :
+
+- la boîte cliquable fait 1,4 % de large et `background-size` vaut 250 % pour compenser : la
+  tranche *dessinée* garde la largeur qu'elle avait quand la boîte faisait 3,5 %. Si cette largeur
+  change, recalculer `background-size` comme `3.5 / <largeur> * 100%`, sinon le livre maigrit ou
+  grossit avec sa zone de clic ;
+- espacer deux tomes d'au moins la largeur de boîte, sinon celle du suivant recouvre la tranche du
+  précédent et le clic ouvre le mauvais tome ;
+- `cursor: inherit` sur les tranches : la pièce a son propre curseur plume, c'est lui qu'on garde
+  au survol (ni flèche système, ni main de lien). L'infobulle est maison (`.lore-archive-tip`,
+  survol **et** focus clavier), jamais l'attribut `title`.
+
+Le lien « Retour au site » n'existe que dans la salle des archives ; la vue de lecture n'a que son
+bouton Retour, qui referme le livre. Ouvrir ou refermer un tome passe par `resetFlipState()` :
+sans ça, le tome suivant hérite de l'état de feuilletage du précédent.
+
+**Pas de vérification visuelle automatisée.** Il n'y a ni navigateur headless dans le projet ni
+script de débordement dans le dépôt (`check-overflow.cjs` est hors dépôt) : les pages sont
+calibrées à 2 paragraphes, et une page trop longue se repère en ouvrant `/lore`. Toute retouche de
+calage (position d'une tranche, `top` de l'infobulle) est à valider à l'œil.
 
 ## Actus / devlogs → `feed.json` consommé par le jeu
 

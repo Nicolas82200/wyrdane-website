@@ -53,26 +53,71 @@ export type JournalPage =
 	| { kind: "content-italic"; text: Bi }
 	| { kind: "map"; srcFr: string; srcEn: string };
 
-export const JOURNAL_PAGES: JournalPage[] = [
+export type JournalBook = {
+	// Sert de cle React et de fragment d'URL eventuel : stable, jamais traduit.
+	id: string;
+	// Libelle complet du tome, affiche en infobulle sur sa tranche dans la
+	// salle des archives (voir Lore.tsx) et nulle part ailleurs.
+	label: Bi;
+	// Position horizontale de la BOITE cliquable de la tranche sur
+	// l'etagere d'archives.jpg, en % de l'image source (1344x768), passee en
+	// style inline a .lore-archive-book. La tranche dessinee est centree dans
+	// cette boite : son milieu tombe donc a shelfLeft + largeur/2, soit
+	// +0.7% avec la boite de 1.4% actuelle (c'est ce decalage que reprend
+	// l'infobulle, voir Lore.tsx). Espacer deux tomes de la largeur de boite
+	// exactement (1.4%) les rend jointifs sans jamais se recouvrir : au-dela,
+	// la boite du suivant mangerait la tranche du precedent, et le clic
+	// ouvrirait le mauvais tome. L'etagere libre documentee va de 61% a 71%,
+	// avec un livret deja peint vers 65% : au-dela de quelques tomes, prendre
+	// les rangees libres notees dans Lore.tsx plutot que d'empiler ici au
+	// risque de tomber sur ce livret.
+	shelfLeft: string;
+	pages: JournalPage[];
+};
+
+const VOLUME_I_PAGES: JournalPage[] = [
 	{ kind: "cover" },
 
-	// --- Ex-libris : ce qu'est ce journal, pourquoi il existe, qui le tient ---
+	// --- Ex-libris : le numero du cahier, et pourquoi il a ete ouvert ---
+	// Chaque tome commence par une page de ce genre (demande explicite) : son
+	// rang dans le registre, et la raison pour laquelle on l'a tenu. Le motif
+	// pose ici — ecrire pour apres, au cas ou le royaume ne serait plus la pour
+	// le dire lui-meme — est repris par les deux tomes suivants, qui s'y
+	// referent comme a une charge deja ancienne.
 	{
 		kind: "content",
-		title: { fr: "Ex-libris", en: "Ex-libris" },
+		title: { fr: "Cahier premier", en: "First Volume" },
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter qu'ils ne tiennent de première main, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
-				en: "This register was opened the day after the catastrophe, by the scribes of the Chancellery, on the order of the King's Council. Its charge is simple to state and uncertain to keep: to record the unfolding of events, adding nothing they do not hold firsthand, as they occur, and for as long as there remains something to record.",
+				fr: "Ce registre a été ouvert au lendemain de la catastrophe, par notre Chancellerie, sur ordre du Conseil du Roi, et voici le premier de ses cahiers. Notre charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter que nous ne tenions de première main, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
+				en: "This register was opened the day after the catastrophe, by our Chancellery, on the order of the King's Council, and this is the first of its volumes. Our charge is simple to state and uncertain to keep: to record the unfolding of events, adding nothing we do not hold firsthand, as they occur, and for as long as there remains something to record.",
 			},
 			{
-				fr: "Les scribes qui en tiennent la plume espèrent, en vérité, ne pas avoir grand-chose à y écrire. Un registre qui s'épaissit est rarement le signe d'un royaume qui se porte bien, et nul parmi eux ne souhaite voir celui-ci grossir d'année en année.",
-				en: "The scribes who hold its pen hope, in truth, to have little to write in it. A register that thickens is rarely the sign of a kingdom in good health, and none among them wishes to see this one swell year after year.",
+				fr: "Le Conseil n'a pas ordonné ce travail pour lui-même. La secousse a appris à Aldrenia qu'un royaume peut cesser d'exister en quelques minutes, et qu'il ne reste alors de lui que ce que d'autres mains en avaient écrit. Si celui-ci devait connaître un sort funeste, que ce qu'il savait de lui-même et du monde ne s'éteigne pas avec lui : ce cahier est donc tenu autant pour ceux qui viendront après que pour la cour qui le commande.",
+				en: "The Council did not order this work for itself. The tremor taught Aldrenia that a kingdom can cease to exist in a few minutes, and that nothing then remains of it but what other hands had written down. Should this one meet a grievous end, let what it knew of itself and of the world not go out with it: this volume is therefore kept as much for those who come after as for the court that commissions it.",
+			},
+		],
+	},
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que garde ce premier cahier",
+			en: "What This First Volume Keeps",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "C'est pourquoi le premier de ces cahiers ne parle pas de la catastrophe. Il décrit le monde tel qu'il tenait encore la veille, les six royaumes, leurs forces, leurs souverains et leurs dieux, parce que ce savoir-là n'était écrit nulle part en entier, et que nul ne peut plus garantir qu'il sera encore vrai l'an prochain.",
+				en: "That is why the first of these volumes does not speak of the catastrophe. It describes the world as it still stood the day before: the six kingdoms, their strengths, their sovereigns and their gods, because that knowledge was nowhere written down in full, and no one can any longer guarantee it will still be true a year from now.",
 			},
 			{
-				fr: "Mais le vœu d'un scribe n'arrête ni une secousse ni ce qu'elle réveille, et ce premier volume s'ouvre déjà plus lourd qu'aucun n'aurait su le prédire la veille encore. Qu'il reste, pour l'heure, le témoin de ce que le royaume savait de lui-même avant que tout ne bascule.",
-				en: "But a scribe's wish stops neither a tremor nor what it wakes, and this first volume opens already heavier than any of them could have foreseen the day before. Let it stand, for now, as witness to what the kingdom knew of itself before everything tipped over.",
+				fr: "Nous espérons, en vérité, n'avoir pas grand-chose à y écrire. Un registre qui s'épaissit est rarement le signe d'un royaume qui se porte bien, et nul parmi nous ne souhaite voir celui-ci grossir d'année en année.",
+				en: "We hope, in truth, to have little to write in it. A register that thickens is rarely the sign of a kingdom in good health, and none among us wishes to see this one swell year after year.",
+			},
+			{
+				fr: "Mais notre vœu n'arrête ni une secousse ni ce qu'elle réveille, et ce premier cahier s'ouvre déjà plus lourd qu'aucun de nous n'aurait su le prédire la veille encore. Qu'il reste, pour l'heure, le témoin de ce que le royaume savait de lui-même avant que tout ne bascule.",
+				en: "But our own wish stops neither a tremor nor what it wakes, and this first volume opens already heavier than any of us could have foreseen the day before. Let it stand, for now, as witness to what the kingdom knew of itself before everything tipped over.",
 			},
 		],
 	},
@@ -169,8 +214,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Aldrenia is the ancient kingdom, the one the others say was already old when theirs was still but a camp. Its capital, Caldrath, stands east of the forests of Dreamar, its feet turned toward the Eastern Sea, built at the crossing of trade roads.",
 			},
 			{
-				fr: "D'autres royaumes humains ont existé avant lui sur ces mêmes terres, dont il ne reste que des noms à moitié oubliés dans de vieux parchemins. Les archives de Caldrath en gardent trois, écrits d'une main si ancienne que les scribes ne s'accordent plus sur leur prononciation, Ith-Caldra, Oren-Thal et Vaskyr.",
-				en: "Other human kingdoms existed before it on these same lands, of which only half-forgotten names remain in old parchments. The archives of Caldrath keep three such names, written in a hand so ancient that the scribes no longer agree on their pronunciation: Ith-Caldra, Oren-Thal, and Vaskyr.",
+				fr: "D'autres royaumes humains ont existé avant lui sur ces mêmes terres, dont il ne reste que des noms à moitié oubliés dans de vieux parchemins. Les archives de Caldrath en gardent trois, écrits d'une main si ancienne que nous ne nous accordons plus sur leur prononciation, Ith-Caldra, Oren-Thal et Vaskyr.",
+				en: "Other human kingdoms existed before it on these same lands, of which only half-forgotten names remain in old parchments. The archives of Caldrath keep three such names, written in a hand so ancient that we no longer agree on their pronunciation: Ith-Caldra, Oren-Thal, and Vaskyr.",
 			},
 			{
 				fr: "Du premier, certains érudits soutiennent que Caldrath n'est qu'une corruption, du dernier, on ne sait même pas dans quelle langue il fut écrit. Aldrenia est le seul de cette lignée à avoir traversé les âges sans jamais s'éteindre, et c'est de cette endurance, plus que de toute conquête, qu'elle tire sa fierté.",
@@ -225,8 +270,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "Varic Rhen has reigned long enough that most of his subjects have never known another king, and that is precisely what worries them. They call him the Old King with affection, but they also count, in silence, the years he has left.",
 			},
 			{
-				fr: "Son fils, le prince Ilyan Rhen, est tenu pour un homme capable et mesuré, qui n'a toutefois jamais eu à décider seul de quoi que ce soit d'important. Le Conseil se partage entre ceux qui voient en lui la continuité du royaume et ceux qui redoutent qu'un règne neuf n'arrive au plus mauvais moment. Nul ne dit ces choses à voix haute tant que le roi est vivant. Ce registre note seulement qu'elles se disent.",
-				en: "His son, Prince Ilyan Rhen, is held to be a capable and measured man, who has nonetheless never had to decide anything of import alone. The Council is split between those who see in him the kingdom's continuity and those who fear a new reign arriving at the worst possible time. No one says such things aloud while the king still lives. This register notes only that they are being said.",
+				fr: "Son fils, le prince Ilyan Rhen, est tenu pour un homme capable et mesuré, qui n'a toutefois jamais eu à décider seul de quoi que ce soit d'important. Le Conseil se partage entre ceux qui voient en lui la continuité du royaume et ceux qui redoutent qu'un règne neuf n'arrive au plus mauvais moment. Nul ne dit ces choses à voix haute tant que le roi est vivant. Nous notons seulement qu'elles se disent.",
+				en: "His son, Prince Ilyan Rhen, is held to be a capable and measured man, who has nonetheless never had to decide anything of import alone. The Council is split between those who see in him the kingdom's continuity and those who fear a new reign arriving at the worst possible time. No one says such things aloud while the king still lives. We note only that they are being said.",
 			},
 		],
 	},
@@ -509,8 +554,39 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	},
 
 	{
+		kind: "content-italic",
+		text: {
+			fr: "Ainsi se referme le premier de ces cahiers. Nous y avons consigné le monde tel qu'il tenait encore, pendant que le suivant, déjà commencé sur la même table, s'ouvrait sur le jour où il a cessé de tenir.",
+			en: "Thus closes the first of these volumes. In it we recorded the world as it still stood, while the next one, already begun on the same table, opened on the day it ceased to stand.",
+		},
+	},
+];
+
+const VOLUME_II_PAGES: JournalPage[] = [
+	{ kind: "cover" },
+
+	{
+		kind: "content",
+		title: {
+			fr: "Cahier second",
+			en: "Second Volume",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Voici le second cahier de ce registre. Le premier a été refermé sur le monde tel qu'il tenait encore ; celui-ci s'ouvre sur le jour où il a cessé de tenir, et sur l'année qui a suivi. Il est tenu sous la même charge et pour la même raison que le précédent : si ce royaume devait ne pas durer, que ce qui lui est arrivé reste écrit quelque part, de la main de ceux qui l'ont vu.",
+				en: "This is the second volume of this register. The first was closed upon the world as it still stood; this one opens on the day it ceased to stand, and on the year that followed. It is kept under the same charge and for the same reason as the last: should this kingdom not endure, let what happened to it remain written somewhere, in the hand of those who saw it.",
+			},
+			{
+				fr: "La règle que le Conseil a fixée au premier jour n'a pas changé d'un cahier à l'autre : on n'inscrit ici que ce qu'un homme a vu lui-même et rapporté, et l'on nomme rumeur tout le reste. C'est une règle facile à tenir quand il ne se passe rien. Les pages qui suivent diront ce qu'elle a coûté cette année-là.",
+				en: "The rule the Council laid down on the first day has not changed from one volume to the next: nothing is entered here but what a man saw himself and reported, and everything else is called rumour. It is an easy rule to keep when nothing happens. The pages that follow will say what it cost that year.",
+			},
+		],
+	},
+
+	{
 		kind: "divider",
-		bookNo: { fr: "Entrée II", en: "Entry II" },
+		bookNo: { fr: "Entrée I", en: "Entry I" },
 		bookTitle: {
 			fr: "Le jour où tout changea",
 			en: "The Day Everything Changed",
@@ -634,7 +710,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 
 	{
 		kind: "divider",
-		bookNo: { fr: "Entrée III", en: "Entry III" },
+		bookNo: { fr: "Entrée II", en: "Entry II" },
 		bookTitle: {
 			fr: "Ce que les éclaireurs ont rapporté",
 			en: "What the Scouts Brought Back",
@@ -658,8 +734,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Le premier éclaireur à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit que les scribes mettent plusieurs jours à démêler des rumeurs qui l'accompagnent déjà.",
-				en: "The first scout to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account the scribes take several days to untangle from the rumours already surrounding it.",
+				fr: "Le premier éclaireur à rentrer est Halder Crenn, celui qu'on avait envoyé vers Eorthal. Il revient les traits tirés, avec moins de certitudes qu'il n'en espérait, et un récit qu'il nous faut plusieurs jours pour démêler des rumeurs qui l'accompagnent déjà.",
+				en: "The first scout to return is Halder Crenn, the one sent toward Eorthal. He comes back drawn and weary, with fewer certainties than he had hoped for, and an account it takes us several days to untangle from the rumours already surrounding it.",
 			},
 			{
 				fr: "Dans quelques hameaux isolés du royaume, des morts ne sont pas restés morts. Pas une armée, pas une invasion, des cas épars, signalés ici et là par des paysans qui préfèrent encore ne pas en parler trop fort, de peur qu'en parler ne fasse revenir autre chose. Ceux qui en ont vu décrivent des proches enterrés depuis des jours, parfois des années, qui se relèvent sans un mot, le regard vide, sans reconnaître ni leur maison ni ceux qui les pleurent. Le mot que les habitants eux-mêmes emploient pour les désigner, un mort-vivant, voyage avec l'éclaireur jusqu'à Caldrath, et c'est sous ce nom, faute d'un meilleur, qu'il entre dans ce registre.",
@@ -731,8 +807,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		torn: "bottom",
 		paragraphs: [
 			{
-				fr: "Il n'a rencontré aucun Dreamarien, n'a aperçu ni Nyrelle ni la moindre âme vivante. Les scribes se résolvent à écrire, simplement, que la forêt semble avoir avalé plus de temps qu'elle n'a laissé de réponses.",
-				en: "He met no Dreamarian, glimpsed neither Nyrelle nor a single living soul. The scribes settle for writing, simply, that the forest seems to have swallowed more time than it left answers.",
+				fr: "Il n'a rencontré aucun Dreamarien, n'a aperçu ni Nyrelle ni la moindre âme vivante. Nous nous résolvons à écrire, simplement, que la forêt semble avoir avalé plus de temps qu'elle n'a laissé de réponses.",
+				en: "He met no Dreamarian, glimpsed neither Nyrelle nor a single living soul. We settle for writing, simply, that the forest seems to have swallowed more time than it left answers.",
 			},
 		],
 	},
@@ -772,8 +848,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "That leaves Kerrow Vane, sent toward Ostrane. Of them all, he was the one expected soonest, the southern road being the shortest, barely longer than the one to Eorthal, and the court counted on his return by the tenth day. He never came back. No body, no horse, not a word carried by a passing merchant. The last sentries to see him watched him take the southern road, and no one, since, has anything to add.",
 			},
 			{
-				fr: "Aldrenia ne sait donc même pas ce qui l'a arrêté, une frontière gardée qui l'aurait refoulé, un refus, une mauvaise rencontre sur la route, ou rien de tout cela. D'Ostrane, aucune nouvelle n'est venue, pas même celle d'un homme renvoyé chez lui. Ce registre consigne ce blanc avec un embarras qu'il peine à cacher, car pour une fois il n'y avait rien à démêler, et c'est précisément ce qui inquiète. Un royaume qui se tait, on sait le lire. Un royaume d'où ne revient pas même le silence, non.",
-				en: "Aldrenia does not even know what stopped him: a guarded border turning him away, a refusal, a bad encounter on the road, or none of these. From Ostrane, no word has come, not even that of a man sent home. This register records the blank with an embarrassment it can hardly hide, for once there was nothing to untangle, and that is precisely what unsettles it. A kingdom that keeps silent can be read. A kingdom from which not even the silence returns cannot.",
+				fr: "Aldrenia ne sait donc même pas ce qui l'a arrêté, une frontière gardée qui l'aurait refoulé, un refus, une mauvaise rencontre sur la route, ou rien de tout cela. D'Ostrane, aucune nouvelle n'est venue, pas même celle d'un homme renvoyé chez lui. Nous consignons ce blanc avec un embarras que nous peinons à cacher, car pour une fois il n'y avait rien à démêler, et c'est précisément ce qui inquiète. Un royaume qui se tait, on sait le lire. Un royaume d'où ne revient pas même le silence, non.",
+				en: "Aldrenia does not even know what stopped him: a guarded border turning him away, a refusal, a bad encounter on the road, or none of these. From Ostrane, no word has come, not even that of a man sent home. We record this blank with an embarrassment we can hardly hide, for once there was nothing to untangle, and that is precisely what unsettles it. A kingdom that keeps silent can be read. A kingdom from which not even the silence returns cannot.",
 			},
 		],
 	},
@@ -783,6 +859,7 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		kind: "content",
 		title: { fr: "Un an plus tard", en: "A Year Later" },
 		dropcap: true,
+		bookmark: true,
 		paragraphs: [
 			{
 				fr: "Depuis ces premiers retours, les mois ont passé, et le monde que la cour d'Aldrenia observe aujourd'hui ne ressemble déjà plus à celui que les éclaireurs avaient décrit à leur arrivée. À Eorthal, ce qui n'était que des cas isolés ne l'est plus. Les morts-vivants s'y sont multipliés mois après mois, assez pour que les marchands aldreniens hésitent désormais à s'aventurer au-delà de certaines routes, et assez pour que le royaume tout entier porte maintenant un nom que personne n'emploierait à la légère : le Royaume des Morts.",
@@ -820,8 +897,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "From Eorthal came, that year, the one piece of news the court received with something resembling relief. Granholt holds. Countess Ysolde Varn is entrenched there behind her granaries and walls, alive, and it is in her own hand that the letter is written, calling on Aldrenia for the alliance she herself had negotiated, years before, against a threat that was then only Skeldarian.",
 			},
 			{
-				fr: "Le Conseil du Roi en débat depuis. Les quelques cohortes qu'Aldrenia tenait aux frontières d'Eorthal n'ont jamais eu le nombre pour tenir autre chose qu'une route, et c'est bien pour cela que la lettre réclame les légions elles-mêmes. Rappelées du nord, elles sont disponibles pour la première fois depuis des années, et c'est précisément ce qui rend la décision lourde. Les envoyer, c'est engager l'armée d'Aldrenia dans un royaume que l'on nomme déjà le Royaume des Morts. Les garder, c'est laisser mourir seule la seule alliée que ce royaume ait jamais eue. Ce registre ne consigne pas ce qui a été décidé, pour la raison simple que rien ne l'a encore été.",
-				en: "The King's Council has debated it since. The few cohorts Aldrenia held at Eorthal's borders never had the numbers to hold anything but a road, and that is precisely why the letter calls for the legions themselves. Recalled from the north, they are available for the first time in years, and that is precisely what makes the decision so heavy. To send them is to commit Aldrenia's army to a kingdom already called the Kingdom of the Dead. To keep them is to let the one ally this kingdom has ever had die alone. This register does not record what was decided, for the simple reason that nothing has been, yet.",
+				fr: "Le Conseil du Roi en débat depuis. Les quelques cohortes qu'Aldrenia tenait aux frontières d'Eorthal n'ont jamais eu le nombre pour tenir autre chose qu'une route, et c'est bien pour cela que la lettre réclame les légions elles-mêmes. Rappelées du nord, elles sont disponibles pour la première fois depuis des années, et c'est précisément ce qui rend la décision lourde. Les envoyer, c'est engager l'armée d'Aldrenia dans un royaume que l'on nomme déjà le Royaume des Morts. Les garder, c'est laisser mourir seule la seule alliée que ce royaume ait jamais eue. Nous ne consignons pas ce qui a été décidé, pour la raison simple que rien ne l'a encore été.",
+				en: "The King's Council has debated it since. The few cohorts Aldrenia held at Eorthal's borders never had the numbers to hold anything but a road, and that is precisely why the letter calls for the legions themselves. Recalled from the north, they are available for the first time in years, and that is precisely what makes the decision so heavy. To send them is to commit Aldrenia's army to a kingdom already called the Kingdom of the Dead. To keep them is to let the one ally this kingdom has ever had die alone. We do not record what was decided, for the simple reason that nothing has been, yet.",
 			},
 		],
 	},
@@ -835,8 +912,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "As for the Fold, it is still there. It has neither grown nor retreated an inch since the first day, and that may be what troubles those living near it most. Everything around it has changed in a year. It alone has remained exactly what it was.",
 			},
 			{
-				fr: "Les légions en interdisent l'approche, sans grande conviction et sans grand succès. Rien de ce qui en est sorti n'a jamais pu être identifié avec certitude, et rien de ce qui y est entré n'en a rapporté de récit qu'on puisse écrire ici. On a cessé d'y compter ceux qui s'y rendent encore. Ce registre note seulement, pour mémoire, que ce ne sont plus les mêmes qu'il y a un an, et qu'ils n'y vont plus par curiosité.",
-				en: "The legions forbid approaching it, without much conviction and with even less success. Nothing that has come out of it has ever been identified with certainty, and nothing that has gone in has brought back an account anyone could write down here. People have stopped counting those who still go there. This register notes only, for the record, that they are no longer the same people as a year ago, and that they no longer go out of curiosity.",
+				fr: "Les légions en interdisent l'approche, sans grande conviction et sans grand succès. Rien de ce qui en est sorti n'a jamais pu être identifié avec certitude, et rien de ce qui y est entré n'en a rapporté de récit qu'on puisse écrire ici. On a cessé d'y compter ceux qui s'y rendent encore. Nous notons seulement, pour mémoire, que ce ne sont plus les mêmes qu'il y a un an, et qu'ils n'y vont plus par curiosité.",
+				en: "The legions forbid approaching it, without much conviction and with even less success. Nothing that has come out of it has ever been identified with certainty, and nothing that has gone in has brought back an account anyone could write down here. People have stopped counting those who still go there. We note only, for the record, that they are no longer the same people as a year ago, and that they no longer go out of curiosity.",
 			},
 		],
 	},
@@ -864,10 +941,729 @@ export const JOURNAL_PAGES: JournalPage[] = [
 	{
 		kind: "content-italic",
 		text: {
-			fr: "Un an après la secousse, ce registre n'a toujours été refermé sur aucune certitude. On continue de le tenir, par habitude autant que par devoir, en se demandant si ce qui s'est passé ce jour-là est réellement terminé, ou si le monde n'a fait, depuis, qu'apprendre à vivre avec son commencement.",
-			en: "A year after the tremor, this register has still been closed on no certainty at all. It continues to be kept, out of habit as much as duty, while wondering whether what happened that day is truly over, or whether the world has, since then, only learned to live with its beginning.",
+			fr: "Un an après la secousse, nous n'avons toujours refermé ce cahier sur aucune certitude. Nous continuons de le tenir, par habitude autant que par devoir, en nous demandant si ce qui s'est passé ce jour-là est réellement terminé, ou si le monde n'a fait, depuis, qu'apprendre à vivre avec son commencement.",
+			en: "A year after the tremor, we have still closed this volume on no certainty at all. We go on keeping it, out of habit as much as duty, wondering whether what happened that day is truly over, or whether the world has, since then, only learned to live with its beginning.",
 		},
 	},
+];
+
+const VOLUME_III_PAGES: JournalPage[] = [
+	{ kind: "cover" },
+
+	{
+		kind: "content",
+		title: {
+			fr: "Cahier troisième",
+			en: "Third Volume",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Voici le troisième cahier de ce registre, ouvert deux ans après que le second a été refermé sans conclusion. Il couvre ces deux années, puis la seconde secousse et les mois qui l'ont suivie. La charge n'a pas bougé depuis le premier jour, et la raison de la tenir non plus : ce qui s'écrit ici s'écrit pour des mains que nous ne connaîtrons pas, au cas où ce royaume ne serait plus là pour le dire lui-même.",
+				en: "This is the third volume of this register, opened two years after the second was closed without a conclusion. It covers those two years, then the second tremor and the months that followed it. The charge has not shifted since the first day, nor has the reason for keeping it: what is written here is written for hands we shall never know, in case this kingdom is no longer here to say it itself.",
+			},
+			{
+				fr: "Une chose a changé, pourtant, et nous la notons sans y insister. Les deux premiers cahiers consignaient une catastrophe, puis ses suites. Celui-ci est le premier à être tenu par des gens qui attendent la suivante.",
+				en: "One thing has changed, however, and we note it without dwelling on it. The first two volumes recorded a catastrophe, then its aftermath. This one is the first to be kept by people who are expecting the next.",
+			},
+		],
+	},
+
+	{
+		kind: "divider",
+		bookNo: { fr: "Entrée I", en: "Entry I" },
+		bookTitle: {
+			fr: "Les deux années d'après",
+			en: "The Two Years After",
+		},
+		bookSub: {
+			fr: "Ce qu'Aldrenia a appris en allant voir elle-même, et ce qu'il lui a fallu deux ans pour nommer.",
+			en: "What Aldrenia learned by going to see for itself, and what took it two years to name.",
+		},
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "La lettre restée sur la table",
+			en: "The Letter Left on the Table",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Le dilemme de Granholt a tenu ce Conseil onze mois. Onze mois pendant lesquels la lettre de la comtesse Ysolde Varn, écrite de sa propre main et portée jusqu'à Caldrath par un messager qui ne savait pas s'il trouverait encore un royaume à l'arrivée, est restée sur la table sans réponse. On l'a lue à voix haute plus de fois qu'aucun autre document de ce règne. On ne lui a rien répondu.",
+				en: "The Granholt dilemma held this Council for eleven months. Eleven months in which Countess Ysolde Varn's letter, written in her own hand and carried to Caldrath by a messenger who did not know whether he would still find a kingdom on arrival, lay on the table unanswered. It was read aloud more times than any other document of this reign. Nothing was written back.",
+			},
+			{
+				fr: "Le général Dorric Marn a plaidé l'envoi, et son raisonnement n'a pas varié d'une séance à l'autre : des légions rappelées du nord ne servent à rien là où elles sont, une alliance qu'on n'honore pas une seule fois cesse d'être une alliance, et une menace qui avance ne s'arrête pas d'elle-même parce qu'on a décidé de ne pas aller la voir. Sereth Vael, Haute Voix d'Aldrene, a plaidé l'inverse avec une constance égale : on n'envoie pas l'armée d'un royaume dans un pays dont on ignore si les morts y sont encore comptables.",
+				en: "General Dorric Marn argued for sending them, and his reasoning never varied from one session to the next: legions recalled from the north are of no use where they stand, an alliance honoured not even once stops being an alliance, and a threat that advances does not halt of itself because one has decided not to go and look at it. Sereth Vael, High Voice of Aldrene, argued the opposite with equal constancy: one does not send a kingdom's army into a country where it is unknown whether the dead are still countable.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Trois légions sur sept",
+			en: "Three Legions of Seven",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Le roi Varic Rhen a tranché la onzième fois qu'on lui a posé la question. Les légions partent. Pas toutes : trois sur les sept rappelées du front skeldarien, ce qui est assez pour rouvrir une route et tenir une place, et pas assez pour reprendre un royaume. Le reste garde les frontières, parce que personne à ce Conseil n'est prêt à parier que le nord restera vide.",
+				en: "King Varic Rhen ruled the eleventh time the question was put to him. The legions go. Not all of them: three of the seven recalled from the Skeldarian front, which is enough to reopen a road and hold a place, and not enough to retake a kingdom. The rest keep the borders, because no one on this Council is willing to wager that the north will stay empty.",
+			},
+			{
+				fr: "Le commandement nominal de la campagne est confié au prince Ilyan Rhen. La cour a compris ce que cette nomination signifiait avant que personne ne l'énonce : Dorric Marn commande réellement, chacun le sait, et l'héritier apprend. Le Vieux Roi a soixante-dix-huit ans, se déplace de moins en moins, et quitte rarement les salles basses du palais depuis l'hiver. On ne le dit pas au Conseil. On le dit partout ailleurs.",
+				en: "Nominal command of the campaign is given to Prince Ilyan Rhen. The court understood what that appointment meant before anyone said it aloud: Dorric Marn commands in fact, as everyone knows, and the heir is learning. The Old King is seventy-eight, moves about less and less, and has rarely left the palace's lower halls since winter. It is not said at Council. It is said everywhere else.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que l'armée a trouvé à l'ouest",
+			en: "What the Army Found in the West",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "Les trois légions franchissent la frontière d'Eorthal au printemps de la deuxième année. C'est la première fois depuis la secousse qu'Aldrenia regarde ce royaume avec ses propres yeux et en nombre, au lieu de l'écouter par la bouche des marchands et des réfugiés. Et pour la première fois en deux ans, nous cessons d'écrire « on rapporte que » pour écrire « on a vu ».",
+				en: "The three legions cross Eorthal's border in the spring of the second year. It is the first time since the tremor that Aldrenia looks at that kingdom with its own eyes and in numbers, instead of hearing it through the mouths of merchants and refugees. And for the first time in two years, we stop writing “it is reported that” and start writing “we have seen”.",
+			},
+			{
+				fr: "Ce qu'on a vu ne corrige presque rien des rumeurs, et c'est précisément ce qui frappe les officiers : tout ce qu'on racontait était vrai, et insuffisant. Les plaines les plus riches de Mydaria sont encore là, les blés poussent encore, personne ne les coupe. Les hameaux sont debout, les portes ouvertes, les tables dressées dans certaines maisons. Ce ne sont pas des ruines. C'est un royaume entier qui a continué de fonctionner quelques jours de trop après que ses habitants ont cessé de l'habiter.",
+				en: "What was seen corrects almost nothing of the rumours, and that is precisely what strikes the officers: everything that was told was true, and insufficient. The richest plains of Mydaria are still there, the wheat still grows, no one cuts it. The hamlets stand, the doors open, the tables laid in some houses. These are not ruins. It is a whole kingdom that went on working a few days too long after its inhabitants stopped living in it.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Un couloir, pas une reconquête",
+			en: "A Corridor, Not a Reconquest",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Les morts-vivants ne constituent pas une armée, et les légions l'écrivent dans leurs rapports avec une insistance qui trahit leur gêne : il n'y a pas de ligne de bataille, pas de flanc, pas d'arrière, pas de camp. Il y a des morts, partout, qui marchent et qui ne fuient pas. Un officier de la Deuxième légion consigne la phrase que nous recopierons ensuite dans trois documents différents : on peut gagner chaque engagement et ne jamais avancer d'une lieue, parce que l'ennemi n'a pas besoin de tenir le terrain, il lui suffit d'y rester.",
+				en: "The undead do not make up an army, and the legions write it in their reports with an insistence that betrays their discomfort: there is no line of battle, no flank, no rear, no camp. There are dead, everywhere, walking, and they do not flee. An officer of the Second legion records the sentence we will copy into three different documents afterwards: one can win every engagement and never advance a league, because the enemy has no need to hold the ground, it is enough for him to remain on it.",
+			},
+			{
+				fr: "Granholt tient. C'est la seule nouvelle franchement bonne de ces deux années. La comtesse Ysolde Varn est vivante, a vieilli de dix ans en deux, et accueille les légions sans une parole de reproche pour les onze mois d'attente, ce que plusieurs officiers trouvent plus difficile à supporter qu'un reproche. Elle tient sa capitale, ses greniers et quatre places fortifiées autour d'elle ; le reste du royaume ne lui appartient plus, et elle est la première à l'écrire. Au terme de la deuxième année, la route entre Caldrath et Granholt est rouverte et gardée. Le Conseil appelle cela un succès. Dorric Marn, dans ses rapports, appelle cela un couloir.",
+				en: "Granholt holds. It is the only frankly good news of these two years. Countess Ysolde Varn is alive, has aged ten years in two, and receives the legions without a word of reproach for the eleven months of waiting, which several officers find harder to bear than a reproach. She holds her capital, her granaries and four fortified places around her; the rest of the kingdom is no longer hers, and she is the first to write it. By the end of the second year, the road between Caldrath and Granholt is reopened and guarded. The Council calls that a success. Dorric Marn, in his reports, calls it a corridor.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Edrin Fenn, de première main",
+			en: "Edrin Fenn, Firsthand",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "C'est pendant cette campagne qu'un détachement aldrenien voit Edrin Fenn. Nous tenons à ce que la chose soit consignée exactement comme elle s'est produite, parce que c'est la première information de première main qu'Aldrenia obtient sur lui en trois ans. Une patrouille de reconnaissance croise, sur une route de campagne, quatre silhouettes qui marchent. Un homme devant, trois derrière. L'homme parle, sans s'adresser à personne de visible, d'un ton ordinaire, comme on parle en marchant à côté des siens.",
+				en: "It is during this campaign that an Aldrenian detachment sees Edrin Fenn. We insist that the thing be recorded exactly as it happened, because it is the first firsthand information Aldrenia has obtained about him in three years. A reconnaissance patrol crosses, on a country road, four figures walking. One man in front, three behind. The man is speaking, addressing no one visible, in an ordinary tone, the way one speaks while walking beside one's own.",
+			},
+			{
+				fr: "Les soldats sont à portée de trait. Ils ne tirent pas, et aucun de ceux qui en sont revenus n'a jamais été capable d'expliquer clairement pourquoi. Il ne les attaque pas. Il ne les évite pas non plus. Il passe, continue de parler, et les soldats comprennent en l'entendant qu'il raconte sa journée à sa femme. Les descriptions concordent sur un point que nous relevons deux fois : son corps est visiblement détruit. Il ne se tient pas comme un homme valide, il ne tient pas comme un homme qui devrait tenir du tout. Et il marche, et il parle, et derrière lui trois silhouettes suivent sans jamais répondre.",
+				en: "The soldiers are within bowshot. They do not shoot, and none of those who came back was ever able to explain clearly why. He does not attack them. He does not avoid them either. He passes, goes on speaking, and the soldiers understand as they listen that he is telling his day to his wife. The descriptions agree on one point we note twice: his body is visibly destroyed. He does not stand like a sound man; he does not hold together like a man who should hold together at all. And he walks, and he speaks, and behind him three figures follow without ever answering.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que la cour en a fait",
+			en: "What the Court Made of It",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Le détachement rentre et rapporte. Nous consignons, et retirons pour la première fois de ce registre la mention « rumeur non vérifiée » qui accompagnait ce nom depuis le retour du premier éclaireur. Nous n'y substituons rien d'autre. Nous n'avons rien d'autre.",
+				en: "The detachment returns and reports. We record it, and for the first time remove from this register the note “unverified rumour” that had accompanied that name since the first scout's return. We substitute nothing for it. We have nothing else.",
+			},
+			{
+				fr: "Ce que la cour en fait est révélateur de son embarras. Personne, au Conseil, ne sait quoi décider d'un ennemi qu'on a vu passer à vingt pas d'une patrouille sans qu'il lève la main. Sereth Vael y voit une raison supplémentaire de ne pas s'enfoncer plus loin dans Eorthal. Dorric Marn fait remarquer, sèchement, qu'un homme qui ne vous attaque pas n'est pas forcément un homme qui vous épargne : peut-être qu'il ne vous a tout simplement pas vus.",
+				en: "What the court makes of it reveals its embarrassment. No one at Council knows what to decide about an enemy seen passing twenty paces from a patrol without raising a hand. Sereth Vael sees in it one more reason not to push deeper into Eorthal. Dorric Marn observes, drily, that a man who does not attack you is not necessarily a man who spares you: perhaps he simply did not see you.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Le mot qu'il a fallu deux ans pour choisir",
+			en: "The Word That Took Two Years",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "Pendant que l'armée tient son couloir à l'ouest, nous réglons une affaire qui traîne depuis le premier jour et qui n'a l'air de rien : les créatures nées de la secousse n'ont toujours pas de nom. Celles qu'on avait vues se relever dans les champs avec des membres de trop et des corps mal recousus, les témoins les appellent les fondus, les mélangés, les sans-forme, selon la province et selon ce qu'ils avaient eu sous les yeux. Les rapports militaires emploient les trois, parfois dans la même phrase.",
+				en: "While the army holds its corridor in the west, we settle a matter that has dragged since the first day and looks like nothing: the creatures born of the tremor still have no name. Those seen rising in the fields with too many limbs and badly sewn bodies, witnesses call the melted, the mingled, the shapeless, according to the province and to what they had before their eyes. Military reports use all three, sometimes in the same sentence.",
+			},
+			{
+				fr: "Trois d'entre nous passent plus d'un an à recoudre des rapports qui parlent de la même chose sans employer le même mot. Nous tranchons au cours de la deuxième année, pour la seule raison qui nous fait trancher quoi que ce soit : on ne peut pas tenir un registre avec trois mots pour une chose. Nous retenons Abomination, qui n'est pas le plus descriptif des trois mais le seul qu'aucune province ne revendique comme sien.",
+				en: "Three of us spend more than a year stitching together reports that speak of the same thing without using the same word. We settle the matter during the second year, for the only reason that ever makes us settle anything: one cannot keep a register with three words for one thing. We retain Abomination, which is not the most descriptive of the three but the only one no province claims as its own.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce qui arrive en même temps",
+			en: "What Happens at the Same Time",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Ce que nous consignons sous cette rubrique, en deux ans, ne dessine aucune règle. Les Abominations continuent d'apparaître sans qu'on sache où ni sous quelle forme, exactement comme au premier jour. Certaines ont été tuées, et les rapports de ces combats sont les seuls documents dont nous disposions vraiment. D'autres se sont installées, dans un bois, dans une carrière abandonnée, dans un village vidé, et n'en bougent plus.",
+				en: "What we record under that heading, over two years, draws no rule at all. Abominations go on appearing without anyone knowing where or in what shape, exactly as on the first day. Some have been killed, and the reports of those fights are the only documents we truly have. Others have settled, in a wood, in an abandoned quarry, in an emptied village, and move no more.",
+			},
+			{
+				fr: "Un fait, pourtant, revient assez souvent pour que nous finissions par le noter à part, sans oser en tirer de conclusion : il arrive que des Abominations qui n'ont aucun moyen de se voir agissent en même temps. Deux attaques à deux jours de marche l'une de l'autre, à la même heure. Un bois qui se vide la nuit où un autre se remplit. Les officiers qui l'ont remarqué le signalent prudemment, conscients de ce que cela aurait l'air de prétendre. Nous nous contentons de l'inscrire et de ne pas l'expliquer.",
+				en: "One fact, however, recurs often enough that we end up noting it apart, without daring to draw a conclusion from it: Abominations with no means of seeing one another sometimes act at the same time. Two attacks two days' march apart, at the same hour. A wood that empties on the night another fills. The officers who noticed it report it cautiously, aware of what it would sound like to claim. We merely write it down and do not explain it.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Le nord qui ne redevient pas un front",
+			en: "The North That Does Not Become a Front Again",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "De Skeldara, en deux ans, Aldrenia n'a reçu ni un envoyé, ni une lettre, ni une menace. La guerre n'a toujours pas été déclarée terminée, et personne à Caldrath n'ose employer le mot paix pour une chose dont aucun des deux camps n'a jamais rien signé. Le front est vide. Les frontières sont gardées des deux côtés par des garnisons qui s'observent sans se battre, ce qui, après des années de guerre ouverte, met les officiers aldreniens plus mal à l'aise que les combats.",
+				en: "From Skeldara, in two years, Aldrenia has received neither an envoy, nor a letter, nor a threat. The war has still not been declared over, and no one in Caldrath dares use the word peace for a thing neither side has ever signed anything about. The front is empty. The borders are guarded on both sides by garrisons that watch each other without fighting, which, after years of open war, unsettles Aldrenian officers more than the fighting did.",
+			},
+			{
+				fr: "Ce qui franchit la frontière, en revanche, ce sont des Skeldariens. Pas des soldats : des familles, des bergers, des villages entiers par morceaux, qui descendent des hautes terres et demandent à passer. Les premiers mois, les garnisons les refoulent, faute d'ordres. Puis le Conseil du Roi, après un débat que les comptes rendus décrivent comme particulièrement amer, autorise le passage au cas par cas, et dans les faits on cesse assez vite de compter.",
+				en: "What does cross the border are Skeldarians. Not soldiers: families, shepherds, whole villages in pieces, coming down from the high lands and asking to pass. For the first months the garrisons turn them back, for want of orders. Then the King's Council, after a debate the minutes describe as particularly bitter, allows passage case by case, and in practice one soon stops counting.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que racontent les réfugiés",
+			en: "What the Refugees Tell",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Ce que ces réfugiés racontent est la seule source d'Aldrenia sur le nord, et c'est une source dont nous nous méfions, parce que des gens qui demandent asile ont des raisons de noircir ce qu'ils fuient. Ils décrivent des vallées entières qu'aucun Skeldarien ne traverse plus, où les Démons ne se contentent plus de passer mais se sont installés, ont bâti, et paraissent attendre quelque chose. Ils décrivent des villages qui payent un tribut à des Démons plutôt que de les combattre, ce qu'aucun Aldrenien ne croit tout à fait et qu'aucun ne parvient à écarter complètement.",
+				en: "What these refugees tell is Aldrenia's only source on the north, and a source we distrust, because people asking for asylum have reasons to blacken what they flee. They describe whole valleys no Skeldarian crosses any more, where the Demons no longer merely pass through but have settled, have built, and appear to be waiting for something. They describe villages paying tribute to Demons rather than fighting them, which no Aldrenian quite believes and none manages to dismiss entirely.",
+			},
+			{
+				fr: "Du roi Gorath Thorne, aucun réfugié ne sait rien dire de certain. Les uns le disent mort, les autres retranché à Dunmarr, les autres parti au nord avec ce qui lui restait de troupes. Que le royaume le plus militaire de Mydaria ne soit plus capable de dire publiquement où se trouve son roi est, pour ce Conseil, la nouvelle la plus lourde de ces deux années. Et personne, à Caldrath, ne trouve de réconfort dans la faiblesse d'un ennemi qui a cessé d'être le pire.",
+				en: "Of King Gorath Thorne, no refugee can say anything certain. Some say he is dead, others entrenched at Dunmarr, others gone north with what troops he had left. That the most military kingdom in Mydaria can no longer say publicly where its king is, is for this Council the heaviest news of these two years. And no one in Caldrath finds comfort in the weakness of an enemy who has stopped being the worst one.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce qui n'a toujours rien dit",
+			en: "What Has Still Said Nothing",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "De Dreamar, rien. Deux éclaireurs ont été envoyés vers les forêts au cours de ces deux ans. Le premier est revenu au bout de quatre jours sans avoir réussi à y entrer, décrivant une lisière qu'il n'a pas pu franchir sans perdre immédiatement sa route. Le second n'est pas revenu. De Thelmere, rien non plus : le pont est toujours absent, la route maritime toujours praticable jusqu'à l'endroit où il n'est plus, et aucune voile n'a été aperçue depuis l'autre rive en trois ans. Les marchands aldreniens ont cessé d'en parler, ce qui est une manière de l'enterrer.",
+				en: "From Dreamar, nothing. Two scouts were sent toward the forests over these two years. The first came back after four days without managing to get in, describing an edge he could not cross without immediately losing his way. The second did not come back. From Thelmere, nothing either: the bridge is still absent, the sea route still passable as far as the place where it no longer is, and no sail has been sighted from the far shore in three years. Aldrenian merchants have stopped mentioning it, which is one way of burying it.",
+			},
+			{
+				fr: "D'Ostrane, rien. Aldrenia n'a pas renvoyé d'éclaireur vers le sud. Le Conseil a été consulté deux fois sur ce point et a choisi deux fois de ne pas insister, pour une raison que les comptes rendus formulent sans détour : on n'a jamais su ce qui est arrivé au premier, et on n'a pas de raison de croire qu'un second apprendrait autre chose. Quant à la Pliure, elle n'a pas bougé. Trois ans, pas un pouce. Les légions en interdisent toujours l'approche, et les gens continuent d'y aller. Nous notons, avec une régularité presque administrative, qu'elle est la seule chose de ce monde qui n'ait rien changé depuis le premier jour.",
+				en: "From Ostrane, nothing. Aldrenia has not sent another scout south. The Council was consulted twice on the point and twice chose not to insist, for a reason the minutes state bluntly: we never knew what became of the first, and we have no reason to believe a second would learn anything else. As for the Fold, it has not moved. Three years, not an inch. The legions still forbid approaching it, and people still go. We note, with an almost administrative regularity, that it is the only thing in this world that has changed nothing since the first day.",
+			},
+		],
+	},
+
+	{
+		kind: "divider",
+		bookNo: { fr: "Entrée II", en: "Entry II" },
+		bookTitle: {
+			fr: "La deuxième secousse",
+			en: "The Second Tremor",
+		},
+		bookSub: {
+			fr: "Ce que la terre a rendu, ce qu'elle a ouvert, et ceux qu'elle a déposés chez nous.",
+			en: "What the earth gave back, what it opened, and those it set down among us.",
+		},
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "La terre, de nouveau",
+			en: "The Earth, Again",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Puis, au cours de la troisième année, la terre tremble à nouveau. Il n'y a pas davantage d'avertissement que la première fois. Pas de signe, pas de présage, aucune de ces visions dont Dreamar se faisait autrefois gloire et dont plus personne ne reçoit rien. Le ciel ne change pas de couleur. Les bêtes hurlent dans les étables. Les lampes s'éteignent toutes ensemble, et ceux qui étaient en vie trois ans plus tôt reconnaissent immédiatement ce qu'ils sont en train de vivre, ce qui est une épreuve que la première secousse ne leur avait pas infligée.",
+				en: "Then, during the third year, the earth shakes again. There is no more warning than the first time. No sign, no omen, none of those visions Dreamar once boasted of and from which no one receives anything any more. The sky does not change colour. The beasts howl in their stalls. The lamps go out all together, and those who were alive three years earlier recognise at once what they are living through, which is an ordeal the first tremor had not inflicted on them.",
+			},
+			{
+				fr: "Quelques minutes. Pas plus que la première fois. Ce qu'Aldrenia constate ensuite, elle le constate dans l'ordre où ses messagers l'apprennent, et nous le consignons dans cet ordre-là plutôt que dans celui qui aurait du sens.",
+				en: "A few minutes. No more than the first time. What Aldrenia then establishes, it establishes in the order its messengers learn it, and we record it in that order rather than in the one that would make sense.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que la terre a rendu",
+			en: "What the Earth Gave Back",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "D'abord : la Pliure a bougé. Pour la première fois en trois ans. Elle ne s'est pas étendue, elle ne s'est pas refermée. Elle s'est déplacée, de quelques centaines de pas vers l'est, et là où elle se trouvait auparavant le sol est redevenu du sol aldrenien, nu, labourable, sans une pierre étrangère. Les deux cohortes qui en gardaient l'approche se sont retrouvées à l'intérieur de ce qu'elles gardaient. Quarante et un hommes manquent à l'appel. Les autres n'ont rien à raconter, sinon qu'ils ont cligné des yeux.",
+				en: "First: the Fold has moved. For the first time in three years. It did not spread, it did not close. It shifted, by a few hundred paces eastward, and where it stood before, the ground has become Aldrenian ground again, bare, ploughable, without a single foreign stone. The two cohorts guarding its approach found themselves inside what they were guarding. Forty-one men are missing at the roll. The others have nothing to tell, except that they blinked.",
+			},
+			{
+				fr: "Ensuite : d'autres lieux. Nous en dénombrons neuf pour le seul territoire d'Aldrenia dans les semaines qui suivent, et renonçons assez vite à compter ceux qu'on nous rapporte d'ailleurs. Des reliefs qui n'étaient pas là. Un bois dont les arbres sont tous de la même espèce et dont aucun botaniste de Caldrath ne connaît cette espèce. Une structure de pierre sèche, au nord-est, qui ne ressemble à rien et qui est manifestement habitée, sans que personne n'ait vu qui l'habite.",
+				en: "Then: other places. We count nine for Aldrenia's territory alone in the weeks that follow, and soon give up counting those reported to us from elsewhere. Landforms that were not there. A wood whose trees are all of one species, and of which no botanist in Caldrath knows that species. A dry-stone structure, in the north-east, that resembles nothing and is plainly inhabited, without anyone having seen who inhabits it.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Dix-neuf jours sans nouvelles",
+			en: "Nineteen Days Without News",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Ensuite : une crevasse, à trois jours de Caldrath, et il y a une ville au fond. C'est elle qui occupera le reste de ce cahier.",
+				en: "Then: a crevasse, three days from Caldrath, and there is a town at the bottom. It is that town which will occupy the rest of this volume.",
+			},
+			{
+				fr: "Et enfin, ce que la cour met plusieurs jours à réaliser et qui change tout le reste : trois légions d'Aldrenia, et l'héritier du trône, se trouvaient en Eorthal quand la terre a tremblé. La route du couloir n'a plus de nouvelles à donner pendant dix-neuf jours. Nous n'avons rien à inscrire pour ces dix-neuf jours, et l'ordre nous a été donné de laisser le feuillet vide plutôt que d'y porter des suppositions.",
+				en: "And finally, what the court takes several days to realise and which changes everything else: three of Aldrenia's legions, and the heir to the throne, were in Eorthal when the earth shook. The corridor road has no news to give for nineteen days. We have nothing to enter for those nineteen days, and we were ordered to leave the leaf blank rather than fill it with suppositions.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "La Crevasse",
+			en: "The Crevasse",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "Elle s'est ouverte dans les terres hautes de l'est d'Aldrenia, à trois jours de Caldrath, en plein pays de pâture, là où personne n'avait jamais rien cherché parce qu'il n'y avait jamais rien eu. Elle court sur près de deux lieues et elle est profonde au point que les premiers bergers venus en regarder le fond n'ont pas vu de fond.",
+				en: "It opened in the high lands of eastern Aldrenia, three days from Caldrath, in the middle of pasture country, where no one had ever looked for anything because there had never been anything. It runs for nearly two leagues and is deep enough that the first shepherds who came to look at its bottom saw no bottom.",
+			},
+			{
+				fr: "Les parois sont ce que les érudits remarquent en premier, et ce détail aura son importance : ce sont des couches de sol bien dessinées, régulières, intactes, celles qu'on retrouve dans les carrières et que rien n'a remuées depuis bien plus longtemps que la mémoire des royaumes. La secousse n'a pas comblé ni retourné cette terre. Elle l'a ouverte en deux, proprement, comme on ouvre un livre.",
+				en: "The walls are what the scholars notice first, and that detail will matter: they are well-drawn layers of soil, regular, intact, the kind found in quarries and that nothing has stirred for far longer than the memory of kingdoms. The tremor did not fill this earth in, nor turn it over. It opened it in two, cleanly, the way one opens a book.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Il y a une ville en bas",
+			en: "There Is a Town Below",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Il faut onze jours pour organiser une descente, et ce que les hommes qui descendent rapportent change, en une seule journée, ce qu'Aldrenia croyait savoir de ce qui est arrivé à son monde. Les premiers rapports sont presque inutilisables, et nous les recopions quand même intégralement, parce que leur désordre est lui-même une information.",
+				en: "It takes eleven days to organise a descent, and what the men who go down report changes, in a single day, what Aldrenia believed it knew about what has happened to its world. The first reports are almost unusable, and we copy them out in full all the same, because their disorder is itself a piece of information.",
+			},
+			{
+				fr: "Il y a une ville, et elle n'est pas en ruine. Des rues. Des places. Des escaliers taillés dans la roche et des escaliers bâtis. Des façades, des seuils, des encadrements de porte. Des canalisations qui courent sous les dalles et qui, aux endroits où on les a sondées, portent encore de l'eau. Rien ne s'est effondré, ou plus exactement : ce qui s'est effondré a été relevé. Nous l'appelons la Cité Basse, parce qu'il faut bien l'appeler quelque chose et que nous n'avons rien d'autre à dire d'elle que l'endroit où elle se trouve.",
+				en: "There is a town, and it is not in ruins. Streets. Squares. Stairs cut into the rock and stairs built. Façades, thresholds, door frames. Conduits running under the flagstones which, where they have been sounded, still carry water. Nothing has collapsed, or more exactly: what collapsed has been raised again. We call it the Low City, because it must be called something and we have nothing else to say of it than where it lies.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Les choses qui tiennent la ville",
+			en: "The Things That Keep the Town",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Il y a des choses qui l'entretiennent, et elles bougent. Des silhouettes de pierre à peu près hautes comme un homme, debout, qui tournent la tête quand on passe devant. Une forme bien plus grande, affaissée contre une paroi, dont un seul bras se lève et se rabaisse sans fin, et qui n'a plus d'autre bras à lever. Une masse de métal sans visage et sans membres qui se déplace de quelques pouces par heure, dans une direction qu'elle ne change jamais. Un assemblage manifestement brisé, en morceaux séparés de plusieurs pas, et dont tous les morceaux bougent ensemble.",
+				en: "There are things that keep it, and they move. Stone figures about as tall as a man, standing, which turn their heads when one walks past. A far larger shape, slumped against a wall, whose single arm rises and falls without end, and which has no other arm left to raise. A faceless, limbless mass of metal that travels a few inches an hour, in a direction it never changes. An assembly plainly broken, its pieces separated by several paces, and all of whose pieces move together.",
+			},
+			{
+				fr: "Et il n'y a personne. C'est la troisième chose, et c'est celle qui empêche les descendus de dormir une fois remontés. Pas un habitant. Pas une dépouille. Pas un ossement, pas une sépulture, pas une pierre gravée d'un nom de mort. Une ville entière, debout, entretenue, et dont nul n'a jamais retrouvé le moindre occupant, vivant ou mort.",
+				en: "And there is no one. That is the third thing, and the one that keeps those who went down from sleeping once they are back up. Not an inhabitant. Not a corpse. Not a bone, not a grave, not a stone carved with a dead name. A whole town, standing, maintained, and of which no one has ever found a single occupant, living or dead.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Celles qui travaillent",
+			en: "The Ones That Work",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Elles ne sont pas toutes occupées de la même manière, et c'est une des rares choses qu'Aldrenia parvient à établir proprement en trois mois de descentes. Certaines ne font rien, ou rien qui se comprenne : elles restent immobiles des semaines puis avancent de trois pas, elles répètent un geste qui n'a plus d'objet depuis longtemps, elles réagissent au passage d'un homme ou à rien du tout.",
+				en: "They are not all busy in the same way, and that is one of the few things Aldrenia manages to establish properly in three months of descents. Some do nothing, or nothing that can be understood: they stay motionless for weeks then advance three paces, they repeat a gesture that has had no object for a long time, they react to a man passing or to nothing at all.",
+			},
+			{
+				fr: "D'autres travaillent. Elles rescellent les pierres qu'on a descellées, dégagent les conduits, balaient les dalles. Elles ne s'arrêtent pas quand on les regarde, ne protestent pas quand on défait leur ouvrage, et le refont derrière. Un sergent de l'escorte note qu'il a vu l'une d'elles remettre en place, trois jours de suite, la même pierre que son détachement déplaçait trois jours de suite pour voir ce qu'elle ferait. Le quatrième jour, c'est le détachement qui a renoncé.",
+				en: "Others work. They reseal the stones one has unsealed, clear the conduits, sweep the flagstones. They do not stop when watched, do not protest when their work is undone, and do it again behind you. A sergeant of the escort notes that he saw one of them put back, three days running, the same stone his detachment shifted three days running to see what it would do. On the fourth day, it was the detachment that gave up.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce qui n'a pas de dedans",
+			en: "What Has No Inside",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Toutes portent des runes. Gravées, incrustées, parfois en relief sous la pierre comme si elles avaient poussé dedans. Et les runes ne sont pas des ornements : elles s'éclairent et se ternissent, par moments, sans qu'on ait rien fait pour cela. Les deux premiers hommes à en toucher une sont remontés sans blessure et sans explication. Aucun érudit de Caldrath ne sait lire une seule de ces marques, et aucun ne veut l'écrire dans ces termes-là.",
+				en: "All of them bear runes. Carved, inlaid, sometimes in relief beneath the stone as though they had grown into it. And the runes are not ornaments: they brighten and dim, at moments, without anything having been done to make them. The first two men to touch one came back up unhurt and unexplained. No scholar in Caldrath can read a single one of these marks, and none of them wishes to write it in those terms.",
+			},
+			{
+				fr: "Ce qui tient les descendus éveillés, pourtant, ce n'est pas ce que ces choses font. C'est qu'il n'y a rien pour les faire fonctionner. Pas de mécanisme, pas de contrepoids, pas de servant, pas d'attelage, pas de feu. Rien qui ressemble à un dedans. On en ouvre une, à coups de masse, et il n'y a pas de dedans : c'est de la pierre jusqu'au bout, et les morceaux continuent de remuer sur le sol. Elles ne sont pas vivantes comme une bête est vivante. Elles ne sont pas mortes comme un mort-vivant l'est, puisqu'elles n'ont jamais vécu. Elles fonctionnent.",
+				en: "What keeps those who went down awake, however, is not what these things do. It is that there is nothing to make them work. No mechanism, no counterweight, no attendant, no team, no fire. Nothing resembling an inside. One of them is opened, with mallets, and there is no inside: it is stone all the way through, and the pieces go on stirring on the ground. They are not alive as a beast is alive. They are not dead as an undead is, since they have never lived. They function.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Le mot et celui des gens",
+			en: "The Word, and the People's Word",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Nous devons malgré tout les ranger quelque part. Nous empruntons, faute de mieux, le mot dont les érudits de Caldrath se servaient déjà sans y attacher d'importance pour désigner les choses anciennes qu'on sort de terre sans savoir à qui elles ont appartenu : un artefact. Le mot n'explique rien. Il range, et c'est tout ce qu'on lui demande.",
+				en: "We must file them somewhere all the same. For want of better, we borrow the word the scholars of Caldrath already used without attaching importance to it, for ancient things pulled out of the ground without knowing whose they were: an artefact. The word explains nothing. It files, and that is all that is asked of it.",
+			},
+			{
+				fr: "Dans le royaume, personne ne dit artefact. Ce qui circule, des tavernes de Caldrath aux garnisons de l'est, et ce qui finira par circuler bien plus loin que ce registre, c'est l'expression qu'un homme redescendu de la Crevasse a lâchée devant témoins sans chercher à faire une formule : les vestiges vivants.",
+				en: "In the kingdom, no one says artefact. What circulates, from the taverns of Caldrath to the eastern garrisons, and what will end up circulating far further than this register, is the phrase a man come back up from the Crevasse let slip in front of witnesses without trying to coin anything: the living remnants.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Les temples",
+			en: "The Temples",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "Au cœur de la Cité Basse, il y a des temples. Le mot n'est pas une facilité de plume, et nous prenons la peine de justifier son emploi : ce sont des bâtiments plus hauts que les autres, au bout de voies qui ne mènent qu'à eux, avec des seuils marqués, de longues salles, des autels, et sur ces autels des choses déposées là par quelqu'un et que personne n'a reprises. On ne construit pas cela pour y habiter. Reste à savoir pour qui.",
+				en: "At the heart of the Low City, there are temples. The word is not a convenience of our pen, and we take the trouble to justify using it: they are buildings taller than the others, at the end of ways that lead only to them, with marked thresholds, long halls, altars, and on those altars things laid down by someone and that no one has taken back. One does not build that to live in. It remains to be known for whom.",
+			},
+			{
+				fr: "Et c'est là qu'Aldrenia se heurte à une question qu'elle ne s'était jamais posée. Les figures représentées dans ces temples, sculptées aux seuils et sur les parois, ne ressemblent à rien. Pas à Aldrene. Pas à Mydare. Pas aux divinités que les royaumes voisins honorent et dont les prêtres de Caldrath connaissent au moins les formes, quitte à les mépriser. À rien.",
+				en: "And it is here that Aldrenia runs into a question it had never asked itself. The figures represented in these temples, carved at the thresholds and on the walls, resemble nothing. Not Aldrene. Not Mydare. Not the divinities the neighbouring kingdoms honour, whose shapes the priests of Caldrath know at least well enough to despise. Nothing.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ils priaient qui ?",
+			en: "Praying to Whom?",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Les premiers prêtres descendus remontent sans se prononcer, ce qui, pour des prêtres, est en soi un événement. Sereth Vael interdit assez vite qu'on reproduise ces figures en dessin hors du registre officiel, mesure que la cour interprète comme elle veut.",
+				en: "The first priests to go down come back up without pronouncing, which, for priests, is an event in itself. Sereth Vael soon forbids reproducing these figures in drawing outside the official register, a measure the court interprets as it pleases.",
+			},
+			{
+				fr: "Et dans la capitale, la question qui court n'est pas celle des érudits. Elle est plus simple et personne ne l'écrit : si des gens priaient là-dessous, ils priaient qui ? Nous, nous ne tranchons rien. Nous consignons que des temples existent, qu'ils sont consacrés à des figures inconnues, et que nul ne sait qui les a bâtis.",
+				en: "And in the capital, the question going round is not the scholars'. It is simpler, and no one writes it down: if people prayed down there, who were they praying to? We settle nothing. We record that temples exist, that they are consecrated to unknown figures, and that no one knows who built them.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Les gardiens",
+			en: "The Guardians",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Car on n'entre pas dans les temples. C'est aux seuils que les artefacts cessent d'être indifférents, et c'est la seule chose qu'ils fassent qui ressemble à une intention. Il y en a devant chaque temple de la Cité Basse. Ils ne bougent pas. Ils laissent approcher. Ils laissent regarder, aussi longtemps qu'on veut, depuis l'extérieur du seuil. Ils laissent repartir.",
+				en: "For one does not enter the temples. It is at the thresholds that the artefacts stop being indifferent, and it is the only thing they do that resembles an intention. There is one before each temple of the Low City. They do not move. They let you approach. They let you look, as long as you like, from outside the threshold. They let you leave.",
+			},
+			{
+				fr: "Et ils arrêtent quiconque tente de passer. Pas par menace, pas par avertissement, pas par un geste qu'on puisse lire comme un refus : ils arrêtent, c'est tout, et ils ont la masse pour le faire. Le premier homme à avoir forcé le passage a été tenu contre le montant du seuil jusqu'à ce qu'on vienne le dégager, et il s'en est tiré avec une épaule brisée. Trois autres, ailleurs, dans les mois qui suivent, ne s'en sont pas tirés.",
+				en: "And they stop whoever tries to pass. Not by threat, not by warning, not by any gesture that could be read as a refusal: they stop you, that is all, and they have the mass to do it. The first man to force the passage was held against the door jamb until he was freed, and got away with a broken shoulder. Three others, elsewhere, in the months that follow, did not get away.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "La seule décision claire",
+			en: "The One Clear Decision",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Dorric Marn, consulté par écrit depuis l'Eorthal, fait remarquer que l'armée d'Aldrenia pourrait très probablement abattre un gardien si elle y mettait les moyens, et qu'il ne voit pas une seule bonne raison d'essayer avant de savoir ce qu'on garde, ni ce qui se passe quand ce n'est plus gardé. Le Conseil l'approuve, pour une fois sans débat.",
+				en: "Dorric Marn, consulted in writing from Eorthal, observes that Aldrenia's army could very probably bring a guardian down if it put the means to it, and that he does not see one good reason to try before knowing what is being guarded, nor what happens once it no longer is. The Council approves, for once without debate.",
+			},
+			{
+				fr: "L'interdiction est donc portée à ce cahier, et c'est la seule décision claire qu'Aldrenia prenne au sujet de la Crevasse cette année-là : on parcourt la Cité Basse, on ne franchit pas les seuils. Ce qu'il y a derrière, personne ne l'a vu.",
+				en: "The ban is therefore entered in this volume, and it is the only clear decision Aldrenia takes concerning the Crevasse that year: one walks the Low City, one does not cross the thresholds. What lies behind them, no one has seen.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Les deux camps dans le même trou",
+			en: "Both Camps in the Same Hole",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Une fois la rubrique ouverte, un désaccord s'installe parmi les érudits de la capitale, qui n'est toujours pas tranché quand nous refermons ce cahier. Pour les uns, tout cela était déjà là : des vestiges de la magie ancienne, ou de l'un de ces royaumes disparus dont les archives de Caldrath ne conservent plus que trois noms à demi effacés, Ith-Caldra, Oren-Thal et Vaskyr. Et c'est la Crevasse elle-même qui plaide pour eux : ses parois intactes disent qu'aucune main n'a touché cette terre depuis des siècles, et qu'une ville entière dormait dessous avant que quiconque n'ait eu de mot pour la nommer.",
+				en: "Once the heading was opened, a disagreement settled in among the scholars of the capital, and it is still unsettled as we close this volume. For some, all of it was already there: remnants of the ancient magic, or of one of those vanished kingdoms of which the archives of Caldrath keep only three half-effaced names, Ith-Caldra, Oren-Thal and Vaskyr. And it is the Crevasse itself that pleads for them: its intact walls say that no hand has touched this earth for centuries, and that a whole town slept beneath it before anyone had a word to name it with.",
+			},
+			{
+				fr: "Pour les autres, tout cela est arrivé avec les secousses. Et ceux-là ont leur preuve aussi : plusieurs des suites de runes relevées en bas ressemblent, d'assez près pour que trois d'entre nous s'en disputent, à des marques qu'on avait déjà copiées sur les pierres de la Pliure. Or la Pliure n'appartient manifestement pas à ce monde.",
+				en: "For the others, all of it arrived with the tremors. And those have their proof too: several of the rune sequences recorded below resemble, closely enough for three of us to quarrel over it, marks already copied from the stones of the Fold. And the Fold plainly does not belong to this world.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ancienne où ?",
+			en: "Ancient Where?",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Le pire est que la Cité Basse ne départage personne. Elle est bâtie, entretenue, ancienne, ce qui devrait suffire. Mais aucune de ses pierres ne ressemble aux pierres de Mydaria, aucune de ses figures ne ressemble à ce que ce monde a jamais vénéré, et son plan ne ressemble à aucune ville humaine connue. Une cité ancienne, donc. Ancienne où ?",
+				en: "The worst of it is that the Low City settles nothing for anyone. It is built, maintained, ancient, which ought to be enough. But none of its stones resembles the stones of Mydaria, none of its figures resembles anything this world has ever venerated, and its plan resembles no known human town. An ancient city, then. Ancient where?",
+			},
+			{
+				fr: "Il y a enfin un fait que les descendus signalent et que personne ne sait où ranger. Certains artefacts sont identiques. Pas semblables : identiques, jusqu'aux runes, jusqu'aux fêlures, à des centaines de pas les uns des autres dans la cité. Et une équipe rapporte avoir vu l'un d'eux lever le bras chaque fois que son jumeau le levait, puis cesser de le faire le jour où l'on a déplacé le jumeau. Nous les appelons des échos, parce qu'il faut bien les appeler quelque chose, et notons en marge que nous n'avons aucune idée de ce que ce mot est censé signifier.",
+				en: "There is finally a fact those who went down report and that no one knows where to file. Some artefacts are identical. Not alike: identical, down to the runes, down to the cracks, hundreds of paces apart within the city. And one team reports having seen one of them raise its arm each time its twin raised his, then stop doing so the day the twin was moved. We call them echoes, because they must be called something, and note in the margin that we have no idea what the word is supposed to mean.",
+			},
+		],
+	},
+
+	{
+		kind: "content-italic",
+		text: {
+			fr: "Nous ne savons pas si notre monde a été envahi, ou simplement réveillé.",
+			en: "We do not know whether our world has been invaded, or merely woken.",
+		},
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ceux qui avaient plus peur que nous",
+			en: "Those More Afraid Than We Were",
+		},
+		dropcap: true,
+		bookmark: true,
+		paragraphs: [
+			{
+				fr: "Pendant que les premières équipes descendent dans la crevasse, les rapports de province commencent à signaler autre chose, et nous tenons cette partie bien plus mal, parce qu'elle ne ressemble à rien de ce que trois ans nous ont appris à consigner. On voit des gens. Pas des Démons. Pas des morts-vivants. Pas des Abominations. Des gens, et les premiers témoins insistent sur ce mot avant même de décrire quoi que ce soit d'autre : ils marchent sur les routes comme on marche sur une route, ils s'arrêtent pour boire, ils dorment près de leurs feux et éteignent leurs feux en partant.",
+				en: "While the first teams go down into the crevasse, the provincial reports begin to signal something else, and we keep that part far worse, because it resembles nothing three years have taught us to record. People are being seen. Not Demons. Not undead. Not Abominations. People, and the first witnesses insist on the word before describing anything else at all: they walk the roads as one walks a road, they stop to drink, they sleep by their fires and put their fires out when they leave.",
+			},
+			{
+				fr: "Ils ne sont pas d'ici. Les uns sont plus hauts qu'un Aldrenien, trop minces pour leur taille, et se déplacent dans les bois sans qu'on les entende venir. Les autres sont plus petits, larges d'épaules, et se tiennent près des roches et des hauteurs. Les premiers rapports les confondent, puis cessent de les confondre, et nous finissons par en tenir deux comptes séparés.",
+				en: "They are not from here. Some are taller than an Aldrenian, too thin for their height, and move through the woods without being heard coming. The others are shorter, broad-shouldered, and keep to the rocks and the heights. The first reports confuse the two, then stop confusing them, and we end up keeping two separate counts.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Et ils ont peur",
+			en: "And They Are Afraid",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "C'est l'observation qui revient dans tous les témoignages, du berger comme de l'officier, et c'est celle qui désarçonne le plus la cour : ces gens-là ont manifestement plus peur d'Aldrenia qu'Aldrenia n'a peur d'eux. Ils fuient à vue. Ils abandonnent leur feu, leurs affaires, parfois leur nourriture. Plusieurs ont été trouvés terrés dans des granges, des fossés, des carrières abandonnées, sans arme, sans rien, incapables de dire un mot qu'un Aldrenien comprenne.",
+				en: "It is the observation that recurs in every testimony, the shepherd's as much as the officer's, and the one that most disconcerts the court: these people are plainly more afraid of Aldrenia than Aldrenia is of them. They flee on sight. They abandon their fire, their belongings, sometimes their food. Several have been found holed up in barns, ditches, abandoned quarries, without a weapon, without anything, unable to say a word an Aldrenian understands.",
+			},
+			{
+				fr: "Parce qu'ils ne parlent pas l'Averan. Ils n'en comprennent pas un mot, et c'est réciproque. Trois ans de secousses n'avaient encore jamais confronté Aldrenia à ce problème-là : tout ce qui était arrivé jusque-là n'avait rien à dire.",
+				en: "Because they do not speak the Averan. They do not understand a word of it, and it is mutual. Three years of tremors had never yet confronted Aldrenia with that problem: everything that had arrived until then had nothing to say.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Les incidents",
+			en: "The Incidents",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Ils commencent très vite. Un groupe, surpris au matin dans une bergerie de l'est, blesse grièvement deux hommes venus voir qui dormait là. Un autre, encerclé dans une carrière par une milice de village qui croyait bien faire, en tue un. Ailleurs, un seul homme acculé dans une grange se bat contre six et en estropie trois avant qu'on ne le maîtrise.",
+				en: "They begin very quickly. A group, surprised at morning in a sheepfold in the east, gravely wounds two men come to see who was sleeping there. Another, surrounded in a quarry by a village militia that meant well, kills one of them. Elsewhere, a single man cornered in a barn fights six and maims three before being subdued.",
+			},
+			{
+				fr: "Les rapports militaires, à mesure qu'ils s'accumulent, finissent par dire tous la même chose, et les officiers qui les rédigent n'ont pas l'air à l'aise de l'écrire : dans presque tous les cas, ce sont les Aldreniens qui sont arrivés les premiers, et ceux d'en face se sont battus comme on se bat quand on est certain qu'on va mourir. La cour, elle, ne lit pas des rapports. Elle lit des morts aldreniens.",
+				en: "The military reports, as they pile up, all end up saying the same thing, and the officers who write them do not seem comfortable writing it: in almost every case, it was the Aldrenians who arrived first, and those opposite fought the way one fights when certain of dying. The court, for its part, does not read reports. It reads Aldrenian dead.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce qu'on a enfermé",
+			en: "What Was Locked Up",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Le Conseil du Roi ordonne l'arrestation et l'enfermement de tout individu de ces deux sortes impliqué dans un incident violent. L'ordre est exécuté sans difficulté particulière, parce que des gens qui se cachent dans des fossés ne résistent pas longtemps à une cohorte. Plusieurs dizaines sont conduits à Caldrath et dans les places de l'est, et placés en détention sans qu'aucun chef d'accusation ne puisse leur être lu dans une langue qu'ils entendent.",
+				en: "The King's Council orders the arrest and confinement of any individual of these two sorts involved in a violent incident. The order is carried out without particular difficulty, because people hiding in ditches do not resist a cohort for long. Several dozen are taken to Caldrath and to the eastern strongholds, and held in detention without any charge being readable to them in a language they hear.",
+			},
+			{
+				fr: "Sereth Vael soutient la mesure. Dorric Marn, qui n'est pas là pour voter puisqu'il tient un couloir en Eorthal, fait savoir par écrit qu'il la trouve prématurée, dans une lettre que nous conservons et dont une phrase circule bientôt dans toute la capitale : nous enfermons les premiers êtres venus de Wyrdane à qui nous aurions pu poser une question.",
+				en: "Sereth Vael supports the measure. Dorric Marn, who is not there to vote since he is holding a corridor in Eorthal, lets it be known in writing that he finds it premature, in a letter we keep and one sentence of which soon circulates through the whole capital: we are locking up the first beings come out of Wyrdane whom we might have asked a question.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Deux mots qui finissent par passer",
+			en: "Two Words That Finally Pass",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Et c'est en détention que tout bascule, lentement, par l'ennui. Les mois passent. Des geôliers, quelques-uns d'entre nous envoyés pour prendre des notes, un prêtre d'Aldrene venu par curiosité, et des prisonniers qui n'ont rien d'autre à faire : au bout de quelques mois, des mots commencent à passer. D'abord des choses à manger, des parties du corps, le nom du jour et celui de la nuit.",
+				en: "And it is in detention that everything shifts, slowly, out of boredom. The months pass. Jailers, a few of us sent to take notes, a priest of Aldrene come out of curiosity, and prisoners with nothing else to do: after a few months, words begin to pass. First things to eat, parts of the body, the name of the day and that of the night.",
+			},
+			{
+				fr: "Puis, d'un prisonnier des hauts et minces, qui s'avère avoir une patience que ses geôliers n'ont pas, les deux mots que ces peuples emploient pour se désigner eux-mêmes. Nous les écrivons en Averan comme nous les entendons, et c'est sous ces deux mots qu'ils entrent dans les archives d'Aldrenia : un Elfe, un Nain.",
+				en: "Then, from one of the tall thin prisoners, who turns out to have a patience his jailers lack, the two words these peoples use for themselves. We write them in the Averan as we hear them, and it is under those two words that they enter the archives of Aldrenia: an Elf, a Dwarf.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce qu'on sait d'eux",
+			en: "What Is Known of Them",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Ce qui est su d'eux, à la fin de cette troisième année, tient en très peu de lignes, et nous sommes les premiers à le souligner. Ils viennent d'ailleurs, ils le savent, et ils savaient déjà avant d'arriver que leur monde était le leur. Ils n'ont pas choisi de venir. Ils ne savent pas comment repartir.",
+				en: "What is known of them, at the end of this third year, takes very few lines, and we are the first to point it out. They come from elsewhere, they know it, and they already knew before arriving that their world was theirs. They did not choose to come. They do not know how to leave.",
+			},
+			{
+				fr: "Aucun des deux peuples n'était attendu par l'autre : ils ont été séparés les uns des autres aussi brutalement que du reste, et les premiers entretiens laissent entendre qu'ils se connaissaient déjà avant Mydaria, sans que personne à Caldrath ne parvienne à en tirer davantage.",
+				en: "Neither of the two peoples was expected by the other: they were separated from one another as brutally as from everything else, and the first interviews suggest they already knew each other before Mydaria, without anyone in Caldrath managing to draw out more than that.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Le dessin du seuil",
+			en: "The Drawing of the Threshold",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Un seul épisode est noté à part, dans un feuillet que nous refusons de classer sous une rubrique existante. L'un de nous, venu dans une cellule avec ses relevés de la Cité Basse pour occuper une séance, montre à un prisonnier elfe une copie des runes, puis le dessin d'un seuil de temple et de la figure sculptée au-dessus.",
+				en: "A single episode is noted apart, on a leaf we refuse to file under any existing heading. One of us, come into a cell with his surveys of the Low City to fill a session, shows an elven prisoner a copy of the runes, then the drawing of a temple threshold and of the figure carved above it.",
+			},
+			{
+				fr: "L'Elfe cesse de parler. Il regarde les runes sans réagir. C'est le dessin du seuil qu'il regarde un long moment. Puis il repousse la feuille et ne répond plus à aucune question ce jour-là, ni les jours suivants sur ce sujet précis. Il note ce qu'il a vu, l'heure, et une seule phrase de commentaire : il a reconnu quelque chose, et il a choisi de ne pas me le dire.",
+				en: "The Elf stops speaking. He looks at the runes without reacting. It is the drawing of the threshold he looks at for a long moment. Then he pushes the sheet away and answers no further question that day, nor on the days after on that particular subject. He notes what he saw, the hour, and a single line of comment: he recognised something, and he chose not to tell me.",
+			},
+		],
+	},
+
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que nous ne savons pas encore",
+			en: "What We Do Not Yet Know",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Au moment où nous refermons ce cahier sur cette troisième année, voilà ce que la cour de Caldrath tient pour établi : Wyrdane fonctionne par vagues, il y en a eu deux, il peut donc y en avoir d'autres, et rien de ce qu'Aldrenia a appris en trois ans ne permet de prévoir la suivante. C'est peu, pour trois ans. C'est aussi, à notre propre avis, la première chose vraie que nous y ayons écrite sur Wyrdane lui-même, et non sur ses conséquences.",
+				en: "As we close this volume upon this third year, here is what the court of Caldrath holds as established: Wyrdane works in waves, there have been two, there can therefore be others, and nothing Aldrenia has learned in three years allows the next to be foreseen. That is little, for three years. It is also, in our own opinion, the first true thing we have written in it about Wyrdane itself, rather than about its consequences.",
+			},
+			{
+				fr: "Le reste est en suspens. Nous ne savons pas si les trois légions existent encore. Nous ne savons pas qui a bâti une ville sous les pâtures de l'est, ni où sont passés ceux qui y vivaient, ni pourquoi des choses de pierre continuent de la balayer pour eux. Nous ne savons pas lire une seule rune. Nous ne savons pas à qui sont consacrés des temples qu'on peut regarder et pas franchir. Nous ne savons pas où la Pliure s'arrêtera la prochaine fois. Nous ne savons pas ce qu'un Elfe a reconnu sur le dessin d'un seuil, ni pourquoi il s'est tu. Et nous ne savons pas si le Vieux Roi verra la quatrième année, phrase que personne à la cour n'ose écrire ailleurs que dans sa tête.",
+				en: "The rest is suspended. We do not know whether the three legions still exist. We do not know who built a town beneath the eastern pastures, nor where those who lived in it went, nor why things of stone go on sweeping it for them. We cannot read a single rune. We do not know to whom temples one may look at and not cross are consecrated. We do not know where the Fold will stop next time. We do not know what an Elf recognised on the drawing of a threshold, nor why he fell silent. And we do not know whether the Old King will see the fourth year, a sentence no one at court dares write anywhere but in their own head.",
+			},
+		],
+	},
+
+	{
+		kind: "content-italic",
+		text: {
+			fr: "Trois ans après la première secousse, Aldrenia a enfin compris la seule règle qui lui sera jamais utile, et c'est la pire de toutes : ce n'était pas une catastrophe. C'est un rythme.",
+			en: "Three years after the first tremor, Aldrenia has finally understood the only rule that will ever be of use to it, and it is the worst of them all: it was not a catastrophe. It is a rhythm.",
+		},
+	},
+
 	{
 		kind: "sealed",
 		bookNo: { fr: "À venir", en: "To Come" },
@@ -881,8 +1677,8 @@ export const JOURNAL_PAGES: JournalPage[] = [
 		},
 		waxList: ["?", "?", "?"],
 		note: {
-			fr: "Les archivistes n'ont pas encore rédigé la suite de ce registre.",
-			en: "The archivists have not yet written the continuation of this register.",
+			fr: "Nous n'avons pas encore rédigé la suite de ce registre.",
+			en: "We have not yet written the continuation of this register.",
 		},
 	},
 	{
@@ -894,5 +1690,41 @@ export const JOURNAL_PAGES: JournalPage[] = [
 				en: "This register will grow only as there is matter to record in it, and not before. Close it, and return when a wiser hand than ours has added something worth reading.",
 			},
 		],
+	},
+];
+
+// Un tome par epoque, et c'est la regle a tenir pour la suite : tout ce qui
+// decrit le monde tel qu'il etait reste dans le tome I, chaque secousse ouvre
+// un tome neuf qui court jusqu'a la suivante (donc la Deuxieme Vague et les
+// annees qui la suivent iront dans un tome III, et ainsi de suite). Chaque
+// tome commence par sa propre page kind:"cover" (react-pageflip est monte avec
+// showCover et startPage 0, voir Lore.tsx) et renumerote ses folios depuis 1.
+export const JOURNAL_BOOKS: JournalBook[] = [
+	{
+		id: "mydaria",
+		label: {
+			fr: "Journal d'Aldrenia I — Mydaria",
+			en: "Journal of Aldrenia I — Mydaria",
+		},
+		shelfLeft: "59.55%",
+		pages: VOLUME_I_PAGES,
+	},
+	{
+		id: "premiere-vague",
+		label: {
+			fr: "Journal d'Aldrenia II — La grande secousse",
+			en: "Journal of Aldrenia II — The Great Tremor",
+		},
+		shelfLeft: "60.6%",
+		pages: VOLUME_II_PAGES,
+	},
+	{
+		id: "deuxieme-vague",
+		label: {
+			fr: "Journal d'Aldrenia III — La Deuxième Vague",
+			en: "Journal of Aldrenia III — The Second Wave",
+		},
+		shelfLeft: "62%",
+		pages: VOLUME_III_PAGES,
 	},
 ];

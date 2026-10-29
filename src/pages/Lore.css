@@ -71,6 +71,9 @@
    la salle où c'est le décor principal, tamisé derrière le livre ouvert
    pour ne pas rivaliser avec le texte des pages). */
 .lore-room-bg {
+	-webkit-user-drag: none;
+	user-select: none;
+	-webkit-user-select: none;
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -139,24 +142,47 @@
    boîte plus large en laissant du vide transparent sur les côtés. */
 .lore-archive-book {
 	position: absolute;
-	left: 58.5%;
+	/* Repli : chaque tome pose son propre left en style inline (shelfLeft,
+	   voir JOURNAL_BOOKS dans journalAldrenia.ts) pour s'aligner sur
+	   l'etagere sans dupliquer une regle par tome ici. La valeur ci-dessous
+	   reste celle du tome I, calibree sur l'image. */
+	left: 59.55%;
 	top: 48.2%;
-	width: 3.5%;
+	/* Boite cliquable resserree (demande explicite : elle etait trop large,
+	   on attrapait le tome en survolant l'etagere vide a cote). Passee de
+	   3.5% a 1.4%, SANS retrecir la tranche dessinee : avec
+	   background-size:100%, la largeur du visuel suit celle de la boite, donc
+	   on compense en etirant le fond d'autant (250% = 3.5/1.4). La tranche
+	   opaque fait 16.5% du canevas (voir plus haut), soit 0.165*2.5*1.4% =
+	   0.578% de l'image — exactement sa largeur d'avant. Si cette largeur
+	   change encore, recalculer background-size comme 3.5/<largeur>*100%,
+	   sinon le livre maigrit ou grossit avec sa zone de clic.
+	   Effet de bord assume : le halo peint DANS l'image est rogne plus pres
+	   de la tranche (la boite est son seul cadre) ; l'aura au survol, elle,
+	   est un filter drop-shadow, que la boite ne rogne pas. */
+	width: 1.4%;
 	height: 5.9%;
 	/* Planchers de cible cliquable, pas une taille voulue : en dessous, la
 	   tranche s'etire et ne colle plus a la hauteur de ses voisines. Baisse
 	   de 36 a 30px avec le passage sur cette rangee (plus basse de plafond
 	   que l'ancienne) : a 36px la deformation commencait des ~1050px de
 	   large de fond, contre ~880px maintenant. */
-	min-width: 30px;
+	/* Plancher abaisse avec la boite (16px au lieu de 30) : garde une cible
+	   attrapable sur petit ecran sans annuler le resserrement ci-dessus. */
+	min-width: 16px;
 	min-height: 30px;
 	padding: 0;
 	border: none;
 	background-color: transparent;
-	background-size: 100% 100%;
+	background-size: 250% 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	cursor: pointer;
+	/* inherit, pas default : la piece a son propre curseur plume (voir
+	   .lore-room) et c'est lui qu'on veut garder au-dessus des tranches
+	   (demande explicite) — ni la fleche systeme, ni la main de lien.
+	   inherit reprend aussi tout seul la variante :active du curseur, posee
+	   sur l'ancetre .lore-room. */
+	cursor: inherit;
 	/* drop-shadow (pas box-shadow) suit le contour réel de la tranche au
 	   lieu d'illuminer tout son cadre transparent — l'aura s'ajoute à
 	   celle déjà peinte dans l'image plutôt que de la dédoubler. */
@@ -186,6 +212,37 @@
 	}
 }
 
+/* Infobulle maison des tranches (demande explicite : pas celle du navigateur,
+   qui met une seconde a apparaitre et ne se style pas). Posee dans
+   .lore-cover-frame, comme les tranches elles-memes, pour partager leur repere
+   en % : left vient du shelfLeft du tome (style inline), decale de la moitie
+   de la largeur de boite (0.7% pour une boite de 1.4%) pour tomber sur le
+   milieu de la tranche dessinee, centree dans cette boite (voir
+   .lore-archive-book). top est cale juste au-dessus de la
+   planche, le transform remontant l'etiquette de sa propre hauteur.
+   pointer-events:none : elle ne doit jamais intercepter le clic qui ouvre le
+   tome, meme quand elle recouvre la tranche. */
+.lore-archive-tip {
+	position: absolute;
+	top: 47.2%;
+	z-index: 5;
+	width: max-content;
+	max-width: min(260px, 60vw);
+	transform: translate(-50%, -100%);
+	padding: 5px 10px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	box-shadow: 0 2px 10px rgba(20, 14, 8, 0.45);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25;
+	text-align: center;
+	pointer-events: none;
+}
+
 .lore-back-button {
 	position: absolute;
 	top: 18px;
@@ -206,10 +263,10 @@
 }
 
 /* Lien de sortie vers le reste du site (demande explicite) : coin
-   superieur gauche, comme .lore-back-button. Seul a cet endroit dans la
-   salle des archives ; empile sous .lore-back-button dans la vue de
-   lecture (combinateur + : il le suit toujours directement dans le DOM,
-   voir Lore.tsx). */
+   superieur gauche, comme .lore-back-button. Present dans la SEULE salle
+   des archives (voir Lore.tsx) : la vue de lecture n'offre que son bouton
+   Retour, qui ramene a l'etagere. D'ou l'absence de regle d'empilement des
+   deux, ils ne coexistent jamais. */
 .lore-site-link {
 	position: absolute;
 	top: 18px;
@@ -227,9 +284,6 @@
 }
 .lore-site-link:hover {
 	background: var(--lore-room-bg);
-}
-.lore-back-button + .lore-site-link {
-	top: 66px;
 }
 
 /* Bascule FR/EN (demande explicite, 2026-10) : meme LanguageContext que le
