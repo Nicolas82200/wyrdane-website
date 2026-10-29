@@ -68,6 +68,10 @@ type Bookmark = { pageIndex: number; label: Bi };
 // liste volontairement courte plutot qu'un marque-page par page titree).
 // label reste bilingue (Bi) : choisi a l'affichage selon la langue courante,
 // pas au calcul de ce tableau (module-level, calcule une seule fois).
+// Salle des archives : aucun tome ouvert, donc aucune page. Constante de
+// module pour garder une reference stable d'un rendu a l'autre.
+const NO_PAGES: JournalPage[] = [];
+
 const computeBookmarks = (pages: JournalPage[]): Bookmark[] =>
 	pages.reduce<Bookmark[]>((acc, page, pageIndex) => {
 		if (page.kind === "divider") acc.push({ pageIndex, label: page.bookNo });
@@ -234,7 +238,13 @@ const Lore = () => {
 	// tomes suivants sont documentés plus bas, sur le rendu de l'étagère.
 	const [openedBookIndex, setOpenedBookIndex] = useState<number | null>(null);
 	const openedBook = openedBookIndex === null ? null : JOURNAL_BOOKS[openedBookIndex];
-	const pages = openedBook?.pages ?? [];
+	// Tome dont l'infobulle maison est affichee (survol ou focus clavier de sa
+	// tranche), ou null. Remplace l'attribut title des tranches : l'infobulle
+	// native du navigateur ne se style pas et met une seconde a apparaitre
+	// (demande explicite). L'aria-label, lui, reste sur le bouton — un lecteur
+	// d'ecran n'a que faire d'une etiquette dessinee.
+	const [hoveredBookIndex, setHoveredBookIndex] = useState<number | null>(null);
+	const pages = openedBook ? openedBook.pages : NO_PAGES;
 	// Recalculé à chaque changement de tome : les emplacements verticaux des
 	// onglets sont des index dans CE tableau, donc propres au tome ouvert.
 	const bookmarks = useMemo(() => computeBookmarks(pages), [pages]);
@@ -584,6 +594,7 @@ const Lore = () => {
 	};
 	const openBook = (index: number) => {
 		resetFlipState();
+		setHoveredBookIndex(null);
 		setOpenedBookIndex(index);
 	};
 	const closeBook = () => {
@@ -627,7 +638,11 @@ const Lore = () => {
 				   boite (voir Lore.css) : image ET boutons vivent dedans pour
 				   partager le meme repere en %, peu importe le ratio de l'ecran. */}
 				<div className="lore-cover-frame">
-					<img className="lore-room-bg" src={archivesBgUrl} alt="" />
+					{/* draggable={false} : une <img> se laisse glisser par defaut
+					   (fantome de glissement, depot dans un autre onglet), ce qui
+					   n'a aucun sens pour un decor — double de regles CSS sur
+					   .lore-room-bg pour WebKit, qui ignore l'attribut par endroits. */}
+					<img className="lore-room-bg" src={archivesBgUrl} alt="" draggable={false} />
 					{/* Une tranche cliquable par tome de JOURNAL_BOOKS, posee sur
 					   l'etagere vide qui suit le pilier central droit (y: 48%-54%).
 					   Seul shelfLeft change d'un tome a l'autre (en % de l'image
@@ -655,7 +670,12 @@ const Lore = () => {
 								left: b.shelfLeft,
 							}}
 							onClick={() => openBook(i)}
-							title={b.label[language]}
+							onMouseEnter={() => setHoveredBookIndex(i)}
+							onMouseLeave={() =>
+								setHoveredBookIndex((h) => (h === i ? null : h))
+							}
+							onFocus={() => setHoveredBookIndex(i)}
+							onBlur={() => setHoveredBookIndex((h) => (h === i ? null : h))}
 							aria-label={
 								language === "fr"
 									? `Ouvrir : ${b.label.fr}`
@@ -663,6 +683,16 @@ const Lore = () => {
 							}
 						/>
 					))}
+					{hoveredBookIndex !== null && (
+						<div
+							className="lore-archive-tip"
+							style={{
+								left: `calc(${JOURNAL_BOOKS[hoveredBookIndex].shelfLeft} + 1.5%)`,
+							}}
+						>
+							{JOURNAL_BOOKS[hoveredBookIndex].label[language]}
+						</div>
+					)}
 				</div>
 				{siteLink}
 				{langToggle}
@@ -675,7 +705,12 @@ const Lore = () => {
 			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
 			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
 		>
-			<img className="lore-room-bg lore-room-bg--dim" src={archivesBgUrl} alt="" />
+			<img
+				className="lore-room-bg lore-room-bg--dim"
+				src={archivesBgUrl}
+				alt=""
+				draggable={false}
+			/>
 			<button type="button" className="lore-back-button" onClick={closeBook}>
 				{language === "fr" ? "← Retour" : "← Back"}
 			</button>

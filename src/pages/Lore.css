@@ -71,6 +71,9 @@
    la salle où c'est le décor principal, tamisé derrière le livre ouvert
    pour ne pas rivaliser avec le texte des pages). */
 .lore-room-bg {
+	-webkit-user-drag: none;
+	user-select: none;
+	-webkit-user-select: none;
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -160,7 +163,7 @@
 	background-size: 100% 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	cursor: pointer;
+	cursor: default;
 	/* drop-shadow (pas box-shadow) suit le contour réel de la tranche au
 	   lieu d'illuminer tout son cadre transparent — l'aura s'ajoute à
 	   celle déjà peinte dans l'image plutôt que de la dédoubler. */
@@ -188,6 +191,36 @@
 	.lore-archive-book {
 		animation: none;
 	}
+}
+
+/* Infobulle maison des tranches (demande explicite : pas celle du navigateur,
+   qui met une seconde a apparaitre et ne se style pas). Posee dans
+   .lore-cover-frame, comme les tranches elles-memes, pour partager leur repere
+   en % : left vient du shelfLeft du tome (style inline), decale de ~1.5% pour
+   tomber sur la tranche VISIBLE et non sur le bord de sa boite cliquable, bien
+   plus large (voir .lore-archive-book). top est cale juste au-dessus de la
+   planche, le transform remontant l'etiquette de sa propre hauteur.
+   pointer-events:none : elle ne doit jamais intercepter le clic qui ouvre le
+   tome, meme quand elle recouvre la tranche. */
+.lore-archive-tip {
+	position: absolute;
+	top: 47.2%;
+	z-index: 5;
+	width: max-content;
+	max-width: min(260px, 60vw);
+	transform: translate(-50%, -100%);
+	padding: 5px 10px;
+	border: 1px solid var(--lore-rule);
+	border-radius: 4px;
+	background: var(--lore-room-bg-2);
+	box-shadow: 0 2px 10px rgba(20, 14, 8, 0.45);
+	color: var(--lore-ink);
+	font-family: var(--lore-font-hand);
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25;
+	text-align: center;
+	pointer-events: none;
 }
 
 .lore-back-button {
