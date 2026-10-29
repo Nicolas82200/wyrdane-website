@@ -78,15 +78,38 @@ export type JournalBook = {
 const VOLUME_I_PAGES: JournalPage[] = [
 	{ kind: "cover" },
 
-	// --- Ex-libris : ce qu'est ce journal, pourquoi il existe, qui le tient ---
+	// --- Ex-libris : le numero du cahier, et pourquoi il a ete ouvert ---
+	// Chaque tome commence par une page de ce genre (demande explicite) : son
+	// rang dans le registre, et la raison pour laquelle on l'a tenu. Le motif
+	// pose ici — ecrire pour apres, au cas ou le royaume ne serait plus la pour
+	// le dire lui-meme — est repris par les deux tomes suivants, qui s'y
+	// referent comme a une charge deja ancienne.
 	{
 		kind: "content",
-		title: { fr: "Ex-libris", en: "Ex-libris" },
+		title: { fr: "Cahier premier", en: "First Volume" },
 		dropcap: true,
 		paragraphs: [
 			{
-				fr: "Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter qu'ils ne tiennent de première main, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
-				en: "This register was opened the day after the catastrophe, by the scribes of the Chancellery, on the order of the King's Council. Its charge is simple to state and uncertain to keep: to record the unfolding of events, adding nothing they do not hold firsthand, as they occur, and for as long as there remains something to record.",
+				fr: "Ce registre a été ouvert au lendemain de la catastrophe, par les scribes de la Chancellerie, sur ordre du Conseil du Roi, et voici le premier de ses cahiers. Sa charge est simple à énoncer et incertaine à tenir, consigner le déroulement des événements, sans rien y ajouter qu'ils ne tiennent de première main, à mesure qu'ils se produisent, et pour aussi longtemps qu'il y aura quelque chose à y consigner.",
+				en: "This register was opened the day after the catastrophe, by the scribes of the Chancellery, on the order of the King's Council, and this is the first of its volumes. Its charge is simple to state and uncertain to keep: to record the unfolding of events, adding nothing they do not hold firsthand, as they occur, and for as long as there remains something to record.",
+			},
+			{
+				fr: "Le Conseil n'a pas ordonné ce travail pour lui-même. La secousse a appris à Aldrenia qu'un royaume peut cesser d'exister en quelques minutes, et qu'il ne reste alors de lui que ce que d'autres mains en avaient écrit. Si celui-ci devait connaître un sort funeste, que ce qu'il savait de lui-même et du monde ne s'éteigne pas avec lui : ce cahier est donc tenu autant pour ceux qui viendront après que pour la cour qui le commande.",
+				en: "The Council did not order this work for itself. The tremor taught Aldrenia that a kingdom can cease to exist in a few minutes, and that nothing then remains of it but what other hands had written down. Should this one meet a grievous end, let what it knew of itself and of the world not go out with it: this volume is therefore kept as much for those who come after as for the court that commissions it.",
+			},
+		],
+	},
+	{
+		kind: "content",
+		title: {
+			fr: "Ce que garde ce premier cahier",
+			en: "What This First Volume Keeps",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "C'est pourquoi le premier de ces cahiers ne parle pas de la catastrophe. Il décrit le monde tel qu'il tenait encore la veille, les six royaumes, leurs forces, leurs souverains et leurs dieux, parce que ce savoir-là n'était écrit nulle part en entier, et que nul ne peut plus garantir qu'il sera encore vrai l'an prochain.",
+				en: "That is why the first of these volumes does not speak of the catastrophe. It describes the world as it still stood the day before: the six kingdoms, their strengths, their sovereigns and their gods, because that knowledge was nowhere written down in full, and no one can any longer guarantee it will still be true a year from now.",
 			},
 			{
 				fr: "Les scribes qui en tiennent la plume espèrent, en vérité, ne pas avoir grand-chose à y écrire. Un registre qui s'épaissit est rarement le signe d'un royaume qui se porte bien, et nul parmi eux ne souhaite voir celui-ci grossir d'année en année.",
@@ -543,6 +566,25 @@ const VOLUME_II_PAGES: JournalPage[] = [
 	{ kind: "cover" },
 
 	{
+		kind: "content",
+		title: {
+			fr: "Cahier second",
+			en: "Second Volume",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Voici le second cahier de ce registre. Le premier a été refermé sur le monde tel qu'il tenait encore ; celui-ci s'ouvre sur le jour où il a cessé de tenir, et sur l'année qui a suivi. Il est tenu sous la même charge et pour la même raison que le précédent : si ce royaume devait ne pas durer, que ce qui lui est arrivé reste écrit quelque part, de la main de ceux qui l'ont vu.",
+				en: "This is the second volume of this register. The first was closed upon the world as it still stood; this one opens on the day it ceased to stand, and on the year that followed. It is kept under the same charge and for the same reason as the last: should this kingdom not endure, let what happened to it remain written somewhere, in the hand of those who saw it.",
+			},
+			{
+				fr: "La règle que le Conseil a fixée au premier jour n'a pas changé d'un cahier à l'autre : on n'inscrit ici que ce qu'un homme a vu lui-même et rapporté, et l'on nomme rumeur tout le reste. C'est une règle facile à tenir quand il ne se passe rien. Les pages qui suivent diront ce qu'elle a coûté cette année-là.",
+				en: "The rule the Council laid down on the first day has not changed from one volume to the next: nothing is entered here but what a man saw himself and reported, and everything else is called rumour. It is an easy rule to keep when nothing happens. The pages that follow will say what it cost that year.",
+			},
+		],
+	},
+
+	{
 		kind: "divider",
 		bookNo: { fr: "Entrée II", en: "Entry II" },
 		bookTitle: {
@@ -907,6 +949,25 @@ const VOLUME_II_PAGES: JournalPage[] = [
 
 const VOLUME_III_PAGES: JournalPage[] = [
 	{ kind: "cover" },
+
+	{
+		kind: "content",
+		title: {
+			fr: "Cahier troisième",
+			en: "Third Volume",
+		},
+		dropcap: true,
+		paragraphs: [
+			{
+				fr: "Voici le troisième cahier de ce registre, ouvert deux ans après que le second a été refermé sans conclusion. Il couvre ces deux années, puis la seconde secousse et les mois qui l'ont suivie. La charge n'a pas bougé depuis le premier jour, et la raison de la tenir non plus : ce qui s'écrit ici s'écrit pour des mains que nous ne connaîtrons pas, au cas où ce royaume ne serait plus là pour le dire lui-même.",
+				en: "This is the third volume of this register, opened two years after the second was closed without a conclusion. It covers those two years, then the second tremor and the months that followed it. The charge has not shifted since the first day, nor has the reason for keeping it: what is written here is written for hands we shall never know, in case this kingdom is no longer here to say it itself.",
+			},
+			{
+				fr: "Une chose a changé, pourtant, et les scribes la notent sans y insister. Les deux premiers cahiers consignaient une catastrophe, puis ses suites. Celui-ci est le premier à être tenu par des gens qui attendent la suivante.",
+				en: "One thing has changed, however, and the scribes note it without dwelling on it. The first two volumes recorded a catastrophe, then its aftermath. This one is the first to be kept by people who are expecting the next.",
+			},
+		],
+	},
 
 	{
 		kind: "divider",
