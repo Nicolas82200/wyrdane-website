@@ -687,7 +687,7 @@ const Lore = () => {
 						<div
 							className="lore-archive-tip"
 							style={{
-								left: `calc(${JOURNAL_BOOKS[hoveredBookIndex].shelfLeft} + 1.5%)`,
+								left: `calc(${JOURNAL_BOOKS[hoveredBookIndex].shelfLeft} + 0.7%)`,
 							}}
 						>
 							{JOURNAL_BOOKS[hoveredBookIndex].label[language]}

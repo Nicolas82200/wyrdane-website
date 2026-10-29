@@ -59,14 +59,18 @@ export type JournalBook = {
 	// Libelle complet du tome, affiche en infobulle sur sa tranche dans la
 	// salle des archives (voir Lore.tsx) et nulle part ailleurs.
 	label: Bi;
-	// Position horizontale de la tranche sur l'etagere d'archives.jpg, en % de
-	// l'image source (1344x768), passee en style inline a .lore-archive-book.
-	// Les boites cliquables font 3.5% de large (Lore.css) : espacer les tomes
-	// de 3.5% exactement les rend jointives sans jamais se recouvrir, sinon la
-	// boite du suivant mangerait la tranche du precedent. L'etagere libre
-	// documentee va de 61% a 71%, avec un livret deja peint vers 65% : au-dela
-	// de deux tomes, prendre les rangees libres notees dans Lore.tsx plutot que
-	// d'empiler ici au risque de tomber sur ce livret.
+	// Position horizontale de la BOITE cliquable de la tranche sur
+	// l'etagere d'archives.jpg, en % de l'image source (1344x768), passee en
+	// style inline a .lore-archive-book. La tranche dessinee est centree dans
+	// cette boite : son milieu tombe donc a shelfLeft + largeur/2, soit
+	// +0.7% avec la boite de 1.4% actuelle (c'est ce decalage que reprend
+	// l'infobulle, voir Lore.tsx). Espacer deux tomes de la largeur de boite
+	// exactement (1.4%) les rend jointifs sans jamais se recouvrir : au-dela,
+	// la boite du suivant mangerait la tranche du precedent, et le clic
+	// ouvrirait le mauvais tome. L'etagere libre documentee va de 61% a 71%,
+	// avec un livret deja peint vers 65% : au-dela de quelques tomes, prendre
+	// les rangees libres notees dans Lore.tsx plutot que d'empiler ici au
+	// risque de tomber sur ce livret.
 	shelfLeft: string;
 	pages: JournalPage[];
 };
@@ -941,7 +945,7 @@ export const JOURNAL_BOOKS: JournalBook[] = [
 			fr: "Journal d'Aldrenia I — Mydaria",
 			en: "Journal of Aldrenia I — Mydaria",
 		},
-		shelfLeft: "58.5%",
+		shelfLeft: "59.55%",
 		pages: VOLUME_I_PAGES,
 	},
 	{
@@ -950,7 +954,7 @@ export const JOURNAL_BOOKS: JournalBook[] = [
 			fr: "Journal d'Aldrenia II — La grande secousse",
 			en: "Journal of Aldrenia II — The Great Tremor",
 		},
-		shelfLeft: "62%",
+		shelfLeft: "60.95%",
 		pages: VOLUME_II_PAGES,
 	},
 ];
