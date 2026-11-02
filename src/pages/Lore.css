@@ -1011,3 +1011,49 @@
 		url("../assets/site/cursor-quill-active.png") 3 11,
 		auto;
 }
+
+/* --- Page unique (téléphone, ou toute fenêtre trop courte pour une double
+   page) --------------------------------------------------------------------
+   Seuil identique à SINGLE_PAGE_QUERY dans Lore.tsx, à tenir synchronisé :
+   StPageFlip bascule tout seul en page unique sous minWidth*2 = 760px de
+   largeur disponible, ce qui arrive dès que 92vw < 760 (vw < 826px) ou que
+   la borne de hauteur de .lore-book-wrap passe sous 760px (vh < 511px).
+
+   Deux choses à corriger dans ce mode :
+   - le ratio. Les largeurs plus haut sont bornées par la hauteur via le
+     ratio de la DOUBLE page (1.64) ; en page unique, c'est celui d'une page
+     seule (0.82) qui s'applique, sans quoi un téléphone en paysage se
+     retrouvait avec un livre 1,75x plus haut que la fenêtre ;
+   - la couverture. .lore-book-wrap--cover (moitié de largeur) n'a de sens
+     que pour laisser la librairie montrer la couverture seule au lieu d'un
+     spread à moitié vide : en page unique elle le fait déjà d'elle-même, et
+     la classe n'est de toute façon plus posée (Lore.tsx). La règle reste
+     ici par sécurité, pour que les deux largeurs restent égales si la
+     classe revenait un jour : rien ne doit rétrécir ni glisser à
+     l'ouverture dans ce mode. */
+@media (max-width: 825px), (max-height: 510px) {
+	/* 84vw et non 92vw : .lore-room a 16px de padding de chaque côté (donc
+	   358px utiles sur un téléphone de 390px) et les plats du livre
+	   dépassent encore de 14px tout autour, ci-dessous. À 92vw le tout
+	   débordait de la zone de contenu, et seul overflow:hidden de
+	   .lore-room masquait le problème en rognant les plats. */
+	.lore-book-wrap,
+	.lore-book-wrap.lore-book-wrap--cover {
+		width: min(552.5px, 84vw, calc((100vh - 48px) * 0.82));
+	}
+	/* Les plats du livre suivent la page unique : laissés au gabarit double
+	   page, ils faisaient deux fois la largeur du livre et sortaient de
+	   l'écran. */
+	.lore-book-backdrop {
+		width: calc(min(552.5px, 84vw, calc((100vh - 48px) * 0.82)) + 14px);
+		aspect-ratio: 0.82;
+	}
+	/* ponytail: marque-pages masqués en page unique — ils dépassent du bord
+	   du livre (translateX(±100%), jusqu'à 150px), donc hors écran quand le
+	   livre occupe 92vw. Le feuilletage au clic/glissé reste le seul moyen
+	   de navigation sur téléphone. À remplacer par une barre d'onglets
+	   horizontale au-dessus du livre si la navigation rapide manque ici. */
+	.lore-bookmarks {
+		display: none;
+	}
+}
