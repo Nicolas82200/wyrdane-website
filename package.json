@@ -9,6 +9,7 @@
     "prebuild": "node scripts/generate-feed.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "postbuild": "node scripts/generate-og-pages.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
