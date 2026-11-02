@@ -15,6 +15,7 @@ import map1awFrUrl from "../assets/site/1aw-map-fr.png";
 import pageTurnSoundUrl from "../assets/site/page-turn.wav";
 import Portal from "../components/Portal";
 import { JOURNAL_BOOKS, type Bi, type JournalPage } from "../data/journalAldrenia";
+import { useIsMobile } from "../hooks/useIsMobile";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useLanguage } from "../i18n/useLanguage";
 import "./Lore.css";
@@ -29,6 +30,21 @@ const MAP_URLS: Record<string, string> = {
 	"1aw-map-fr.png": map1awFrUrl,
 	"1aw-map-en.png": map1awEnUrl,
 };
+
+// Vrai quand le livre tient forcément en PAGE UNIQUE (recto, puis verso),
+// le mode dans lequel StPageFlip bascule tout seul dès que la largeur
+// disponible passe sous minWidth*2 = 760px (voir <HTMLFlipBook> plus bas).
+// Ce seuil est la traduction en media query de la largeur réelle de
+// .lore-book-wrap (Lore.css, `min(1105px, 92vw, (100vh - 48px) * 1.64)`) :
+// 92vw < 760 donne vw < 826px, et (100vh - 48) * 1.64 < 760 donne vh < 511px
+// (un téléphone en paysage, trop court pour une double page). À tenir
+// synchronisé avec cette largeur ET avec le @media correspondant dans
+// Lore.css. On ne peut PAS s'en remettre à l'évènement changeOrientation de
+// la librairie pour ça : tant que la couverture est seule affichée, le wrap
+// est volontairement deux fois plus étroit (--cover), donc la librairie est
+// en portrait même sur un grand écran — c'est précisément au moment de
+// l'ouverture qu'il faut savoir distinguer les deux cas.
+const SINGLE_PAGE_QUERY = "(max-width: 825px), (max-height: 510px)";
 
 // Instance StPageFlip exposée par react-pageflip via ref.current.pageFlip()
 // (voir node_modules/react-pageflip/build/index.es.js) — non typée par le
@@ -255,8 +271,13 @@ const Lore = () => {
 	// même isolée, sans doute un souci de timing du navigateur sur un élément
 	// qui est À LA FOIS le conteneur de requête et la cible stylée) : mesure
 	// directe via ResizeObserver, déterministe, pas de piège de ce genre.
+	const isSinglePage = useIsMobile(SINGLE_PAGE_QUERY);
 	const [pageWidthPx, setPageWidthPx] = useState(320);
-	const isPortraitRef = useRef(false);
+	// Tenu à jour par la librairie (handleChangeOrientation), mais initialisé
+	// depuis la media query : le recompute initial du ResizeObserver peut
+	// tomber avant le premier changeOrientation, et diviserait alors la
+	// largeur par deux à tort sur téléphone (page unique).
+	const isPortraitRef = useRef(isSinglePage);
 	// Pousse une classe pendant qu'une page tourne, pour épaissir son ombre de
 	// tranche (voir Lore.css) le temps du geste : StPageFlip anime une page
 	// "souple" en 2D (clip-path + rotation dans le plan, pas un vrai flip 3D,
@@ -357,7 +378,12 @@ const Lore = () => {
 			window.dispatchEvent(new Event("resize"));
 			onDone();
 		};
-		if (prefersReducedMotion) {
+		// Page unique (téléphone) : il n'y a pas de double page à rejoindre,
+		// le livre occupe déjà toute la largeur disponible et la couverture
+		// n'est pas rétrécie (voir la classe --cover posée plus bas). Le
+		// glissement de +PW/2 n'aurait rien à quoi s'aligner et ne ferait
+		// que décentrer le livre.
+		if (prefersReducedMotion || isSinglePage) {
 			commitSpread();
 			return;
 		}
@@ -735,7 +761,7 @@ const Lore = () => {
 					className="lore-book-backdrop"
 				/>
 				<div
-					className={`lore-book-wrap${isCoverWidth ? " lore-book-wrap--cover" : ""}`}
+					className={`lore-book-wrap${isCoverWidth && !isSinglePage ? " lore-book-wrap--cover" : ""}`}
 					ref={wrapRef}
 					onMouseDown={handleBookMouseDown}
 					onClick={handleBookClick}
