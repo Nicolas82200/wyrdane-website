@@ -1,0 +1,161 @@
+{
+  "date": "2026-11-03",
+  "title": {
+    "en": "Devlog 13: quests reworked, per-race packs, and a leaderboard without numbers",
+    "fr": "Devlog 13 : les quêtes repensées, les packs par race, et un classement sans chiffres"
+  },
+  "lede": {
+    "en": "This entry covers the week since Devlog 12 (2026-10-28). On the menu: the quest system rebuilt around fixed catalogues instead of random draws, five buyable packs instead of one, a ranked standing that never shows you a raw number again, card text laid out the way a real card is, and the Journal of Aldrenia split into one volume per era.",
+    "fr": "Cette entrée couvre la semaine écoulée depuis le Devlog 12 (2026-10-28). Au programme : le système de quêtes reconstruit autour de catalogues fixes au lieu de tirages au sort, cinq packs achetables au lieu d'un, un classement qui ne vous montre plus jamais de nombre brut, le texte des cartes mis en page comme sur une vraie carte, et le Journal d'Aldrenia découpé en un cahier par époque."
+  },
+  "stats": {
+    "en": [
+      {
+        "value": "11",
+        "label": "new-player quests that were not wired to anything in the game at all"
+      },
+      {
+        "value": "0",
+        "label": "raw rating numbers still shown to players, replaced by named divisions"
+      },
+      {
+        "value": "41",
+        "label": "pages in the third volume of the Journal of Aldrenia, written this week"
+      },
+      {
+        "value": "953",
+        "label": "automated tests, all green"
+      }
+    ],
+    "fr": [
+      {
+        "value": "11",
+        "label": "quêtes « nouveaux joueurs » qui n'étaient reliées à rien côté jeu"
+      },
+      {
+        "value": "0",
+        "label": "nombre brut de classement encore affiché, remplacé par des divisions nommées"
+      },
+      {
+        "value": "41",
+        "label": "pages dans le troisième cahier du Journal d'Aldrenia, écrit cette semaine"
+      },
+      {
+        "value": "953",
+        "label": "tests automatisés, tous verts"
+      }
+    ]
+  },
+  "sections": {
+    "en": [
+      {
+        "heading": "Quests are no longer drawn at random",
+        "paragraphs": [
+          "The quest system has been rebuilt, and it is the biggest piece of the week. Daily quests used to be drawn from a catalogue of thirteen, seeded from your account and the date. On paper, variety. In practice, three defects: the rotation had a thirteen-day period, so you could go two weeks without seeing half the catalogue (weekly was worse, one quest drawn out of seven meant six templates never showed up in a given week); nothing stopped the draw from handing a race quest to someone who only plays a mono-race deck, in which case it was simply unwinnable and still took up a slot for the day; and nobody could know in advance what they were going to get, which makes planning impossible.",
+          "All three catalogues are now fixed and identical for every player: four quests a day, five a week, six a month. Only two things still rotate, the resource of the day and the race of the week, and their seed no longer includes your account, so everyone shares them. Steady-state yield, if everything is claimed: 150 gold and 25 XP a day, 1,100 gold plus a pack plus 100 XP a week, and 3,750 gold plus 8 packs plus 500 XP a month. The hardest quest of the lot, play 40 games in a week, works out to 5.7 games a day: that one is deliberately the high tier, not a default target.",
+          "Three quests now pay in account XP, which only network matches did before. And every quest that counts games, across all five families, now requires a game actually paired by the queue: no AI, no friend invite. The reason for the second is simple, a willing friend makes wins free and there are monthly quests at 75 wins. The consequence is assumed but worth saying plainly: solo play now earns nothing at all, no gold, no XP, no quest progress, apart from the resource quest and opening packs. The tutorial and the four starter decks are exactly what bring a new player into solo first, so that is a point to watch.",
+          "Reviewing the system turned up four more things. The eleven new-player quests were not wired to anything on the game side: the catalogue existed and was deployed on the server, but no route was ever called and no text was ever translated, so that whole onboarding track, 1,950 gold and 4 packs reserved for accounts at level 25 or below, was strictly unreachable in game. It has its own tab now, and the tab hides itself past level 25. Beyond that: ranked quests were being validated by Normal wins; weekly and monthly race labels talked about games but counted cards; and the daily login reward became a 50-gold quest, which costs us the growing five-day streak, the best return hook of the lot, and is worth re-hooking inside the Daily tab if retention suffers."
+        ]
+      },
+      {
+        "heading": "Per-race packs, and a carousel that had to be fixed twice",
+        "paragraphs": [
+          "Five buyable packs instead of one: a multirace pack, and one per implemented race. The price is identical whatever the category, a targeted pack is not more expensive, it is just more targeted, and a race pack draws only from that race's cards with the rarity weighting unchanged. The contract for this had been written for a while but was never implemented server side, so all stock was counted as multirace. It is done, and without a migration: multirace stays where it was, the races live in their own table, and the total sent to the game is the sum of the five. An empty race stock is a clean refusal, never a silent fallback to another category. For now the only source of race packs is the monthly multirace quest, which gives one of each.",
+          "In the shop, the Packs tab became a carousel of five, the centre one being the pack you buy. It took two fixes. First it now scales to the available space instead of a fixed size, with the price moved into the button tooltips. Then the interesting one: the first version animated a single floating offset shared by every pack, and with as many packs as slots, halfway through the animation the whole set sat half a step off, so one pack overflowed on one side and one was missing on the other. Nothing was symmetrical for the entire length of the rotation. The slots are fixed now, five positions computed once, and rotating only moves packs from one slot to another. The one pack that wraps around, from far right to far left, cannot cross the screen to reach its new slot, so it is put straight down and fades in."
+        ]
+      },
+      {
+        "heading": "The leaderboard no longer shows you a number",
+        "paragraphs": [
+          "Explicit request: no rating number written anywhere, ever again. It was everywhere, in the profile, in the leaderboard list, in the match history. The raw score still exists, it is what pairs players, but it is never displayed. In its place, numbered divisions: each tier spans 200 points and splits into four divisions of 50, from Bronze I to Bronze IV, then Silver I, and so on. A division is worth roughly three wins, which is short enough that a session of games visibly moves your rank instead of nudging a bar that never fills.",
+          "Legend is the one tier apart: its divisions count in numerals and have no cap. Legend 37 is a valid rank, so is Legend 150. It is the terminal tier, it has to be able to keep climbing. Progress is therefore always announced towards something named, 20 points to Silver I, including at the very top of the ladder, where the old display simply stopped announcing anything at all."
+        ]
+      },
+      {
+        "heading": "Card text, laid out the way a real card is",
+        "paragraphs": [
+          "The switch of card text to Spectral, made early in the week to line the in-game render up with the website's deck builder, has been reverted. Cards are back on Cinzel for the name, costs, attack and health, and Crimson Text for the description. The gap with the website is assumed: the two renders do not have to be identical.",
+          "What stays is the layout, reached in two iterations. The text block is left-aligned, like a real card, but stays vertically centred in its box, with the flavour closing the block. The flavour is now rendered smaller than the rule text, by two pixels: that is what carries the hierarchy between rule and atmosphere, in place of the separator line real cards have. The request was a pixel and a half, but Godot font sizes are integers, so two is the nearest one. Two settings from earlier in the week are kept: the reduced size that kicks in when a description overflows went from 14 to 16 pixels, since 14 was unreadable on long cards, and the flavour is now hidden past 80 characters of description instead of 120. At 120 only 2% of cards were affected, so nearly every wordy card kept its flavour and fell to the reduced size anyway; 80 is the third quartile of the real lengths, the median being 52. A little padding was also added inside the description box, where the text used to start flush against the frame.",
+          "The card image export tool, separately, was still reusing the in-game hover zoom factor, which produced images around 330 by 480 pixels, visibly smaller and blurrier than the card examples already used to present the game. The factor is up to six, so roughly 1,600 by 2,400, and still through enlarging the render itself rather than stretching the image: the text stays crisp instead of being rasterised and then blown up."
+        ]
+      },
+      {
+        "heading": "The left rail, continued",
+        "paragraphs": [
+          "The rail reworked last week got its round of usability fixes. It now draws above the Settings view and is opaque, where expanding it used to overlay on a transparent background, and the Settings header was realigned with every other view's in passing. A friend's account level shows next to their name, which needed the friends list to return that field server side, something it did not do. A friend's match history is reachable from their profile. Steam avatars no longer just read the local cache, they are actually downloaded and awaited, which makes them appear for players who are not Steam friends, and they are recentred when the rail is collapsed, the avatar being the only thing on the row then. Plus a contacts header with an add button, and a local filter on the list that fires no request.",
+          "One keyword wording fix too. The Bite tooltip said that this minion's attacks inflict Infection in addition to damage. Two problems: the keyword is not restricted to minion attacks, and the mention of damage stopped making sense the moment Infection stopped dealing any. It now reads that this card's damage inflicts Infection for X turns."
+        ]
+      },
+      {
+        "heading": "The Journal of Aldrenia splits into volumes",
+        "paragraphs": [
+          "A large pass on the website and on the canon alike. The Journal, the lore page you leaf through like a book, was a single volume that got longer with every era written. It is now split into one volume per era, and the rule is set for what follows: every new quake opens a fresh volume, which runs until the next one. The first volume holds Mydaria as it stood the day before, the second the great quake and the year after it, and the third, written this week, the Second Wave. Forty-one pages, two register entries, seven bookmarks. It covers the two years of Granholt's dilemma finally settled, three legions out of seven sent, Eorthal seen with their own eyes, Edrin Fenn first hand, the word Abomination finally chosen, then the Wave itself: the Fold that moves and swallows two cohorts, the Crevasse, the Low City, and the arrival of the Elves and the Dwarves, terrified and then locked up.",
+          "A canon vocabulary rule was checked across the whole thing by script: Abomination, artefact, Elf and Dwarf each appear only from the exact page where Aldrenia coins or learns the word. And golem, which is a production term and not a word of the world, never appears at all.",
+          "Two deeper changes to the writing. Each volume now opens on the reason it is kept: the Council ordered the work the day after the First Wave, because a kingdom can cease to exist in minutes and all that is left of it then is what other hands had written down. Should Aldrenia meet an ill fate, let what she knew of herself and of the world not go out with her. That is also what explains why the first volume does not talk about the catastrophe but about the world as it stood the day before. And the Journal is rewritten in the first person plural, around fifty passages in both languages: no more the scribes who keep this volume, no more this register records, but we, our Chancellery, three of us. Third parties stay in the third person, the Council, the scholars, Aldrenia herself. Register entries restart at Entry I in each volume instead of running through all three."
+        ]
+      },
+      {
+        "heading": "The archive room, and the website",
+        "paragraphs": [
+          "The archive room, the shelf you open a volume from, now shows one clickable spine per volume instead of a single hardcoded one. Three comfort fixes there: the backdrop can no longer be dragged, the room's quill cursor stays over the spines instead of reverting to the system arrow, and the browser's native tooltip is replaced by a custom one that appears on hover and on keyboard focus alike. A spine's hit box was tightened, with compensation so the drawn spine keeps exactly the same width and place.",
+          "Three other things on the website. Link previews are now correct per route: social crawlers never run JavaScript, so every route shared the same preview, the home one. A post-build step now writes a real HTML file per route, with its own image, title and description, served ahead of the application fallback. The lore page has its own, and the home preview is now the site background with the logo over it. The Journal reads as a single page on phones, instead of the two-page spread that did not fit the width. And four high-severity dependency advisories were patched."
+        ]
+      }
+    ],
+    "fr": [
+      {
+        "heading": "Les quêtes ne sont plus tirées au sort",
+        "paragraphs": [
+          "Le système de quêtes a été entièrement revu, et c'est le plus gros morceau de la semaine. Jusqu'ici, les quêtes quotidiennes étaient tirées parmi un catalogue de treize, avec une graine dérivée de votre compte et de la date. Sur le papier, de la variété. En pratique, trois défauts : la rotation avait une période de treize jours, donc on pouvait passer deux semaines sans jamais voir la moitié du catalogue (côté hebdomadaire c'était pire, une seule quête tirée parmi sept signifiait que six modèles sur sept ne se montraient jamais une semaine donnée) ; rien n'empêchait le tirage de servir une quête de race à un joueur qui ne joue qu'un deck mono-race, auquel cas elle était tout simplement invalidable et occupait quand même un créneau pour la journée ; et personne ne pouvait savoir à l'avance ce qu'il allait recevoir, ce qui rend toute planification impossible.",
+          "Les trois catalogues sont désormais fixes et identiques pour tous les joueurs : quatre quêtes par jour, cinq par semaine, six par mois. Seules deux choses tournent encore, la ressource du jour et la race de la semaine, et leur graine n'inclut plus votre compte, donc tout le monde a la même. Le rendement en régime établi, si tout est réclamé : 150 or et 25 XP par jour, 1 100 or plus un pack plus 100 XP par semaine, et 3 750 or plus 8 packs plus 500 XP par mois. La quête la plus dure du lot, jouer 40 parties dans la semaine, demande 5,7 parties par jour : c'est volontairement le palier haut, pas un objectif par défaut.",
+          "Trois quêtes paient maintenant en XP de compte, ce que seules les parties réseau faisaient jusqu'ici. Et toute quête qui compte des parties, dans les cinq familles, exige désormais une partie réellement appariée par la file : ni l'IA, ni une invitation d'ami. La raison pour la seconde est simple, un ami complice rend les victoires gratuites, et il y a des quêtes mensuelles à 75 victoires. La conséquence est assumée mais elle mérite d'être dite franchement : le mode solo ne rapporte plus rien du tout, ni or, ni XP, ni progression de quête, à l'exception de la quête-ressource et de l'ouverture de packs. Or le tutoriel et les quatre decks de départ sont précisément ce qui amène le nouveau joueur en solo d'abord. C'est un point à surveiller.",
+          "La relecture du système a sorti quatre autres choses. Les onze quêtes « nouveaux joueurs » n'étaient reliées à rien côté jeu : le catalogue existait et était déployé côté serveur, mais aucune route n'était appelée et aucun texte n'était traduit, donc toute cette piste d'intégration, 1 950 or et 4 packs réservés aux comptes de niveau 25 ou moins, était strictement inatteignable en jeu. Elle a son onglet maintenant, et l'onglet se masque de lui-même passé le niveau 25. Au-delà de ça : les quêtes « classé » étaient validées par des victoires en Normal ; les libellés de race hebdomadaires et mensuels parlaient de parties mais comptaient des cartes ; et la récompense de connexion quotidienne est devenue une quête à 50 or, ce qui nous coûte la série croissante sur cinq jours, le meilleur hameçon de retour du lot, et qui mérite d'être rebranché dans l'onglet Quotidien si la rétention en souffre."
+        ]
+      },
+      {
+        "heading": "Les packs par race, et un carrousel corrigé deux fois",
+        "paragraphs": [
+          "Cinq packs achetables au lieu d'un : un multirace, et un par race implémentée. Le prix est identique quelle que soit la catégorie, un pack ciblé n'est pas plus cher, il est juste plus ciblé, et un pack de race tire dans les seules cartes de cette race avec la pondération par rareté inchangée. Le contrat de cette fonctionnalité était écrit depuis un moment mais n'avait jamais été implémenté côté serveur : tout le stock était compté en multirace. C'est fait, et sans migration : le multirace reste là où il était, les races vivent dans leur propre table, et le total renvoyé au jeu est la somme des cinq. Un stock de race vide est un refus net, jamais un repli silencieux sur une autre catégorie. Pour l'instant la seule source de packs de race est la quête mensuelle multirace, qui en donne un de chaque.",
+          "Côté boutique, l'onglet Packs est devenu un carrousel de cinq packs, celui du centre étant le pack acheté. Il a demandé deux correctifs. Il s'adapte d'abord à la place disponible au lieu d'une taille fixe, et le prix est passé en infobulle des boutons. Ensuite, le plus intéressant : la première version animait un décalage flottant commun à tous les packs, et avec autant de packs que d'emplacements, à mi-animation l'ensemble se retrouvait décalé d'un demi-cran, donc un pack débordait d'un côté et il manquait un pack de l'autre. Plus rien n'était symétrique pendant toute la durée de la rotation. Les emplacements sont maintenant fixes, cinq positions calculées une fois pour toutes, et tourner ne déplace que les packs d'un emplacement à l'autre. Seul le pack qui boucle, celui qui passe de l'extrême droite à l'extrême gauche, ne peut pas traverser l'écran pour rejoindre sa nouvelle place : il est reposé directement et apparaît en fondu."
+        ]
+      },
+      {
+        "heading": "Le classement ne montre plus aucun chiffre",
+        "paragraphs": [
+          "Demande explicite : plus aucun nombre de classement écrit où que ce soit. C'était partout, dans le profil, dans la liste du classement, dans l'historique des parties. Le score brut existe toujours, c'est lui qui apparie les joueurs, mais il n'est plus jamais affiché. À sa place, des divisions numérotées : chaque palier couvre 200 points et se découpe en quatre divisions de 50, de Bronze I à Bronze IV puis Argent I, et ainsi de suite. Une division vaut environ trois victoires, ce qui est assez court pour qu'une série de parties fasse visiblement bouger le rang, au lieu de pousser une barre qui n'avance jamais.",
+          "Légende est le seul palier à part : ses divisions se comptent en chiffres et sans plafond. Légende 37 est un rang valide, Légende 150 aussi. C'est le palier terminal, il doit pouvoir continuer à monter. La progression s'annonce donc toujours vers quelque chose de nommé, plus que 20 points avant Argent I, y compris au sommet du classement, là où l'ancien affichage se contentait de ne plus rien annoncer du tout."
+        ]
+      },
+      {
+        "heading": "Le texte des cartes, mis en page comme sur une vraie carte",
+        "paragraphs": [
+          "Le passage des cartes à la police Spectral, fait en début de semaine pour aligner le rendu en jeu sur celui du deck builder du site, a été annulé. Les cartes reviennent à Cinzel pour le nom, les coûts, l'ATK et les PV, et à Crimson Text pour la description. L'écart avec le site est assumé : les deux rendus n'ont pas à être identiques.",
+          "Ce qui reste, c'est la mise en page, atteinte en deux itérations. Le bloc de texte est aligné à gauche, comme sur une vraie carte, mais reste centré verticalement dans sa case, le flavour fermant le bloc. Le flavour est maintenant rendu plus petit que le texte de règle, deux pixels d'écart : c'est ce qui porte la hiérarchie entre la règle et l'ambiance, à la place du trait séparateur qu'ont les vraies cartes. La demande initiale était d'un pixel et demi, mais les tailles de police de Godot sont des entiers, donc deux est l'entier le plus proche. Deux réglages du début de semaine sont conservés : le cran réduit qui s'applique quand une description déborde est remonté de 14 à 16 pixels, 14 étant illisible sur les cartes à texte long, et le flavour est masqué au-delà de 80 caractères de description au lieu de 120. À 120, seules 2 % des cartes étaient concernées, donc presque toutes les cartes bavardes gardaient leur flavour et tombaient quand même sur le cran réduit ; 80 est le troisième quartile des longueurs réelles, la médiane étant à 52. Un peu de marge a aussi été ajoutée dans la case de description, où le texte démarrait contre le cadre.",
+          "L'outil d'export d'une carte en image, de son côté, reprenait encore le facteur de zoom du survol en jeu, ce qui produisait des images d'environ 330 par 480 pixels, visiblement plus petites et plus floues que les exemples de cartes déjà utilisés pour présenter le jeu. Le facteur est monté à six, soit environ 1 600 par 2 400, et toujours via un agrandissement du rendu lui-même et non un étirement de l'image : le texte reste net, il n'est pas rasterisé puis gonflé."
+        ]
+      },
+      {
+        "heading": "Le rail de gauche, suite",
+        "paragraphs": [
+          "Le rail refondu la semaine dernière a reçu sa série de correctifs d'usage. Il passe maintenant au-dessus de la vue Réglages et il est opaque, là où déplié il se superposait sur un fond transparent, et l'en-tête de la vue Réglages a été réaligné sur celui de toutes les autres vues au passage. Le niveau d'un ami s'affiche à droite de son pseudo, ce qui demandait que la liste d'amis renvoie ce champ côté serveur, ce qu'elle ne faisait pas. L'historique de parties d'un ami est accessible depuis son profil. Les avatars Steam ne se contentent plus de lire le cache local, ils sont réellement téléchargés et attendus, ce qui les fait apparaître pour les joueurs qui ne sont pas des amis Steam, et ils sont recentrés quand le rail est replié, l'avatar étant alors le seul contenu de la ligne. Plus un en-tête de contacts avec bouton d'ajout, et un filtre local sur la liste qui ne déclenche aucune requête.",
+          "Une reformulation de mot-clé aussi. L'infobulle de MORSURE disait que les attaques de ce serviteur infligent Infection en plus des dégâts. Deux problèmes : le mot-clé n'est pas réservé aux attaques de serviteurs, et la mention des dégâts n'avait plus de sens depuis que l'Infection ne fait plus de dégâts du tout. Elle dit maintenant que les dégâts de cette carte infligent Infection pendant X tours."
+        ]
+      },
+      {
+        "heading": "Le Journal d'Aldrenia se découpe en cahiers",
+        "paragraphs": [
+          "Gros chantier côté site et côté canon. Le Journal, la page de lore qui se feuillette comme un livre, ne tenait qu'en un seul volume qui s'allongeait à chaque époque écrite. Il est maintenant découpé en un cahier par époque, et la règle est posée pour la suite : chaque nouvelle secousse ouvre un cahier neuf, qui court jusqu'à la suivante. Le cahier premier tient Mydaria telle qu'elle était la veille, le second la grande secousse et l'année qui suit, et le troisième, écrit cette semaine, la Deuxième Vague. Quarante-et-une pages, deux entrées de registre, sept marque-pages. Il couvre les deux années du dilemme de Granholt enfin tranché, trois légions sur sept envoyées, Eorthal vu de ses propres yeux, Edrin Fenn de première main, le mot Abomination enfin choisi, puis la Vague elle-même : la Pliure qui se déplace et avale deux cohortes, la Crevasse, la Cité Basse, et l'arrivée des Elfes et des Nains, terrifiés puis enfermés.",
+          "Une règle de vocabulaire du canon a été vérifiée par script sur l'ensemble : Abomination, artefact, Elfe et Nain n'apparaissent chacun qu'à partir de la page exacte où Aldrenia forge ou apprend le mot. Et « golem », qui est un terme de production et non un mot du monde, n'apparaît jamais.",
+          "Deux changements d'écriture plus profonds. Chaque cahier s'ouvre désormais sur la raison pour laquelle il est tenu : le Conseil a ordonné ce travail au lendemain de la Première Vague, parce qu'un royaume peut cesser d'exister en quelques minutes et qu'il ne reste alors de lui que ce que d'autres mains en avaient écrit. Si Aldrenia devait connaître un sort funeste, que ce qu'elle savait d'elle-même et du monde ne s'éteigne pas avec elle. C'est aussi ce qui explique que le premier cahier ne parle pas de la catastrophe, mais du monde tel qu'il tenait la veille. Et le Journal est réécrit à la première personne du pluriel, une cinquantaine de passages dans les deux langues : plus de « les scribes qui tiennent ce cahier », plus de « ce registre consigne », mais « nous », « notre Chancellerie », « trois d'entre nous ». Les tiers restent à la troisième personne, le Conseil, les érudits, Aldrenia elle-même. Les entrées de registre repartent à « Entrée I » dans chaque cahier au lieu de se suivre à travers les trois."
+        ]
+      },
+      {
+        "heading": "La salle des archives, et le site",
+        "paragraphs": [
+          "La salle des archives, l'étagère depuis laquelle on ouvre un cahier, affiche maintenant une tranche cliquable par cahier au lieu d'une seule codée en dur. Trois retouches de confort : le fond n'est plus glissable, le curseur plume de la pièce reste affiché au-dessus des tranches au lieu de redevenir la flèche système, et l'infobulle native du navigateur est remplacée par une infobulle maison, qui apparaît au survol comme au focus clavier. La boîte cliquable d'une tranche a été resserrée, avec compensation pour que la tranche dessinée garde exactement la même largeur et la même place.",
+          "Trois autres choses côté site. Les aperçus de lien sont maintenant propres par route : les robots des réseaux sociaux n'exécutent jamais le JavaScript, donc toutes les routes partageaient le même aperçu, celui de l'accueil. Une étape de post-build écrit un vrai fichier HTML par route, avec son image, son titre et sa description, servi avant le repli applicatif. La page de lore a le sien, et l'aperçu de l'accueil est passé au fond du site avec le logo par-dessus. Le Journal se lit sur une seule page sur téléphone, au lieu de la double page qui ne tenait pas dans la largeur. Et quatre alertes de sécurité de niveau élevé sur les dépendances ont été corrigées."
+        ]
+      }
+    ]
+  }
+}
