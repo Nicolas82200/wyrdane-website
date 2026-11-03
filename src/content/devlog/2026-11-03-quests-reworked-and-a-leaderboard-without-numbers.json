@@ -10,16 +10,40 @@
   },
   "stats": {
     "en": [
-      { "value": "11", "label": "new-player quests that were not wired to anything in the game at all" },
-      { "value": "0", "label": "raw rating numbers still shown to players, replaced by named divisions" },
-      { "value": "41", "label": "pages in the third volume of the Journal of Aldrenia, written this week" },
-      { "value": "953", "label": "automated tests, all green" }
+      {
+        "value": "11",
+        "label": "new-player quests that were not wired to anything in the game at all"
+      },
+      {
+        "value": "0",
+        "label": "raw rating numbers still shown to players, replaced by named divisions"
+      },
+      {
+        "value": "41",
+        "label": "pages in the third volume of the Journal of Aldrenia, written this week"
+      },
+      {
+        "value": "953",
+        "label": "automated tests, all green"
+      }
     ],
     "fr": [
-      { "value": "11", "label": "quêtes « nouveaux joueurs » qui n'étaient reliées à rien côté jeu" },
-      { "value": "0", "label": "nombre brut de classement encore affiché, remplacé par des divisions nommées" },
-      { "value": "41", "label": "pages dans le troisième cahier du Journal d'Aldrenia, écrit cette semaine" },
-      { "value": "953", "label": "tests automatisés, tous verts" }
+      {
+        "value": "11",
+        "label": "quêtes « nouveaux joueurs » qui n'étaient reliées à rien côté jeu"
+      },
+      {
+        "value": "0",
+        "label": "nombre brut de classement encore affiché, remplacé par des divisions nommées"
+      },
+      {
+        "value": "41",
+        "label": "pages dans le troisième cahier du Journal d'Aldrenia, écrit cette semaine"
+      },
+      {
+        "value": "953",
+        "label": "tests automatisés, tous verts"
+      }
     ]
   },
   "sections": {
@@ -44,7 +68,7 @@
         "heading": "The leaderboard no longer shows you a number",
         "paragraphs": [
           "Explicit request: no rating number written anywhere, ever again. It was everywhere, in the profile, in the leaderboard list, in the match history. The raw score still exists, it is what pairs players, but it is never displayed. In its place, numbered divisions: each tier spans 200 points and splits into four divisions of 50, from Bronze I to Bronze IV, then Silver I, and so on. A division is worth roughly three wins, which is short enough that a session of games visibly moves your rank instead of nudging a bar that never fills.",
-          "Legend is the one tier apart: its divisions count in arabic numerals and have no cap. Legend 37 is a valid rank, so is Legend 150. It is the terminal tier, it has to be able to keep climbing. Progress is therefore always announced towards something named, 20 points to Silver I, including at the very top of the ladder, where the old display simply stopped announcing anything at all."
+          "Legend is the one tier apart: its divisions count in numerals and have no cap. Legend 37 is a valid rank, so is Legend 150. It is the terminal tier, it has to be able to keep climbing. Progress is therefore always announced towards something named, 20 points to Silver I, including at the very top of the ladder, where the old display simply stopped announcing anything at all."
         ]
       },
       {
@@ -68,13 +92,6 @@
           "A large pass on the website and on the canon alike. The Journal, the lore page you leaf through like a book, was a single volume that got longer with every era written. It is now split into one volume per era, and the rule is set for what follows: every new quake opens a fresh volume, which runs until the next one. The first volume holds Mydaria as it stood the day before, the second the great quake and the year after it, and the third, written this week, the Second Wave. Forty-one pages, two register entries, seven bookmarks. It covers the two years of Granholt's dilemma finally settled, three legions out of seven sent, Eorthal seen with their own eyes, Edrin Fenn first hand, the word Abomination finally chosen, then the Wave itself: the Fold that moves and swallows two cohorts, the Crevasse, the Low City, and the arrival of the Elves and the Dwarves, terrified and then locked up.",
           "A canon vocabulary rule was checked across the whole thing by script: Abomination, artefact, Elf and Dwarf each appear only from the exact page where Aldrenia coins or learns the word. And golem, which is a production term and not a word of the world, never appears at all.",
           "Two deeper changes to the writing. Each volume now opens on the reason it is kept: the Council ordered the work the day after the First Wave, because a kingdom can cease to exist in minutes and all that is left of it then is what other hands had written down. Should Aldrenia meet an ill fate, let what she knew of herself and of the world not go out with her. That is also what explains why the first volume does not talk about the catastrophe but about the world as it stood the day before. And the Journal is rewritten in the first person plural, around fifty passages in both languages: no more the scribes who keep this volume, no more this register records, but we, our Chancellery, three of us. Third parties stay in the third person, the Council, the scholars, Aldrenia herself. Register entries restart at Entry I in each volume instead of running through all three."
-        ]
-      },
-      {
-        "heading": "A consistency pass on the lore",
-        "paragraphs": [
-          "Reading the Journal against the canon surfaced a series of inconsistencies, and the fixes went both ways. Eorthal is a kingdom, full stop: the occurrences that made it a county now speak of the kingdom, and Ysolde Varn keeps her title of countess. Thelmere's Sea Step no longer links the island to the continent but to the rest of the Thelmerian lands, across the strait: the original inconsistency had an impassable strait and a bridge to the continent coexisting. Its collapse therefore cuts access to Thelbridge, and the Journal adds that no Thelmerian flag has been seen on the three seas since.",
-          "The disposition of the Aldrenian legions is now written out plainly, the bulk on the Skeldarian front, a few cohorts on Eorthal's borders under the alliance, the rest in garrison: that repairs a year-long hole where Eorthal was defended entirely by Aldrenian legions while the court was debating, a year later, whether to send an army there at all. The scout sent to Ostrane never comes back: he used to return first of all, in a few days at most, when his road is five days out, and the Journal announced two first returns a page apart. His non-return settles both, and Ostrane now yields nothing at all, not even the reason for its silence. Two new pages were written, one on magic, which was absent from the Journal although the canon makes Dreamar its main seat, and one naming the three seas, since the following page opened on beyond these three seas without them ever having been named. Edrin Fenn's powers are finally named with the word from the old Caldrath texts, necromancy, instead of powers no Aldrenian could name."
         ]
       },
       {
@@ -106,7 +123,7 @@
         "heading": "Le classement ne montre plus aucun chiffre",
         "paragraphs": [
           "Demande explicite : plus aucun nombre de classement écrit où que ce soit. C'était partout, dans le profil, dans la liste du classement, dans l'historique des parties. Le score brut existe toujours, c'est lui qui apparie les joueurs, mais il n'est plus jamais affiché. À sa place, des divisions numérotées : chaque palier couvre 200 points et se découpe en quatre divisions de 50, de Bronze I à Bronze IV puis Argent I, et ainsi de suite. Une division vaut environ trois victoires, ce qui est assez court pour qu'une série de parties fasse visiblement bouger le rang, au lieu de pousser une barre qui n'avance jamais.",
-          "Légende est le seul palier à part : ses divisions se comptent en chiffres arabes et sans plafond. Légende 37 est un rang valide, Légende 150 aussi. C'est le palier terminal, il doit pouvoir continuer à monter. La progression s'annonce donc toujours vers quelque chose de nommé, plus que 20 points avant Argent I, y compris au sommet du classement, là où l'ancien affichage se contentait de ne plus rien annoncer du tout."
+          "Légende est le seul palier à part : ses divisions se comptent en chiffres et sans plafond. Légende 37 est un rang valide, Légende 150 aussi. C'est le palier terminal, il doit pouvoir continuer à monter. La progression s'annonce donc toujours vers quelque chose de nommé, plus que 20 points avant Argent I, y compris au sommet du classement, là où l'ancien affichage se contentait de ne plus rien annoncer du tout."
         ]
       },
       {
@@ -130,13 +147,6 @@
           "Gros chantier côté site et côté canon. Le Journal, la page de lore qui se feuillette comme un livre, ne tenait qu'en un seul volume qui s'allongeait à chaque époque écrite. Il est maintenant découpé en un cahier par époque, et la règle est posée pour la suite : chaque nouvelle secousse ouvre un cahier neuf, qui court jusqu'à la suivante. Le cahier premier tient Mydaria telle qu'elle était la veille, le second la grande secousse et l'année qui suit, et le troisième, écrit cette semaine, la Deuxième Vague. Quarante-et-une pages, deux entrées de registre, sept marque-pages. Il couvre les deux années du dilemme de Granholt enfin tranché, trois légions sur sept envoyées, Eorthal vu de ses propres yeux, Edrin Fenn de première main, le mot Abomination enfin choisi, puis la Vague elle-même : la Pliure qui se déplace et avale deux cohortes, la Crevasse, la Cité Basse, et l'arrivée des Elfes et des Nains, terrifiés puis enfermés.",
           "Une règle de vocabulaire du canon a été vérifiée par script sur l'ensemble : Abomination, artefact, Elfe et Nain n'apparaissent chacun qu'à partir de la page exacte où Aldrenia forge ou apprend le mot. Et « golem », qui est un terme de production et non un mot du monde, n'apparaît jamais.",
           "Deux changements d'écriture plus profonds. Chaque cahier s'ouvre désormais sur la raison pour laquelle il est tenu : le Conseil a ordonné ce travail au lendemain de la Première Vague, parce qu'un royaume peut cesser d'exister en quelques minutes et qu'il ne reste alors de lui que ce que d'autres mains en avaient écrit. Si Aldrenia devait connaître un sort funeste, que ce qu'elle savait d'elle-même et du monde ne s'éteigne pas avec elle. C'est aussi ce qui explique que le premier cahier ne parle pas de la catastrophe, mais du monde tel qu'il tenait la veille. Et le Journal est réécrit à la première personne du pluriel, une cinquantaine de passages dans les deux langues : plus de « les scribes qui tiennent ce cahier », plus de « ce registre consigne », mais « nous », « notre Chancellerie », « trois d'entre nous ». Les tiers restent à la troisième personne, le Conseil, les érudits, Aldrenia elle-même. Les entrées de registre repartent à « Entrée I » dans chaque cahier au lieu de se suivre à travers les trois."
-        ]
-      },
-      {
-        "heading": "Une passe de cohérence sur le lore",
-        "paragraphs": [
-          "En relisant le Journal contre le canon, une série d'incohérences sont sorties, et les corrections sont allées dans les deux sens. Eorthal est un royaume, point final : les occurrences qui en faisaient un comté parlent désormais du royaume, et Ysolde Varn garde son titre de comtesse. Le Pas-de-Mer de Thelmere ne relie plus l'île au continent mais au reste des terres thelmeriennes, par-dessus le bras de mer : l'incohérence d'origine faisait coexister un bras de mer infranchissable et un pont vers le continent. Sa disparition coupe donc l'accès à Thelbridge, et le Journal ajoute qu'aucun pavillon thelmerien n'a été vu sur les trois mers depuis.",
-          "La répartition des légions aldreniennes est maintenant écrite noir sur blanc, le gros sur le front skeldarien, quelques cohortes aux frontières d'Eorthal au titre de l'alliance, le reste en garnison : ça répare un trou d'un an, où Eorthal était défendu « entièrement » par les légions aldreniennes alors que la cour débattait, un an plus tard, de l'idée d'y envoyer une armée. L'éclaireur d'Ostrane ne rentre jamais : il revenait jusqu'ici le premier de tous en « quelques jours à peine », alors que sa route fait cinq jours à l'aller, et le Journal annonçait deux « premiers retours » à une page d'intervalle. Son non-retour règle les deux, et Ostrane ne livre plus rien du tout, pas même la raison de son silence. Deux pages nouvelles ont été écrites, une sur la magie, absente du Journal alors que le canon fait de Dreamar son principal foyer, et une qui nomme les trois mers, puisque la page suivante s'ouvrait sur « au-delà de ces trois mers » sans qu'elles aient jamais été nommées. Les pouvoirs d'Edrin Fenn sont enfin nommés avec le mot des vieux textes de Caldrath, la nécromancie, au lieu de « des pouvoirs qu'aucun Aldrenien ne saurait nommer »."
         ]
       },
       {
