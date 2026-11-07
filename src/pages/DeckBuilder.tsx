@@ -11,7 +11,7 @@ import { computeRaceCost } from "../helper/costSystem";
 import { RACE_ICON_COLORS } from "../data/raceColors";
 import { makeUniqueDeckName } from "../helper/deckNames";
 import { useLanguage } from "../i18n/useLanguage";
-import { translateCardText } from "../i18n/cardText";
+import { translateCardText, displayCardName } from "../i18n/cardText";
 import type { Language } from "../i18n/language";
 import { DECKBUILDER_CONTENT } from "../i18n/deckbuilder";
 import { useAuth } from "../auth/useAuth";
@@ -879,7 +879,7 @@ export default function DeckBuilder() {
 								>
 									{card.cost ?? 0}
 								</span>
-								<span className="db-deck-row-name">{translateCardText(card.name, language)}</span>
+								<span className="db-deck-row-name">{displayCardName(card.name, language)}</span>
 								<span className="db-deck-row-qty">x{quantity}</span>
 								<button
 									type="button"
@@ -888,7 +888,7 @@ export default function DeckBuilder() {
 										e.stopPropagation();
 										removeAll(card.id);
 									}}
-									title={t.removeAllTitle.replace("{name}", translateCardText(card.name, language))}
+									title={t.removeAllTitle.replace("{name}", displayCardName(card.name, language))}
 								>
 									✕
 								</button>

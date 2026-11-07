@@ -2,7 +2,7 @@ import { Fragment, useLayoutEffect, useRef, useState, type ReactNode } from "rea
 import { API_URL } from "../api";
 import type { CardData } from "../types";
 import { useLanguage } from "../i18n/useLanguage";
-import { translateCardText } from "../i18n/cardText";
+import { translateCardText, displayCardName } from "../i18n/cardText";
 import { RACE_ICON_COLORS } from "../data/raceColors";
 import "./GameCard.css";
 
@@ -389,7 +389,7 @@ export default function GameCard({ card }: { card: CardData }) {
 					fontSize: nameFontSize,
 				}}
 			>
-				{translateCardText(card.name, language)}
+				{displayCardName(card.name, language)}
 			</div>
 			{!isResource && genericCost > 0 && (
 				<div className="gamecard-generic-cost">{genericCost}</div>
