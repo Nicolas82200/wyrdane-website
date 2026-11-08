@@ -1,13 +1,11 @@
 /* Réplique CSS de scenes/card/Card.tscn (base 250×375, positions absolues). */
 
-/* Spectral (OFL, Spectral-OFL.txt a cote des fichiers) : police des textes de
-   carte depuis le 2026-10-28, choisie sur comparatif rendu des 304 cartes
-   (voir /dev-cards et son selecteur de police). Remplace la pile de polices
-   systeme, jugee trop generique — serif d'ecran, dessine pour le texte long,
-   il tient a 15,5px tout en donnant a la carte un caractere que Segoe UI
-   n'avait pas. Fichiers servis en local (jamais fonts.googleapis.com) et
-   decoupes par unicode-range comme les sert Google : seul le sous-ensemble
-   reellement utilise est telecharge. */
+/* Spectral (OFL, Spectral-OFL.txt a cote des fichiers) : a habille les textes
+   de carte du 2026-10-28 au 2026-11-08, remplacee par Crimson Text quand le
+   jeu est lui-meme repasse dessus (voir .gamecard). Gardee pour le selecteur
+   de police de /dev-cards. Fichiers servis en local (jamais
+   fonts.googleapis.com) et decoupes par unicode-range comme les sert Google :
+   seul le sous-ensemble reellement utilise est telecharge. */
 @font-face {
 	font-family: "SpectralCard";
 	src: url("../assets/game/fonts/Spectral-RegularItalic-latin-ext.woff2") format("woff2");
@@ -144,21 +142,18 @@
 	font-style: normal;
 }
 
-/* Les @font-face ci-dessus ne servent plus aux textes de la carte depuis le
-   passage a la police systeme (voir .gamecard juste en-dessous), mais ne sont
-   pas supprimes : CinzelDecorative et CrimsonTextCard habillent encore le
-   deck builder (DeckBuilder.css), et CinzelCard reste sous la main le temps
-   que le choix de police soit arrete. */
+/* SpectralCard et CinzelDecorative ne servent plus aux textes de la carte
+   (voir .gamecard juste en-dessous) mais ne sont pas supprimes : Spectral
+   reste proposee dans le selecteur de /dev-cards, CinzelDecorative habille
+   encore le deck builder (DeckBuilder.css). */
 
 .gamecard {
-	/* Police unique pour tous les textes de la carte. A ete la pile systeme
-	   entre le 2026-10-23 et le 2026-10-28 (demande d'une police "plus lisible
-	   et basique", apres des serifs du jeu devenus pateux a 18px en SemiBold) ;
-	   Spectral la remplace, assez lisible a 15,5px tout en ayant le caractere
-	   qui manquait a Segoe UI. Georgia en repli a des metriques proches, donc
-	   la mesure des cases ne saute pas si le woff2 manque. Ecart assume avec le
-	   rendu du jeu, qui garde Cinzel/Crimson Text. */
-	font-family: "SpectralCard", Georgia, "Times New Roman", serif;
+	/* Crimson Text, comme Card.tscn depuis que le jeu est repasse dessus :
+	   le site avait teste la pile systeme (2026-10-23) puis Spectral
+	   (2026-10-28), le jeu a tranche dans l'autre sens. Plus aucun ecart de
+	   police assume entre les deux. Georgia en repli a des metriques proches,
+	   donc la mesure des cases ne saute pas si le .ttf manque. */
+	font-family: "CrimsonTextCard", Georgia, "Times New Roman", serif;
 	position: relative;
 	width: 250px;
 	height: 375px;
@@ -206,13 +201,13 @@
 	z-index: 2;
 }
 
-/* CardTypeIcon : 19,19 -> 40x40, stretch KEEP_ASPECT_CENTERED */
+/* CardTypeIcon : 16,16 -> 46x46, stretch KEEP_ASPECT_CENTERED */
 .gamecard-type-icon {
 	position: absolute;
-	left: 19px;
-	top: 19px;
-	width: 40px;
-	height: 40px;
+	left: 16px;
+	top: 16px;
+	width: 46px;
+	height: 46px;
 	object-fit: contain;
 	pointer-events: none;
 	z-index: 3;
@@ -247,27 +242,27 @@
 	mask-size: contain;
 }
 
-/* NameLabel : 12.5,158 → 224×25 (grandit vers le bas, voir GameCard.tsx).
-   Poids normal plutôt que le Cinzel-Black du jeu (voir le @font-face
-   ci-dessus), et taille relevée au-delà du 15px de Card.tscn (demande
-   utilisateur 2026-10-05 : encore trop petit une fois la carte réduite par
-   l'échelle de page du deck builder web). */
+/* NameLabel : 15,158 → 220×37 (Card.tscn ; grandit vers le bas sur le site,
+   vers le haut dans le jeu, voir GameCard.tsx). CrimsonText-Bold 21px comme
+   Card.gd NAME_LABEL_FONT_SIZE, et coins arrondis en HAUT seulement : le nom
+   et la description forment un seul bloc continu dans le jeu (la description
+   n'a pas de bordure haute). */
 .gamecard-name {
 	position: absolute;
-	left: 12px;
+	left: 15px;
 	top: 158px;
-	width: 224px;
+	width: 220px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	font-weight: 600;
-	font-size: 17px;
+	font-weight: 700;
+	font-size: 21px;
 	line-height: 1.2;
 	color: rgb(242, 227, 198);
 	border: 1px solid rgba(168, 122, 52, 0.39);
-	border-radius: 5px;
-	padding: 1px 3px;
+	border-radius: 5px 5px 0 0;
+	padding: 2px 4px;
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
@@ -292,10 +287,10 @@
 	z-index: 3;
 }
 
-/* GenericCostLabel : 167.5,32.5 → 34×34. Cercle bleu fixe (StyleBoxFlat_s5r67
-   dans Card.tscn), contrairement au badge de coût race qui reste teinté par
-   race (.gamecard-cost) : le mana générique n'appartient à aucune race, donc
-   sa couleur ne varie jamais. */
+/* GenericCostLabel : 167.5,32.5 → 34×34. Cercle BLANC à chiffre noir fixe
+   (StyleBoxFlat_generic_white dans Card.tscn), contrairement au badge de coût
+   race qui reste teinté par race (.gamecard-cost) : le mana générique
+   n'appartient à aucune race, donc sa couleur ne varie jamais. */
 .gamecard-generic-cost {
 	position: absolute;
 	left: 167.5px;
@@ -307,8 +302,8 @@
 	justify-content: center;
 	font-weight: 900;
 	font-size: 21px;
-	color: rgb(211, 211, 211);
-	background: rgb(85, 107, 146);
+	color: #000;
+	background: #fff;
 	border: 2px solid rgb(168, 122, 52);
 	border-radius: 17px;
 	box-sizing: border-box;
@@ -318,13 +313,9 @@
 /* DescLabel : 15,186 → 220×142.5 mini (le haut est décalé si NameLabel
    grandit, la hauteur peut croître un peu plus et la taille de police
    rétrécir si le texte débordé encore, voir GameCard.tsx/_fit_desc_label
-   côté jeu). Taille par défaut synchronisée sur Card.gd
-   (DESC_LABEL_DEFAULT_FONT_SIZE = Typography.BODY - 1 = 18px) — repassé en
-   Regular (400, même famille de police que le jeu) plutôt que le SemiBold
-   du jeu : ce poids rendait le texte trop épais/gras ("néon") avec le rendu
-   de police des navigateurs, différent de Godot. Les <strong> du texte
-   d'effet restent en vrai Bold (700, CrimsonText-Bold.ttf), identique au
-   jeu, pour garder le contraste des déclencheurs/mots-clés. */
+   côté jeu). CrimsonText-SemiBold 18px, exactement Card.tscn DescLabel +
+   Card.gd DESC_LABEL_DEFAULT_FONT_SIZE. Les <strong> du texte d'effet sont
+   en vrai Bold (700, CrimsonText-Bold.ttf), comme bold_font dans le jeu. */
 .gamecard-desc {
 	position: absolute;
 	left: 15px;
@@ -337,28 +328,41 @@
 	justify-content: center;
 	gap: 6px;
 	text-align: left;
-	font-weight: 400;
-	/* Taille baissee de 18 a 15,5 en passant a une police sans serif : sa
-	   hauteur d'x est nettement plus grande que celle de Crimson Text, donc
-	   15,5px s'y lisent plus gros que 18px avant, tout en laissant assez de
-	   place pour que peu de cartes declenchent une reduction.
-	   Valeur de depart UNIQUEMENT : la taille reelle est posee en style inline
+	font-weight: 600;
+	/* Valeur de depart UNIQUEMENT : la taille reelle est posee en style inline
 	   par la cascade de mesure de GameCard.tsx (DESC_LABEL_FONT_SIZES), avec
 	   laquelle celle-ci doit rester alignee. */
-	font-size: 15.5px;
+	font-size: 18px;
 	line-height: 1.35;
 	color: rgb(255, 255, 255);
+	/* Pas de bordure haute : celle du nom juste au-dessus ferme le bloc
+	   (Card.tscn StyleBoxFlat_wcykg, border_width_top absent). */
 	border: 1px solid rgba(168, 122, 52, 0.39);
-	border-radius: 5px;
-	padding: 4px 6px;
-	/* Le jeu attenue ce fond (Card.gd LABEL_BG_ALPHA_FACTOR = 0.7) pour
-	   laisser transparaitre l'illustration. Le site le garde pleinement
-	   opaque (alpha pose en style inline, voir GameCard.tsx) : a la taille
-	   reduite de la grille du deck builder, l'illustration derriere le texte
-	   le rendait illisible. */
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+	padding: 2px 4px;
+	/* Fond translucide teinte par race, alpha pose en style inline depuis
+	   Card.gd NAME_BG_ALPHA/DESC_BG_ALPHA (voir GameCard.tsx) : c'est le
+	   contour noir du texte ci-dessous qui le detache de l'illustration,
+	   plus l'opacite du fond. */
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
+}
+
+/* Contour noir du nom et de la description (Card.gd TEXT_OUTLINE_SIZE = 2,
+   TEXT_OUTLINE_COLOR noir opaque) : depuis que le fond de ces deux cases
+   laisse passer l'illustration, c'est lui qui detache le texte. paint-order
+   est indispensable — sans lui le trace mord sur l'interieur des lettres
+   (contre-formes des o, e, a) au lieu de rester autour.
+   ponytail: -webkit-text-stroke est centre sur le contour du glyphe, donc 2px
+   ici valent ~1px visible vers l'exterieur, la ou Godot les dessine
+   entierement dehors. Monter a 3-4px si le rendu parait trop fin a cote du
+   jeu. */
+.gamecard-name,
+.gamecard-desc {
+	paint-order: stroke fill;
+	-webkit-text-stroke: 2px #000;
 }
 
 /* .gamecard-effect : préserve les retours à la ligne littéraux du texte

@@ -72,6 +72,14 @@ const RACE_RESOURCE_ICONS: Record<string, string> = {
 	Abomination: abominationResourceIcon,
 };
 
+// Card.gd NAME_BG_ALPHA/DESC_BG_ALPHA : l'alpha de RACE_COLORS est REMPLACE
+// par celui-ci, jamais multiplie (les races ne portent pas toutes le meme).
+// Le site les gardait a 0.96, quasi opaques, pour la lisibilite dans la
+// grille reduite du deck builder ; le jeu laisse passer l'illustration et
+// compense par le contour noir du texte (voir GameCard.css), repris ici.
+const NAME_BG_ALPHA = 0.62;
+const DESC_BG_ALPHA = 0.5;
+
 // CostSystem.RACE_LOCK_PCT — % du coût verrouillé sur le pool de race, par rareté
 const RACE_LOCK_PCT: Record<string, number> = {
 	Commune: 0.25,
@@ -143,35 +151,33 @@ function formatEffectText(text: string): ReactNode[] {
 // grandit vers le BAS (offset_top fixe) quand il deborde de sa case par
 // defaut, plafonne a NAME_LABEL_MAX_GROWTH ; DescLabel juste en-dessous est
 // decale d'autant pour garder le meme espacement entre les deux.
-const NAME_LABEL_DEFAULT_HEIGHT = 25; // 183 - 158
-// Plafond relevé au-delà de la valeur du jeu (34, voir Card.gd) : une fois
-// la police agrandie côté site (voir GameCard.css), un nom sur 2-3 lignes a
-// besoin de plus de place pour ne jamais recouper la description.
-const NAME_LABEL_MAX_GROWTH = 44;
-// Meme principe que la description : la case est en overflow: hidden, donc un
-// nom qui ne tient toujours pas une fois la croissance plafonnee atteinte
-// serait coupe net (cas reels : "Monture-et-Cavalier-Ne-Font-Qu'Un",
-// "Ce-Qui-Ne-Finit-Jamais-de-Grandir"). On reduit la police plutot.
-const NAME_LABEL_FONT_SIZES = [17, 16, 15, 14];
-const DESC_LABEL_DEFAULT_TOP = 186;
-const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
+const NAME_LABEL_DEFAULT_HEIGHT = 37; // 195 - 158 (Card.gd NAME_LABEL_DEFAULT_*)
+// Card.gd NAME_LABEL_MAX_GROWTH : de quoi tenir deux lignes.
+const NAME_LABEL_MAX_GROWTH = 36;
+// Card.gd NAME_LABEL_FONT_SIZE puis NAME_LABEL_SHRUNK_FONT_SIZE (21 puis 20).
+// Les deux crans suivants n'existent pas dans le jeu, qui laisse un nom sur
+// trois lignes mordre un peu sur l'illustration : ici la case est en
+// overflow: hidden, le nom serait coupe net (cas reels :
+// "Monture-et-Cavalier-Ne-Font-Qu'Un", "Ce-Qui-Ne-Finit-Jamais-de-Grandir").
+const NAME_LABEL_FONT_SIZES = [21, 20, 18, 16];
+const DESC_LABEL_DEFAULT_TOP = 195;
+const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 133.5 (Card.tscn DescLabel)
 // Card.gd _fit_desc_label : si le texte débordé malgré la croissance vers
 // le bas (plafonnée ici), on réduit plutôt la police (Typography.BODY - 1
 // → Typography.MICRO - 1) pour ne jamais recouper le texte de règle.
 const DESC_LABEL_MAX_GROWTH = 3;
-const DESC_LABEL_DEFAULT_FONT_SIZE = 15.5;
-// Paliers de reduction essayes dans l'ordre (le jeu n'en a que deux, 16 puis
-// 14) : la case est en overflow: hidden, donc tout ce qui ne tient pas a la
-// derniere taille serait rogne en silence — c'est ce qu'on veut eviter.
-const DESC_LABEL_FONT_SIZES = [15.5, 14.5, 13.5];
-// Dernier recours, une fois le flavour deja masque : plus petit que ce que le
-// jeu descend, mais toujours lisible, et prefere a un texte de regle coupe.
-const DESC_LABEL_LAST_RESORT_FONT_SIZES = [12.5, 11.5];
+const DESC_LABEL_DEFAULT_FONT_SIZE = 18;
+// Card.gd _shrink_desc_to_fit : la police descend d'1px a la fois de
+// DESC_LABEL_DEFAULT_FONT_SIZE (18) jusqu'au cran reduit (16), puis le
+// flavour est sacrifie, puis elle continue jusqu'au plancher
+// DESC_LABEL_FLOOR_FONT_SIZE (13).
+const DESC_LABEL_FONT_SIZES = [18, 17, 16];
+const DESC_LABEL_LAST_RESORT_FONT_SIZES = [15, 14, 13];
 const STATS_LABEL_DEFAULT_TOP = 330;
 // Card.gd DESC_FLAVOUR_HIDE_THRESHOLD : au-delà de ce nombre de caractères,
 // le texte d'effet seul remplit déjà la case — le flavour text est masqué
 // plutôt que d'aggraver le débordement.
-const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
+const DESC_FLAVOUR_HIDE_THRESHOLD = 80;
 
 // TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
 // Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
@@ -251,10 +257,9 @@ export default function GameCard({ card }: { card: CardData }) {
 			setNameFontSize(fontSize);
 		};
 		measure();
-		// La carte est désormais en pile de polices système (voir
-		// GameCard.css), donc normalement rien à attendre — ce second passage
-		// reste par sécurité pour le cas où un repli se charge en différé :
-		// sans lui, la mesure ci-dessus tomberait sur la police de
+		// Second passage une fois les polices chargées : la carte est en
+		// Crimson Text servi en local (voir GameCard.css), donc la première
+		// mesure peut tomber sur la police de
 		// repli du navigateur, souvent plus étroite, qui peut tenir sur une
 		// ligne de moins que la vraie police une fois chargée — sans
 		// remesurer après coup, un nom qui finit par passer sur 2 lignes
@@ -384,7 +389,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				ref={nameRef}
 				className="gamecard-name"
 				style={{
-					background: withAlpha(raceColor, 0.96),
+					background: withAlpha(raceColor, NAME_BG_ALPHA),
 					height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth,
 					fontSize: nameFontSize,
 				}}
@@ -418,7 +423,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				ref={descRef}
 				className="gamecard-desc"
 				style={{
-					background: withAlpha(raceColor, 0.96),
+					background: withAlpha(raceColor, DESC_BG_ALPHA),
 					top: descTop,
 					height: descHeight,
 					fontSize: descFontSize,
