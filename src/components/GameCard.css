@@ -194,7 +194,10 @@
 	width: 51px;
 	height: 51px;
 	background: rgba(18, 17, 16, 0.85);
-	border: 2px solid rgb(168, 122, 52);
+	/* Contour a la couleur exacte de la rarete, pose en style inline (voir
+	   GameCard.tsx) : c'est lui qui porte la distinction pour la Commune,
+	   dont le logo ressort blanc. */
+	border: 2px solid;
 	border-radius: 26px;
 	box-sizing: border-box;
 	pointer-events: none;
@@ -213,11 +216,13 @@
 	z-index: 3;
 }
 
-/* Icone de type des cartes non-serviteur : silhouette blanche teintee par
-   race (Card.gd RACE_ICON_COLORS), via un masque CSS — la couleur vient de
-   background-color, posee en style inline (GameCard.tsx). Les icones de
-   rangee des serviteurs, elles, sont deja illustrees en couleur et restent
-   de simples <img>. */
+/* Logo du medaillon : silhouette teintee par la RARETE (Card.gd
+   _apply_type_style), via un masque CSS — la couleur vient de
+   background-color, posee en style inline (GameCard.tsx). Vaut aussi pour
+   les icones de rangee des serviteurs, qui etaient de simples <img> en
+   couleur : le masque n'en garde que la silhouette, donc elles se teintent
+   comme les autres (le jeu, lui, a du passer a des fichiers blancs, voir
+   GameCard.tsx). */
 .gamecard-type-icon--tinted {
 	-webkit-mask-repeat: no-repeat;
 	mask-repeat: no-repeat;
@@ -352,17 +357,28 @@
 
 /* Contour noir du nom et de la description (Card.gd TEXT_OUTLINE_SIZE = 2,
    TEXT_OUTLINE_COLOR noir opaque) : depuis que le fond de ces deux cases
-   laisse passer l'illustration, c'est lui qui detache le texte. paint-order
-   est indispensable — sans lui le trace mord sur l'interieur des lettres
-   (contre-formes des o, e, a) au lieu de rester autour.
-   ponytail: -webkit-text-stroke est centre sur le contour du glyphe, donc 2px
-   ici valent ~1px visible vers l'exterieur, la ou Godot les dessine
-   entierement dehors. Monter a 3-4px si le rendu parait trop fin a cote du
-   jeu. */
+   laisse passer l'illustration, c'est lui qui detache le texte.
+   Halo de text-shadow, PAS -webkit-text-stroke : ce dernier est centre sur le
+   contour du glyphe, donc la moitie de son epaisseur ronge le bord des
+   lettres — traits amincis, contre-formes bouchees, texte qui perd sa
+   nettete. Et il repeint par-dessus le remplissage partout ou paint-order
+   n'est pas honore sur du texte HTML, ce qui donne des lettres carrement
+   creuses. Les ombres, elles, se dessinent derriere le glyphe : la forme des
+   lettres reste exactement celle de la police.
+   ponytail: un seul anneau a 1px, la ou Godot pose 2px entierement dehors.
+   Doubler l'anneau (meme liste a 2px) si le contour doit lire plus epais a
+   cote du jeu. */
 .gamecard-name,
 .gamecard-desc {
-	paint-order: stroke fill;
-	-webkit-text-stroke: 2px #000;
+	text-shadow:
+		1px 0 0 #000,
+		-1px 0 0 #000,
+		0 1px 0 #000,
+		0 -1px 0 #000,
+		1px 1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		-1px -1px 0 #000;
 }
 
 /* .gamecard-effect : préserve les retours à la ligne littéraux du texte
@@ -396,37 +412,12 @@
 	border-top: 1px solid rgba(168, 122, 52, 0.45);
 }
 
-/* TypeLabel : sur la bordure dorée en haut de carte, centrée, largeur
-   mesurée par le navigateur (width: max-content) plutôt qu'au canvas en JS
-   — une mesure figée au premier rendu, avant que la police de la carte ait
-   fini de charger, coupait des mots entiers ("Enchantement",
-   "Rituel • N charges") derrière overflow: hidden sans jamais se corriger
-   une fois la vraie police chargée (voir GameCard.tsx). Cinzel-Bold 13px
-   (Card.tscn). */
-.gamecard-type {
-	position: absolute;
-	left: 50%;
-	top: -6px;
-	height: 14px;
-	width: max-content;
-	min-width: 70px;
-	max-width: 160px;
-	transform: translateX(-50%);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 700;
-	font-size: 13px;
-	color: #000;
-	border: 2px solid;
-	border-radius: 8px;
-	padding: 0 8px;
-	box-sizing: border-box;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	z-index: 5;
-}
+/* Le bandeau de type (TypeLabel) n'existe plus : il coupait la bordure doree
+   en haut de carte et a ete supprime du jeu le 2026-11-04. Le type ne
+   s'ecrit plus sur la carte — cote jeu il vit dans une etiquette affichee au
+   clic droit, posee HORS du cadre (Card.tscn TypeTooltip) ; la rarete, qui
+   etait la couleur de fond de ce bandeau, est passee sur le medaillon de
+   type (voir .gamecard-type-icon-bg). */
 
 /* AttackLabel : 35,330 → 40×34 (top décalé si DescLabel déborde, voir
    GameCard.tsx), rouge, Cinzel-Bold 29px (Card.tscn) */
