@@ -24,7 +24,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 	fr: {
 		legalNotice: {
 			title: "Mentions légales",
-			updated: "Dernière mise à jour : 30 juillet 2026",
+			updated: "Dernière mise à jour : 12 novembre 2026",
 			sections: [
 				{
 					heading: "Éditeur du site",
@@ -41,7 +41,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 					heading: "Hébergement",
 					paragraphs: [
 						"Le Site est hébergé par OVH SAS, société immatriculée au RCS de Lille Métropole sous le numéro 424 761 419, dont le siège social est situé 2 rue Kellermann, 59100 Roubaix, France (https://www.ovhcloud.com).",
-						"Les serveurs applicatifs du Jeu (backend) sont hébergés sur la même infrastructure ou, ponctuellement, chez Render Services Inc., États-Unis (https://render.com).",
+						"Les serveurs applicatifs du Jeu (backend) sont hébergés sur cette même infrastructure.",
 					],
 				},
 				{
@@ -123,7 +123,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 		},
 		privacy: {
 			title: "Politique de confidentialité",
-			updated: "Dernière mise à jour : 30 juillet 2026",
+			updated: "Dernière mise à jour : 12 novembre 2026",
 			sections: [
 				{
 					heading: "Responsable de traitement",
@@ -134,9 +134,11 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Données collectées",
 					list: [
-						"Identifiant Steam (SteamID64), pseudonyme et avatar public associés à votre compte Steam, transmis lors de la connexion.",
-						"Données de progression de jeu : collection de cartes possédées, decks, monnaie virtuelle, statistiques de partie.",
+						"Identifiant Steam (SteamID64) et pseudonyme associés à votre compte Steam, transmis lors de la connexion. Votre avatar Steam est affiché dans le Jeu mais n'est jamais transmis à nos serveurs : il est récupéré directement auprès de Steam par le Jeu, sur votre machine.",
+						"Données de progression de jeu : collection de cartes possédées, decks, monnaie virtuelle, statistiques de partie, niveau de compte, classement.",
+						"Messages de chat privés échangés avec vos amis dans le Jeu, ainsi que vos relations d'amitié et votre état de présence (en ligne, en jeu), conservés pour que vous retrouviez vos conversations et votre liste d'une session à l'autre.",
 						"Adresse IP et données techniques de connexion (journaux serveur), à des fins de sécurité et de lutte contre la triche.",
+						"Si et seulement si vous l'acceptez après un plantage : le journal technique de la session précédente du Jeu. Rien n'est jamais envoyé automatiquement, et les chemins de fichiers de votre ordinateur y sont masqués avant l'envoi.",
 						"Toute information transmise volontairement par email lors d'un contact.",
 					],
 					paragraphs: [
@@ -150,18 +152,20 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Fonctionnement du Jeu, sauvegarde de la progression et multijoueur (exécution du contrat).",
 						"Sécurité, prévention de la fraude et de la triche (base légale : intérêt légitime).",
 						"Réponse aux demandes de contact (base légale : intérêt légitime).",
+						"Diagnostic des plantages du Jeu, à partir du journal technique que vous choisissez de nous envoyer (base légale : votre consentement, que vous pouvez refuser sans aucune conséquence sur le Jeu).",
 					],
 				},
 				{
 					heading: "Destinataires des données",
 					paragraphs: [
 						"Les données sont hébergées par l'hébergeur du Site et du backend de jeu (voir Mentions légales) et ne sont transmises à aucun tiers à des fins commerciales. Steam/Valve Corporation (États-Unis) intervient en tant que fournisseur d'authentification, dans le cadre de son propre traitement de données décrit dans sa politique de confidentialité.",
+						"Les journaux de plantage que vous acceptez de nous envoyer sont transmis à un salon privé hébergé par Discord Inc. (États-Unis), où ils sont consultés pour corriger le défaut signalé. Aucune autre donnée ne passe par Discord.",
 					],
 				},
 				{
 					heading: "Transferts hors Union européenne",
 					paragraphs: [
-						"Certaines données peuvent être traitées par des prestataires situés hors de l'Union européenne, notamment Valve Corporation pour l'authentification Steam, et ponctuellement Render Services Inc. pour l'hébergement. Ces transferts s'appuient sur les garanties prévues par ces prestataires (clauses contractuelles types ou équivalent).",
+						"Certaines données peuvent être traitées par des prestataires situés hors de l'Union européenne : Valve Corporation pour l'authentification Steam, et Discord Inc. pour les seuls journaux de plantage que vous acceptez de nous envoyer. Ces transferts s'appuient sur les garanties prévues par ces prestataires (clauses contractuelles types ou équivalent). En dehors de ces deux cas, vos données restent hébergées dans l'Union européenne.",
 					],
 				},
 				{
@@ -179,13 +183,17 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Vos droits",
 					paragraphs: [
-						"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données. Vous pouvez exercer ces droits en écrivant à wyrdane@outlook.fr. Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+						"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données. Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+						"Deux de ces droits s'exercent directement dans le Jeu, sans nous écrire, depuis Profil puis l'onglet Communauté, section Données du compte : vous pouvez y exporter l'ensemble des données que le serveur conserve sur vous, et supprimer votre compte. La suppression est irréversible : votre compte est anonymisé et votre identifiant Steam libéré, vous pourrez rejouer en repartant de zéro mais votre progression ne sera récupérable par personne, pas même par nous.",
+						"Pour tout autre droit, écrivez à wyrdane@outlook.fr.",
 					],
 				},
 				{
 					heading: "Sécurité",
 					paragraphs: [
-						"Wyrdane met en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données contre tout accès non autorisé, perte ou divulgation.",
+						"Wyrdane met en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données contre tout accès non autorisé, perte ou divulgation. Les échanges entre le Jeu et nos serveurs sont chiffrés (HTTPS) et la base de données est sauvegardée régulièrement.",
+						"Le chat du Jeu n'est pas chiffré de bout en bout : vos messages sont donc techniquement accessibles à l'administrateur du serveur, comme sur tout service de messagerie qui ne l'est pas. Ils ne sont ni lus, ni analysés, ni utilisés à d'autres fins, mais ne considérez pas ce chat comme confidentiel.",
+						"Les parties en ligne se jouent directement entre les deux joueurs via la couche réseau de Steam : la partie elle-même ne passe pas par nos serveurs, et le Jeu ne manipule jamais d'adresse IP, il ne connaît que des identifiants Steam. Selon les conditions réseau, Steam peut toutefois établir une connexion directe entre les deux machines plutôt que de faire passer le trafic par son relais ; l'adresse de chaque machine est alors techniquement visible de l'autre, comme dans tout jeu en pair-à-pair.",
 					],
 				},
 			],
@@ -244,7 +252,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 	en: {
 		legalNotice: {
 			title: "Legal Notice",
-			updated: "Last updated: July 30, 2026",
+			updated: "Last updated: November 12, 2026",
 			sections: [
 				{
 					heading: "Site publisher",
@@ -261,7 +269,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 					heading: "Hosting",
 					paragraphs: [
 						"The Site is hosted by OVH SAS, registered with the Lille Métropole Trade and Companies Register under number 424 761 419, with registered office at 2 rue Kellermann, 59100 Roubaix, France (https://www.ovhcloud.com).",
-						"The Game's application servers (backend) are hosted on the same infrastructure or, occasionally, by Render Services Inc., United States (https://render.com).",
+						"The Game's application servers (backend) are hosted on that same infrastructure.",
 					],
 				},
 				{
@@ -343,7 +351,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 		},
 		privacy: {
 			title: "Privacy Policy",
-			updated: "Last updated: July 30, 2026",
+			updated: "Last updated: November 12, 2026",
 			sections: [
 				{
 					heading: "Data controller",
@@ -354,9 +362,11 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Data collected",
 					list: [
-						"Steam ID (SteamID64), display name, and public avatar associated with your Steam account, provided at login.",
-						"Game progress data: owned card collection, decks, virtual currency, match statistics.",
+						"Steam ID (SteamID64) and display name associated with your Steam account, provided at login. Your Steam avatar is shown in the Game but never sent to our servers: the Game fetches it from Steam directly, on your machine.",
+						"Game progress data: owned card collection, decks, virtual currency, match statistics, account level, ranking.",
+						"Private chat messages exchanged with your friends in the Game, along with your friendships and presence status (online, in game), kept so that you find your conversations and your list again from one session to the next.",
 						"IP address and technical connection data (server logs), for security and anti-cheat purposes.",
+						"If, and only if, you agree to it after a crash: the technical log of the Game's previous session. Nothing is ever sent automatically, and the file paths of your computer are redacted before sending.",
 						"Any information voluntarily provided by email when contacting us.",
 					],
 					paragraphs: [
@@ -370,18 +380,20 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Operating the Game, saving progress, and multiplayer (performance of the contract).",
 						"Security, fraud and cheat prevention (legal basis: legitimate interest).",
 						"Responding to contact requests (legal basis: legitimate interest).",
+						"Diagnosing Game crashes, from the technical log you choose to send us (legal basis: your consent, which you may withhold with no consequence whatsoever on the Game).",
 					],
 				},
 				{
 					heading: "Data recipients",
 					paragraphs: [
 						"Data is hosted by the Site's and game backend's host (see Legal Notice) and is not transmitted to any third party for commercial purposes. Steam/Valve Corporation (United States) acts as authentication provider, under its own data processing described in its own privacy policy.",
+						"The crash logs you agree to send us are delivered to a private channel hosted by Discord Inc. (United States), where they are read in order to fix the reported defect. No other data goes through Discord.",
 					],
 				},
 				{
 					heading: "Transfers outside the European Union",
 					paragraphs: [
-						"Some data may be processed by providers located outside the European Union, notably Valve Corporation for Steam authentication, and occasionally Render Services Inc. for hosting. These transfers rely on the safeguards provided by these processors (standard contractual clauses or equivalent).",
+						"Some data may be processed by providers located outside the European Union: Valve Corporation for Steam authentication, and Discord Inc. for the crash logs you agree to send us, and those only. These transfers rely on the safeguards provided by these processors (standard contractual clauses or equivalent). Outside these two cases, your data remains hosted within the European Union.",
 					],
 				},
 				{
@@ -399,13 +411,17 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Your rights",
 					paragraphs: [
-						"In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to, and port your data. You can exercise these rights by writing to wyrdane@outlook.fr. You also have the right to lodge a complaint with the CNIL (www.cnil.fr) or your local data protection authority.",
+						"In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to, and port your data. You also have the right to lodge a complaint with the CNIL (www.cnil.fr) or your local data protection authority.",
+						"Two of those rights are exercised directly in the Game, without writing to us, under Profile then the Community tab, Account data section: there you can export everything the server keeps about you, and delete your account. Deletion is irreversible: your account is anonymized and your Steam ID released, so you may play again from scratch, but your progress will be recoverable by no one, ourselves included.",
+						"For any other right, write to wyrdane@outlook.fr.",
 					],
 				},
 				{
 					heading: "Security",
 					paragraphs: [
-						"Wyrdane implements reasonable technical and organizational measures to protect your data against unauthorized access, loss, or disclosure.",
+						"Wyrdane implements reasonable technical and organizational measures to protect your data against unauthorized access, loss, or disclosure. Traffic between the Game and our servers is encrypted (HTTPS) and the database is backed up regularly.",
+						"The Game's chat is not end-to-end encrypted: your messages are therefore technically accessible to the server administrator, as on any messaging service that is not. They are neither read, analyzed, nor used for any other purpose, but do not treat this chat as confidential.",
+						"Online matches are played directly between the two players over Steam's networking layer: the match itself does not go through our servers, and the Game never handles an IP address, it only knows Steam IDs. Depending on network conditions, Steam may however establish a direct connection between the two machines rather than routing traffic through its relay; each machine's address is then technically visible to the other, as in any peer-to-peer game.",
 					],
 				},
 			],
