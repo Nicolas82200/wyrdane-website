@@ -8,7 +8,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Les dégâts que vos cartes infligeraient à votre héros ce tour sont annulés.",
+		"effect": "Les dégâts que vos cartes vous infligeraient ce tour sont annulés.",
 		"flavor": "Pour une fois, le contrat se tait.",
 		"charges": null,
 		"image_path": null
@@ -64,8 +64,22 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Ajoute 1 Âme à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-		"flavor": "Une clause parmi tant d'autres. Elle aussi se paiera.",
+		"effect": "Ajoute 1 Âme à votre réserve, ressource pour jouer les cartes Démon.",
+		"flavor": "Vous ne pouvez jouer qu'une ressource par tour.",
+		"charges": null,
+		"image_path": null
+	},
+	{
+		"name": "Anomalie",
+		"race": "Abomination",
+		"card_type": "Ressource",
+		"rarity": "Commune",
+		"cost": 0,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Ajoute 1 Anomalie à votre réserve, ressource pour jouer les cartes Abomination.",
+		"flavor": "Vous ne pouvez jouer qu'une ressource par tour.",
 		"charges": null,
 		"image_path": null
 	},
@@ -246,7 +260,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Quand un serviteur Démon allié attaque, il inflige Corruption supplémentaire à sa cible. (Peut se cumuler avec la Corruption déjà présente sur le Démon attaquant.)",
+		"effect": "Quand un serviteur Démon allié attaque, il inflige Corruption supplémentaire à sa cible.",
 		"flavor": "La corruption ne recule jamais. Elle s'accumule, discrètement.",
 		"charges": null,
 		"image_path": null
@@ -288,7 +302,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Piochez 1 carte. (Une seule fois par tour.)",
+		"effect": "Deuil : Piochez 1 carte.\n1 fois par tour.",
 		"flavor": "Chaque mort nourrit l'autel. L'autel, lui, ne se souvient d'aucun nom.",
 		"charges": null,
 		"image_path": null
@@ -302,7 +316,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Piochez 1 carte. (Une seule fois par tour.)\nPacte 2 : Piochez 1 carte supplémentaire.",
+		"effect": "Deuil : Piochez 1 carte.\nPacte 2 : Piochez 1 carte supplémentaire.\n1 fois par tour.",
 		"flavor": "L'autel ne demande jamais deux fois. Il attend, c'est tout.",
 		"charges": null,
 		"image_path": null
@@ -666,7 +680,7 @@
 		"lane": "Avant",
 		"attack": 3,
 		"hp": 1,
-		"effect": "Dernier Souffle : Le serviteur adjacent gagne +1/+1 de façon permanente.",
+		"effect": "Dernier Souffle : Les serviteurs adjacents gagnent +1/+1 de façon permanente.",
 		"flavor": "Il ne meurt pas vraiment. Il se répartit ailleurs.",
 		"charges": null,
 		"image_path": null
@@ -694,7 +708,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Éveil : Si vous avez un Commandant en jeu (carte avec COMMANDEMENT), tous les Humains alliés gagnent +1/+0 ce tour.",
+		"effect": "Éveil : Si vous avez un Commandant en jeu, tous les Humains alliés gagnent +1/+0 ce tour.",
 		"flavor": "À Aldrenia, un ordre ne meurt jamais seul. Il se répète d'officier en officier jusqu'à devenir une loi.",
 		"charges": null,
 		"image_path": null
@@ -750,7 +764,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Éveil : Votre héros récupère 2 points de vie.",
+		"effect": "Éveil : Vous récupérez 2 points de vie.",
 		"flavor": "Même les Abysses savent qu'un pacte mort ne rapporte plus rien.",
 		"charges": 3,
 		"image_path": null
@@ -806,8 +820,8 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Ajoute 1 Chair à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-		"flavor": "Ce qui reste d'une vie, cristallisé par la nécromancie.",
+		"effect": "Ajoute 1 Chair à votre réserve, ressource pour jouer les cartes Mort-Vivant.",
+		"flavor": "Vous ne pouvez jouer qu'une ressource par tour.",
 		"charges": null,
 		"image_path": null
 	},
@@ -820,7 +834,7 @@
 		"lane": "Avant",
 		"attack": 5,
 		"hp": 4,
-		"effect": "Exécution : Soigne le héros allié de 2 points de vie.",
+		"effect": "Exécution : Vous récupérez 2 points de vie.",
 		"flavor": "Il se bat pour des réfugiés d'Eorthal qu'il ne connaît pas. C'est pour ça qu'il gagne.",
 		"charges": null,
 		"image_path": null
@@ -848,7 +862,7 @@
 		"lane": "Avant",
 		"attack": 3,
 		"hp": 1,
-		"effect": "Dernier Souffle : Inflige Infection (2 tours) à un serviteur ciblé ennemi.",
+		"effect": "Dernier Souffle : Inflige Infection pendant 2 tours à un serviteur ciblé ennemi.",
 		"flavor": "Même en tombant, il répand ce qui l'a tué.",
 		"charges": null,
 		"image_path": null
@@ -918,7 +932,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Le premier serviteur Abomination joué chaque tour coûte 1 de moins (minimum 1).",
+		"effect": "Présence : Le premier serviteur Abomination joué chaque tour coûte 1 ressource générique de moins.",
 		"flavor": "On ne l'entend pas. On sent juste que quelque chose a déjà commencé à changer.",
 		"charges": null,
 		"image_path": null
@@ -1058,7 +1072,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Votre héros récupère 4 points de vie.",
+		"effect": "Vous récupérez 4 points de vie.",
 		"flavor": "Le pacte n'est pas qu'une dette. Parfois, il rembourse.",
 		"charges": null,
 		"image_path": null
@@ -1072,7 +1086,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Quand un Pacte est payé, piochez 1 carte. (Une seule fois par tour.)",
+		"effect": "Quand un Pacte est payé, piochez 1 carte.\n1 fois par tour.",
 		"flavor": "Chaque prix payé nourrit le pacte, quelle que soit la main qui le tend.",
 		"charges": 4,
 		"image_path": null
@@ -1156,7 +1170,7 @@
 		"lane": "Avant",
 		"attack": 3,
 		"hp": 1,
-		"effect": "Pacte 2 : Inflige 2 points de dégâts à la cible (joueur ou serviteur ennemi).",
+		"effect": "Pacte 2 : Inflige 2 points de dégâts à la cible.",
 		"flavor": "Chaque morsure lui coûte, à toi aussi.",
 		"charges": null,
 		"image_path": null
@@ -1184,7 +1198,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Éveil : Tous les serviteurs Humains alliés gagnent +1/+1. (S'accumule chaque tour.)",
+		"effect": "Éveil : Tous les serviteurs Humains alliés gagnent +1/+1.\nS'accumule chaque tour.",
 		"flavor": "Le dernier roi d'Aldrenia est mort à la Première Vague. Ses décrets, eux, n'ont pas de date d'expiration.",
 		"charges": null,
 		"image_path": null
@@ -1198,7 +1212,7 @@
 		"lane": "Avant",
 		"attack": 1,
 		"hp": 4,
-		"effect": "REMPART\nBlessure : Les dégâts reçus sont réduits de 1 (minimum 1).",
+		"effect": "REMPART\nBlessure : Les dégâts reçus sont réduits de 1.",
 		"flavor": "Skeldara ne demande pas d'éviter les coups. Elle demande de les absorber. Ce n'est pas pareil.",
 		"charges": null,
 		"image_path": null
@@ -1212,7 +1226,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Piochez 1 carte par serviteur Mort-Vivant allié mort ce tour (max 3).",
+		"effect": "Piochez 1 carte par serviteur Mort-Vivant allié mort ce tour.\n3 fois maximum.",
 		"flavor": "Leurs voix ne portent plus. Mais leurs secrets, si.",
 		"charges": null,
 		"image_path": null
@@ -1240,7 +1254,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Piochez 1 carte.\nVotre héros perd 1 point de vie.\nSi c'est une carte Démon, elle coûte 1 de moins ce tour.",
+		"effect": "Piochez 1 carte.\nVous perdez 1 point de vie.\nSi c'est une carte Démon, elle coûte 1 de moins ce tour.",
 		"flavor": "Il désigne. Ce qu'il montre a toujours un prix, y compris pour toi.",
 		"charges": null,
 		"image_path": null
@@ -1268,7 +1282,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifie votre serviteur le plus faible : Inflige 3 points de dégâts à la cible (joueur ou serviteur ennemi).",
+		"effect": "Sacrifie votre serviteur le plus faible : Inflige 3 points de dégâts à la cible.",
 		"flavor": "Il a donné son corps. Il n'avait plus besoin de consentir.",
 		"charges": null,
 		"image_path": null
@@ -1282,7 +1296,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Dévoration : Piochez 1 carte. (Une seule fois par tour.)",
+		"effect": "Dévoration : Piochez 1 carte.\n1 fois par tour.",
 		"flavor": "Chaque mort, où qu'elle soit, nourrit le cercle.",
 		"charges": 4,
 		"image_path": null
@@ -1312,20 +1326,6 @@
 		"hp": 1,
 		"effect": "ASSAUT\nArrivée : Piochez 1 carte si la rangée Avant ennemie a 3 serviteurs ou plus.",
 		"flavor": "Il revient toujours des confins d'Ostrane avec de mauvaises nouvelles. Il revient, c'est ce qui compte.",
-		"charges": null,
-		"image_path": null
-	},
-	{
-		"name": "Éclat d'Anomalie",
-		"race": "Abomination",
-		"card_type": "Ressource",
-		"rarity": "Commune",
-		"cost": 0,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Ajoute 1 Éclat à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-		"flavor": "Ça continue de battre, même détaché de tout le reste.",
 		"charges": null,
 		"image_path": null
 	},
@@ -1436,7 +1436,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Un serviteur ciblé allié copie un mot-clé présent sur un autre serviteur en jeu tiré au hasard (allié ou ennemi).",
+		"effect": "Un serviteur ciblé allié copie un mot-clé présent sur un autre serviteur en jeu tiré au hasard.",
 		"flavor": "Il n'a rien inventé. Il a juste regardé, et pris.",
 		"charges": null,
 		"image_path": null
@@ -1464,7 +1464,7 @@
 		"lane": "Hybride",
 		"attack": 4,
 		"hp": 4,
-		"effect": "MOISSON\nArrivée : Vole 2 points de vie au héros ennemi.",
+		"effect": "MOISSON\nArrivée : Vole 2 points de vie à votre adversaire.",
 		"flavor": "Il ne prend pas ta vie. Il la déplace, dans les mauvaises mains.",
 		"charges": null,
 		"image_path": null
@@ -1506,7 +1506,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Inflige Gel à un serviteur ciblé ennemi jusqu'au début de votre prochain tour. (L'Infection continue : son compteur n'est pas suspendu.)",
+		"effect": "Inflige Gel à un serviteur ciblé ennemi jusqu'au début de votre prochain tour.",
 		"flavor": "Le froid stoppe les gestes. Pas le mal qui ronge de l'intérieur.",
 		"charges": null,
 		"image_path": null
@@ -1520,7 +1520,7 @@
 		"lane": "Avant",
 		"attack": 5,
 		"hp": 4,
-		"effect": "VENIN MORTEL, DISCIPLINE\nNe peut attaquer que les serviteurs (jamais le héros directement).",
+		"effect": "VENIN MORTEL, DISCIPLINE\nNe peut attaquer que les serviteurs.",
 		"flavor": "Il n'a pas de haine. Dreamar lui a donné des instructions. C'est pire.",
 		"charges": null,
 		"image_path": null
@@ -1618,7 +1618,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Inflige 2 points de dégâts à la cible (joueur ou serviteur ennemi).",
+		"effect": "Inflige 2 points de dégâts à la cible.",
 		"flavor": "Le feu ne fait pas de distinction. Il te lèche un peu au passage.",
 		"charges": null,
 		"image_path": null
@@ -1688,7 +1688,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Renfort : Si vous avez 3 serviteurs Mort-Vivants alliés ou plus en jeu, invoque un Rampant 1/1. (Une seule fois par tour.)",
+		"effect": "Renfort : Si vous avez 3 serviteurs Mort-Vivants alliés ou plus en jeu, invoque un Rampant 1/1.\n1 fois par tour.",
 		"flavor": "Plus elle se remplit, plus elle déborde.",
 		"charges": null,
 		"image_path": null
@@ -1996,7 +1996,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Les serviteurs Démons alliés gagnent +1/+0 jusqu'à la fin du tour et votre héros perd 2 points de vie.\nSi vous avez 5 serviteurs Démons alliés ou plus en jeu, ils gagnent +1/+1 et votre héros récupère 2 points de vie à la place.",
+		"effect": "Les serviteurs Démons alliés gagnent +1/+0 jusqu'à la fin du tour et vous perdez 2 points de vie.\nSi vous avez 5 serviteurs Démons alliés ou plus en jeu, ils gagnent +1/+1 et vous récupérez 2 points de vie à la place.",
 		"flavor": "Plus ils sont nombreux à hurler, plus le prix grimpe, pour toi.",
 		"charges": null,
 		"image_path": null
@@ -2066,7 +2066,7 @@
 		"lane": "Avant",
 		"attack": 2,
 		"hp": 2,
-		"effect": "Mort-rage : Gagne +1/+1 par serviteur ennemi infecté en jeu.",
+		"effect": "Arrivée : Gagne +1/+1 par serviteur ennemi infecté en jeu.",
 		"flavor": "La morsure date d'hier. Il a encore ses yeux d'avant, mais plus rien derrière.",
 		"charges": null,
 		"image_path": null
@@ -2094,7 +2094,7 @@
 		"lane": "Hybride",
 		"attack": 3,
 		"hp": 5,
-		"effect": "DISCIPLINE\nArrivée : Annule tous les effets néfastes raciaux (Infection, Corruption) sur vos serviteurs.",
+		"effect": "DISCIPLINE\nArrivée : Annule tous les effets raciaux néfastes sur vos serviteurs.",
 		"flavor": "Les visionnaires de Dreamar voient la corruption arriver des jours à l'avance. Lui, il l'attend déjà sur place.",
 		"charges": null,
 		"image_path": null
@@ -2346,7 +2346,7 @@
 		"lane": "Arrière",
 		"attack": 5,
 		"hp": 7,
-		"effect": "Tant que ce serviteur est en jeu, les dégâts que vos propres cartes infligent à votre héros sont annulés.",
+		"effect": "Tant que ce serviteur est en jeu, les dégâts que vos propres cartes vous infligent sont annulés.",
 		"flavor": "Il a lu chaque clause du contrat. Il a décidé qu'aucune ne s'appliquerait plus.",
 		"charges": null,
 		"image_path": null
@@ -2402,7 +2402,7 @@
 		"lane": "Hybride",
 		"attack": 3,
 		"hp": 3,
-		"effect": "Arrivée : Inflige Infection (2 tours) à tous les serviteurs ennemis en jeu.",
+		"effect": "Arrivée : Inflige Infection pendant 2 tours à tous les serviteurs ennemis en jeu.",
 		"flavor": "On n'a jamais su d'où il venait. On a fini par ne plus chercher.",
 		"charges": null,
 		"image_path": null
@@ -2444,7 +2444,7 @@
 		"lane": "Avant",
 		"attack": 4,
 		"hp": 10,
-		"effect": "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure (une fois par tour) : Invoque un Porteur de Bouclier Eorthalien 1/4 REMPART.",
+		"effect": "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure : Invoque un Porteur de Bouclier Eorthalien 1/4 REMPART.\n1 fois par tour.",
 		"flavor": "On lui a demandé combien de temps Skeldara pouvait tenir. Il n'a pas répondu. Il tient encore.",
 		"charges": null,
 		"image_path": null
@@ -2556,7 +2556,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Quand un de vos serviteurs Humains meurt, piochez 1 carte. (Une seule fois par tour.)",
+		"effect": "Deuil : Quand un de vos serviteurs Humains meurt, piochez 1 carte.\n1 fois par tour.",
 		"flavor": "Aldrenia ne garde pas ses morts dans un cimetière. Elle les garde dans une lignée, nom après nom, jusqu'au sien.",
 		"charges": null,
 		"image_path": null
@@ -2822,7 +2822,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Le premier serviteur Mort-Vivant joué chaque tour coûte 1 de moins (minimum 1).",
+		"effect": "Présence : Le premier serviteur Mort-Vivant joué chaque tour coûte 1 ressource générique de moins.",
 		"flavor": "On ne l'entend pas. On sent juste que quelque chose a dit oui.",
 		"charges": null,
 		"image_path": null
@@ -2850,7 +2850,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Renfort : Si vous avez 3 serviteurs Abominations alliés ou plus en jeu, invoque un Amas Informe 1/2. (Une seule fois par tour.)",
+		"effect": "Renfort : Si vous avez 3 serviteurs Abominations alliés ou plus en jeu, invoque un Amas Informe 1/2.\n1 fois par tour.",
 		"flavor": "Plus il se remplit, plus il en sort.",
 		"charges": null,
 		"image_path": null
@@ -2962,7 +2962,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Les Humains alliés reçoivent 1 point de dégât de moins de toute source (minimum 1).",
+		"effect": "Présence : Les Humains alliés reçoivent 1 point de dégât de moins de toute source.",
 		"flavor": "Les survivants d'Eorthal ont signé ensemble. Aucun ne s'en souvient exactement. Tous s'en souviennent suffisamment.",
 		"charges": null,
 		"image_path": null
@@ -2976,7 +2976,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Votre héros perd 2 points de vie.\nPiochez 2 cartes.",
+		"effect": "Vous perdez 2 points de vie.\nPiochez 2 cartes.",
 		"flavor": "Signer vite coûte cher. Signer tard coûte pareil.",
 		"charges": null,
 		"image_path": null
@@ -3018,7 +3018,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifice 1 : Le serviteur adjacent absorbe ses stats restantes de façon permanente.",
+		"effect": "Sacrifice 1 : Les serviteurs adjacents absorbent ses stats restantes de façon permanente.",
 		"flavor": "Rien ne se perd. Tout se recompose.",
 		"charges": null,
 		"image_path": null
@@ -3074,7 +3074,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Renvoie un serviteur (allié ou ennemi) dans la main de son propriétaire.",
+		"effect": "Renvoie un serviteur dans la main de son propriétaire.",
 		"flavor": "Les morts n'oublient pas ceux qui les ont enterrés.",
 		"charges": null,
 		"image_path": null
@@ -3088,7 +3088,7 @@
 		"lane": "Arrière",
 		"attack": 1,
 		"hp": 4,
-		"effect": "Arrivée : Invoque un Éclaireur Ostranien Rapide 1/1 pour chaque Humain déjà en jeu (max 3).",
+		"effect": "Arrivée : Invoque un Éclaireur Ostranien Rapide 1/1 pour chaque Humain déjà en jeu.\n3 fois maximum.",
 		"flavor": "L'étendard porte les armes d'un royaume qui existait avant Wyrdane. Il refuse de le laisser mourir une seconde fois.",
 		"charges": null,
 		"image_path": null
@@ -3186,7 +3186,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Dévoration : Gagnez 1 mana temporaire ce tour. (Une seule fois par tour.)",
+		"effect": "Dévoration : Gagnez 1 mana temporaire ce tour.\n1 fois par tour.",
 		"flavor": "Tout ce qui meurt ici finit par nourrir autre chose.",
 		"charges": null,
 		"image_path": null
@@ -3214,7 +3214,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Annule tous les effets néfastes raciaux (Infection, Corruption) sur un serviteur ciblé allié.",
+		"effect": "Annule tous les effets raciaux néfastes sur un serviteur ciblé allié.",
 		"flavor": "À Dreamar, le mal recule devant la lumière des augures. Pas loin. Mais pour l'instant, ça suffit.",
 		"charges": null,
 		"image_path": null
@@ -3284,7 +3284,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Les incantations que vous lancez coûtent 1 ressource générique de moins (minimum 1).",
+		"effect": "Présence : Les incantations que vous lancez coûtent 1 ressource générique de moins.",
 		"flavor": "Dans ses murs, tout se transforme un peu plus vite, même les sorts.",
 		"charges": null,
 		"image_path": null
@@ -3298,7 +3298,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Déplace un serviteur allié de la rangée Avant vers la rangée Arrière (ou inversement).\nIl conserve ses effets.",
+		"effect": "Déplace un serviteur allié sur l'autre rangée.\nIl conserve ses effets.",
 		"flavor": "À Skeldara, reculer n'est pas fuir. C'est choisir où mourir.",
 		"charges": null,
 		"image_path": null
@@ -3312,7 +3312,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Carnage : Quand un serviteur ennemi meurt, votre héros récupère 2 points de vie.",
+		"effect": "Carnage : Quand un serviteur ennemi meurt, vous récupérez 2 points de vie.",
 		"flavor": "Chaque mort laisse quelque chose aux réfugiés d'Eorthal. Quelque chose de dur, de têtu, de précieux.",
 		"charges": 3,
 		"image_path": null
@@ -3354,7 +3354,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Votre héros récupère 2 points de vie.\nSacrifice 1 : Le héros adverse subit 2 points de dégâts.",
+		"effect": "Vous récupérez 2 points de vie.\nSacrifice 1 : Votre adversaire subit 2 points de dégâts.",
 		"flavor": "Un sang pour un autre. L'échange est rarement équitable, sauf pour toi, cette fois.",
 		"charges": null,
 		"image_path": null
@@ -3424,7 +3424,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Éveil : Un serviteur Abomination aléatoire allié mute avec Renforcement (+0/+2).",
+		"effect": "Éveil : Un serviteur Abomination aléatoire allié mute avec Renforcement.",
 		"flavor": "La chair se répare mal. Elle se répare quand même.",
 		"charges": 3,
 		"image_path": null
@@ -3466,7 +3466,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Le héros ennemi ne peut pas soigner jusqu'à la fin de son prochain tour.",
+		"effect": "Deuil : Votre adversaire ne peut pas soigner jusqu'à la fin de son prochain tour.",
 		"flavor": "La peur ne referme aucune plaie. C'est précisément le but, encore et encore.",
 		"charges": 3,
 		"image_path": null
@@ -3508,7 +3508,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifice 1 : Piochez 1 carte.\nVotre héros récupère 1 point de vie.",
+		"effect": "Sacrifice 1 : Piochez 1 carte.\nVous récupérez 1 point de vie.",
 		"flavor": "Le seul rituel démoniaque qui rend plus qu'il ne prend, tant qu'il reste des charges.",
 		"charges": 2,
 		"image_path": null
@@ -3522,7 +3522,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Inflige 2 points de dégâts au héros ennemi.",
+		"effect": "Deuil : Inflige 2 points de dégâts à votre adversaire.",
 		"flavor": "Chaque allié qui tombe tire un fil. L'ennemi finit par sentir la traction.",
 		"charges": 3,
 		"image_path": null
@@ -3550,7 +3550,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifice 1 : Piochez 1 carte.\nVotre héros récupère 3 points de vie.",
+		"effect": "Sacrifice 1 : Piochez 1 carte.\nVous récupérez 3 points de vie.",
 		"flavor": "Rien ne se perd vraiment. Tout se redistribue, même à toi.",
 		"charges": 2,
 		"image_path": null
@@ -3606,7 +3606,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Vos sorts coûtent 1 de moins (minimum 1).\nVotre héros perd 1 point de vie la première fois que ce rabais s'applique chaque tour.",
+		"effect": "Présence : Vos sorts coûtent 1 ressource générique de moins.\nVous perdez 1 point de vie la première fois que ce rabais s'applique chaque tour.",
 		"flavor": "Dans ses murs, la magie coule librement. Rien n'est jamais vraiment gratuit.",
 		"charges": null,
 		"image_path": null
@@ -3620,7 +3620,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Les incantations que vous lancez coûtent 1 ressource générique de moins (minimum 1).",
+		"effect": "Présence : Les incantations que vous lancez coûtent 1 ressource générique de moins.",
 		"flavor": "Dans ses murs, la magie de mort coule comme de l'eau froide, naturellement.",
 		"charges": null,
 		"image_path": null
@@ -3634,8 +3634,22 @@
 		"lane": "Avant",
 		"attack": 2,
 		"hp": 2,
-		"effect": "Arrivée : Votre héros récupère 2 points de vie.\nPacte 1 : Votre héros récupère 2 points de vie supplémentaires.",
+		"effect": "Arrivée : Vous récupérez 2 points de vie.\nPacte 1 : Vous récupérez 2 points de vie supplémentaires.",
 		"flavor": "Elle ne mord jamais l'ennemi en premier. Elle commence toujours par toi, doucement.",
+		"charges": null,
+		"image_path": null
+	},
+	{
+		"name": "Sceau",
+		"race": "Humain",
+		"card_type": "Ressource",
+		"rarity": "Commune",
+		"cost": 0,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Ajoute 1 Sceau à votre réserve, ressource pour jouer les cartes Humain.",
+		"flavor": "Vous ne pouvez jouer qu'une ressource par tour.",
 		"charges": null,
 		"image_path": null
 	},
@@ -3648,7 +3662,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Réduit de 1 (minimum 0) les dégâts que vos propres cartes infligent à votre héros, à chaque occurrence.",
+		"effect": "Présence : Réduit de 1 les dégâts que vos propres cartes vous infligent, à chaque occurrence.",
 		"flavor": "Une clause discrète, glissée dans les petits caractères, en ta faveur, pour une fois.",
 		"charges": null,
 		"image_path": null
@@ -3662,22 +3676,8 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Quand un serviteur Démon allié meurt, votre héros récupère 1 point de vie.",
+		"effect": "Deuil : Quand un serviteur Démon allié meurt, vous récupérez 1 point de vie.",
 		"flavor": "Chaque perte laisse une trace. Celle-ci, au moins, te profite.",
-		"charges": null,
-		"image_path": null
-	},
-	{
-		"name": "Sceau du Royaume",
-		"race": "Humain",
-		"card_type": "Ressource",
-		"rarity": "Commune",
-		"cost": 0,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Ajoute 1 Sceau à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-		"flavor": "Frappé au nom d'un royaume qui n'existe peut-être plus, il lie quand même chaque soldat à son serment.",
 		"charges": null,
 		"image_path": null
 	},
@@ -3704,7 +3704,7 @@
 		"lane": "Arrière",
 		"attack": 2,
 		"hp": 3,
-		"effect": "Attaque : La cible subit -1/-0 de façon permanente (Corruption).",
+		"effect": "Attaque : Inflige Corruption à la cible.",
 		"flavor": "Il ne promet rien. Il se contente de prendre, doucement.",
 		"charges": null,
 		"image_path": null
@@ -3788,7 +3788,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Deuil : Quand un de vos serviteurs Humains meurt, le serviteur adjacent gagne +1/+1.",
+		"effect": "Deuil : Quand un de vos serviteurs Humains meurt, les serviteurs adjacents gagnent +1/+1.",
 		"flavor": "À Skeldara, le serment survit à celui qui l'a fait. C'est tout l'intérêt.",
 		"charges": 3,
 		"image_path": null
@@ -3872,7 +3872,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Un serviteur ciblé ennemi subit -1/-0 de façon permanente (Corruption).",
+		"effect": "Inflige Corruption à un serviteur ciblé ennemi.",
 		"flavor": "Un murmure suffit. Le reste se fait tout seul, avec le temps.",
 		"charges": null,
 		"image_path": null
@@ -3900,7 +3900,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Inflige 2 points de dégâts à la cible (joueur ou serviteur ennemi).",
+		"effect": "Inflige 2 points de dégâts à la cible.",
 		"flavor": "Ce n'est pas du vent. C'est ce qui reste quand les poumons ne servent plus à rien.",
 		"charges": null,
 		"image_path": null
@@ -3928,7 +3928,7 @@
 		"lane": "Hybride",
 		"attack": 4,
 		"hp": 4,
-		"effect": "MOISSON\nArrivée : Vole 2 points de vie au héros ennemi.\nPacte 3 : Vole 2 points de vie supplémentaires.",
+		"effect": "MOISSON\nArrivée : Vole 2 points de vie à votre adversaire.\nPacte 3 : Vole 2 points de vie supplémentaires.",
 		"flavor": "Il prélève des deux côtés. C'est ce qui rend le marché intéressant, pour lui.",
 		"charges": null,
 		"image_path": null
@@ -3956,7 +3956,7 @@
 		"lane": "Arrière",
 		"attack": 2,
 		"hp": 3,
-		"effect": "Blessure : Votre héros récupère 1 point de vie.",
+		"effect": "Blessure : Vous récupérez 1 point de vie.",
 		"flavor": "Chaque coup qu'il encaisse repart, transformé, vers celui qu'il protège.",
 		"charges": null,
 		"image_path": null
@@ -4026,7 +4026,7 @@
 		"lane": "Avant",
 		"attack": 4,
 		"hp": 6,
-		"effect": "REMPART\nDernier Souffle : Inflige 2 points de dégâts au héros adverse.\nPacte 2 : Inflige 1 point de dégât de plus.",
+		"effect": "REMPART\nDernier Souffle : Inflige 2 points de dégâts à votre adversaire.\nPacte 2 : Inflige 1 point de dégât de plus.",
 		"flavor": "Sa chute n'éteint rien. Elle propage juste l'incendie ailleurs.",
 		"charges": null,
 		"image_path": null
@@ -4068,7 +4068,7 @@
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifice jusqu'à 3 : Piochez 1 carte par serviteur sacrifié.\nVotre héros perd 1 point de vie par serviteur sacrifié.",
+		"effect": "Sacrifice jusqu'à 3 : Piochez 1 carte par serviteur sacrifié.\nVous perdez 1 point de vie par serviteur sacrifié.",
 		"flavor": "Ils ne meurent pas pour rien. Ils meurent pour que tu continues, de justesse.",
 		"charges": null,
 		"image_path": null
@@ -4180,7 +4180,7 @@
 		"lane": "Arrière",
 		"attack": 2,
 		"hp": 3,
-		"effect": "CHAIR ADAPTATIVE",
+		"effect": "Arrivée : Les serviteurs adjacents gagnent CHAIR ADAPTATIVE de façon permanente.",
 		"flavor": "Elle ne donne pas d'ordres. Elle se contente de murmurer, et la chair voisine écoute.",
 		"charges": null,
 		"image_path": null
@@ -4236,7 +4236,7 @@
 		"lane": "Avant",
 		"attack": 1,
 		"hp": 5,
-		"effect": "REMPART\nBlessure : Réduit de 1 les dégâts reçus (minimum 1).",
+		"effect": "REMPART\nBlessure : Réduit de 1 les dégâts reçus.",
 		"flavor": "Les lames s'enfoncent dans la chair morte et s'y perdent.",
 		"charges": null,
 		"image_path": null
