@@ -7,7 +7,10 @@
 	text-align: center;
 	max-width: 560px;
 	margin: 0 auto 28px;
-	animation: card-type-fade-in 0.35s ease-out both;
+	/* `backwards` et pas `both` : voir .card-type-grid-item plus bas (un
+	   transform laisse par fill-mode forwards desactive l antialiasing
+	   sous-pixel du texte). */
+	animation: card-type-fade-in 0.35s ease-out backwards;
 }
 
 .card-type-carousel {
@@ -40,7 +43,16 @@
 .card-type-grid-item {
 	flex: 0 0 auto;
 	scroll-snap-align: center;
-	animation: card-type-grid-in 0.4s ease-out both;
+	/* fill-mode `backwards` et pas `both` : avec `forwards`, la derniere image
+	   cle (`transform: translateY(0)`) reste la valeur calculee de l element
+	   POUR TOUJOURS une fois l animation terminee. Un transform non-`none`
+	   suffit a Chrome pour composer l element dans son propre calque, ce qui
+	   DESACTIVE l antialiasing sous-pixel du texte dans tout le sous-arbre :
+	   les textes des cartes restaient en lissage niveaux de gris, d ou un
+	   rendu baveux une fois l animation finie. `backwards` anime pareil mais
+	   ne laisse aucun transform derriere lui. Meme correctif dans
+	   InfoExplorer.css et Home.css. */
+	animation: card-type-grid-in 0.4s ease-out backwards;
 }
 
 /* Fleches : seulement quand la rangee deborde reellement. */

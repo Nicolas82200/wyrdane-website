@@ -75,7 +75,9 @@
 }
 
 .info-explorer-fade-in {
-	animation: info-explorer-in 0.45s ease-out both;
+	/* `backwards` et pas `both` : voir CardTypeExplorer.css (un transform laisse
+	   par fill-mode forwards desactive l antialiasing sous-pixel du texte). */
+	animation: info-explorer-in 0.45s ease-out backwards;
 }
 
 .info-explorer-stage-1 {
