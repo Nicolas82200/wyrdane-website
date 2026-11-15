@@ -123,7 +123,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 		},
 		privacy: {
 			title: "Politique de confidentialité",
-			updated: "Dernière mise à jour : 12 novembre 2026",
+			updated: "Dernière mise à jour : 15 novembre 2026",
 			sections: [
 				{
 					heading: "Responsable de traitement",
@@ -139,6 +139,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Messages de chat privés échangés avec vos amis dans le Jeu, ainsi que vos relations d'amitié et votre état de présence (en ligne, en jeu), conservés pour que vous retrouviez vos conversations et votre liste d'une session à l'autre.",
 						"Adresse IP et données techniques de connexion (journaux serveur), à des fins de sécurité et de lutte contre la triche.",
 						"Si et seulement si vous l'acceptez après un plantage : le journal technique de la session précédente du Jeu. Rien n'est jamais envoyé automatiquement, et les chemins de fichiers de votre ordinateur y sont masqués avant l'envoi.",
+						"Mesure de fréquentation du Site : les pages consultées, associées à un identifiant de visiteur aléatoire (voir Cookies). Aucune adresse IP n'est conservée à ce titre.",
 						"Toute information transmise volontairement par email lors d'un contact.",
 					],
 					paragraphs: [
@@ -153,6 +154,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Sécurité, prévention de la fraude et de la triche (base légale : intérêt légitime).",
 						"Réponse aux demandes de contact (base légale : intérêt légitime).",
 						"Diagnostic des plantages du Jeu, à partir du journal technique que vous choisissez de nous envoyer (base légale : votre consentement, que vous pouvez refuser sans aucune conséquence sur le Jeu).",
+						"Mesure de la fréquentation du Site, pour savoir quelles pages sont consultées (base légale : intérêt légitime).",
 					],
 				},
 				{
@@ -177,7 +179,9 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Cookies",
 					paragraphs: [
-						"Le Site et le Jeu utilisent uniquement un cookie de session, strictement nécessaire à l'authentification et au fonctionnement du compte joueur. Ce cookie ne nécessite pas de consentement préalable (article 82 de la loi Informatique et Libertés) et est supprimé à la déconnexion ou à expiration. Aucun cookie publicitaire ni traceur d'analyse n'est utilisé à ce jour ; si cela évoluait, cette politique serait mise à jour et un bandeau de consentement serait mis en place le cas échéant.",
+						"Le Site et le Jeu utilisent un cookie de session, strictement nécessaire à l'authentification et au fonctionnement du compte joueur. Il ne nécessite pas de consentement préalable (article 82 de la loi Informatique et Libertés) et est supprimé à la déconnexion ou à expiration.",
+						"Le Site dépose en outre un cookie de mesure de fréquentation, conservé douze mois. Il contient un identifiant aléatoire qui ne permet pas de vous identifier, et sert uniquement à distinguer les visites des visiteurs sur nos propres pages : aucune adresse IP n'y est associée, il n'est recoupé avec aucun autre traitement et n'est transmis à aucun tiers. À ce titre, il relève de l'exemption de consentement prévue pour la mesure d'audience.",
+						"Aucun cookie publicitaire n'est utilisé, et aucune de vos données n'est exploitée à des fins de ciblage ; si cela évoluait, cette politique serait mise à jour et un bandeau de consentement serait mis en place.",
 					],
 				},
 				{
@@ -351,7 +355,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 		},
 		privacy: {
 			title: "Privacy Policy",
-			updated: "Last updated: November 12, 2026",
+			updated: "Last updated: November 15, 2026",
 			sections: [
 				{
 					heading: "Data controller",
@@ -367,6 +371,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Private chat messages exchanged with your friends in the Game, along with your friendships and presence status (online, in game), kept so that you find your conversations and your list again from one session to the next.",
 						"IP address and technical connection data (server logs), for security and anti-cheat purposes.",
 						"If, and only if, you agree to it after a crash: the technical log of the Game's previous session. Nothing is ever sent automatically, and the file paths of your computer are redacted before sending.",
+						"Site traffic measurement: the pages visited, linked to a random visitor identifier (see Cookies). No IP address is retained for this purpose.",
 						"Any information voluntarily provided by email when contacting us.",
 					],
 					paragraphs: [
@@ -381,6 +386,7 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 						"Security, fraud and cheat prevention (legal basis: legitimate interest).",
 						"Responding to contact requests (legal basis: legitimate interest).",
 						"Diagnosing Game crashes, from the technical log you choose to send us (legal basis: your consent, which you may withhold with no consequence whatsoever on the Game).",
+						"Measuring Site traffic, to know which pages are visited (legal basis: legitimate interest).",
 					],
 				},
 				{
@@ -405,7 +411,9 @@ export const LEGAL_CONTENT: Record<Language, LegalContent> = {
 				{
 					heading: "Cookies",
 					paragraphs: [
-						"The Site and the Game only use a session cookie, strictly necessary for authentication and the operation of the player account. This cookie does not require prior consent and is deleted upon logout or expiration. No advertising or analytics cookie is used at this time; should this change, this policy will be updated and a consent banner will be implemented accordingly.",
+						"The Site and the Game use a session cookie, strictly necessary for authentication and the operation of the player account. It does not require prior consent and is deleted upon logout or expiration.",
+						"The Site additionally sets a traffic measurement cookie, kept for twelve months. It holds a random identifier that cannot identify you, and serves only to tell visits from visitors on our own pages: no IP address is attached to it, it is cross-referenced with no other processing, and it is shared with no third party. On that basis it falls under the consent exemption for audience measurement.",
+						"No advertising cookie is used, and none of your data is used for targeting purposes; should this change, this policy will be updated and a consent banner will be implemented.",
 					],
 				},
 				{
