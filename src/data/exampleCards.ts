@@ -44,8 +44,8 @@ const arrowVolley = card({
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Inflige 1 dégât à tous les serviteurs ennemis en rangée Avant.\nSi 4 ou plus en rangée Avant : 2 dégâts à la place.",
-	flavor: "Plus ils sont nombreux, plus ça fait de cibles.",
+	effect: "Inflige 1 point de dégât à tous les serviteurs ennemis en rangée Avant.\nSi 4 ou plus en rangée Avant : 2 points de dégâts à la place.",
+	flavor: "Les archers d'Ostrane ne visent pas un homme. Ils visent une ligne entière. Plus ils sont nombreux, plus ça fait de cibles.",
 	image_path: "/assets/card_art/human/arrow-volley.jpg",
 });
 
@@ -58,7 +58,7 @@ const bottomlessAbyssRitual = card({
 	hp: null,
 	rarity: "Épique",
 	charges: 2,
-	effect: "Sacrifice 1 : Piochez une carte.\nVotre héros regagne 1 point de vie.",
+	effect: "Sacrifice 1 : Piochez 1 carte.\nVous récupérez 1 point de vie.",
 	flavor: "Le seul rituel démoniaque qui rend plus qu'il ne prend, tant qu'il reste des charges.",
 	image_path: "/assets/card_art/demon/bottomless-abyss-ritual.jpg",
 });
@@ -71,21 +71,21 @@ const auraOfCorruption = card({
 	attack: null,
 	hp: null,
 	rarity: "Rare",
-	effect: "Résonance : Ce Démon attaquant inflige Corruption supplémentaire à sa cible.",
+	effect: "Quand un serviteur Démon allié attaque, il inflige Corruption supplémentaire à sa cible.",
 	flavor: "La corruption ne recule jamais. Elle s'accumule, discrètement.",
 	image_path: "/assets/card_art/demon/aura-of-corruption.jpg",
 });
 
 const royalSeal = card({
-	name: "Sceau du Royaume",
+	name: "Sceau",
 	race: "Humain",
 	card_type: "Ressource",
 	cost: 0,
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Ajoute 1 Sceau à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-	flavor: "Frappé au nom du roi, il lie chaque soldat à son serment.",
+	effect: "Ajoute 1 Sceau à votre réserve, ressource pour jouer les cartes Humain.",
+	flavor: "Vous ne pouvez jouer qu'une ressource par tour.",
 	image_path: "/assets/card_art/resource/human-resource.jpg",
 });
 
@@ -126,7 +126,7 @@ const soulDevourer = card({
 	attack: 4,
 	hp: 4,
 	rarity: "Épique",
-	effect: "MOISSON\nArrivée : Vole 4 points de vie au héros ennemi.\nPacte 3 : Vole 2 points de vie supplémentaires.",
+	effect: "MOISSON\nArrivée : Vole 2 points de vie à votre adversaire.\nPacte 3 : Vole 2 points de vie supplémentaires.",
 	flavor: "Il prélève des deux côtés. C'est ce qui rend le marché intéressant, pour lui.",
 	image_path: "/assets/card_art/demon/soul-devourer.jpg",
 });
@@ -164,11 +164,11 @@ const putrefiedRavager = card({
 	race: "Mort-Vivant",
 	card_type: "Serviteur",
 	lane: "Avant",
-	cost: 5,
+	cost: 6,
 	attack: 6,
 	hp: 4,
 	rarity: "Épique",
-	effect: "RAVAGE\nMort-rage : Serviteurs Mort-Vivants alliés +2/+2.",
+	effect: "RAVAGE\nMort-rage : Les serviteurs Mort-Vivants alliés gagnent +2/+2 de façon permanente.",
 	flavor: "Chaque mort nourrit sa rage. Et il y a toujours de nouveaux morts.",
 	image_path: "/assets/card_art/undead/putrefied-ravager.jpg",
 });
@@ -197,7 +197,7 @@ const grandInquisitrix = card({
 	hp: 6,
 	rarity: "Légendaire",
 	effect: "DISCIPLINE\nÉveil : Détruit un enchantement ou rituel ennemi actif aléatoire.",
-	flavor: "À Dreamar, on ne combat pas la magie ennemie. On la voit venir, longtemps avant qu'elle n'arrive. Elle la refuse.",
+	flavor: null,
 	image_path: "/assets/card_art/human/grand-inquisitrix.jpg",
 });
 
@@ -252,7 +252,7 @@ const livingRampart = card({
 	attack: 4,
 	hp: 10,
 	rarity: "Légendaire",
-	effect: "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure (une fois par tour) : Invoque un Porteur de Bouclier Eorthalien 1/4 REMPART.",
+	effect: "REMPART, FORTIFICATION, CONTRE-ATTAQUE\nBlessure : Invoque un Porteur de Bouclier Eorthalien 1/4 REMPART.\n1 fois par tour.",
 	flavor: "On lui a demandé combien de temps Skeldara pouvait tenir. Il n'a pas répondu. Il tient encore.",
 	image_path: "/assets/card_art/human/living-rampart.jpg",
 });
@@ -266,7 +266,7 @@ const plagueEmissary = card({
 	attack: 3,
 	hp: 4,
 	rarity: "Rare",
-	effect: "PESTIFÉRÉ",
+	effect: "MORSURE 3",
 	flavor: "Il ne vient pas combattre. Il vient annoncer.",
 	image_path: "/assets/card_art/undead/plague-emissary.jpg",
 });
@@ -276,7 +276,7 @@ const famishedGhoul = card({
 	race: "Mort-Vivant",
 	card_type: "Serviteur",
 	lane: "Avant",
-	cost: 1,
+	cost: 0,
 	attack: 2,
 	hp: 1,
 	rarity: "Commune",
@@ -308,7 +308,7 @@ const infectedBerserker = card({
 	attack: 5,
 	hp: 4,
 	rarity: "Épique",
-	effect: "FRÉNÉSIE, REVENANT\nMort-rage : +3/+0.",
+	effect: "ASSAUT, REVENANT\nMort-rage : Peut attaquer à nouveau.",
 	flavor: "La fièvre l'a tué. Ce qui reste est plus rapide.",
 	image_path: "/assets/card_art/undead/infected-berserker.jpg",
 });
@@ -336,7 +336,7 @@ const pactBerserker = card({
 	attack: 5,
 	hp: 4,
 	rarity: "Épique",
-	effect: "FRÉNÉSIE\nPacte 3 : Ce serviteur acquiert ASSAUT.",
+	effect: "FRÉNÉSIE\nPacte 3 : Ce serviteur gagne ASSAUT.",
 	flavor: "Chaque contrat qu'il signe le rend plus rapide, et toi plus vulnérable.",
 	image_path: "/assets/card_art/demon/pact-berserker.jpg",
 });
@@ -346,7 +346,7 @@ const crimsonDemonKing = card({
 	race: "Demon",
 	card_type: "Serviteur",
 	lane: "Avant",
-	cost: 7,
+	cost: 8,
 	attack: 6,
 	hp: 8,
 	rarity: "Légendaire",
@@ -434,7 +434,7 @@ const knotSower = card({
 	attack: 2,
 	hp: 3,
 	rarity: "Épique",
-	effect: "FUSION\nAttaque : Invoque un Amas Informe 1/2 en rangée Avant.",
+	effect: "FUSION\nAttaque : Invoque un Amas Informe 1/2.",
 	flavor: "Il ne construit rien. Il fait pousser.",
 	image_path: "/assets/card_art/abomination/knot-sower.jpg",
 });
@@ -504,8 +504,8 @@ const warHymn = card({
 	hp: null,
 	rarity: "Rare",
 	charges: 3,
-	effect: "Renfort : Le serviteur Humain invoqué gagne +1/+1.",
-	flavor: "Le chant ne les rend pas invincibles. Il leur rappelle qu'ils ne sont pas seuls.",
+	effect: "Renfort : Le serviteur Humain qui arrive gagne +1/+1.",
+	flavor: "Le chant appris à Dreamar ne les rend pas invincibles. Il leur rappelle qu'ils ne sont pas seuls.",
 	image_path: "/assets/card_art/human/war-hymn.jpg",
 });
 
@@ -518,7 +518,7 @@ const epidemic = card({
 	hp: null,
 	rarity: "Épique",
 	charges: 2,
-	effect: "Présence : Serviteurs non Mort-Vivants ennemis -1/-1.",
+	effect: "Présence : Les serviteurs non-Mort-Vivants ennemis subissent -1/-1.",
 	flavor: "Elle ne tue pas. Elle prépare, jour après jour.",
 	image_path: "/assets/card_art/undead/epidemic.jpg",
 });
@@ -531,24 +531,11 @@ const altarOfSacrifice = card({
 	attack: null,
 	hp: null,
 	rarity: "Rare",
-	effect: "Deuil : Piochez une carte.\nPacte 2 : Piochez une carte supplémentaire.",
+	effect: "Deuil : Piochez 1 carte.\nPacte 2 : Piochez 1 carte supplémentaire.\n1 fois par tour.",
 	flavor: "L'autel ne demande jamais deux fois. Il attend, c'est tout.",
 	image_path: "/assets/card_art/demon/altar-of-sacrifice.jpg",
 });
 
-const impassableWall = card({
-	name: "Mur Infranchissable",
-	race: "Humain",
-	card_type: "Rituel",
-	cost: 6,
-	attack: null,
-	hp: null,
-	rarity: "Épique",
-	charges: 2,
-	effect: "Sortilège ennemi : Annulé s'il cible un serviteur Humain allié en rangée Avant.",
-	flavor: "La magie s'arrête là où la volonté commence.",
-	image_path: "/assets/card_art/human/impassable-wall.jpg",
-});
 
 const circleOfAssembly = card({
 	name: "Cercle de l'Assemblage",
@@ -559,7 +546,7 @@ const circleOfAssembly = card({
 	hp: null,
 	rarity: "Épique",
 	charges: 2,
-	effect: "Sacrifice 2 : Un allié restant aléatoire gagne +2/+2 de façon permanente.",
+	effect: "Sacrifice 2 : Un autre serviteur aléatoire allié gagne +2/+2 de façon permanente.",
 	flavor: "Deux corps entrent. Un seul en ressort, plus grand.",
 	image_path: "/assets/card_art/abomination/circle-of-assembly.jpg",
 });
@@ -586,7 +573,7 @@ const vortexOfTheDamned = card({
 	attack: null,
 	hp: null,
 	rarity: "Légendaire",
-	effect: "Carnage : Gagnez 1 mana temporaire ce tour.\nPacte 2 : Gagnez 1 mana temporaire supplémentaire.",
+	effect: "Carnage : Inflige Corruption à un serviteur ennemi aléatoire.\nPacte 2 : Inflige Corruption à un second serviteur ennemi aléatoire.",
 	flavor: "Les âmes qui s'y perdent paient toujours un peu plus que prévu.",
 	image_path: "/assets/card_art/demon/vortex-of-the-damned.jpg",
 });
@@ -599,8 +586,8 @@ const soulShard = card({
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Ajoute 1 Chair à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-	flavor: "Ce qui reste d'une vie, cristallisé par la nécromancie.",
+	effect: "Ajoute 1 Chair à votre réserve, ressource pour jouer les cartes Mort-Vivant.",
+	flavor: "Vous ne pouvez jouer qu'une ressource par tour.",
 	image_path: "/assets/card_art/resource/undead-resource.jpg",
 });
 
@@ -612,21 +599,21 @@ const pactFragment = card({
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Ajoute 1 Âme à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-	flavor: "Une clause parmi tant d'autres. Elle aussi se paiera.",
+	effect: "Ajoute 1 Âme à votre réserve, ressource pour jouer les cartes Démon.",
+	flavor: "Vous ne pouvez jouer qu'une ressource par tour.",
 	image_path: "/assets/card_art/resource/demon-resource.jpg",
 });
 
 const anomalyShard = card({
-	name: "Éclat d'Anomalie",
+	name: "Anomalie",
 	race: "Abomination",
 	card_type: "Ressource",
 	cost: 0,
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Ajoute 1 Éclat à votre réserve.\nVous ne pouvez jouer qu'une ressource par tour.",
-	flavor: "Ça continue de battre, même détaché de tout le reste.",
+	effect: "Ajoute 1 Anomalie à votre réserve, ressource pour jouer les cartes Abomination.",
+	flavor: "Vous ne pouvez jouer qu'une ressource par tour.",
 	image_path: "/assets/card_art/resource/abomination-resource.jpg",
 });
 
@@ -638,7 +625,7 @@ const auraOfDecrepitude = card({
 	attack: null,
 	hp: null,
 	rarity: "Rare",
-	effect: "Résonance : Quand un serviteur Mort-Vivant allié attaque, il gagne +1/+0 de façon permanente.",
+	effect: "Quand un serviteur Mort-Vivant allié attaque, il gagne +1/+0 de façon permanente.",
 	flavor: "La décrépitude n'est pas une faiblesse. C'est une accumulation.",
 	image_path: "/assets/card_art/undead/aura-of-decrepitude.jpg",
 });
@@ -651,7 +638,7 @@ const cryOfTheDamned = card({
 	attack: null,
 	hp: null,
 	rarity: "Rare",
-	effect: "Mort-Vivants alliés +1/+0 ce tour.\nSi 5 ou plus en jeu : +2/+0 à la place.",
+	effect: "Les serviteurs Mort-Vivants alliés gagnent +1/+0 jusqu'à la fin du tour.\nS'ils sont 5 ou plus en jeu : +2/+0 à la place.",
 	flavor: "Plus ils sont nombreux à hurler, moins le cri ressemble à quelque chose d'humain.",
 	image_path: "/assets/card_art/undead/cry-of-the-damned.jpg",
 });
@@ -664,7 +651,7 @@ const bloodRite = card({
 	attack: null,
 	hp: null,
 	rarity: "Rare",
-	effect: "Votre héros récupère 2 points de vie.\nSacrifice 1 : Le héros adverse subit 2 points de dégâts.",
+	effect: "Vous récupérez 2 points de vie.\nSacrifice 1 : Votre adversaire subit 2 points de dégâts.",
 	flavor: "Un sang pour un autre. L'échange est rarement équitable, sauf pour toi, cette fois.",
 	image_path: "/assets/card_art/demon/blood-rite.jpg",
 });
@@ -677,7 +664,7 @@ const airBite = card({
 	attack: null,
 	hp: null,
 	rarity: "Commune",
-	effect: "Inflige 2 points de dégâts à un serviteur ciblé ennemi.\nS'il survit, il perd 1 ATK de façon permanente.",
+	effect: "Inflige 2 points de dégâts à un serviteur ciblé ennemi.\nS'il survit, il subit -1/-0 de façon permanente.",
 	flavor: "Ce qui ne tue pas ronge quand même.",
 	image_path: "/assets/card_art/abomination/air-bite.jpg",
 });
@@ -790,11 +777,11 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	},
 
 	// Mots-clés Mort-Vivant
-	pestifere: {
+	morsure: {
 		card: plagueEmissary,
 		demo: {
-			fr: "Émissaire de la Peste (3/4) porte PESTIFÉRÉ : chacune de ses attaques inflige une marque d'Infection à sa cible, en plus des dégâts normaux.",
-			en: "Plague Emissary (3/4) has PLAGUEBEARER: each of its attacks inflicts an Infection stack on its target, on top of normal damage.",
+			fr: "Émissaire de la Peste (3/4) porte MORSURE : ses dégâts posent une marque d'Infection sur sa cible pour un nombre de tours donné, en plus des dégâts normaux.",
+			en: "Plague Emissary (3/4) has BITE: its damage marks the target with Infection for a given number of turns, on top of normal damage.",
 		},
 	},
 	necrophage: {
@@ -814,8 +801,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	revenant: {
 		card: infectedBerserker,
 		demo: {
-			fr: "Berserker Infecté porte REVENANT : la première fois qu'il devrait mourir, il se relève avec 1 PV au lieu de partir au cimetière, une seule fois par partie.",
-			en: "Infected Berserker has REVENANT: the first time it would die, it rises with 1 HP instead of going to the graveyard, once per game.",
+			fr: "Berserker Infecté porte REVENANT : la première fois qu'il devrait mourir, il se relève avec 1 PV au lieu de partir au cimetière, une seule fois par pose sur le plateau, Sacrifice et FUSION compris.",
+			en: "Infected Berserker has REVENANT: the first time it would die, it rises with 1 HP instead of going to the graveyard, once per time it's put into play, Sacrifice and FUSION included.",
 		},
 	},
 	chair_morte: {
@@ -925,8 +912,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	t_reinforcement: {
 		card: warHymn,
 		demo: {
-			fr: "\"Renfort\" sur Hymne de Guerre (3 charges) se déclenche chaque fois qu'un serviteur Humain allié arrive en jeu : celui-ci gagne aussitôt +1/+1.",
-			en: "\"Reinforcement\" on War Hymn (3 charges) fires every time an allied Human minion enters play: it immediately gains +1/+1.",
+			fr: "\"Renfort\" sur Hymne de Guerre (3 charges) se déclenche chaque fois qu'un serviteur Humain que vous jouez arrive en jeu : celui-ci gagne aussitôt +1/+1. Un Humain invoqué par un effet ne le déclenche pas.",
+			en: "\"Reinforcement\" on War Hymn (3 charges) fires every time a Human minion you play arrives: it immediately gains +1/+1. A Human summoned by an effect does not trigger it.",
 		},
 	},
 	t_deathrattle: {
@@ -950,39 +937,25 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 			en: "\"Awakening\" on Campaign Marshal fires right at the start of your turn: all your Human minions gain +1/+0 until end of turn.",
 		},
 	},
-	t_decline: {
-		card: epidemic,
-		demo: {
-			fr: "L'un des deux triggers d'Épidémie se déclenche en \"Déclin\", au début du tour ennemi, pour maintenir son malus -1/-1 actif sur les serviteurs non Mort-Vivants adverses.",
-			en: "One of Epidemic's two triggers fires on \"Decline\", at the start of the enemy turn, to keep its -1/-1 debuff active on non-Undead enemy minions.",
-		},
-	},
 	t_attack: {
 		card: knotSower,
 		demo: {
-			fr: "\"Attaque\" sur le Semeur de Nœuds se déclenche chaque fois qu'il attaque : il invoque aussitôt un Amas Informe 1/2 en rangée Avant.",
-			en: "\"Attack\" on Knot Sower fires every time it attacks: it immediately summons a 1/2 Formless Mass in the Front row.",
+			fr: "\"Attaque\" sur le Semeur de Nœuds se déclenche chaque fois qu'il attaque : il invoque aussitôt un Amas Informe 1/2.",
+			en: "\"Attack\" on Knot Sower fires every time it attacks: it immediately summons a 1/2 Formless Mass.",
 		},
 	},
 	t_grief: {
 		card: altarOfSacrifice,
 		demo: {
-			fr: "\"Deuil\" sur l'Autel des Sacrifices se déclenche chaque fois qu'un serviteur allié meurt : vous piochez alors une carte.",
-			en: "\"Mourning\" on Altar of Sacrifice fires every time an allied minion dies: you then draw a card.",
-		},
-	},
-	t_spell: {
-		card: impassableWall,
-		demo: {
-			fr: "\"Sortilège\" sur le Mur Infranchissable se déclenche quand l'adversaire lance un sort : celui-ci est annulé s'il cible un Humain allié en rangée Avant.",
-			en: "\"Spell\" on Impassable Wall fires when the opponent casts a spell: it's cancelled if it targets an allied Human in the Front row.",
+			fr: "\"Deuil\" sur l'Autel des Sacrifices se déclenche quand un serviteur allié meurt : vous piochez alors 1 carte, une fois par tour.",
+			en: "\"Mourning\" on Altar of Sacrifice fires when an allied minion dies: you then draw 1 card, once per turn.",
 		},
 	},
 	t_sacrifice: {
 		card: circleOfAssembly,
 		demo: {
-			fr: "L'effet du Cercle de l'Assemblage se déclenche après avoir sacrifié 2 serviteurs alliés : un allié restant aléatoire gagne alors +2/+2 de façon permanente.",
-			en: "Circle of Assembly's effect triggers after sacrificing 2 allied minions: a random remaining ally then permanently gains +2/+2.",
+			fr: "L'effet du Cercle de l'Assemblage se déclenche après avoir sacrifié 2 serviteurs alliés : un autre serviteur allié aléatoire gagne alors +2/+2 de façon permanente.",
+			en: "Circle of Assembly's effect triggers after sacrificing 2 allied minions: another random allied minion then permanently gains +2/+2.",
 		},
 	},
 	t_execution: {
@@ -995,8 +968,8 @@ export const EXAMPLE_CARDS: Record<string, ExampleEntry> = {
 	t_carnage: {
 		card: vortexOfTheDamned,
 		demo: {
-			fr: "\"Carnage\" sur Vortex des Damnés se déclenche à chaque mort de serviteur, allié ou ennemi : vous gagnez alors 1 mana temporaire pour ce tour.",
-			en: "\"Carnage\" on Vortex of the Damned fires on any minion death, allied or enemy: you then gain 1 temporary mana for that turn.",
+			fr: "\"Carnage\" sur Vortex des Damnés se déclenche chaque fois qu'un serviteur ennemi meurt : il inflige alors Corruption à un serviteur ennemi aléatoire.",
+			en: "\"Carnage\" on Vortex of the Damned fires every time an enemy minion dies: it then inflicts Corruption on a random enemy minion.",
 		},
 	},
 };

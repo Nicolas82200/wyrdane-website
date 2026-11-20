@@ -52,7 +52,7 @@ const HUMAN_KEYWORDS = {
 	FORTIFICATION: "Fortification",
 };
 const UNDEAD_KEYWORDS = {
-	PESTIFERE: "Pestiféré",
+	MORSURE: "Morsure",
 	NECROPHAGE: "Nécrophage",
 	HORDE: "Horde",
 	REVENANT: "Revenant",
