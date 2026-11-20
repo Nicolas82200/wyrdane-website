@@ -1,7 +1,7 @@
 import type { Language } from "./language";
 
 // `id` est une clé stable (indépendante de la langue) utilisée pour retrouver
-// la carte d'exemple associée dans `src/data/exampleCards.ts`.
+// les cartes associées dans `src/data/cardFilters.ts`.
 export type SimpleItem = { id: string; name: string; text: string };
 export type LaneItem = { key: "front" | "back" | "hybrid"; name: string; text: string };
 export type RaceItem = { key: string; name: string; text: string };
@@ -130,10 +130,16 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 				name: "Attack",
 				text: "Triggers when this minion attacks.",
 			},
+			{ id: "t_resonance", name: "Resonance", text: "Triggers when an allied minion attacks." },
 			{ id: "t_grief", name: "Mourning", text: "Triggers when an allied minion dies." },
 			{ id: "t_sacrifice", name: "Sacrifice", text: "Sacrifice one or more minions as an additional cost." },
 			{ id: "t_execution", name: "Execution", text: "Triggers when this minion kills an enemy by attacking." },
 			{ id: "t_carnage", name: "Carnage", text: "Triggers when an enemy minion dies." },
+			{
+				id: "t_death_rage",
+				name: "Death Rage",
+				text: "Triggers once, when this minion drops below 50% of its maximum HP.",
+			},
 		],
 		devTitle: "Still in development",
 		devText:
@@ -245,10 +251,16 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 				name: "Attaque",
 				text: "Déclenché quand ce serviteur attaque.",
 			},
+			{ id: "t_resonance", name: "Résonance", text: "Déclenché quand un serviteur allié attaque." },
 			{ id: "t_grief", name: "Deuil", text: "Déclenché quand un serviteur allié meurt." },
 			{ id: "t_sacrifice", name: "Sacrifice", text: "Sacrifie un ou plusieurs serviteurs en coût supplémentaire." },
 			{ id: "t_execution", name: "Exécution", text: "Déclenché quand ce serviteur tue un ennemi en attaquant." },
 			{ id: "t_carnage", name: "Carnage", text: "Déclenché quand un serviteur ennemi meurt." },
+			{
+				id: "t_death_rage",
+				name: "Mort-rage",
+				text: "Se déclenche une seule fois, quand ce serviteur passe sous 50% de ses HP maximum.",
+			},
 		],
 		devTitle: "Encore en développement",
 		devText:

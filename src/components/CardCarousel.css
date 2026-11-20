@@ -1,0 +1,89 @@
+/* Voir CardCarousel.tsx pour le principe de la boucle (liste doublée). */
+.card-carousel {
+	/* Une carte fait 250px (.gamecard, GameCard.css) et l'écart entre deux
+	   cartes 34px : un pas de 284px, qui sert à la fois à la largeur de la
+	   fenêtre (4 cartes visibles au maximum) et à la distance de défilement.
+	   En dessous de cette largeur, la fenêtre se réduit et montre moins de
+	   cartes, le défilement reste le même. */
+	--card-carousel-gap: 34px;
+	--card-carousel-step: calc(250px + var(--card-carousel-gap));
+	max-width: calc(4 * var(--card-carousel-step));
+	margin: 0 auto;
+	overflow: hidden;
+	/* Le cadre noir des cartes dépasse de ~9px en haut de leur propre boîte
+	   (GameCard.css) : sans cette marge, `overflow: hidden` le rognerait. Elle
+	   est volontairement plus large que ce strict minimum, pour que la rangée
+	   respire dans le panneau (demande utilisateur du 2026-11-19). */
+	padding: 30px 0 26px;
+	/* Entrée et sortie en fondu sur les bords, pour que les cartes ne soient
+	   pas coupées net par le bord du panneau. */
+	mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.card-carousel-track {
+	display: flex;
+	width: max-content;
+	position: relative;
+	animation-name: card-carousel-scroll;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.card-carousel:hover .card-carousel-track {
+	animation-play-state: paused;
+}
+
+.card-carousel-item {
+	flex: 0 0 auto;
+	margin-right: var(--card-carousel-gap);
+	filter: grayscale(1) brightness(0.72);
+	transition: filter 0.25s ease;
+}
+
+/* Pas de zoom ni de soulèvement au survol : ce serait un transform, donc le
+   même texte baveux sur la carte qu'on est justement en train de lire (voir
+   ci-dessous). La couleur qui revient suffit à marquer le survol. */
+.card-carousel-item:hover {
+	filter: none;
+}
+
+/* `left` et NON `transform` : un transform non-`none` suffit à Chrome pour
+   composer l'élément dans son propre calque, ce qui DÉSACTIVE l'antialiasing
+   sous-pixel du texte dans tout le sous-arbre — les cartes se liraient
+   baveuses, et précisément au moment où on les lit, le survol mettant le
+   défilement en pause. Même piège que le fill-mode `both` corrigé dans
+   CardTypeExplorer.css. On anime donc une propriété de layout, plus coûteuse
+   qu'un transform : c'est le prix d'un texte net sur une piste qui ne porte
+   qu'une rangée de cartes.
+   ⚠ La distance est comptée en pas de carte, PAS en `-50%` : un pourcentage de
+   `left` se résout sur la largeur du CONTENEUR, pas sur celle de la piste, donc
+   la boucle sautait. `--card-carousel-count` est le nombre de cartes d'UNE
+   copie de la liste, posé en style inline par CardCarousel.tsx. */
+@keyframes card-carousel-scroll {
+	from {
+		left: 0;
+	}
+	to {
+		left: calc(-1 * var(--card-carousel-count) * var(--card-carousel-step));
+	}
+}
+
+/* Animation refusée : la rangée redevient un simple défilement manuel. */
+@media (prefers-reduced-motion: reduce) {
+	.card-carousel {
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.card-carousel::-webkit-scrollbar {
+		display: none;
+	}
+
+	.card-carousel-track {
+		animation: none;
+	}
+
+	.card-carousel-item {
+		transition: none;
+	}
+}

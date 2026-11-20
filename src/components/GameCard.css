@@ -161,13 +161,14 @@
 	flex-shrink: 0;
 }
 
-/* BorderFrameBlack : cadre noir débordant (-8,-9 → 266×390, radius 8) */
+/* BorderFrameBlack : cadre noir débordant (-6,-9 → 262×395, radius 8),
+   resserré le 2026-11-19 avec la bordure universelle (Card.tscn). */
 .gamecard-black-frame {
 	position: absolute;
-	left: -8px;
+	left: -6px;
 	top: -9px;
-	width: 266px;
-	height: 390px;
+	width: 262px;
+	height: 395px;
 	background: #000;
 	border-radius: 8px;
 }
@@ -470,4 +471,7 @@
 	height: 390px;
 	pointer-events: none;
 	z-index: 4;
+	/* BorderFrame.self_modulate = Color(0.72, 0.72, 0.72) dans Card.tscn :
+	   la bordure est assombrie, pas affichee brute. */
+	filter: brightness(0.72);
 }

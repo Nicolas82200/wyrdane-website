@@ -27,3 +27,7 @@ public/feed.json
 *.njsproj
 *.sln
 *.sw?
+
+# Sortie de l'outil graphify (graphe de code) — artefact local, pas une source.
+graphify-out/
+src/graphify-out/

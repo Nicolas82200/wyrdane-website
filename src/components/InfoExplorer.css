@@ -1,5 +1,6 @@
 .info-explorer-detail {
-	max-width: 600px;
+	/* Pas de max-width ici : le carrousel occupe toute la largeur du panneau
+	   (4 cartes), seuls le titre et la définition sont resserrés. */
 	margin: 0 auto;
 	text-align: center;
 	display: flex;
@@ -29,38 +30,12 @@
 }
 
 .info-explorer-example {
-	display: flex;
-	align-items: center;
-	gap: 24px;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-
-.info-explorer-card-wrap {
-	flex: 0 0 auto;
-	filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
-}
-
-.info-explorer-demo {
-	flex: 1 1 260px;
-	text-align: left;
-	font-family: "Crimson Text", serif;
-	font-style: italic;
-	font-size: 15px;
-	line-height: 1.65;
-	color: rgba(232, 213, 163, 0.9);
-	background: rgba(0, 0, 0, 0.25);
-	border: 1px solid var(--panel-border);
-	border-left: 3px solid var(--gold-pressed);
-	border-radius: 6px;
-	padding: 16px 18px;
-	margin: 0;
+	align-self: stretch;
 }
 
 /* Apparition en cascade au changement de sélection : le titre glisse en
    premier depuis le haut en s'estompant, puis la description, la carte
-   d'exemple et enfin le texte de démonstration suivent avec un léger
-   décalage. Rejoué à chaque sélection car InfoExplorer.tsx remonte
+   puis le carrousel de cartes suivent avec un léger décalage. Rejoué à chaque sélection car InfoExplorer.tsx remonte
    `.info-explorer-detail` (key={activeItem.id}) - une animation CSS ne
    se relance pas d'elle-même sur un simple changement de contenu. */
 @keyframes info-explorer-in {
@@ -90,10 +65,6 @@
 
 .info-explorer-stage-3 {
 	animation-delay: 0.2s;
-}
-
-.info-explorer-stage-4 {
-	animation-delay: 0.3s;
 }
 
 @media (prefers-reduced-motion: reduce) {

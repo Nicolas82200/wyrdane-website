@@ -6,10 +6,11 @@ import { translateCardText } from "../i18n/cardText";
 import { RACE_ICON_COLORS } from "../data/raceColors";
 import "./GameCard.css";
 
-import undeadBorder from "../assets/game/borders/undead-border-card.png";
-import humanBorder from "../assets/game/borders/human-border-card.png";
-import demonBorder from "../assets/game/borders/demon-border-card.png";
-import abominationBorder from "../assets/game/borders/abomination-border-card.png";
+// Card.gd BORDER_TEXTURE : une seule bordure pour les quatre races depuis le
+// 2026-11-19 (elle etait propre a chaque race avant). Recopiee en RGBA : les
+// anciennes copies etaient des PNG indexes, ce qui avait aplati la
+// transparence douce du cadre.
+import cardBorder from "../assets/game/borders/border.png";
 // Icones de rangee : les versions COULEUR, la ou le jeu charge les blanches
 // (Card.gd LANE_ICONS, *_lane_white.png). Elles passent ici par un masque
 // CSS, qui ne lit que le canal alpha et jette la couleur : la silhouette est
@@ -28,13 +29,6 @@ import abominationResourceIcon from "../assets/game/icons/internal-organ.svg";
 
 // Réplique de scenes/card/Card.tscn + scripts/card/Card.gd du jeu (E:\card-game),
 // à partir des données servies par wyrdane-backend (valeurs en français).
-
-const BORDER_TEXTURES: Record<string, string> = {
-	"Mort-Vivant": undeadBorder,
-	Humain: humanBorder,
-	Demon: demonBorder,
-	Abomination: abominationBorder,
-};
 
 // Card.gd RACE_COLORS — fond du nom, de la description et du badge de coût race
 const RACE_COLORS: Record<string, string> = {
@@ -219,7 +213,6 @@ export default function GameCard({ card }: { card: CardData }) {
 	const raceColor = RACE_COLORS[card.race] ?? "rgba(0, 0, 0, 0.75)";
 	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
 	const rarityColor = RARITY_COLORS[card.rarity ?? ""] ?? "#808080";
-	const borderTexture = BORDER_TEXTURES[card.race];
 	// Card.gd update_display : medaillon en haut a gauche, symetrique au badge
 	// de cout. Serviteur = icone de rangee, deja illustree en couleur (aucune
 	// teinte appliquee). Autre type = silhouette blanche teintee par race. Les
@@ -455,9 +448,7 @@ export default function GameCard({ card }: { card: CardData }) {
 					{card.hp ?? 0}
 				</div>
 			)}
-			{borderTexture && (
-				<img className="gamecard-border" src={borderTexture} alt="" draggable={false} />
-			)}
+			<img className="gamecard-border" src={cardBorder} alt="" draggable={false} />
 		</div>
 	);
 }

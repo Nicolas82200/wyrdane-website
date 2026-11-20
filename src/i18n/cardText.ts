@@ -45,3 +45,33 @@ export function translateCardText(text: string, language: Language): string {
 	if (language === "fr") return text;
 	return TRANSLATIONS[text] ?? text;
 }
+
+// Noms propres de l'univers : seuls mots gardant leur majuscule au milieu d'un
+// nom de carte. Copie de CardData.PROPER_NOUNS (jeu) — à tenir synchronisée.
+const PROPER_NOUNS = ["skeldara", "eorthal", "averan"];
+
+// Les noms de cartes sont saisis en capitales à l'anglaise dans les données
+// ("Chant Dévorant"), ce qui est la norme en anglais mais pas en français. On
+// corrige à l'AFFICHAGE seulement et seulement en français : `card.name` reste
+// l'identifiant qui lie la carte à sa traduction et à la base backend (le
+// renommer griserait les cartes des joueurs). Port de CardData.french_display_name
+// du jeu, découpage sur espaces, tirets et apostrophes compris ("Brise-Mort",
+// "Frère d'Armes").
+export function displayCardName(name: string, language: Language): string {
+	const translated = translateCardText(name, language);
+	if (language !== "fr") return translated;
+	return translated
+		.split(" ")
+		.map((word, wordIndex) => {
+			let isFirstPart = wordIndex === 0;
+			return word.split(/([-'\u2019])/).map((part) => {
+				if (/^[-'\u2019]$/.test(part)) {
+					isFirstPart = false;
+					return part;
+				}
+				if (!part || isFirstPart || PROPER_NOUNS.includes(part.toLowerCase())) return part;
+				return part[0].toLowerCase() + part.slice(1);
+			}).join("");
+		})
+		.join(" ");
+}

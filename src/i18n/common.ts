@@ -27,8 +27,6 @@ export const COMMON = {
 		footerSales: "Terms of Sale",
 		footerRights: "© {year} Wyrdane. All rights reserved.",
 		footerMadeWith: "Made with ♥ by Nertari Studio",
-		carouselPrev: "Previous card",
-		carouselNext: "Next card",
 	},
 	fr: {
 		navHome: "Accueil",
@@ -56,8 +54,6 @@ export const COMMON = {
 		footerSales: "CGV",
 		footerRights: "© {year} Wyrdane. Tous droits réservés.",
 		footerMadeWith: "Fait avec ♥ par Nertari Studio",
-		carouselPrev: "Carte précédente",
-		carouselNext: "Carte suivante",
 	},
 } satisfies Record<Language, Record<string, string>>;
 

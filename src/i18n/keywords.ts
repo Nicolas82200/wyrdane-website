@@ -1,7 +1,7 @@
 import type { Language } from "./language";
 
 // `id` est une clé stable (indépendante de la langue) utilisée pour retrouver
-// la carte d'exemple associée dans `src/data/exampleCards.ts` (KeywordsExplorer).
+// les cartes associées dans `src/data/cardFilters.ts` (InfoExplorer).
 export type KeywordEntry = { id: string; name: string; description: string };
 export type KeywordGroup = { key: string; title: string; items: KeywordEntry[] };
 
