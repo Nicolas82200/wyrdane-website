@@ -23,13 +23,13 @@ const TRIGGER_ENUM_BY_ID = {
 	t_wound: "OnDamaged",
 	t_awaken: "OnAwaken",
 	t_attack: "OnAttack",
+	t_resonance: "OnResonance",
 	t_grief: "OnGrief",
 	t_sacrifice: "OnSacrifice",
 	t_execution: "OnExecution",
 	t_carnage: "OnCarnage",
+	t_death_rage: "OnDeathRage",
 };
-// Plus aucune valeur d'enum côté jeu : aucune carte ne les porte, c'est voulu.
-const EMPTY_ON_PURPOSE = new Set(["t_decline", "t_spell"]);
 
 const ids = (file) => {
 	const text = fs.readFileSync(path.join(root, file), "utf8");
@@ -46,7 +46,6 @@ for (const id of TYPE_IDS) {
 	checked++;
 }
 for (const id of entryIds) {
-	if (EMPTY_ON_PURPOSE.has(id)) continue;
 	const enumName = TRIGGER_ENUM_BY_ID[id];
 	const found = enumName
 		? cards.filter((c) => c.triggers.includes(enumName))

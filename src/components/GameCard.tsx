@@ -2,14 +2,23 @@ import { Fragment, useLayoutEffect, useRef, useState, type ReactNode } from "rea
 import { API_URL } from "../api";
 import type { CardData } from "../types";
 import { useLanguage } from "../i18n/useLanguage";
-import { translateCardText, displayCardName } from "../i18n/cardText";
+import { translateCardText } from "../i18n/cardText";
 import { RACE_ICON_COLORS } from "../data/raceColors";
 import "./GameCard.css";
 
+// Card.gd BORDER_TEXTURE : une seule bordure pour les quatre races depuis le
+// 2026-11-19 (elle etait propre a chaque race avant). Recopiee en RGBA : les
+// anciennes copies etaient des PNG indexes, ce qui avait aplati la
+// transparence douce du cadre.
 import cardBorder from "../assets/game/borders/border.png";
-import frontLane from "../assets/game/icons/front_lane_white.png";
-import backLane from "../assets/game/icons/back_lane_white.png";
-import hybridLane from "../assets/game/icons/hibrid_lane_white.png";
+// Icones de rangee : les versions COULEUR, la ou le jeu charge les blanches
+// (Card.gd LANE_ICONS, *_lane_white.png). Elles passent ici par un masque
+// CSS, qui ne lit que le canal alpha et jette la couleur : la silhouette est
+// la meme a 99% (mesure sur les trois icones), donc la teinte de rarete sort
+// identique sans ajouter 4,7 Mo de PNG 1024x1024 au bundle.
+import frontLane from "../assets/game/icons/front_lane.png";
+import backLane from "../assets/game/icons/back_lane.png";
+import hybridLane from "../assets/game/icons/hibrid_lane.png";
 import instantIcon from "../assets/game/icons/instant.png";
 import ritualIcon from "../assets/game/icons/ritual.png";
 import enchantmentIcon from "../assets/game/icons/enchantment.png";
@@ -29,7 +38,8 @@ const RACE_COLORS: Record<string, string> = {
 	Demon: "rgba(30, 3, 8, 0.839)",
 };
 
-// Card.gd RARITY_COLORS — couleur de fond du bandeau de type (clés = valeurs FR de la BDD)
+// Card.gd RARITY_COLORS — portee par le medaillon de type depuis que le
+// bandeau de type a disparu de la carte (clés = valeurs FR de la BDD)
 const RARITY_COLORS: Record<string, string> = {
 	Commune: "#808080",
 	Rare: "#3498db",
@@ -37,6 +47,23 @@ const RARITY_COLORS: Record<string, string> = {
 	Légendaire: "#f39c12",
 };
 
+// Card.gd _apply_type_style : `modulate` MULTIPLIE la texture, donc la couleur
+// de rarete telle quelle ASSOMBRIT le logo au lieu de le colorer — le gris
+// Commune (#808080) le rendait illisible sur le fond noir du medaillon. Le jeu
+// garde la teinte et la saturation de la rarete mais remonte sa valeur au
+// maximum, ce qui revient a diviser les trois canaux par le plus grand d'entre
+// eux : la Commune redevient blanche, et c'est le contour du medaillon, lui a
+// la couleur exacte, qui porte la distinction pour cette rarete-la.
+// Valeurs attendues : Commune #808080 -> rgb(255,255,255), Rare #3498db ->
+// rgb(61,177,255), Epique #9b59b6 -> rgb(217,125,255), Legendaire #f39c12 ->
+// rgb(255,164,19).
+function rarityIconColor(hex: string): string {
+	const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+	const max = Math.max(...c);
+	if (max === 0) return "#fff";
+	const [r, g, b] = c.map((v) => Math.round((v * 255) / max));
+	return `rgb(${r}, ${g}, ${b})`;
+}
 
 const LANE_ICONS: Record<string, string> = {
 	Avant: frontLane,
@@ -58,6 +85,14 @@ const RACE_RESOURCE_ICONS: Record<string, string> = {
 	Demon: demonResourceIcon,
 	Abomination: abominationResourceIcon,
 };
+
+// Card.gd NAME_BG_ALPHA/DESC_BG_ALPHA : l'alpha de RACE_COLORS est REMPLACE
+// par celui-ci, jamais multiplie (les races ne portent pas toutes le meme).
+// Le site les gardait a 0.96, quasi opaques, pour la lisibilite dans la
+// grille reduite du deck builder ; le jeu laisse passer l'illustration et
+// compense par le contour noir du texte (voir GameCard.css), repris ici.
+const NAME_BG_ALPHA = 0.62;
+const DESC_BG_ALPHA = 0.5;
 
 // CostSystem.RACE_LOCK_PCT — % du coût verrouillé sur le pool de race, par rareté
 const RACE_LOCK_PCT: Record<string, number> = {
@@ -130,35 +165,42 @@ function formatEffectText(text: string): ReactNode[] {
 // grandit vers le BAS (offset_top fixe) quand il deborde de sa case par
 // defaut, plafonne a NAME_LABEL_MAX_GROWTH ; DescLabel juste en-dessous est
 // decale d'autant pour garder le meme espacement entre les deux.
-const NAME_LABEL_DEFAULT_HEIGHT = 25; // 183 - 158
-// Plafond relevé au-delà de la valeur du jeu (34, voir Card.gd) : une fois
-// la police agrandie côté site (voir GameCard.css), un nom sur 2-3 lignes a
-// besoin de plus de place pour ne jamais recouper la description.
-const NAME_LABEL_MAX_GROWTH = 44;
-// Meme principe que la description : la case est en overflow: hidden, donc un
-// nom qui ne tient toujours pas une fois la croissance plafonnee atteinte
-// serait coupe net (cas reels : "Monture-et-Cavalier-Ne-Font-Qu'Un",
-// "Ce-Qui-Ne-Finit-Jamais-de-Grandir"). On reduit la police plutot.
-const NAME_LABEL_FONT_SIZES = [17, 16, 15, 14];
-const DESC_LABEL_DEFAULT_TOP = 186;
-const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 142.5
+const NAME_LABEL_DEFAULT_HEIGHT = 37; // 195 - 158 (Card.gd NAME_LABEL_DEFAULT_*)
+// Card.gd NAME_LABEL_MAX_GROWTH : de quoi tenir deux lignes.
+const NAME_LABEL_MAX_GROWTH = 36;
+// Card.gd NAME_LABEL_FONT_SIZE puis NAME_LABEL_SHRUNK_FONT_SIZE (21 puis 20).
+// Les deux crans suivants n'existent pas dans le jeu, qui laisse un nom sur
+// trois lignes mordre un peu sur l'illustration : ici la case est en
+// overflow: hidden, le nom serait coupe net (cas reels :
+// "Monture-et-Cavalier-Ne-Font-Qu'Un", "Ce-Qui-Ne-Finit-Jamais-de-Grandir").
+const NAME_LABEL_FONT_SIZES = [21, 20, 18, 16];
+const DESC_LABEL_DEFAULT_TOP = 195;
+const DESC_LABEL_DEFAULT_BOTTOM = 328.5; // hauteur minimum 133.5 (Card.tscn DescLabel)
 // Card.gd _fit_desc_label : si le texte débordé malgré la croissance vers
 // le bas (plafonnée ici), on réduit plutôt la police (Typography.BODY - 1
 // → Typography.MICRO - 1) pour ne jamais recouper le texte de règle.
 const DESC_LABEL_MAX_GROWTH = 3;
-const DESC_LABEL_DEFAULT_FONT_SIZE = 15.5;
-// Paliers de reduction essayes dans l'ordre (le jeu n'en a que deux, 16 puis
-// 14) : la case est en overflow: hidden, donc tout ce qui ne tient pas a la
-// derniere taille serait rogne en silence — c'est ce qu'on veut eviter.
-const DESC_LABEL_FONT_SIZES = [15.5, 14.5, 13.5];
-// Dernier recours, une fois le flavour deja masque : plus petit que ce que le
-// jeu descend, mais toujours lisible, et prefere a un texte de regle coupe.
-const DESC_LABEL_LAST_RESORT_FONT_SIZES = [12.5, 11.5];
+const DESC_LABEL_DEFAULT_FONT_SIZE = 18;
+// Card.gd _shrink_desc_to_fit : la police descend d'1px a la fois de
+// DESC_LABEL_DEFAULT_FONT_SIZE (18) jusqu'au cran reduit (16), puis le
+// flavour est sacrifie, puis elle continue jusqu'au plancher
+// DESC_LABEL_FLOOR_FONT_SIZE (13).
+const DESC_LABEL_FONT_SIZES = [18, 17, 16];
+const DESC_LABEL_LAST_RESORT_FONT_SIZES = [15, 14, 13];
 const STATS_LABEL_DEFAULT_TOP = 330;
 // Card.gd DESC_FLAVOUR_HIDE_THRESHOLD : au-delà de ce nombre de caractères,
 // le texte d'effet seul remplit déjà la case — le flavour text est masqué
 // plutôt que d'aggraver le débordement.
-const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
+const DESC_FLAVOUR_HIDE_THRESHOLD = 80;
+
+// TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
+// Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
+// plutôt qu'au canvas : une mesure JS figée au premier rendu (avant que la
+// police de la carte ait fini de charger, voir le même problème sur
+// NameLabel ci-dessus) tombait sur la police de repli du navigateur,
+// produisait une largeur trop étroite, et restait juste — coupant des mots
+// entiers ("Enchantement", "Rituel • N charges") derrière overflow: hidden
+// sans jamais se corriger une fois la vraie police chargée.
 
 export default function GameCard({ card }: { card: CardData }) {
 	const { language } = useLanguage();
@@ -172,15 +214,13 @@ export default function GameCard({ card }: { card: CardData }) {
 	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
 	const rarityColor = RARITY_COLORS[card.rarity ?? ""] ?? "#808080";
 	// Card.gd update_display : medaillon en haut a gauche, symetrique au badge
-	// de cout. Serviteur = icone de rangee, autre type = icone de type ; les
-	// deux textures sont claires (les icones de rangee sont les variantes
-	// "_white" du jeu) pour que la teinte de rarete posee par-dessus ressorte.
-	// Les cartes-ressource n'en ont pas : leur icone de race vit dans le badge
-	// de cout a la place du chiffre (Card.gd _apply_resource_icon).
+	// de cout. Serviteur = icone de rangee, deja illustree en couleur (aucune
+	// teinte appliquee). Autre type = silhouette blanche teintee par race. Les
+	// cartes-ressource n'en ont pas : leur icone de race vit dans le badge de
+	// cout a la place du chiffre (Card.gd _apply_resource_icon).
 	const laneIcon = isMinion ? LANE_ICONS[card.lane ?? ""] : undefined;
 	const typeIcon = !isMinion && !isResource ? TYPE_ICONS[card.card_type] : undefined;
 	const resourceIcon = isResource ? RACE_RESOURCE_ICONS[card.race] : undefined;
-	const medallionIcon = laneIcon ?? typeIcon;
 
 	// Croissance de NameLabel vers le bas (mesure DOM réelle, pas d'estimation
 	// canvas : le retour à la ligne dépend de la police/largeur réelles).
@@ -223,10 +263,9 @@ export default function GameCard({ card }: { card: CardData }) {
 			setNameFontSize(fontSize);
 		};
 		measure();
-		// La carte est désormais en pile de polices système (voir
-		// GameCard.css), donc normalement rien à attendre — ce second passage
-		// reste par sécurité pour le cas où un repli se charge en différé :
-		// sans lui, la mesure ci-dessus tomberait sur la police de
+		// Second passage une fois les polices chargées : la carte est en
+		// Crimson Text servi en local (voir GameCard.css), donc la première
+		// mesure peut tomber sur la police de
 		// repli du navigateur, souvent plus étroite, qui peut tenir sur une
 		// ligne de moins que la vraie police une fois chargée — sans
 		// remesurer après coup, un nom qui finit par passer sur 2 lignes
@@ -335,39 +374,29 @@ export default function GameCard({ card }: { card: CardData }) {
 			{card.image_path && (
 				<img className="gamecard-art" src={`${API_URL}${card.image_path}`} alt="" draggable={false} />
 			)}
-			{medallionIcon && (
+			{(laneIcon || typeIcon) && (
 				<>
-					{/* Card.gd _apply_type_style : le bandeau de type qui portait la
-					    rarete a ete supprime (il coupait la bordure doree), elle est
-					    passee sur le medaillon — contour a la couleur exacte, logo
-					    teinte, pour qu'elle se lise meme carte reduite. */}
 					<div className="gamecard-type-icon-bg" style={{ borderColor: rarityColor }} />
 					<div
-						className="gamecard-type-icon"
+						className="gamecard-type-icon gamecard-type-icon--tinted"
 						style={{
-							backgroundColor: fullValue(rarityColor),
-							WebkitMaskImage: `url(${medallionIcon})`,
-							maskImage: `url(${medallionIcon})`,
+							backgroundColor: rarityIconColor(rarityColor),
+							WebkitMaskImage: `url(${laneIcon ?? typeIcon})`,
+							maskImage: `url(${laneIcon ?? typeIcon})`,
 						}}
-					>
-						<img src={medallionIcon} alt="" draggable={false} />
-					</div>
+					/>
 				</>
 			)}
 			<div
 				ref={nameRef}
 				className="gamecard-name"
 				style={{
-					// Card.gd NAME_BG_ALPHA : l'alpha propre a la race est REMPLACE,
-					// jamais multiplie (les races n'ont pas le meme alpha dans
-					// RACE_COLORS). Le nom est volontairement plus dense que la
-					// description, qui est a 0.5.
-					background: withAlpha(raceColor, 0.62),
+					background: withAlpha(raceColor, NAME_BG_ALPHA),
 					height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth,
 					fontSize: nameFontSize,
 				}}
 			>
-				{displayCardName(card.name, language)}
+				{translateCardText(card.name, language)}
 			</div>
 			{!isResource && genericCost > 0 && (
 				<div className="gamecard-generic-cost">{genericCost}</div>
@@ -396,8 +425,7 @@ export default function GameCard({ card }: { card: CardData }) {
 				ref={descRef}
 				className="gamecard-desc"
 				style={{
-					// Card.gd DESC_BG_ALPHA, meme regle de remplacement que le nom.
-					background: withAlpha(raceColor, 0.5),
+					background: withAlpha(raceColor, DESC_BG_ALPHA),
 					top: descTop,
 					height: descHeight,
 					fontSize: descFontSize,
@@ -420,22 +448,7 @@ export default function GameCard({ card }: { card: CardData }) {
 					{card.hp ?? 0}
 				</div>
 			)}
-			{/* Card.gd BORDER_TEXTURE : une seule bordure pour les quatre races
-			    depuis le 2026-11-19 (elle etait propre a chaque race avant). */}
 			<img className="gamecard-border" src={cardBorder} alt="" draggable={false} />
 		</div>
 	);
 }
-
-// Godot Color.from_hsv(h, s, 1.0) : `modulate` MULTIPLIE la texture, donc la
-// couleur de rarete telle quelle assombrit le logo au lieu de le colorer (le
-// gris Commune #808080 le reduisait de moitie). Multiplier les trois canaux par
-// 255/max preserve teinte et saturation et remonte la valeur au maximum : la
-// Commune redevient blanche, et c'est le contour du medaillon, lui a la couleur
-// exacte, qui porte la distinction pour cette rarete-la.
-function fullValue(hex: string): string {
-	const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-	const factor = 255 / Math.max(r, g, b, 1);
-	return `rgb(${Math.round(r * factor)}, ${Math.round(g * factor)}, ${Math.round(b * factor)})`;
-}
-

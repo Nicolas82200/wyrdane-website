@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, type CSSProperties } from "react";
 
 import type { CardData } from "../types";
 import GameCard from "./GameCard";
@@ -10,11 +10,11 @@ import "./CardCarousel.css";
 // pause tant qu'une carte est survolée, sinon la carte colorée s'échappe du
 // curseur avant d'être lisible.
 //
-// Boucle sans couture : la piste contient deux fois la même liste et glisse de
-// -50%, ce qui la ramène pile sur le début de la seconde copie. L'écart entre
-// les cartes est donc un `margin-right` et non un `gap` : avec un `gap`, les
-// deux moitiés ne font pas exactement la même largeur (une gouttière de moins)
-// et la boucle saute d'un demi-écart à chaque tour.
+// Boucle sans couture : la piste contient deux fois la même liste et glisse
+// d'exactement une copie, ce qui la ramène pile sur le début de la seconde.
+// L'écart entre les cartes est donc un `margin-right` et non un `gap` : avec un
+// `gap`, les deux moitiés ne font pas exactement la même largeur (une gouttière
+// de moins) et la boucle saute d'un demi-écart à chaque tour.
 const MIN_ITEMS = 5; // 4 cartes visibles : en dessous, la piste laisse un trou
 // Plafond volontaire : la piste est rendue en double, et GameCard mesure son
 // texte en deux passes de layout par carte au montage. Sans plafond, l'onglet
@@ -38,7 +38,11 @@ const CardCarousel = ({ cards }: { cards: CardData[] }) => {
 		<div className="card-carousel">
 			<div
 				className="card-carousel-track"
-				style={{ animationDuration: `${loop.length * SECONDS_PER_CARD}s` }}
+				style={{
+					animationDuration: `${loop.length * SECONDS_PER_CARD}s`,
+					// Distance d'un tour de boucle, en pas de carte (voir CardCarousel.css).
+					"--card-carousel-count": loop.length,
+				} as CSSProperties}
 			>
 				{[...loop, ...loop].map((card, index) => (
 					<div className="card-carousel-item" key={`${card.name}-${index}`} aria-hidden={index >= loop.length}>

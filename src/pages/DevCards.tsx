@@ -33,18 +33,17 @@ import type { CardData } from "../types";
 import cards from "../data/devAllCards.json";
 
 const FONTS: Record<string, string> = {
-	"(actuelle) Spectral": "",
+	"(actuelle) Crimson Text": "",
 	Alegreya: '"Alegreya", Georgia, serif',
 	"Alegreya Sans": '"Alegreya Sans", system-ui, sans-serif',
 	Bitter: '"Bitter", Georgia, serif',
 	Spectral: '"Spectral", Georgia, serif',
 	Vollkorn: '"Vollkorn", Georgia, serif',
 	Faustina: '"Faustina", Georgia, serif',
-	"Crimson Text (jeu)": '"CrimsonTextCard", Georgia, serif',
-};
+	};
 
 export default function DevCards() {
-	const [font, setFont] = useState("(actuelle) Spectral");
+	const [font, setFont] = useState("(actuelle) Crimson Text");
 	const family = FONTS[font];
 	return (
 		<div style={{ background: "#111", minHeight: "100vh" }}>
