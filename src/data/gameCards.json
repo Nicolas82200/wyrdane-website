@@ -473,7 +473,7 @@
 	"Émissaire de la Peste": {
 		"path": "res://resources/cards/undead/plague-emissary.tres",
 		"keywords": [
-			"Pestiféré"
+			"Morsure"
 		]
 	},
 	"Émissaire du Pacte": {
@@ -564,9 +564,7 @@
 	},
 	"Fléau Écarlate": {
 		"path": "res://resources/cards/demon/crimson-scourge.tres",
-		"keywords": [
-			"Pacte"
-		]
+		"keywords": []
 	},
 	"Formation Défensive": {
 		"path": "res://resources/cards/human/defensive-formation.tres",
@@ -708,9 +706,7 @@
 	},
 	"Idole du Grand Pacte": {
 		"path": "res://resources/cards/demon/grand-pact-idol.tres",
-		"keywords": [
-			"Pacte"
-		]
+		"keywords": []
 	},
 	"Infecté Récent": {
 		"path": "res://resources/cards/undead/recently-infected.tres",
@@ -1065,7 +1061,7 @@
 	"Pestilent": {
 		"path": "res://resources/cards/undead/pestilent-one.tres",
 		"keywords": [
-			"Pestiféré"
+			"Morsure"
 		]
 	},
 	"Pluie Qui Change": {

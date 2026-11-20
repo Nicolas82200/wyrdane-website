@@ -50,7 +50,10 @@ export const KEYWORDS: KeywordInfo[] = [
 		description: "Ne peut pas être déplacé, renvoyé en main ou transformé par des effets ennemis.",
 	},
 	// Mort-Vivant
-	{ name: "Pestiféré", description: "Les attaques de ce serviteur infligent Infection en plus des dégâts." },
+	{
+		name: "Morsure",
+		description: "MORSURE X : les dégâts de cette carte infligent Infection pendant X tours.",
+	},
 	{
 		name: "Nécrophage",
 		description: "Quand un serviteur allié meurt, ce serviteur gagne +1/+1 de façon permanente.",
@@ -59,7 +62,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Revenant",
 		description:
-			"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par pose sur le plateau).",
+			"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par pose sur le plateau). Se déclenche aussi en cas de Sacrifice et de FUSION.",
 	},
 	{
 		name: "Chair morte",
@@ -105,7 +108,7 @@ export const KEYWORDS: KeywordInfo[] = [
 	{
 		name: "Virulent",
 		description:
-			"Quand ce serviteur meurt, le serviteur adjacent allié déclenche immédiatement une mutation.",
+			"Quand ce serviteur meurt, les serviteurs adjacents alliés déclenchent immédiatement une mutation.",
 	},
 	{
 		name: "Chair adaptative",

@@ -88,7 +88,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 				key: "undead",
 				name: "Undead",
 				text:
-					"The Undead thrives on death: Infection stacks on enemy minions over time, the Graveyard piles up its own dead, and Sacrifice turns losses into resources. Keywords like Plaguebearer, Necrophage, and Revenant reward a race that never fears losing troops: its own or the enemy's, both feed its strategy.",
+					"The Undead thrives on death: Infection stacks on enemy minions over time, the Graveyard piles up its own dead, and Sacrifice turns losses into resources. Keywords like Bite, Necrophage, and Revenant reward a race that never fears losing troops: its own or the enemy's, both feed its strategy.",
 			},
 			{
 				key: "human",
@@ -116,26 +116,24 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		triggersLead:
 			"Card effects trigger at precise moments during the turn, allowing for deep synergies between the cards in your deck.",
 		triggers: [
-			{ id: "t_arrival", name: "Arrival", text: "Triggers when the minion arrives on the battlefield." },
+			{ id: "t_arrival", name: "Arrival", text: "Triggers when this minion arrives on the battlefield." },
 			{
 				id: "t_reinforcement",
 				name: "Reinforcement",
-				text: "Triggers when an allied minion arrives on the battlefield.",
+				text: "Triggers whenever an allied minion you play arrives on the battlefield. A minion summoned by an effect does not trigger it.",
 			},
-			{ id: "t_deathrattle", name: "Deathrattle", text: "Triggers when the minion dies." },
-			{ id: "t_wound", name: "Wounded", text: "Triggers when the minion takes damage without dying." },
-			{ id: "t_awaken", name: "Awakening", text: "Triggers at the start of its controller's turn." },
-			{ id: "t_decline", name: "Decline", text: "Triggers at the end of its controller's turn." },
+			{ id: "t_deathrattle", name: "Deathrattle", text: "Triggers when this minion dies." },
+			{ id: "t_wound", name: "Wounded", text: "Triggers when this minion takes damage." },
+			{ id: "t_awaken", name: "Awakening", text: "Triggers at the start of your turn." },
 			{
 				id: "t_attack",
 				name: "Attack",
 				text: "Triggers when this minion attacks.",
 			},
 			{ id: "t_grief", name: "Mourning", text: "Triggers when an allied minion dies." },
-			{ id: "t_spell", name: "Spell", text: "Triggers when an allied spell is cast." },
-			{ id: "t_sacrifice", name: "Sacrifice", text: "Triggers when an allied minion is voluntarily sacrificed." },
-			{ id: "t_execution", name: "Execution", text: "Triggers when an enemy minion dies." },
-			{ id: "t_carnage", name: "Carnage", text: "Triggers when any minion dies, allied or enemy." },
+			{ id: "t_sacrifice", name: "Sacrifice", text: "Sacrifice one or more minions as an additional cost." },
+			{ id: "t_execution", name: "Execution", text: "Triggers when this minion kills an enemy by attacking." },
+			{ id: "t_carnage", name: "Carnage", text: "Triggers when an enemy minion dies." },
 		],
 		devTitle: "Still in development",
 		devText:
@@ -205,7 +203,7 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 				key: "undead",
 				name: "Mort-Vivant",
 				text:
-					"Le Mort-Vivant prospère sur la mort : Infection qui s'accumule sur les serviteurs ennemis, Cimetière où s'entassent ses propres morts, et Sacrifice pour transformer ses pertes en ressource. Des mots-clés comme Pestiféré, Nécrophage ou Revenant récompensent une race qui ne craint jamais de perdre du monde : la sienne comme celle de l'adversaire nourrit sa stratégie.",
+					"Le Mort-Vivant prospère sur la mort : Infection qui s'accumule sur les serviteurs ennemis, Cimetière où s'entassent ses propres morts, et Sacrifice pour transformer ses pertes en ressource. Des mots-clés comme Morsure, Nécrophage ou Revenant récompensent une race qui ne craint jamais de perdre du monde : la sienne comme celle de l'adversaire nourrit sa stratégie.",
 			},
 			{
 				key: "human",
@@ -233,26 +231,24 @@ export const HOME_CONTENT: Record<Language, HomeContent> = {
 		triggersLead:
 			"Les effets de carte se déclenchent à des moments précis du tour, ce qui permet de construire des synergies profondes entre les cartes de son deck.",
 		triggers: [
-			{ id: "t_arrival", name: "Arrivée", text: "Se déclenche quand le serviteur arrive sur le champ de bataille." },
+			{ id: "t_arrival", name: "Arrivée", text: "Déclenché lorsque ce serviteur arrive sur le champ de bataille." },
 			{
 				id: "t_reinforcement",
 				name: "Renfort",
-				text: "Se déclenche quand un serviteur allié arrive sur le champ de bataille.",
+				text: "Déclenché chaque fois qu'un serviteur allié que vous jouez arrive sur le champ de bataille. Un serviteur invoqué par un effet ne le déclenche pas.",
 			},
-			{ id: "t_deathrattle", name: "Dernier Souffle", text: "Se déclenche quand le serviteur meurt." },
-			{ id: "t_wound", name: "Blessure", text: "Se déclenche quand le serviteur subit des dégâts sans en mourir." },
-			{ id: "t_awaken", name: "Éveil", text: "Se déclenche au début du tour de son contrôleur." },
-			{ id: "t_decline", name: "Déclin", text: "Se déclenche à la fin du tour de son contrôleur." },
+			{ id: "t_deathrattle", name: "Dernier souffle", text: "Déclenché quand ce serviteur meurt." },
+			{ id: "t_wound", name: "Blessure", text: "Déclenché quand ce serviteur reçoit des dégâts." },
+			{ id: "t_awaken", name: "Éveil", text: "Déclenché au début de votre tour." },
 			{
 				id: "t_attack",
 				name: "Attaque",
-				text: "Se déclenche quand ce serviteur attaque.",
+				text: "Déclenché quand ce serviteur attaque.",
 			},
-			{ id: "t_grief", name: "Deuil", text: "Se déclenche quand un serviteur allié meurt." },
-			{ id: "t_spell", name: "Sortilège", text: "Se déclenche quand un sort allié est lancé." },
-			{ id: "t_sacrifice", name: "Sacrifice", text: "Se déclenche lors du sacrifice volontaire d'un serviteur allié." },
-			{ id: "t_execution", name: "Exécution", text: "Se déclenche quand un serviteur ennemi meurt." },
-			{ id: "t_carnage", name: "Carnage", text: "Se déclenche quand n'importe quel serviteur meurt, allié ou ennemi." },
+			{ id: "t_grief", name: "Deuil", text: "Déclenché quand un serviteur allié meurt." },
+			{ id: "t_sacrifice", name: "Sacrifice", text: "Sacrifie un ou plusieurs serviteurs en coût supplémentaire." },
+			{ id: "t_execution", name: "Exécution", text: "Déclenché quand ce serviteur tue un ennemi en attaquant." },
+			{ id: "t_carnage", name: "Carnage", text: "Déclenché quand un serviteur ennemi meurt." },
 		],
 		devTitle: "Encore en développement",
 		devText:
