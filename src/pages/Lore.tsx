@@ -116,9 +116,13 @@ const Page = forwardRef(
 		let content: React.ReactNode;
 		switch (page.kind) {
 			case "cover":
+				// Meme visuel pour le 1er plat et le dernier, retourne
+				// horizontalement pour la 4e de couverture (lore-cover--back) :
+				// l'ombre de dos et les ornements se retrouvent du bon cote,
+				// comme un vrai livre vu de derriere.
 				content = (
 					<div
-						className="lore-page lore-cover"
+						className={`lore-page lore-cover${page.back ? " lore-cover--back" : ""}`}
 						style={{ backgroundImage: `url(${book01CoverUrl})` }}
 					/>
 				);
@@ -138,35 +142,6 @@ const Page = forwardRef(
 								))}
 						</p>
 						<p className="lore-ornament">&#10047;</p>
-					</div>
-				);
-				break;
-			case "sealed":
-				content = (
-					<div className="lore-page lore-divider">
-						<p className="lore-book-no">{t(page.bookNo)}</p>
-						<p className="lore-book-title">{t(page.bookTitle)}</p>
-						<p className="lore-book-sub">{t(page.bookSub)}</p>
-						<div className="lore-wax-row">
-							{page.waxList.map((w, i) => (
-								<div className="lore-wax" key={i}>
-									{w}
-								</div>
-							))}
-						</div>
-						<p className="lore-book-sub" style={{ marginTop: 14 }}>
-							{t(page.note)}
-						</p>
-					</div>
-				);
-				break;
-			case "colophon":
-				content = (
-					<div className="lore-page">
-						<p className="lore-page-title">{t(page.title)}</p>
-						{page.paragraphs.map((p, i) => (
-							<p key={i}>{t(p)}</p>
-						))}
 					</div>
 				);
 				break;
@@ -574,6 +549,14 @@ const Lore = () => {
 		}
 	};
 
+	// Mesure reelle d'une page, poussee dans --lore-page-w : toute la
+	// typographie du livre en est une simple proportion (voir Lore.css), donc
+	// le texte occupe la meme part de la page a toutes les tailles d'ecran —
+	// c'est ce qui remplace l'ancienne reduction de police specifique au
+	// telephone. Les deps portent openedBookIndex : dans la salle des archives
+	// .lore-book-wrap n'existe pas encore, et un effet monte une seule fois
+	// (deps []) n'observait donc jamais rien — la variable restait pour
+	// toujours a sa valeur de secours de 320px, a toutes les tailles d'ecran.
 	useEffect(() => {
 		const el = wrapRef.current;
 		if (!el) return;
@@ -587,7 +570,7 @@ const Lore = () => {
 		ro.observe(el);
 		recompute(el.getBoundingClientRect().width);
 		return () => ro.disconnect();
-	}, []);
+	}, [openedBookIndex]);
 
 	const handleChangeOrientation = (e: { data: string }) => {
 		isPortraitRef.current = e.data === "portrait";
@@ -729,7 +712,11 @@ const Lore = () => {
 	return (
 		<div
 			className={`lore-room${isFlipping ? " lore-room--flipping" : ""}`}
-			style={{ "--lore-page-w": `${pageWidthPx}px` } as React.CSSProperties}
+			style={
+				{
+					"--lore-page-w": `${pageWidthPx}px`,
+				} as React.CSSProperties
+			}
 		>
 			<img
 				className="lore-room-bg lore-room-bg--dim"
@@ -788,7 +775,7 @@ const Lore = () => {
 						maxHeight={1000}
 						startPage={0}
 						showCover
-						flippingTime={prefersReducedMotion ? 1 : 260}
+						flippingTime={prefersReducedMotion ? 1 : 700}
 						maxShadowOpacity={0.6}
 						// StPageFlip bascule tout seul en page unique dès que la largeur
 						// disponible descend sous minWidth*2 (760px ici). Avec un seuil
@@ -820,7 +807,7 @@ const Lore = () => {
 							<Page
 								key={i}
 								page={page}
-								folio={i === 0 ? null : i + 1}
+								folio={page.kind === "cover" ? null : i + 1}
 								lang={language}
 								onOpenImage={(src, alt) => setLightbox({ src, alt })}
 							/>

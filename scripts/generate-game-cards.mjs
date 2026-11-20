@@ -52,7 +52,7 @@ const HUMAN_KEYWORDS = {
 	FORTIFICATION: "Fortification",
 };
 const UNDEAD_KEYWORDS = {
-	PESTIFERE: "Pestiféré",
+	MORSURE: "Morsure",
 	NECROPHAGE: "Nécrophage",
 	HORDE: "Horde",
 	REVENANT: "Revenant",
@@ -149,6 +149,17 @@ function parseCard(filePath) {
 
 	const subResources = parseSubResources(text);
 	const keywords = [];
+	// Art de la carte : servi en statique par le backend depuis
+	// backend/public/assets/card_art (copie de assets/card_art du jeu), donc
+	// "res://assets/..." -> "/assets/...", prefixe par API_URL a l'affichage.
+	const textureMatch = text.match(/\[ext_resource type="Texture2D"[^\]]*path="res:\/\/([^"]+)"/);
+	// Noms d'enum (TriggerType.gd : "OnGrief", "DEATHRATTLE"...) tels qu'ecrits
+	// dans les sub_resources TriggerTypeChoice. Godot n'ecrit pas un champ
+	// laisse a sa valeur par defaut : un sub_resource sans `type` vaut donc
+	// "DEATHRATTLE" (TriggerTypeChoice.gd), ce qui concerne 8 cartes.
+	const triggers = parseArrayRefs(fields.trigger_types)
+		.filter((id) => subResources[id])
+		.map((id) => (subResources[id].type ? stripQuotes(subResources[id].type) : "DEATHRATTLE"));
 
 	for (const id of parseArrayRefs(fields.keywords)) {
 		const sub = subResources[id];
@@ -205,7 +216,11 @@ function parseCard(filePath) {
 			effect: multilineField(body, "description"),
 			flavor: multilineField(body, "flavour_text"),
 			charges: num("ritual_duration") || null,
-			image_path: null,
+			image_path: textureMatch ? `/${textureMatch[1]}` : "",
+			// Utilises pour filtrer les carrousels de la page d'accueil
+			// (src/data/cardFilters.ts) : mot-cle, declencheur, type de carte.
+			keywords,
+			triggers,
 		},
 	};
 }

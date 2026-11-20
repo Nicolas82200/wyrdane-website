@@ -137,13 +137,13 @@ const Home = () => {
 				</div>
 			</Reveal>
 
-			<Reveal className="section" id="mots-cles">
+			<Reveal className="section section-wide" id="mots-cles">
 				<h2>{t.keywordsTitle}</h2>
 				<p className="section-lead">{t.keywordsLead}</p>
 				<InfoExplorer groups={KEYWORD_GROUPS[language]} />
 			</Reveal>
 
-			<Reveal className="section" id="declencheurs">
+			<Reveal className="section section-wide" id="declencheurs">
 				<h2>{t.triggersTitle}</h2>
 				<p className="section-lead">{t.triggersLead}</p>
 				<InfoExplorer

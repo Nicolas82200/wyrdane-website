@@ -1,9 +1,8 @@
 import { useState } from "react";
 
-import { useLanguage } from "../i18n/useLanguage";
-import { EXAMPLE_CARDS } from "../data/exampleCards";
+import { cardsByEntry } from "../data/cardFilters";
+import CardCarousel from "./CardCarousel";
 import ExplorerPanel from "./ExplorerPanel";
-import GameCard from "./GameCard";
 import "./InfoExplorer.css";
 
 export type InfoItem = { id: string; name: string; description: string };
@@ -11,11 +10,10 @@ export type InfoGroup = { key: string; title: string; items: InfoItem[] };
 
 // Panneau réutilisé pour les mots-clés et les triggers de la page d'accueil :
 // un seul panneau (ExplorerPanel), les onglets de groupe (race, si plusieurs
-// groupes) puis les onglets d'entrée en navbar tout en haut, la carte de
-// détail (définition + carte d'exemple réelle) en dessous. Voir
-// src/data/exampleCards.ts pour la source des cartes d'exemple.
+// groupes) puis les onglets d'entrée en navbar tout en haut, la définition et
+// le carrousel de toutes les cartes qui portent l'entrée en dessous. Voir
+// src/data/cardFilters.ts pour la sélection des cartes.
 const InfoExplorer = ({ groups }: { groups: InfoGroup[] }) => {
-	const { language } = useLanguage();
 	const hasGroupTabs = groups.length > 1;
 	const [activeGroupKey, setActiveGroupKey] = useState(groups[0].key);
 	const activeGroup = groups.find((g) => g.key === activeGroupKey) ?? groups[0];
@@ -23,7 +21,7 @@ const InfoExplorer = ({ groups }: { groups: InfoGroup[] }) => {
 	// Retombe sur le premier item de l'onglet actif tant que activeId ne lui
 	// appartient pas encore (ex. juste après un changement d'onglet de race).
 	const activeItem = activeGroup.items.find((i) => i.id === activeId) ?? activeGroup.items[0];
-	const example = activeItem ? EXAMPLE_CARDS[activeItem.id] : undefined;
+	const cards = activeItem ? cardsByEntry(activeItem.id) : [];
 
 	const selectGroup = (key: string) => {
 		setActiveGroupKey(key);
@@ -65,16 +63,9 @@ const InfoExplorer = ({ groups }: { groups: InfoGroup[] }) => {
 					<p className="info-explorer-description info-explorer-fade-in info-explorer-stage-2">
 						{activeItem.description}
 					</p>
-					{example && (
-						<div className="info-explorer-example">
-							<div className="info-explorer-card-wrap info-explorer-fade-in info-explorer-stage-3">
-								<GameCard card={example.card} />
-							</div>
-							<p className="info-explorer-demo info-explorer-fade-in info-explorer-stage-4">
-								{example.demo[language]}
-							</p>
-						</div>
-					)}
+					<div className="info-explorer-example info-explorer-fade-in info-explorer-stage-3">
+						<CardCarousel cards={cards} />
+					</div>
 				</div>
 			)}
 		</ExplorerPanel>

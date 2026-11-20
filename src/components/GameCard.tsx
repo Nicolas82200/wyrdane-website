@@ -6,13 +6,10 @@ import { translateCardText, displayCardName } from "../i18n/cardText";
 import { RACE_ICON_COLORS } from "../data/raceColors";
 import "./GameCard.css";
 
-import undeadBorder from "../assets/game/borders/undead-border-card.png";
-import humanBorder from "../assets/game/borders/human-border-card.png";
-import demonBorder from "../assets/game/borders/demon-border-card.png";
-import abominationBorder from "../assets/game/borders/abomination-border-card.png";
-import frontLane from "../assets/game/icons/front_lane.png";
-import backLane from "../assets/game/icons/back_lane.png";
-import hybridLane from "../assets/game/icons/hibrid_lane.png";
+import cardBorder from "../assets/game/borders/border.png";
+import frontLane from "../assets/game/icons/front_lane_white.png";
+import backLane from "../assets/game/icons/back_lane_white.png";
+import hybridLane from "../assets/game/icons/hibrid_lane_white.png";
 import instantIcon from "../assets/game/icons/instant.png";
 import ritualIcon from "../assets/game/icons/ritual.png";
 import enchantmentIcon from "../assets/game/icons/enchantment.png";
@@ -23,13 +20,6 @@ import abominationResourceIcon from "../assets/game/icons/internal-organ.svg";
 
 // Réplique de scenes/card/Card.tscn + scripts/card/Card.gd du jeu (E:\card-game),
 // à partir des données servies par wyrdane-backend (valeurs en français).
-
-const BORDER_TEXTURES: Record<string, string> = {
-	"Mort-Vivant": undeadBorder,
-	Humain: humanBorder,
-	Demon: demonBorder,
-	Abomination: abominationBorder,
-};
 
 // Card.gd RACE_COLORS — fond du nom, de la description et du badge de coût race
 const RACE_COLORS: Record<string, string> = {
@@ -47,9 +37,6 @@ const RARITY_COLORS: Record<string, string> = {
 	Légendaire: "#f39c12",
 };
 
-// _type_style.border_color (Card.gd _ready/_apply_type_style) : bordure dorée
-// fixe, indépendante de la rareté (seul le fond du bandeau varie).
-const TYPE_LABEL_BORDER_COLOR = "rgba(168, 122, 52, 0.9)";
 
 const LANE_ICONS: Record<string, string> = {
 	Avant: frontLane,
@@ -173,15 +160,6 @@ const STATS_LABEL_DEFAULT_TOP = 330;
 // plutôt que d'aggraver le débordement.
 const DESC_FLAVOUR_HIDE_THRESHOLD = 120;
 
-// TypeLabel (Card.gd TYPE_LABEL_*) : largeur ajustee au texte affiche.
-// Mesurée par le navigateur via CSS (width: max-content, voir GameCard.css)
-// plutôt qu'au canvas : une mesure JS figée au premier rendu (avant que la
-// police de la carte ait fini de charger, voir le même problème sur
-// NameLabel ci-dessus) tombait sur la police de repli du navigateur,
-// produisait une largeur trop étroite, et restait juste — coupant des mots
-// entiers ("Enchantement", "Rituel • N charges") derrière overflow: hidden
-// sans jamais se corriger une fois la vraie police chargée.
-
 export default function GameCard({ card }: { card: CardData }) {
 	const { language } = useLanguage();
 	const cost = Number(card.cost ?? 0);
@@ -193,22 +171,16 @@ export default function GameCard({ card }: { card: CardData }) {
 	const raceColor = RACE_COLORS[card.race] ?? "rgba(0, 0, 0, 0.75)";
 	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
 	const rarityColor = RARITY_COLORS[card.rarity ?? ""] ?? "#808080";
-	const borderTexture = BORDER_TEXTURES[card.race];
 	// Card.gd update_display : medaillon en haut a gauche, symetrique au badge
-	// de cout. Serviteur = icone de rangee, deja illustree en couleur (aucune
-	// teinte appliquee). Autre type = silhouette blanche teintee par race. Les
-	// cartes-ressource n'en ont pas : leur icone de race vit dans le badge de
-	// cout a la place du chiffre (Card.gd _apply_resource_icon).
+	// de cout. Serviteur = icone de rangee, autre type = icone de type ; les
+	// deux textures sont claires (les icones de rangee sont les variantes
+	// "_white" du jeu) pour que la teinte de rarete posee par-dessus ressorte.
+	// Les cartes-ressource n'en ont pas : leur icone de race vit dans le badge
+	// de cout a la place du chiffre (Card.gd _apply_resource_icon).
 	const laneIcon = isMinion ? LANE_ICONS[card.lane ?? ""] : undefined;
 	const typeIcon = !isMinion && !isResource ? TYPE_ICONS[card.card_type] : undefined;
 	const resourceIcon = isResource ? RACE_RESOURCE_ICONS[card.race] : undefined;
-
-	// Card.gd _apply_type_style : le bandeau affiche le type, plus les charges des Rituels
-	let typeText = translateCardText(card.card_type, language);
-	if (card.card_type === "Rituel" && card.charges != null) {
-		if (card.charges > 0) typeText += ` • ${card.charges} charge${card.charges > 1 ? "s" : ""}`;
-		else if (card.charges === -1) typeText += " • Permanent";
-	}
+	const medallionIcon = laneIcon ?? typeIcon;
 
 	// Croissance de NameLabel vers le bas (mesure DOM réelle, pas d'estimation
 	// canvas : le retour à la ligne dépend de la police/largeur réelles).
@@ -363,28 +335,34 @@ export default function GameCard({ card }: { card: CardData }) {
 			{card.image_path && (
 				<img className="gamecard-art" src={`${API_URL}${card.image_path}`} alt="" draggable={false} />
 			)}
-			{(laneIcon || typeIcon) && (
+			{medallionIcon && (
 				<>
-					<div className="gamecard-type-icon-bg" />
-					{laneIcon ? (
-						<img className="gamecard-type-icon" src={laneIcon} alt="" draggable={false} />
-					) : (
-						<div
-							className="gamecard-type-icon gamecard-type-icon--tinted"
-							style={{
-								backgroundColor: raceIconColor,
-								WebkitMaskImage: `url(${typeIcon})`,
-								maskImage: `url(${typeIcon})`,
-							}}
-						/>
-					)}
+					{/* Card.gd _apply_type_style : le bandeau de type qui portait la
+					    rarete a ete supprime (il coupait la bordure doree), elle est
+					    passee sur le medaillon — contour a la couleur exacte, logo
+					    teinte, pour qu'elle se lise meme carte reduite. */}
+					<div className="gamecard-type-icon-bg" style={{ borderColor: rarityColor }} />
+					<div
+						className="gamecard-type-icon"
+						style={{
+							backgroundColor: fullValue(rarityColor),
+							WebkitMaskImage: `url(${medallionIcon})`,
+							maskImage: `url(${medallionIcon})`,
+						}}
+					>
+						<img src={medallionIcon} alt="" draggable={false} />
+					</div>
 				</>
 			)}
 			<div
 				ref={nameRef}
 				className="gamecard-name"
 				style={{
-					background: withAlpha(raceColor, 0.96),
+					// Card.gd NAME_BG_ALPHA : l'alpha propre a la race est REMPLACE,
+					// jamais multiplie (les races n'ont pas le meme alpha dans
+					// RACE_COLORS). Le nom est volontairement plus dense que la
+					// description, qui est a 0.5.
+					background: withAlpha(raceColor, 0.62),
 					height: NAME_LABEL_DEFAULT_HEIGHT + nameGrowth,
 					fontSize: nameFontSize,
 				}}
@@ -418,7 +396,8 @@ export default function GameCard({ card }: { card: CardData }) {
 				ref={descRef}
 				className="gamecard-desc"
 				style={{
-					background: withAlpha(raceColor, 0.96),
+					// Card.gd DESC_BG_ALPHA, meme regle de remplacement que le nom.
+					background: withAlpha(raceColor, 0.5),
 					top: descTop,
 					height: descHeight,
 					fontSize: descFontSize,
@@ -431,15 +410,6 @@ export default function GameCard({ card }: { card: CardData }) {
 					</div>
 				)}
 			</div>
-			<div
-				className="gamecard-type"
-				style={{
-					background: withAlpha(hexToRgba(rarityColor), 0.85),
-					borderColor: TYPE_LABEL_BORDER_COLOR,
-				}}
-			>
-				{typeText}
-			</div>
 			{isMinion && (
 				<div className="gamecard-attack" style={{ top: statsTop }}>
 					{card.attack ?? 0}
@@ -450,16 +420,22 @@ export default function GameCard({ card }: { card: CardData }) {
 					{card.hp ?? 0}
 				</div>
 			)}
-			{borderTexture && (
-				<img className="gamecard-border" src={borderTexture} alt="" draggable={false} />
-			)}
+			{/* Card.gd BORDER_TEXTURE : une seule bordure pour les quatre races
+			    depuis le 2026-11-19 (elle etait propre a chaque race avant). */}
+			<img className="gamecard-border" src={cardBorder} alt="" draggable={false} />
 		</div>
 	);
 }
 
-function hexToRgba(hex: string): string {
-	const r = parseInt(hex.slice(1, 3), 16);
-	const g = parseInt(hex.slice(3, 5), 16);
-	const b = parseInt(hex.slice(5, 7), 16);
-	return `rgba(${r}, ${g}, ${b}, 1)`;
+// Godot Color.from_hsv(h, s, 1.0) : `modulate` MULTIPLIE la texture, donc la
+// couleur de rarete telle quelle assombrit le logo au lieu de le colorer (le
+// gris Commune #808080 le reduisait de moitie). Multiplier les trois canaux par
+// 255/max preserve teinte et saturation et remonte la valeur au maximum : la
+// Commune redevient blanche, et c'est le contour du medaillon, lui a la couleur
+// exacte, qui porte la distinction pour cette rarete-la.
+function fullValue(hex: string): string {
+	const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+	const factor = 255 / Math.max(r, g, b, 1);
+	return `rgb(${Math.round(r * factor)}, ${Math.round(g * factor)}, ${Math.round(b * factor)})`;
 }
+

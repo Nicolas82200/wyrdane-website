@@ -513,8 +513,10 @@
 	/* Pas de scroll : le contenu doit tenir dans la page, voir le script de
 	   vérification d'overflow utilisé pour caler le découpage du texte. */
 	overflow: hidden;
-	padding: clamp(10px, calc(var(--lore-page-w) * 0.06), 40px)
-		clamp(12px, calc(var(--lore-page-w) * 0.07), 44px);
+	/* Proportion pure de la page mesuree, sans clamp : voir le bloc
+	   "Typographie" plus bas — les planchers/plafonds etaient precisement ce
+	   qui faisait deborder le texte des petites pages. */
+	padding: calc(var(--lore-page-w) * 0.03475) calc(var(--lore-page-w) * 0.04054);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -634,20 +636,24 @@
 	justify-content: flex-start;
 	height: 100%;
 }
+/* --- Typographie : UNE seule regle, proportionnelle a la page -------------
+   Tout ce qui est dimensionne ici (polices, marges, lettrine, folio) est une
+   proportion pure de --lore-page-w, la largeur REELLE d'une page mesuree en JS
+   (voir Lore.tsx). Les pages du livre ont partout le meme ratio (0.82), donc
+   une page de telephone (328x400) est une page de bureau (553x674) a l'echelle :
+   un texte proportionnel y occupe exactement la meme part de la page, et ce
+   qui tient sur l'une tient sur l'autre. C'est ce qui remplace les anciens
+   clamp() + reduction specifique au telephone : leurs bornes min/max cassaient
+   justement cette proportion (sur un grand ecran le plafond s'appliquait, soit
+   un ratio reel de 0.0376 ; sur un telephone la pente de 0.068 s'appliquait en
+   plein, d'ou 80% de texte en trop et des pages coupees net en bas).
+   Les coefficients ci-dessous sont cales pour redonner EXACTEMENT les tailles
+   de bureau actuelles sur une page de 552.5px — a recalculer en bloc si le
+   corps de texte doit changer, jamais un seul d'entre eux isolement. */
 .lore-page,
-.lore-cover-title,
 .lore-book-title {
 	font-family: var(--lore-font-hand);
-	/* Relatif à la page elle-même (--lore-page-w), pas au viewport : garde le
-	   même ratio caractères/ligne quelle que soit la taille réelle de la
-	   page. -1px (demande explicite, toutes tailles d'écran) en décalant
-	   chaque borne du clamp() : invariant par translation, voir le
-	   commentaire détaillé sur le @media plus bas. */
-	font-size: clamp(
-		calc(0.84rem - 1px),
-		calc(var(--lore-page-w) * 0.068 - 1px),
-		calc(1.5rem - 1px)
-	);
+	font-size: calc(var(--lore-page-w) * 0.03758);
 	line-height: 1.15;
 	color: var(--lore-ink);
 	/* Ombre renforcée (demande explicite, "tout les textes") : posée ici,
@@ -659,7 +665,6 @@
 }
 .lore-page p {
 	margin: 0 0 0.85em;
-	mix-blend-mode: multiply;
 }
 .lore-page p:last-child {
 	margin-bottom: 0;
@@ -674,11 +679,7 @@
 }
 .lore-page-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(
-		calc(0.92rem - 1px),
-		calc(var(--lore-page-w) * 0.076 - 1px),
-		calc(1.88rem - 1px)
-	);
+	font-size: calc(var(--lore-page-w) * 0.04221);
 	color: var(--lore-ink);
 	margin: 0 0 0.5em;
 	text-align: center;
@@ -698,6 +699,13 @@
 	background-size: 100% 100%;
 	background-position: center;
 	background-repeat: no-repeat;
+}
+/* 4e de couverture (derniere page de chaque tome, voir journalAldrenia.ts) :
+   meme image que le 1er plat, retournee horizontalement pour que l'ombre de
+   dos et les ornements tombent du cote dos — un plat arriere, pas une seconde
+   page de titre. */
+.lore-cover--back {
+	transform: scaleX(-1);
 }
 /* Carte de Mydaria (lore/carte-mydaria.jpg cote card-game) : une page de
    carte, pas une page de texte — image encadree plutot que plein cadre
@@ -805,53 +813,19 @@
 }
 .lore-book-title {
 	font-family: var(--lore-font-display);
-	font-size: clamp(
-		calc(1rem - 1px),
-		calc(var(--lore-page-w) * 0.085 - 1px),
-		calc(2.13rem - 1px)
-	);
+	font-size: calc(var(--lore-page-w) * 0.04742);
 	margin: 0 0 0.5em;
 }
-.lore-book-sub {
-	font-style: italic;
-	color: var(--lore-room-ink-dim);
-	margin: 0;
-}
 .lore-ornament {
-	font-size: 1.6rem;
+	font-size: calc(var(--lore-page-w) * 0.04633);
 	color: var(--lore-seal-gold);
 	margin-top: 0.6em;
 }
-.lore-wax-row {
-	display: flex;
-	gap: clamp(8px, calc(var(--lore-page-w) * 0.025), 14px);
-	justify-content: center;
-	margin-top: clamp(8px, calc(var(--lore-page-w) * 0.04), 18px);
-}
-.lore-wax {
-	width: clamp(34px, calc(var(--lore-page-w) * 0.13), 54px);
-	height: clamp(34px, calc(var(--lore-page-w) * 0.13), 54px);
-	border-radius: 50%;
-	display: grid;
-	place-items: center;
-	font-family: var(--lore-font-display);
-	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.035), 0.85rem);
-	color: var(--lore-seal-gold);
-	background: radial-gradient(
-		circle at 35% 30%,
-		var(--lore-seal-red),
-		#241209 75%
-	);
-	box-shadow:
-		0 2px 8px rgba(0, 0, 0, 0.4),
-		inset 0 0 0 2px rgba(122, 90, 30, 0.6);
-}
-
 .lore-page-no {
 	position: absolute;
 	bottom: 14px;
 	font-family: var(--lore-font-hand);
-	font-size: clamp(0.65rem, calc(var(--lore-page-w) * 0.04), 0.85rem);
+	font-size: calc(var(--lore-page-w) * 0.02317);
 	color: var(--lore-room-ink-dim);
 	text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.45);
 }
@@ -860,54 +834,6 @@
 }
 .stf__item.--left .lore-page-no {
 	left: 16px;
-}
-
-/* Police un peu plus petite sur un écran moins haut que l'écran principal
-   (demande explicite). Seuil : 650px de hauteur de VIEWPORT (demande
-   explicite) — c'est ce que `max-height` évalue, jamais window.screen.height
-   directement, qu'aucune media query standard n'expose.
-   Doit rester APRÈS les règles non-media ci-dessus dans le fichier : à
-   spécificité égale, seul l'ORDRE dans la feuille départage le
-   cascade, qu'une règle soit dans un @media ou non — placée plus tôt,
-   celle-ci se ferait écraser par la règle .lore-book-title normale plus
-   bas (ligne ~437).
-   -4px au total par rapport aux tailles de base d'ORIGINE (pas -4px en
-   plus du -1px déjà appliqué partout ci-dessus : une media query qui
-   matche REMPLACE entièrement font-size sur l'élément, elle ne s'ajoute
-   pas à la règle non-media) : -2px déjà demandés précédemment pour les
-   petits écrans, +2px de plus (demande explicite). Chaque borne du
-   clamp() décalée individuellement plutôt que le résultat final : clamp()
-   étant invariant par translation, ça revient exactement à soustraire 4px
-   sur toute sa plage (pas seulement à une extrémité), donc au même
-   comportement responsive, 4px plus petit. */
-@media (max-height: 650px) {
-	.lore-page,
-	.lore-cover-title,
-	.lore-book-title {
-		font-size: clamp(
-			calc(0.84rem - 6px),
-			calc(var(--lore-page-w) * 0.068 - 6px),
-			calc(1.55rem - 4px)
-		);
-		line-height: 1.08;
-	}
-	.lore-page-title {
-		font-size: clamp(
-			calc(0.92rem - 6px),
-			calc(var(--lore-page-w) * 0.076 - 6px),
-			calc(1.88rem - 6px)
-		);
-	}
-	.lore-book-title {
-		font-size: clamp(
-			calc(1rem - 6px),
-			calc(var(--lore-page-w) * 0.085 - 6px),
-			calc(2.13rem - 6px)
-		);
-	}
-	.lore-page p {
-		margin-bottom: 0.6em;
-	}
 }
 
 /* Marque-pages (voir BOOKMARKS dans Lore.tsx) : un onglet par page titree,
@@ -1047,6 +973,20 @@
 	.lore-book-backdrop {
 		width: calc(min(552.5px, 84vw, calc((100vh - 48px) * 0.82)) + 14px);
 		aspect-ratio: 0.82;
+	}
+	/* StPageFlip pose en inline sur .stf__parent un min-width = minWidth * 1
+	   et un min-height = minHeight (UI.ts, k=1 en portrait), soit 380x463 avec
+	   nos réglages (Lore.tsx) — plus large que le livre lui-même sur un
+	   téléphone (328px de wrap sur un écran de 390px). Le bloc de pages
+	   débordait donc de 52px à droite du wrap ET de l'écran : livre décentré,
+	   couverture et pages collées au bord droit. On relâche les deux planchers
+	   (!important : ce sont des styles inline) pour que la page unique prenne
+	   exactement la largeur du wrap, qui est déjà centré. minWidth reste à 380
+	   côté props : il ne sert plus ici qu'à choisir l'orientation
+	   (blockWidth < minWidth*2 -> page unique), ce qu'on veut garder. */
+	.lore-flipbook.stf__parent {
+		min-width: 0 !important;
+		min-height: 0 !important;
 	}
 	/* ponytail: marque-pages masqués en page unique — ils dépassent du bord
 	   du livre (translateX(±100%), jusqu'à 150px), donc hors écran quand le

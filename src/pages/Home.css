@@ -76,11 +76,12 @@
 	scroll-margin-top: var(--navbar-height);
 }
 
-/* Section "types de cartes" : le panneau doit accueillir 4 cartes sur une
-   seule rangée (voir CardTypeExplorer.css), plus large que les autres
-   sections pour ne jamais les faire passer à la ligne sur desktop. */
+/* Sections à explorateur (types de cartes, mots-clés, déclencheurs) : leur
+   panneau doit laisser passer les 4 cartes du carrousel (voir
+   CardCarousel.css : 4 x 284px), donc 1136px une fois retirés les paddings
+   de section (24px) et de panneau (28px). */
 .section-wide {
-	max-width: 1220px;
+	max-width: 1240px;
 }
 
 /* Section "Le plateau" : le diagramme interactif est volontairement agrandi

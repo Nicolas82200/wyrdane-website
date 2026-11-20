@@ -17,7 +17,7 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Desktop only, for now",
 		deckBuilderMobileText:
 			"The deck builder isn't adapted to small screens yet. Come back on a computer to build and manage your decks.",
-		footerTagline: "A dark fantasy 1v1 card game where positioning matters as much as the cards in your hand.",
+		footerTagline: "Dark fantasy TCG.",
 		footerNavHeading: "Navigation",
 		footerInfoHeading: "Information",
 		footerDeckBuilder: "Deck Builder",
@@ -27,8 +27,6 @@ export const COMMON = {
 		footerSales: "Terms of Sale",
 		footerRights: "© {year} Wyrdane. All rights reserved.",
 		footerMadeWith: "Made with ♥ by Nertari Studio",
-		carouselPrev: "Previous card",
-		carouselNext: "Next card",
 	},
 	fr: {
 		navHome: "Accueil",
@@ -46,7 +44,7 @@ export const COMMON = {
 		deckBuilderMobileTitle: "Disponible sur ordinateur uniquement",
 		deckBuilderMobileText:
 			"Le deck builder n'est pas encore adapté aux petits écrans. Reviens depuis un ordinateur pour composer et gérer tes decks.",
-		footerTagline: "Un TCG dark fantasy 1 contre 1 où le positionnement compte autant que les cartes en main.",
+		footerTagline: "TCG dark fantasy.",
 		footerNavHeading: "Navigation",
 		footerInfoHeading: "Informations",
 		footerDeckBuilder: "Deck Builder",
@@ -56,8 +54,6 @@ export const COMMON = {
 		footerSales: "CGV",
 		footerRights: "© {year} Wyrdane. Tous droits réservés.",
 		footerMadeWith: "Fait avec ♥ par Nertari Studio",
-		carouselPrev: "Carte précédente",
-		carouselNext: "Carte suivante",
 	},
 } satisfies Record<Language, Record<string, string>>;
 

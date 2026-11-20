@@ -22,17 +22,14 @@
 export type Bi = { fr: string; en: string };
 
 export type JournalPage =
-	| { kind: "cover" }
+	// back: 4e de couverture, DERNIERE page de chaque tome. Elle n'a de sens
+	// que si elle tombe seule dans sa derniere double page, ce que StPageFlip
+	// ne fait (showCover) que si le tome a un nombre PAIR de pages, couvertures
+	// comprises (voir createSpread, node_modules/page-flip) : ajouter ou retirer
+	// une page de contenu se fait donc par deux, sous peine de voir la 4e de
+	// couverture se retrouver reliee a cote d'une page de texte.
+	| { kind: "cover"; back?: boolean }
 	| { kind: "divider"; bookNo: Bi; bookTitle: Bi; bookSub: Bi }
-	| {
-			kind: "sealed";
-			bookNo: Bi;
-			bookTitle: Bi;
-			bookSub: Bi;
-			waxList: string[];
-			note: Bi;
-	  }
-	| { kind: "colophon"; title: Bi; paragraphs: Bi[] }
 	| {
 			kind: "content";
 			title?: Bi;
@@ -560,6 +557,8 @@ const VOLUME_I_PAGES: JournalPage[] = [
 			en: "Thus closes the first of these volumes. In it we recorded the world as it still stood, while the next one, already begun on the same table, opened on the day it ceased to stand.",
 		},
 	},
+
+	{ kind: "cover", back: true },
 ];
 
 const VOLUME_II_PAGES: JournalPage[] = [
@@ -945,6 +944,8 @@ const VOLUME_II_PAGES: JournalPage[] = [
 			en: "A year after the tremor, we have still closed this volume on no certainty at all. We go on keeping it, out of habit as much as duty, wondering whether what happened that day is truly over, or whether the world has, since then, only learned to live with its beginning.",
 		},
 	},
+
+	{ kind: "cover", back: true },
 ];
 
 const VOLUME_III_PAGES: JournalPage[] = [
@@ -1664,33 +1665,7 @@ const VOLUME_III_PAGES: JournalPage[] = [
 		},
 	},
 
-	{
-		kind: "sealed",
-		bookNo: { fr: "À venir", en: "To Come" },
-		bookTitle: {
-			fr: "D'autres cahiers suivront",
-			en: "More Volumes Will Follow",
-		},
-		bookSub: {
-			fr: "Ce qui n'a pas encore été écrit.",
-			en: "What has not yet been written down.",
-		},
-		waxList: ["?", "?", "?"],
-		note: {
-			fr: "Nous n'avons pas encore rédigé la suite de ce registre.",
-			en: "We have not yet written the continuation of this register.",
-		},
-	},
-	{
-		kind: "colophon",
-		title: { fr: "Colophon", en: "Colophon" },
-		paragraphs: [
-			{
-				fr: "Ce registre s'enrichira à mesure qu'il y aura matière à y consigner, et pas avant. Referme-le, et reviens-y quand une main plus avisée que la nôtre y aura ajouté quelque chose qui mérite d'être lu.",
-				en: "This register will grow only as there is matter to record in it, and not before. Close it, and return when a wiser hand than ours has added something worth reading.",
-			},
-		],
-	},
+	{ kind: "cover", back: true },
 ];
 
 // Un tome par epoque, et c'est la regle a tenir pour la suite : tout ce qui

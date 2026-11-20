@@ -1,0 +1,73 @@
+/* Voir CardCarousel.tsx pour le principe de la boucle (liste doublée, -50%). */
+.card-carousel {
+	/* 4 cartes visibles au maximum : 250px de carte + 34px d'écart. En dessous
+	   de cette largeur, la fenêtre se réduit et montre moins de cartes, le
+	   défilement reste le même. */
+	max-width: calc(4 * 284px);
+	margin: 0 auto;
+	overflow: hidden;
+	/* Doit laisser passer trois débordements, sinon `overflow: hidden` rogne la
+	   carte survolée : le cadre noir qui dépasse de ~9px en haut de la boîte de
+	   la carte (GameCard.css), le `translateY(-6px)` du survol, et les ~6px que
+	   le `scale(1.03)` ajoute de chaque côté. */
+	padding: 30px 0 26px;
+	/* Entrée et sortie en fondu sur les bords, pour que les cartes ne soient
+	   pas coupées net par le bord du panneau. */
+	mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.card-carousel-track {
+	display: flex;
+	width: max-content;
+	animation-name: card-carousel-scroll;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.card-carousel:hover .card-carousel-track {
+	animation-play-state: paused;
+}
+
+.card-carousel-item {
+	flex: 0 0 auto;
+	margin-right: 34px;
+	filter: grayscale(1) brightness(0.72);
+	transition:
+		filter 0.25s ease,
+		transform 0.25s ease;
+}
+
+.card-carousel-item:hover {
+	filter: none;
+	transform: translateY(-6px) scale(1.03);
+	z-index: 1;
+}
+
+@keyframes card-carousel-scroll {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+/* Animation refusée : la rangée redevient un simple défilement manuel. */
+@media (prefers-reduced-motion: reduce) {
+	.card-carousel {
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.card-carousel::-webkit-scrollbar {
+		display: none;
+	}
+
+	.card-carousel-track {
+		animation: none;
+	}
+
+	.card-carousel-item {
+		transition: none;
+	}
+}

@@ -166,13 +166,14 @@
 	flex-shrink: 0;
 }
 
-/* BorderFrameBlack : cadre noir débordant (-8,-9 → 266×390, radius 8) */
+/* BorderFrameBlack : cadre noir débordant (-6,-9 → 262×395, radius 8), resserré
+   le 2026-11-19 avec la bordure universelle (Card.tscn). */
 .gamecard-black-frame {
 	position: absolute;
-	left: -8px;
+	left: -6px;
 	top: -9px;
-	width: 266px;
-	height: 390px;
+	width: 262px;
+	height: 395px;
 	background: #000;
 	border-radius: 8px;
 }
@@ -199,37 +200,47 @@
 	width: 51px;
 	height: 51px;
 	background: rgba(18, 17, 16, 0.85);
-	border: 2px solid rgb(168, 122, 52);
+	/* 2px comme la StyleBox du jeu ; la couleur vient de la rarete, posee en
+	   style inline (GameCard.tsx) depuis que le bandeau de type qui la portait
+	   a ete supprime. */
+	border: 2px solid;
 	border-radius: 26px;
 	box-sizing: border-box;
 	pointer-events: none;
 	z-index: 2;
 }
 
-/* CardTypeIcon : 19,19 -> 40x40, stretch KEEP_ASPECT_CENTERED */
+/* CardTypeIcon : 19,19 -> 40x40, stretch KEEP_ASPECT_CENTERED.
+   Teintee par la rarete comme `card_type_icon.modulate` cote jeu, qui
+   MULTIPLIE la teinte par la texture. Reproduit ici en deux couches : ce div
+   porte la teinte en fond et est decoupe a la forme de l'icone par un masque,
+   l'<img> a l'interieur multiplie sa propre texture par-dessus. `isolation`
+   est indispensable : sans elle le multiply mordrait sur le fond du medaillon
+   et sur l'illustration. Un simple aplat (masque seul) suffirait pour les
+   icones de type, qui sont du blanc pur, mais ecraserait les ombres internes
+   des icones de rangee, qui sont eclaircies et non blanches. */
 .gamecard-type-icon {
 	position: absolute;
 	left: 19px;
 	top: 19px;
 	width: 40px;
 	height: 40px;
-	object-fit: contain;
 	pointer-events: none;
 	z-index: 3;
-}
-
-/* Icone de type des cartes non-serviteur : silhouette blanche teintee par
-   race (Card.gd RACE_ICON_COLORS), via un masque CSS — la couleur vient de
-   background-color, posee en style inline (GameCard.tsx). Les icones de
-   rangee des serviteurs, elles, sont deja illustrees en couleur et restent
-   de simples <img>. */
-.gamecard-type-icon--tinted {
+	isolation: isolate;
 	-webkit-mask-repeat: no-repeat;
 	mask-repeat: no-repeat;
 	-webkit-mask-position: center;
 	mask-position: center;
 	-webkit-mask-size: contain;
 	mask-size: contain;
+}
+
+.gamecard-type-icon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	mix-blend-mode: multiply;
 }
 
 /* ResourceIcon (Card.tscn) : icone de race dans le badge de cout des
@@ -271,6 +282,13 @@
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
+	/* Card.gd TEXT_OUTLINE_SIZE/COLOR : c'est ce contour qui detache le texte de
+	   l'illustration, maintenant que le fond du nom (0.62) et de la description
+	   (0.5) en laisse passer beaucoup plus. `paint-order: stroke` pose le trait
+	   DERRIERE le remplissage, comme le fait Godot — sans lui, le trait mord sur
+	   l'interieur des lettres et le texte se lit empate. */
+	paint-order: stroke fill;
+	-webkit-text-stroke: 3px rgb(0, 0, 0);
 }
 
 /* CostLabel : 190,18 → 42×42, Cinzel-Black 29px (Card.tscn), fond teinté race */
@@ -351,14 +369,18 @@
 	border: 1px solid rgba(168, 122, 52, 0.39);
 	border-radius: 5px;
 	padding: 4px 6px;
-	/* Le jeu attenue ce fond (Card.gd LABEL_BG_ALPHA_FACTOR = 0.7) pour
-	   laisser transparaitre l'illustration. Le site le garde pleinement
-	   opaque (alpha pose en style inline, voir GameCard.tsx) : a la taille
-	   reduite de la grille du deck builder, l'illustration derriere le texte
-	   le rendait illisible. */
+	/* Fond translucide comme dans le jeu (Card.gd DESC_BG_ALPHA = 0.5, alpha
+	   pose en style inline, voir GameCard.tsx). Le site le gardait opaque
+	   jusqu'au 2026-11-19 parce qu'a la taille reduite de la grille du deck
+	   builder l'illustration derriere le texte le rendait illisible : c'est le
+	   contour ci-dessous qui regle ce probleme, exactement comme cote jeu, ou
+	   la carte en main est reduite a 0.75. */
 	box-sizing: border-box;
 	overflow: hidden;
 	z-index: 2;
+	/* Voir .gamecard-name pour le pourquoi de paint-order. */
+	paint-order: stroke fill;
+	-webkit-text-stroke: 3px rgb(0, 0, 0);
 }
 
 /* .gamecard-effect : préserve les retours à la ligne littéraux du texte
@@ -392,37 +414,6 @@
 	border-top: 1px solid rgba(168, 122, 52, 0.45);
 }
 
-/* TypeLabel : sur la bordure dorée en haut de carte, centrée, largeur
-   mesurée par le navigateur (width: max-content) plutôt qu'au canvas en JS
-   — une mesure figée au premier rendu, avant que la police de la carte ait
-   fini de charger, coupait des mots entiers ("Enchantement",
-   "Rituel • N charges") derrière overflow: hidden sans jamais se corriger
-   une fois la vraie police chargée (voir GameCard.tsx). Cinzel-Bold 13px
-   (Card.tscn). */
-.gamecard-type {
-	position: absolute;
-	left: 50%;
-	top: -6px;
-	height: 14px;
-	width: max-content;
-	min-width: 70px;
-	max-width: 160px;
-	transform: translateX(-50%);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 700;
-	font-size: 13px;
-	color: #000;
-	border: 2px solid;
-	border-radius: 8px;
-	padding: 0 8px;
-	box-sizing: border-box;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	z-index: 5;
-}
 
 /* AttackLabel : 35,330 → 40×34 (top décalé si DescLabel déborde, voir
    GameCard.tsx), rouge, Cinzel-Bold 29px (Card.tscn) */
@@ -475,4 +466,7 @@
 	height: 390px;
 	pointer-events: none;
 	z-index: 4;
+	/* BorderFrame.self_modulate = Color(0.72, 0.72, 0.72) dans Card.tscn :
+	   la bordure est assombrie, pas affichée brute. */
+	filter: brightness(0.72);
 }

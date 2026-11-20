@@ -1,7 +1,7 @@
 import type { Language } from "./language";
 
 // `id` est une clé stable (indépendante de la langue) utilisée pour retrouver
-// la carte d'exemple associée dans `src/data/exampleCards.ts` (KeywordsExplorer).
+// les cartes associées dans `src/data/cardFilters.ts` (InfoExplorer).
 export type KeywordEntry = { id: string; name: string; description: string };
 export type KeywordGroup = { key: string; title: string; items: KeywordEntry[] };
 
@@ -15,15 +15,15 @@ const EN_GROUPS: KeywordGroup[] = [
 			{
 				id: "egide",
 				name: "Aegis",
-				description: "Absorbs the next instance of damage. The shield then disappears.",
+				description: "Absorbs the next source of damage, then the shield is gone.",
 			},
-			{ id: "moisson", name: "Harvest", description: "Damage dealt heals your hero by the same amount." },
+			{ id: "moisson", name: "Harvest", description: "Damage dealt heals your hero for the same amount." },
 			{ id: "frenesie", name: "Fury", description: "Can attack twice per turn." },
 			{
 				id: "venin_mortel",
 				name: "Deadly Poison",
 				description:
-					"Any damage this minion deals destroys the target, regardless of its remaining health.",
+					"Any damage dealt by this minion destroys the target, regardless of remaining health.",
 			},
 			{
 				id: "ravage",
@@ -45,7 +45,8 @@ const EN_GROUPS: KeywordGroup[] = [
 			{
 				id: "discipline",
 				name: "Discipline",
-				description: "Immune to enemy silence, mind control, and fear effects.",
+				description:
+					"Immune to racial harmful effects (Infection, Corruption, Terror), silence and mind control.",
 			},
 			{
 				id: "formation",
@@ -55,7 +56,7 @@ const EN_GROUPS: KeywordGroup[] = [
 			{
 				id: "contre_attaque",
 				name: "Counterattack",
-				description: "Wound: if this minion survives, it deals its ATK back to the attacker.",
+				description: "Deals twice its attack damage to the minion that damaged it.",
 			},
 			{
 				id: "commandement",
@@ -66,7 +67,7 @@ const EN_GROUPS: KeywordGroup[] = [
 			{
 				id: "fortification",
 				name: "Fortification",
-				description: "Cannot be moved, bounced to hand, or transformed by enemy effects.",
+				description: "Cannot be moved, returned to hand or transformed by enemy effects.",
 			},
 		],
 	},
@@ -75,9 +76,9 @@ const EN_GROUPS: KeywordGroup[] = [
 		title: "Undead",
 		items: [
 			{
-				id: "pestifere",
-				name: "Plaguebearer",
-				description: "This minion's attacks inflict Infection in addition to damage.",
+				id: "morsure",
+				name: "Bite",
+				description: "BITE X: this card's damage inflicts Infection for X turns.",
 			},
 			{
 				id: "necrophage",
@@ -93,12 +94,12 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "revenant",
 				name: "Revenant",
 				description:
-					"The first time this minion would die, it rises with 1 HP instead (once per game).",
+					"The first time this minion would die, it rises again with 1 HP instead (once per time it's put into play). Also triggers on Sacrifice and FUSION.",
 			},
 			{
 				id: "chair_morte",
 				name: "Dead Flesh",
-				description: "Immune to Infection, poison, and fear effects.",
+				description: "Immune to racial harmful effects (Infection, Corruption, Terror).",
 			},
 		],
 	},
@@ -116,12 +117,13 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "corruption",
 				name: "Corruption",
 				description:
-					"This minion's attacks inflict Corruption in addition to damage (the target permanently loses 1 ATK, stacking).",
+					"This minion's attacks inflict Corruption in addition to damage (the target permanently loses 1 ATK, stackable).",
 			},
 			{
 				id: "terreur",
 				name: "Terror",
-				description: "When this minion attacks, the target cannot attack on the next enemy turn.",
+				description:
+					"When this minion deals damage (combat or effect), the target(s) cannot attack during their controller's next turn.",
 			},
 			{
 				id: "rang_infernal",
@@ -137,7 +139,7 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "sang_noir",
 				name: "Black Blood",
 				description:
-					"Whenever your hero loses HP from one of your own cards, this minion permanently gains +1/+0.",
+					"Whenever your hero loses HP because of one of your own cards, this minion permanently gains +1/+0.",
 			},
 		],
 	},
@@ -155,13 +157,13 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "fusion",
 				name: "Fusion",
 				description:
-					"Sacrifice an adjacent allied minion: this minion permanently absorbs its remaining stats AND one keyword of your choice.",
+					"Sacrifice an adjacent allied minion: this minion permanently absorbs its remaining stats AND one of its keywords of your choice.",
 			},
 			{
 				id: "virulent",
 				name: "Virulent",
 				description:
-					"When this minion dies, the adjacent allied minion immediately triggers a mutation.",
+					"When this minion dies, adjacent allied minions immediately trigger a mutation.",
 			},
 			{
 				id: "chair_adaptative",
@@ -179,7 +181,7 @@ const EN_GROUPS: KeywordGroup[] = [
 				id: "instable",
 				name: "Unstable",
 				description:
-					"This minion cannot be targeted by healing effects, allied or enemy: its flesh is too erratic to stabilize.",
+					"This minion cannot be targeted by healing effects, allied or enemy, its flesh is too erratic to stabilize.",
 			},
 		],
 	},
@@ -191,7 +193,7 @@ const FR_GROUPS: KeywordGroup[] = [
 		title: "Génériques",
 		items: [
 			{ id: "rempart", name: "Rempart", description: "Doit être attaqué en priorité par les serviteurs ennemis." },
-			{ id: "assaut", name: "Assaut", description: "Peut attaquer dès le tour où il est invoqué." },
+			{ id: "assaut", name: "Assaut", description: "Peut attaquer dès le tour où elle est invoquée." },
 			{
 				id: "egide",
 				name: "Égide",
@@ -225,7 +227,8 @@ const FR_GROUPS: KeywordGroup[] = [
 			{
 				id: "discipline",
 				name: "Discipline",
-				description: "Immunisé aux effets de silence, contrôle mental et peur ennemis.",
+				description:
+					"Immunisé aux effets néfastes raciaux (Infection, Corruption, Terreur), au silence et au contrôle mental.",
 			},
 			{
 				id: "formation",
@@ -235,7 +238,7 @@ const FR_GROUPS: KeywordGroup[] = [
 			{
 				id: "contre_attaque",
 				name: "Contre-attaque",
-				description: "Blessure : si ce serviteur survit, inflige son ATK en retour à l'attaquant.",
+				description: "Inflige 2 fois ses dégâts d'attaque au serviteur qui lui a infligé des dégâts.",
 			},
 			{
 				id: "commandement",
@@ -255,9 +258,9 @@ const FR_GROUPS: KeywordGroup[] = [
 		title: "Mort-Vivant",
 		items: [
 			{
-				id: "pestifere",
-				name: "Pestiféré",
-				description: "Les attaques de ce serviteur infligent Infection en plus des dégâts.",
+				id: "morsure",
+				name: "Morsure",
+				description: "MORSURE X : les dégâts de cette carte infligent Infection pendant X tours.",
 			},
 			{
 				id: "necrophage",
@@ -273,9 +276,13 @@ const FR_GROUPS: KeywordGroup[] = [
 				id: "revenant",
 				name: "Revenant",
 				description:
-					"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par partie).",
+					"La première fois que ce serviteur devrait mourir, il se relève avec 1 HP à la place (une seule fois par pose sur le plateau). Se déclenche aussi en cas de Sacrifice et de FUSION.",
 			},
-			{ id: "chair_morte", name: "Chair morte", description: "Immunisé à l'Infection, au poison et aux effets de peur." },
+			{
+				id: "chair_morte",
+				name: "Chair morte",
+				description: "Immunisé aux effets néfastes raciaux (Infection, Corruption, Terreur).",
+			},
 		],
 	},
 	{
@@ -286,7 +293,7 @@ const FR_GROUPS: KeywordGroup[] = [
 				id: "pacte",
 				name: "Pacte",
 				description:
-					"Pacte X : tu peux payer X points de vie lors du déclenchement de l'effet pour l'améliorer. Redemandé à chaque déclenchement.",
+					"Pacte X : vous pouvez payer X points de vie lors du déclenchement de l'effet pour l'améliorer. Redemandé à chaque déclenchement.",
 			},
 			{
 				id: "corruption",
@@ -297,12 +304,14 @@ const FR_GROUPS: KeywordGroup[] = [
 			{
 				id: "terreur",
 				name: "Terreur",
-				description: "Quand ce serviteur attaque, la cible ne peut pas attaquer lors du prochain tour adverse.",
+				description:
+					"Quand ce serviteur inflige des dégâts (combat ou effet), la ou les cibles touchées ne peuvent pas attaquer lors du prochain tour de leur contrôleur.",
 			},
 			{
 				id: "rang_infernal",
 				name: "Rang infernal",
-				description: "Ce serviteur gagne +1/+0 pour chaque tranche de 10 HP manquants sur ton héros.",
+				description:
+					"Ce serviteur gagne +1/+0 pour chaque tranche de 10 points de vie manquants sur votre héros.",
 			},
 			{
 				id: "chair_de_soufre",
@@ -313,7 +322,7 @@ const FR_GROUPS: KeywordGroup[] = [
 				id: "sang_noir",
 				name: "Sang noir",
 				description:
-					"Chaque fois que ton héros perd des HP à cause d'une de tes propres cartes, ce serviteur gagne +1/+0 de façon permanente.",
+					"Chaque fois que votre héros perd des points de vie à cause d'une de vos propres cartes, ce serviteur gagne +1/+0 de façon permanente.",
 			},
 		],
 	},
@@ -331,13 +340,13 @@ const FR_GROUPS: KeywordGroup[] = [
 				id: "fusion",
 				name: "Fusion",
 				description:
-					"Sacrifice un serviteur allié adjacent : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
+					"Sacrifice un serviteur adjacent allié : ce serviteur absorbe ses stats restantes ET un de ses mots-clés au choix, de façon permanente.",
 			},
 			{
 				id: "virulent",
 				name: "Virulent",
 				description:
-					"Quand ce serviteur meurt, le serviteur allié adjacent déclenche immédiatement une mutation.",
+					"Quand ce serviteur meurt, les serviteurs adjacents alliés déclenchent immédiatement une mutation.",
 			},
 			{
 				id: "chair_adaptative",
@@ -355,7 +364,7 @@ const FR_GROUPS: KeywordGroup[] = [
 				id: "instable",
 				name: "Instable",
 				description:
-					"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis : sa chair est trop erratique pour être stabilisée.",
+					"Ce serviteur ne peut pas être ciblé par des effets de soin, alliés ou ennemis, sa chair est trop erratique pour être stabilisée.",
 			},
 		],
 	},
