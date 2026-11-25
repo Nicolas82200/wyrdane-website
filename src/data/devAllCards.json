@@ -102,6 +102,24 @@
 		"triggers": []
 	},
 	{
+		"name": "Antre Affamé",
+		"race": "Abomination",
+		"card_type": "Enchantement",
+		"rarity": "Épique",
+		"cost": 4,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Mutation : Gagnez 1 mana temporaire ce tour.\n1 fois par tour.",
+		"flavor": "Dans ses murs, tout se transforme un peu plus vite, même les sorts.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/magic-digesting-lair.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnMutation"
+		]
+	},
+	{
 		"name": "Apocalypse Infernale",
 		"race": "Demon",
 		"card_type": "Serviteur",
@@ -158,18 +176,18 @@
 		"triggers": []
 	},
 	{
-		"name": "Appétit Ciblé",
+		"name": "Appel Entendu",
 		"race": "Abomination",
 		"card_type": "Incantation",
 		"rarity": "Rare",
-		"cost": 3,
+		"cost": 1,
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Détruit un serviteur ennemi ayant 2 points de vie ou moins.\nUn serviteur Abomination aléatoire allié gagne +1/+1 de façon permanente.",
-		"flavor": "Rien ne se jette. Tout se digère.",
+		"effect": "Piochez 1 carte.\nSi c'est une carte Abomination, elle coûte 1 de moins ce tour.",
+		"flavor": "Il désigne. Quelque chose répond, déjà changé.",
 		"charges": null,
-		"image_path": "/assets/card_art/abomination/targeted-appetite.jpg",
+		"image_path": "/assets/card_art/abomination/answering-sign.jpg",
 		"keywords": [],
 		"triggers": []
 	},
@@ -342,6 +360,24 @@
 		]
 	},
 	{
+		"name": "Aura de Croissance",
+		"race": "Abomination",
+		"card_type": "Enchantement",
+		"rarity": "Rare",
+		"cost": 3,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Présence : Quand un serviteur allié mute, il gagne +1/+0 de façon permanente.",
+		"flavor": "Chaque changement en appelle un autre, plus franc.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/change-encouraging-halo.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnMutation"
+		]
+	},
+	{
 		"name": "Aura de Décrépitude",
 		"race": "Mort-Vivant",
 		"card_type": "Enchantement",
@@ -357,6 +393,24 @@
 		"keywords": [],
 		"triggers": [
 			"OnResonance"
+		]
+	},
+	{
+		"name": "Autel Aveugle",
+		"race": "Abomination",
+		"card_type": "Enchantement",
+		"rarity": "Rare",
+		"cost": 3,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Deuil : Un serviteur Abomination aléatoire allié mute immédiatement.",
+		"flavor": "Chaque mort nourrit l'autel. L'autel, lui, ne rend jamais la même forme deux fois.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/unrecognizing-altar.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnGrief"
 		]
 	},
 	{
@@ -411,24 +465,6 @@
 		"keywords": [
 			"Pacte"
 		],
-		"triggers": [
-			"OnGrief"
-		]
-	},
-	{
-		"name": "Autel Qui Ne Reconnaît Rien",
-		"race": "Abomination",
-		"card_type": "Enchantement",
-		"rarity": "Rare",
-		"cost": 3,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Deuil : Un serviteur Abomination aléatoire allié mute immédiatement.",
-		"flavor": "Chaque mort nourrit l'autel. L'autel, lui, ne rend jamais la même forme deux fois.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/unrecognizing-altar.jpg",
-		"keywords": [],
 		"triggers": [
 			"OnGrief"
 		]
@@ -767,6 +803,26 @@
 		]
 	},
 	{
+		"name": "Cavalier Fondu",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 4,
+		"lane": "Avant",
+		"attack": 4,
+		"hp": 3,
+		"effect": "ASSAUT\nArrivée : Attaque immédiatement le serviteur ennemi le plus faible en points de vie, puis mute.",
+		"flavor": "On ne sait plus lequel des deux dirige encore l'autre.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/mount-and-rider-as-one.jpg",
+		"keywords": [
+			"Assaut"
+		],
+		"triggers": [
+			"ONPLAY"
+		]
+	},
+	{
 		"name": "Cavalier Zombie",
 		"race": "Mort-Vivant",
 		"card_type": "Serviteur",
@@ -782,138 +838,6 @@
 		"keywords": [
 			"Assaut"
 		],
-		"triggers": [
-			"ONPLAY"
-		]
-	},
-	{
-		"name": "Ce Qu'on a Laissé Pousser",
-		"race": "Abomination",
-		"card_type": "Enchantement",
-		"rarity": "Épique",
-		"cost": 6,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Deuil : Invoque 2 serviteurs Abominations aléatoires de coût ≤3.\nIls mutent immédiatement.",
-		"flavor": "On l'a érigé pour se souvenir des disparus. Il préfère les remplacer.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/allowed-growth.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnGrief"
-		]
-	},
-	{
-		"name": "Ce-Qui-A-Cessé-de-S'arrêter",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Épique",
-		"cost": 5,
-		"lane": "Avant",
-		"attack": 3,
-		"hp": 8,
-		"effect": "REMPART, ASSIMILATION\nDernier Souffle : Invoque 3 Amas Informes 1/2.",
-		"flavor": "Elle n'était pas un monstre. Elle était une croissance qu'on a laissée trop longtemps.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/unstopping.jpg",
-		"keywords": [
-			"Rempart",
-			"Assimilation"
-		],
-		"triggers": [
-			"DEATHRATTLE"
-		]
-	},
-	{
-		"name": "Ce-Qui-A-Trop-Poussé",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 5,
-		"lane": "Avant",
-		"attack": 4,
-		"hp": 6,
-		"effect": "REMPART, MUTATION",
-		"flavor": "On l'a vu changer trois fois dans la même bataille.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/overgrowth.jpg",
-		"keywords": [
-			"Rempart",
-			"Mutation"
-		],
-		"triggers": []
-	},
-	{
-		"name": "Ce-Qui-N'a-Plus-de-Bords",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Épique",
-		"cost": 6,
-		"lane": "Avant",
-		"attack": 7,
-		"hp": 7,
-		"effect": "REMPART, INSTABLE, MUTATION",
-		"flavor": "On ne sait plus où il s'arrête, ni s'il s'arrête vraiment.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/edgeless.jpg",
-		"keywords": [
-			"Rempart",
-			"Instable",
-			"Mutation"
-		],
-		"triggers": []
-	},
-	{
-		"name": "Ce-Qui-Ne-Finit-Jamais-de-Grandir",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Légendaire",
-		"cost": 7,
-		"lane": "Avant",
-		"attack": 8,
-		"hp": 10,
-		"effect": "REMPART",
-		"flavor": "Il a arrêté de compter ses formes il y a longtemps.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/endless-growth.jpg",
-		"keywords": [
-			"Rempart"
-		],
-		"triggers": []
-	},
-	{
-		"name": "Ce-Qui-Se-Partage",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Commune",
-		"cost": 2,
-		"lane": "Avant",
-		"attack": 3,
-		"hp": 1,
-		"effect": "Dernier Souffle : Les serviteurs adjacents gagnent MUTATION de façon permanente.",
-		"flavor": "Il ne meurt pas vraiment. Il se répartit ailleurs.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/self-splitter.jpg",
-		"keywords": [],
-		"triggers": [
-			"DEATHRATTLE"
-		]
-	},
-	{
-		"name": "Ce-Qui-Se-Souvient-Par-le-Corps",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Légendaire",
-		"cost": 7,
-		"lane": "Avant",
-		"attack": 6,
-		"hp": 8,
-		"effect": "Arrivée : Mute 5 fois.",
-		"flavor": "Il n'a pas de mémoire. Il a une chair qui se souvient à sa place.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/flesh-memory.jpg",
-		"keywords": [],
 		"triggers": [
 			"ONPLAY"
 		]
@@ -1099,22 +1023,6 @@
 		]
 	},
 	{
-		"name": "Chant Qui Déforme",
-		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Rare",
-		"cost": 3,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Les serviteurs Abominations alliés gagnent +1/+0 jusqu'à la fin du tour.\nS'ils sont 5 ou plus en jeu : Ils mutent aussi immédiatement.",
-		"flavor": "Un seul chant, mille chairs qui répondent en changeant de forme.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/song-of-distortion.jpg",
-		"keywords": [],
-		"triggers": []
-	},
-	{
 		"name": "Charognard Putride",
 		"race": "Mort-Vivant",
 		"card_type": "Serviteur",
@@ -1212,24 +1120,6 @@
 		]
 	},
 	{
-		"name": "Chuchotement Qui Change la Forme",
-		"race": "Abomination",
-		"card_type": "Enchantement",
-		"rarity": "Rare",
-		"cost": 2,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Présence : Le premier serviteur Abomination joué chaque tour coûte 1 ressource générique de moins.",
-		"flavor": "On ne l'entend pas. On sent juste que quelque chose a déjà commencé à changer.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/shapeshifting-whisper.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnAura"
-		]
-	},
-	{
 		"name": "Chuchoteur Malin",
 		"race": "Demon",
 		"card_type": "Serviteur",
@@ -1282,6 +1172,22 @@
 		"triggers": [
 			"OnAura"
 		]
+	},
+	{
+		"name": "Clameur de Chair",
+		"race": "Abomination",
+		"card_type": "Incantation",
+		"rarity": "Rare",
+		"cost": 3,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Les serviteurs Abominations alliés gagnent +1/+0 jusqu'à la fin du tour.\nS'ils sont 5 ou plus en jeu : Ils mutent aussi immédiatement.",
+		"flavor": "Un seul chant, mille chairs qui répondent en changeant de forme.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/song-of-distortion.jpg",
+		"keywords": [],
+		"triggers": []
 	},
 	{
 		"name": "Code du Chevalier",
@@ -1551,6 +1457,42 @@
 		]
 	},
 	{
+		"name": "Curée",
+		"race": "Abomination",
+		"card_type": "Incantation",
+		"rarity": "Rare",
+		"cost": 3,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Détruit un serviteur ennemi ayant 2 points de vie ou moins.\nUn serviteur Abomination aléatoire allié gagne +1/+1 de façon permanente.",
+		"flavor": "Rien ne se jette. Tout se digère.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/targeted-appetite.jpg",
+		"keywords": [],
+		"triggers": []
+	},
+	{
+		"name": "Débordement",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Épique",
+		"cost": 6,
+		"lane": "Avant",
+		"attack": 7,
+		"hp": 7,
+		"effect": "REMPART, INSTABLE, MUTATION",
+		"flavor": "On ne sait plus où il s'arrête, ni s'il s'arrête vraiment.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/edgeless.jpg",
+		"keywords": [
+			"Rempart",
+			"Instable",
+			"Mutation"
+		],
+		"triggers": []
+	},
+	{
 		"name": "Décret Royal",
 		"race": "Humain",
 		"card_type": "Enchantement",
@@ -1566,6 +1508,24 @@
 		"keywords": [],
 		"triggers": [
 			"OnAwaken"
+		]
+	},
+	{
+		"name": "Dédoublement",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Commune",
+		"cost": 3,
+		"lane": "Avant",
+		"attack": 1,
+		"hp": 1,
+		"effect": "Arrivée : Invoque 2 Amas Informes 1/2.",
+		"flavor": "Il n'a jamais compris qu'il était censé rester seul.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/one-become-many.jpg",
+		"keywords": [],
+		"triggers": [
+			"ONPLAY"
 		]
 	},
 	{
@@ -1603,6 +1563,40 @@
 		"triggers": []
 	},
 	{
+		"name": "Diminution",
+		"race": "Abomination",
+		"card_type": "Incantation",
+		"rarity": "Rare",
+		"cost": 1,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Renvoie un serviteur ennemi ayant 3 points de vie ou moins dans la main de son propriétaire.",
+		"flavor": "Il revient. Mais ce n'est plus vraiment lui.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/fresh-flesh-vise.jpg",
+		"keywords": [],
+		"triggers": []
+	},
+	{
+		"name": "Doigt Dans les Nerfs",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 4,
+		"lane": "Arrière",
+		"attack": 2,
+		"hp": 5,
+		"effect": "Arrivée : Un serviteur ciblé ennemi subit -1/-0 jusqu'à la fin du prochain tour de votre adversaire.",
+		"flavor": "Un seul contact suffit à dérégler ce qui reste de coordination.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/nerve-touch.jpg",
+		"keywords": [],
+		"triggers": [
+			"ONPLAY"
+		]
+	},
+	{
 		"name": "Doigt Décharné",
 		"race": "Mort-Vivant",
 		"card_type": "Incantation",
@@ -1633,24 +1627,6 @@
 		"image_path": "/assets/card_art/demon/judge-of-the-damned.jpg",
 		"keywords": [],
 		"triggers": []
-	},
-	{
-		"name": "Doigt-Dans-les-Nerfs",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 4,
-		"lane": "Arrière",
-		"attack": 2,
-		"hp": 5,
-		"effect": "Arrivée : Un serviteur ciblé ennemi subit -1/-0 jusqu'à la fin du prochain tour de votre adversaire.",
-		"flavor": "Un seul contact suffit à dérégler ce qui reste de coordination.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/nerve-touch.jpg",
-		"keywords": [],
-		"triggers": [
-			"ONPLAY"
-		]
 	},
 	{
 		"name": "Don de Chair",
@@ -1831,6 +1807,22 @@
 		"triggers": []
 	},
 	{
+		"name": "Emprunt Bref",
+		"race": "Abomination",
+		"card_type": "Incantation",
+		"rarity": "Commune",
+		"cost": 1,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Un serviteur ciblé allié copie un mot-clé présent sur un autre serviteur en jeu tiré au hasard.",
+		"flavor": "Il n'a rien inventé. Il a juste regardé, et pris.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/instant-borrowing.jpg",
+		"keywords": [],
+		"triggers": []
+	},
+	{
 		"name": "Emprunt de Peau",
 		"race": "Abomination",
 		"card_type": "Serviteur",
@@ -1846,22 +1838,6 @@
 		"keywords": [
 			"Chair adaptative"
 		],
-		"triggers": []
-	},
-	{
-		"name": "Emprunt Instantané",
-		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Commune",
-		"cost": 1,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Un serviteur ciblé allié copie un mot-clé présent sur un autre serviteur en jeu tiré au hasard.",
-		"flavor": "Il n'a rien inventé. Il a juste regardé, et pris.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/instant-borrowing.jpg",
-		"keywords": [],
 		"triggers": []
 	},
 	{
@@ -1904,20 +1880,22 @@
 		]
 	},
 	{
-		"name": "Étau de Chair Neuve",
+		"name": "Essaimage",
 		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Rare",
-		"cost": 1,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Renvoie un serviteur ennemi ayant 3 points de vie ou moins dans la main de son propriétaire.",
-		"flavor": "Il revient. Mais ce n'est plus vraiment lui.",
+		"card_type": "Serviteur",
+		"rarity": "Commune",
+		"cost": 2,
+		"lane": "Avant",
+		"attack": 3,
+		"hp": 1,
+		"effect": "Dernier Souffle : Les serviteurs adjacents gagnent MUTATION de façon permanente.",
+		"flavor": "Il ne meurt pas vraiment. Il se répartit ailleurs.",
 		"charges": null,
-		"image_path": "/assets/card_art/abomination/fresh-flesh-vise.jpg",
+		"image_path": "/assets/card_art/abomination/self-splitter.jpg",
 		"keywords": [],
-		"triggers": []
+		"triggers": [
+			"DEATHRATTLE"
+		]
 	},
 	{
 		"name": "Étreinte du Gouffre",
@@ -1949,6 +1927,25 @@
 		"charges": null,
 		"image_path": "/assets/card_art/undead/icy-embrace.jpg",
 		"keywords": [],
+		"triggers": []
+	},
+	{
+		"name": "Excroissance",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 5,
+		"lane": "Avant",
+		"attack": 4,
+		"hp": 6,
+		"effect": "REMPART, MUTATION",
+		"flavor": "On l'a vu changer trois fois dans la même bataille.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/overgrowth.jpg",
+		"keywords": [
+			"Rempart",
+			"Mutation"
+		],
 		"triggers": []
 	},
 	{
@@ -1984,25 +1981,6 @@
 		"charges": null,
 		"image_path": "/assets/card_art/undead/toxic-exhalation.jpg",
 		"keywords": [],
-		"triggers": []
-	},
-	{
-		"name": "Faim Sans Fond",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Épique",
-		"cost": 4,
-		"lane": "Hybride",
-		"attack": 4,
-		"hp": 4,
-		"effect": "MOISSON, ASSIMILATION",
-		"flavor": "Elle ne prend pas la vie. Elle l'intègre.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/bottomless-hunger.jpg",
-		"keywords": [
-			"Moisson",
-			"Assimilation"
-		],
 		"triggers": []
 	},
 	{
@@ -2256,7 +2234,7 @@
 		]
 	},
 	{
-		"name": "Fureur Sans Forme Fixe",
+		"name": "Fureur Informe",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Épique",
@@ -2371,6 +2349,25 @@
 		]
 	},
 	{
+		"name": "Gosier Béant",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Épique",
+		"cost": 4,
+		"lane": "Hybride",
+		"attack": 4,
+		"hp": 4,
+		"effect": "MOISSON, ASSIMILATION",
+		"flavor": "Elle ne prend pas la vie. Elle l'intègre.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/bottomless-hunger.jpg",
+		"keywords": [
+			"Moisson",
+			"Assimilation"
+		],
+		"triggers": []
+	},
+	{
 		"name": "Goule Affamée",
 		"race": "Mort-Vivant",
 		"card_type": "Serviteur",
@@ -2425,24 +2422,6 @@
 		],
 		"triggers": [
 			"ONPLAY"
-		]
-	},
-	{
-		"name": "Grand Retour Sous une Autre Forme",
-		"race": "Abomination",
-		"card_type": "Rituel",
-		"rarity": "Légendaire",
-		"cost": 8,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Dévoration : Ramène en main le dernier serviteur Abomination allié mort.",
-		"flavor": "\"Je ne les rappelle pas. Je les laisse simplement finir de devenir autre chose.\"",
-		"charges": 3,
-		"image_path": "/assets/card_art/abomination/reshaped-return.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnDevoration"
 		]
 	},
 	{
@@ -2520,22 +2499,20 @@
 		]
 	},
 	{
-		"name": "Halo Qui Encourage le Changement",
+		"name": "Haleine Commune",
 		"race": "Abomination",
-		"card_type": "Enchantement",
-		"rarity": "Rare",
-		"cost": 3,
+		"card_type": "Incantation",
+		"rarity": "Commune",
+		"cost": 2,
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Présence : Quand un serviteur allié mute, il gagne +1/+0 de façon permanente.",
-		"flavor": "Chaque changement en appelle un autre, plus franc.",
+		"effect": "Inflige 1 point de dégât à tous les serviteurs en jeu.\nLes serviteurs Abominations alliés touchés mutent au lieu de perdre des points de vie.",
+		"flavor": "Même tes alliés changent, un peu, à chaque respiration.",
 		"charges": null,
-		"image_path": "/assets/card_art/abomination/change-encouraging-halo.jpg",
+		"image_path": "/assets/card_art/abomination/all-changing-breath.jpg",
 		"keywords": [],
-		"triggers": [
-			"OnMutation"
-		]
+		"triggers": []
 	},
 	{
 		"name": "Harpie Carmine",
@@ -2758,6 +2735,24 @@
 		]
 	},
 	{
+		"name": "Jachère",
+		"race": "Abomination",
+		"card_type": "Enchantement",
+		"rarity": "Épique",
+		"cost": 6,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Deuil : Invoque 2 serviteurs Abominations aléatoires de coût ≤3.\nIls mutent immédiatement.",
+		"flavor": "On l'a érigé pour se souvenir des disparus. Il préfère les remplacer.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/allowed-growth.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnGrief"
+		]
+	},
+	{
 		"name": "Jugement Divin",
 		"race": "Humain",
 		"card_type": "Incantation",
@@ -2795,24 +2790,6 @@
 		]
 	},
 	{
-		"name": "L'Éternel Recommencement",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Légendaire",
-		"cost": 6,
-		"lane": "Arrière",
-		"attack": 0,
-		"hp": 4,
-		"effect": "Éveil : Invoque un serviteur Abomination aléatoire de coût ≤3.\nIl mute immédiatement.",
-		"flavor": "Il ne se soigne plus. Il se réinvente, sans fin.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/the-eternal-beginning.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnAwaken"
-		]
-	},
-	{
 		"name": "L'Innommable",
 		"race": "Abomination",
 		"card_type": "Serviteur",
@@ -2829,6 +2806,42 @@
 		"triggers": [
 			"ONPLAY"
 		]
+	},
+	{
+		"name": "L'Interminable",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Légendaire",
+		"cost": 7,
+		"lane": "Avant",
+		"attack": 8,
+		"hp": 10,
+		"effect": "REMPART",
+		"flavor": "Il a arrêté de compter ses formes il y a longtemps.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/endless-growth.jpg",
+		"keywords": [
+			"Rempart"
+		],
+		"triggers": []
+	},
+	{
+		"name": "L'Occupant",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 2,
+		"lane": "Hybride",
+		"attack": 1,
+		"hp": 2,
+		"effect": "FUSION",
+		"flavor": "Il ne demande jamais la permission de s'installer dans un autre corps.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/uninvited-tenant.jpg",
+		"keywords": [
+			"Fusion"
+		],
+		"triggers": []
 	},
 	{
 		"name": "La Faim Cuirassée",
@@ -2901,6 +2914,42 @@
 		"keywords": [
 			"Discipline"
 		],
+		"triggers": [
+			"OnAwaken"
+		]
+	},
+	{
+		"name": "La Main Qui Choisit",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 4,
+		"lane": "Avant",
+		"attack": 5,
+		"hp": 3,
+		"effect": "Exécution : Déclenche immédiatement une mutation.",
+		"flavor": "Chaque mise à mort la change un peu plus.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/culling-hand.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnExecution"
+		]
+	},
+	{
+		"name": "La Repousse",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Légendaire",
+		"cost": 6,
+		"lane": "Arrière",
+		"attack": 0,
+		"hp": 4,
+		"effect": "Éveil : Invoque un serviteur Abomination aléatoire de coût ≤3.\nIl mute immédiatement.",
+		"flavor": "Il ne se soigne plus. Il se réinvente, sans fin.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/the-eternal-beginning.jpg",
+		"keywords": [],
 		"triggers": [
 			"OnAwaken"
 		]
@@ -3038,6 +3087,44 @@
 		]
 	},
 	{
+		"name": "Le Dernier Reste",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Rare",
+		"cost": 2,
+		"lane": "Avant",
+		"attack": 0,
+		"hp": 3,
+		"effect": "REMPART, ASSIMILATION",
+		"flavor": "Il grandit à chaque garde tombée, la sienne comme celle d'en face.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/watching-remnant.jpg",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		],
+		"triggers": []
+	},
+	{
+		"name": "Le Fardeau",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Commune",
+		"cost": 3,
+		"lane": "Avant",
+		"attack": 2,
+		"hp": 4,
+		"effect": "MUTATION, ASSIMILATION",
+		"flavor": "On ne sait pas ce qu'il porte. Lui non plus.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/walking-weight.jpg",
+		"keywords": [
+			"Mutation",
+			"Assimilation"
+		],
+		"triggers": []
+	},
+	{
 		"name": "Le Gardien du Pacte Brisé",
 		"race": "Demon",
 		"card_type": "Serviteur",
@@ -3071,6 +3158,24 @@
 		],
 		"triggers": [
 			"OnSummon"
+		]
+	},
+	{
+		"name": "Le Grand Retour",
+		"race": "Abomination",
+		"card_type": "Rituel",
+		"rarity": "Légendaire",
+		"cost": 8,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Dévoration : Ramène en main le dernier serviteur Abomination allié mort.",
+		"flavor": "\"Je ne les rappelle pas. Je les laisse simplement finir de devenir autre chose.\"",
+		"charges": 3,
+		"image_path": "/assets/card_art/abomination/reshaped-return.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnDevoration"
 		]
 	},
 	{
@@ -3130,25 +3235,6 @@
 		]
 	},
 	{
-		"name": "Le Poids-Qui-Marche",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Commune",
-		"cost": 3,
-		"lane": "Avant",
-		"attack": 2,
-		"hp": 4,
-		"effect": "MUTATION, ASSIMILATION",
-		"flavor": "On ne sait pas ce qu'il porte. Lui non plus.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/walking-weight.jpg",
-		"keywords": [
-			"Mutation",
-			"Assimilation"
-		],
-		"triggers": []
-	},
-	{
 		"name": "Le Premier Écart",
 		"race": "Abomination",
 		"card_type": "Serviteur",
@@ -3186,25 +3272,6 @@
 		"triggers": [
 			"OnDamaged"
 		]
-	},
-	{
-		"name": "Le Reste-Qui-Veille",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 2,
-		"lane": "Avant",
-		"attack": 0,
-		"hp": 3,
-		"effect": "REMPART, ASSIMILATION",
-		"flavor": "Il grandit à chaque garde tombée, la sienne comme celle d'en face.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/watching-remnant.jpg",
-		"keywords": [
-			"Rempart",
-			"Assimilation"
-		],
-		"triggers": []
 	},
 	{
 		"name": "Le Roi Soldat d'Aldrenia",
@@ -3336,24 +3403,6 @@
 		]
 	},
 	{
-		"name": "Locataire Sans Bail",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 2,
-		"lane": "Hybride",
-		"attack": 1,
-		"hp": 2,
-		"effect": "FUSION",
-		"flavor": "Il ne demande jamais la permission de s'installer dans un autre corps.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/uninvited-tenant.jpg",
-		"keywords": [
-			"Fusion"
-		],
-		"triggers": []
-	},
-	{
 		"name": "Mâcheur d'Os",
 		"race": "Mort-Vivant",
 		"card_type": "Serviteur",
@@ -3371,24 +3420,6 @@
 		],
 		"triggers": [
 			"OnAttack"
-		]
-	},
-	{
-		"name": "Main-Qui-Choisit",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 4,
-		"lane": "Avant",
-		"attack": 5,
-		"hp": 3,
-		"effect": "Exécution : Déclenche immédiatement une mutation.",
-		"flavor": "Chaque mise à mort la change un peu plus.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/culling-hand.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnExecution"
 		]
 	},
 	{
@@ -3482,7 +3513,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Masse-Qui-Ne-Cesse",
+		"name": "Masse Mouvante",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Rare",
@@ -3499,6 +3530,24 @@
 			"Mutation"
 		],
 		"triggers": []
+	},
+	{
+		"name": "Mémoire de Chair",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Légendaire",
+		"cost": 7,
+		"lane": "Avant",
+		"attack": 6,
+		"hp": 8,
+		"effect": "Arrivée : Mute 5 fois.",
+		"flavor": "Il n'a pas de mémoire. Il a une chair qui se souvient à sa place.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/flesh-memory.jpg",
+		"keywords": [],
+		"triggers": [
+			"ONPLAY"
+		]
 	},
 	{
 		"name": "Mémorial des Héros",
@@ -3534,26 +3583,6 @@
 		"keywords": [],
 		"triggers": [
 			"DEATHRATTLE"
-		]
-	},
-	{
-		"name": "Monture-et-Cavalier-Ne-Font-Qu'Un",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Rare",
-		"cost": 4,
-		"lane": "Avant",
-		"attack": 4,
-		"hp": 3,
-		"effect": "ASSAUT\nArrivée : Attaque immédiatement le serviteur ennemi le plus faible en points de vie, puis mute.",
-		"flavor": "On ne sait plus lequel des deux dirige encore l'autre.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/mount-and-rider-as-one.jpg",
-		"keywords": [
-			"Assaut"
-		],
-		"triggers": [
-			"ONPLAY"
 		]
 	},
 	{
@@ -3675,6 +3704,24 @@
 		"flavor": "On ne l'entend pas. On sent juste que quelque chose a dit oui.",
 		"charges": null,
 		"image_path": "/assets/card_art/undead/doomed-whisper.jpg",
+		"keywords": [],
+		"triggers": [
+			"OnAura"
+		]
+	},
+	{
+		"name": "Murmure Précoce",
+		"race": "Abomination",
+		"card_type": "Enchantement",
+		"rarity": "Rare",
+		"cost": 2,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Présence : Le premier serviteur Abomination joué chaque tour coûte 1 ressource générique de moins.",
+		"flavor": "On ne l'entend pas. On sent juste que quelque chose a déjà commencé à changer.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/shapeshifting-whisper.jpg",
 		"keywords": [],
 		"triggers": [
 			"OnAura"
@@ -3933,7 +3980,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Peau-Trop-Grande",
+		"name": "Peau Trop Grande",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Commune",
@@ -3970,7 +4017,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Pluie Qui Change",
+		"name": "Pluie Mauvaise",
 		"race": "Abomination",
 		"card_type": "Incantation",
 		"rarity": "Commune",
@@ -4074,7 +4121,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Poussière Qui Change",
+		"name": "Poussière Mordante",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Épique",
@@ -4092,22 +4139,6 @@
 		"triggers": [
 			"ONPLAY"
 		]
-	},
-	{
-		"name": "Premier Tressaut",
-		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Commune",
-		"cost": 1,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Un serviteur ciblé allié déclenche immédiatement une mutation.",
-		"flavor": "Il n'a pas eu le temps de choisir. Peu importe.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/first-twitch.jpg",
-		"keywords": [],
-		"triggers": []
 	},
 	{
 		"name": "Prêtre de Guerre Dreamarien",
@@ -4129,7 +4160,28 @@
 		]
 	},
 	{
-		"name": "Puits Qui Avale Tout",
+		"name": "Prolifération",
+		"race": "Abomination",
+		"card_type": "Serviteur",
+		"rarity": "Épique",
+		"cost": 5,
+		"lane": "Avant",
+		"attack": 3,
+		"hp": 8,
+		"effect": "REMPART, ASSIMILATION\nDernier Souffle : Invoque 3 Amas Informes 1/2.",
+		"flavor": "Elle n'était pas un monstre. Elle était une croissance qu'on a laissée trop longtemps.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/unstopping.jpg",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		],
+		"triggers": [
+			"DEATHRATTLE"
+		]
+	},
+	{
+		"name": "Puits Glouton",
 		"race": "Abomination",
 		"card_type": "Enchantement",
 		"rarity": "Légendaire",
@@ -4254,24 +4306,6 @@
 		"triggers": []
 	},
 	{
-		"name": "Repaire Qui Digère la Magie",
-		"race": "Abomination",
-		"card_type": "Enchantement",
-		"rarity": "Épique",
-		"cost": 4,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Mutation : Gagnez 1 mana temporaire ce tour.\n1 fois par tour.",
-		"flavor": "Dans ses murs, tout se transforme un peu plus vite, même les sorts.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/magic-digesting-lair.jpg",
-		"keywords": [],
-		"triggers": [
-			"OnMutation"
-		]
-	},
-	{
 		"name": "Repli Tactique",
 		"race": "Humain",
 		"card_type": "Incantation",
@@ -4304,22 +4338,6 @@
 		"triggers": [
 			"OnCarnage"
 		]
-	},
-	{
-		"name": "Respir Qui Change Tout",
-		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Commune",
-		"cost": 2,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Inflige 1 point de dégât à tous les serviteurs en jeu.\nLes serviteurs Abominations alliés touchés mutent au lieu de perdre des points de vie.",
-		"flavor": "Même tes alliés changent, un peu, à chaque respiration.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/all-changing-breath.jpg",
-		"keywords": [],
-		"triggers": []
 	},
 	{
 		"name": "Réveil Soudain",
@@ -4426,7 +4444,7 @@
 		]
 	},
 	{
-		"name": "Rituel de la Chair Qui Recoud",
+		"name": "Rituel de la Chair Recousue",
 		"race": "Abomination",
 		"card_type": "Rituel",
 		"rarity": "Rare",
@@ -4444,21 +4462,21 @@
 		]
 	},
 	{
-		"name": "Rituel de la Forme Jamais Fixée",
+		"name": "Rituel de la Digestion",
 		"race": "Abomination",
 		"card_type": "Rituel",
 		"rarity": "Épique",
-		"cost": 5,
+		"cost": 6,
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Éveil : Un serviteur Abomination aléatoire allié mute immédiatement.",
-		"flavor": "Le cercle ne s'arrête jamais de proposer de nouvelles formes.",
-		"charges": 3,
-		"image_path": "/assets/card_art/abomination/ritual-of-shifting-form.jpg",
+		"effect": "Sacrifice 1 : Piochez 1 carte.\nVous récupérez 3 points de vie.",
+		"flavor": "Rien ne se perd vraiment. Tout se redistribue, même à toi.",
+		"charges": 2,
+		"image_path": "/assets/card_art/abomination/all-devouring-belly.jpg",
 		"keywords": [],
 		"triggers": [
-			"OnAwaken"
+			"OnSacrifice"
 		]
 	},
 	{
@@ -4516,7 +4534,7 @@
 		]
 	},
 	{
-		"name": "Rituel du Fil Sous la Peau",
+		"name": "Rituel du Fil Tendu",
 		"race": "Abomination",
 		"card_type": "Rituel",
 		"rarity": "Épique",
@@ -4590,21 +4608,21 @@
 		]
 	},
 	{
-		"name": "Rituel du Ventre Qui Prend Tout",
+		"name": "Rituel du Remodelage",
 		"race": "Abomination",
 		"card_type": "Rituel",
 		"rarity": "Épique",
-		"cost": 6,
+		"cost": 5,
 		"lane": null,
 		"attack": 0,
 		"hp": 0,
-		"effect": "Sacrifice 1 : Piochez 1 carte.\nVous récupérez 3 points de vie.",
-		"flavor": "Rien ne se perd vraiment. Tout se redistribue, même à toi.",
-		"charges": 2,
-		"image_path": "/assets/card_art/abomination/all-devouring-belly.jpg",
+		"effect": "Éveil : Un serviteur Abomination aléatoire allié mute immédiatement.",
+		"flavor": "Le cercle ne s'arrête jamais de proposer de nouvelles formes.",
+		"charges": 3,
+		"image_path": "/assets/card_art/abomination/ritual-of-shifting-form.jpg",
 		"keywords": [],
 		"triggers": [
-			"OnSacrifice"
+			"OnAwaken"
 		]
 	},
 	{
@@ -4942,22 +4960,6 @@
 		]
 	},
 	{
-		"name": "Signe Qui Répond",
-		"race": "Abomination",
-		"card_type": "Incantation",
-		"rarity": "Rare",
-		"cost": 1,
-		"lane": null,
-		"attack": 0,
-		"hp": 0,
-		"effect": "Piochez 1 carte.\nSi c'est une carte Abomination, elle coûte 1 de moins ce tour.",
-		"flavor": "Il désigne. Quelque chose répond, déjà changé.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/answering-sign.jpg",
-		"keywords": [],
-		"triggers": []
-	},
-	{
 		"name": "Soldat Dreamarien de la Foi",
 		"race": "Humain",
 		"card_type": "Serviteur",
@@ -4996,7 +4998,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Sommeil Qui Ronge",
+		"name": "Sommeil Rongeur",
 		"race": "Abomination",
 		"card_type": "Incantation",
 		"rarity": "Commune",
@@ -5242,6 +5244,22 @@
 		]
 	},
 	{
+		"name": "Tressaut",
+		"race": "Abomination",
+		"card_type": "Incantation",
+		"rarity": "Commune",
+		"cost": 1,
+		"lane": null,
+		"attack": 0,
+		"hp": 0,
+		"effect": "Un serviteur ciblé allié déclenche immédiatement une mutation.",
+		"flavor": "Il n'a pas eu le temps de choisir. Peu importe.",
+		"charges": null,
+		"image_path": "/assets/card_art/abomination/first-twitch.jpg",
+		"keywords": [],
+		"triggers": []
+	},
+	{
 		"name": "Trône de Cendres",
 		"race": "Demon",
 		"card_type": "Serviteur",
@@ -5277,24 +5295,6 @@
 		"triggers": []
 	},
 	{
-		"name": "Un-Devenu-Plusieurs",
-		"race": "Abomination",
-		"card_type": "Serviteur",
-		"rarity": "Commune",
-		"cost": 3,
-		"lane": "Avant",
-		"attack": 1,
-		"hp": 1,
-		"effect": "Arrivée : Invoque 2 Amas Informes 1/2.",
-		"flavor": "Il n'a jamais compris qu'il était censé rester seul.",
-		"charges": null,
-		"image_path": "/assets/card_art/abomination/one-become-many.jpg",
-		"keywords": [],
-		"triggers": [
-			"ONPLAY"
-		]
-	},
-	{
 		"name": "Vague de Corruption",
 		"race": "Demon",
 		"card_type": "Incantation",
@@ -5327,7 +5327,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Vapeur Qui S'Accroche",
+		"name": "Vapeur Tenace",
 		"race": "Abomination",
 		"card_type": "Enchantement",
 		"rarity": "Rare",
@@ -5384,7 +5384,7 @@
 		]
 	},
 	{
-		"name": "Visage-Encore-Flou",
+		"name": "Visage Encore Flou",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Commune",
@@ -5402,7 +5402,7 @@
 		"triggers": []
 	},
 	{
-		"name": "Voix-Sous-la-Peau",
+		"name": "Voix Sous la Peau",
 		"race": "Abomination",
 		"card_type": "Serviteur",
 		"rarity": "Rare",
