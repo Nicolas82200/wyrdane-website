@@ -57,6 +57,20 @@ const RARITY_COLORS: Record<string, string> = {
 // Valeurs attendues : Commune #808080 -> rgb(255,255,255), Rare #3498db ->
 // rgb(61,177,255), Epique #9b59b6 -> rgb(217,125,255), Legendaire #f39c12 ->
 // rgb(255,164,19).
+// `url(...)` NON QUOTEE n'accepte ni parentheses, ni apostrophes, ni espaces :
+// Vite inline tout asset de moins de 4 Ko en data URI, et ces SVG-la en font
+// 2 a 3,5 — leur data URI contient `translate(1,-2)`, donc des parentheses, qui
+// fermaient l'url() trop tot. Le navigateur jetait la declaration entiere en
+// silence : plus de masque du tout, et le div se peignait en aplat de couleur,
+// un carre plein a la place du logo de ressource. Les icones de rangee/type,
+// elles, sont des PNG trop gros pour etre inlines, d'ou une simple URL qui
+// passait — c'est ce qui rendait le bug incomprehensible a l'oeil.
+// Les guillemets DOUBLES suffisent : Vite n'en laisse jamais dans un data URI
+// (il encode ceux du SVG en apostrophes simples).
+function maskUrl(src: string): string {
+	return `url("${src}")`;
+}
+
 function rarityIconColor(hex: string): string {
 	const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 	const max = Math.max(...c);
@@ -85,6 +99,20 @@ const RACE_RESOURCE_ICONS: Record<string, string> = {
 	Demon: demonResourceIcon,
 	Abomination: abominationResourceIcon,
 };
+
+// Card.gd race_label (update_display) : la race s'ecrit sur la carte, sous la
+// description et ENTRE les deux pastilles de stats, depuis le 2026-11-22. Le
+// libelle est la cle RACE_* de translations/game.csv, pas la valeur brute de la
+// BDD — d'ou l'accent de "Démon", que `card.race` ("Demon") n'a pas.
+const RACE_LABELS: Record<string, { fr: string; en: string }> = {
+	"Mort-Vivant": { fr: "Mort-Vivant", en: "Undead" },
+	Humain: { fr: "Humain", en: "Human" },
+	Demon: { fr: "Démon", en: "Demon" },
+	Abomination: { fr: "Abomination", en: "Abomination" },
+};
+
+// Card.gd RACE_LABEL_COLOR_FALLBACK, pour une race sans teinte de repere.
+const RACE_LABEL_FALLBACK_COLOR = "#f2e3c6";
 
 // Card.gd NAME_BG_ALPHA/DESC_BG_ALPHA : l'alpha de RACE_COLORS est REMPLACE
 // par celui-ci, jamais multiplie (les races ne portent pas toutes le meme).
@@ -211,7 +239,7 @@ export default function GameCard({ card }: { card: CardData }) {
 	const isResource = card.card_type === "Ressource";
 
 	const raceColor = RACE_COLORS[card.race] ?? "rgba(0, 0, 0, 0.75)";
-	const raceIconColor = RACE_ICON_COLORS[card.race] ?? "#bebebe";
+	const raceIconColor = RACE_ICON_COLORS[card.race] ?? RACE_LABEL_FALLBACK_COLOR;
 	const rarityColor = RARITY_COLORS[card.rarity ?? ""] ?? "#808080";
 	// Card.gd update_display : medaillon en haut a gauche, symetrique au badge
 	// de cout. Serviteur = icone de rangee, deja illustree en couleur (aucune
@@ -220,7 +248,16 @@ export default function GameCard({ card }: { card: CardData }) {
 	// cout a la place du chiffre (Card.gd _apply_resource_icon).
 	const laneIcon = isMinion ? LANE_ICONS[card.lane ?? ""] : undefined;
 	const typeIcon = !isMinion && !isResource ? TYPE_ICONS[card.card_type] : undefined;
-	const resourceIcon = isResource ? RACE_RESOURCE_ICONS[card.race] : undefined;
+	// Card.gd _apply_resource_icon : l'icone de ressource de la race accompagne
+	// le chiffre dans la bulle de cout sur TOUTE carte dont la race en a une
+	// ("5" + la goutte d'ame), et n'est seule et centree que sur une
+	// carte-ressource, qui n'affiche pas de chiffre. Le site ne la montrait que
+	// sur les cartes-ressource.
+	const resourceIcon = RACE_RESOURCE_ICONS[card.race];
+	// Bulle sans chiffre a cadrer : carte-ressource, ou race sans icone (Elfe,
+	// Nain) dont le chiffre reprend alors toute la largeur.
+	const iconOnly = isResource || !resourceIcon;
+	const raceLabel = RACE_LABELS[card.race]?.[language];
 
 	// Croissance de NameLabel vers le bas (mesure DOM réelle, pas d'estimation
 	// canvas : le retour à la ligne dépend de la police/largeur réelles).
@@ -381,8 +418,8 @@ export default function GameCard({ card }: { card: CardData }) {
 						className="gamecard-type-icon gamecard-type-icon--tinted"
 						style={{
 							backgroundColor: rarityIconColor(rarityColor),
-							WebkitMaskImage: `url(${laneIcon ?? typeIcon})`,
-							maskImage: `url(${laneIcon ?? typeIcon})`,
+							WebkitMaskImage: maskUrl(laneIcon ?? typeIcon ?? ""),
+							maskImage: maskUrl(laneIcon ?? typeIcon ?? ""),
 						}}
 					/>
 				</>
@@ -402,24 +439,23 @@ export default function GameCard({ card }: { card: CardData }) {
 				<div className="gamecard-generic-cost">{genericCost}</div>
 			)}
 			<div
-				className="gamecard-cost"
+				className={`gamecard-cost${iconOnly ? " gamecard-cost--icon-only" : ""}`}
 				style={{
 					background: withAlpha(raceColor, 0.9),
 					borderColor: withAlpha(raceColor, 0.9),
 				}}
 			>
-				{isResource
-					? resourceIcon && (
-							<div
-								className="gamecard-resource-icon"
-								style={{
-									backgroundColor: raceIconColor,
-									WebkitMaskImage: `url(${resourceIcon})`,
-									maskImage: `url(${resourceIcon})`,
-								}}
-							/>
-						)
-					: raceCost}
+				{!isResource && <span className="gamecard-cost-value">{raceCost}</span>}
+				{resourceIcon && (
+					<div
+						className="gamecard-resource-icon"
+						style={{
+							backgroundColor: raceIconColor,
+							WebkitMaskImage: maskUrl(resourceIcon),
+							maskImage: maskUrl(resourceIcon),
+						}}
+					/>
+				)}
 			</div>
 			<div
 				ref={descRef}
@@ -438,6 +474,18 @@ export default function GameCard({ card }: { card: CardData }) {
 					</div>
 				)}
 			</div>
+			{raceLabel && (
+				<div
+					className="gamecard-race"
+					style={{
+						top: statsTop,
+						color: raceIconColor,
+						background: withAlpha(raceColor, DESC_BG_ALPHA),
+					}}
+				>
+					{raceLabel}
+				</div>
+			)}
 			{isMinion && (
 				<div className="gamecard-attack" style={{ top: statsTop }}>
 					{card.attack ?? 0}

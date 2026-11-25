@@ -11,6 +11,28 @@
    .db-curve-cost) et le textarea d'export/import (code de deck en
    monospace) restent sous MICRO, trop denses pour en bénéficier. */
 
+/* PT Sans (DeckBuilder.UI_FONT / DeckFilterBar.UI_FONT cote jeu) : police
+   sans-serif dediee aux textes d'info DENSES du deck builder — badges, lignes
+   de deck, barre de filtres, panneau de stats. Le jeu la pose la pour la
+   meme raison que le site en a besoin : Crimson Text/Cinzel, decoratifs,
+   deviennent illisibles sous ~15px, et c'est exactement la taille de tous ces
+   libelles (Typography.MICRO). Les titres (CinzelDecorative) et le champ de
+   nom du deck (theme global, Crimson Text) ne changent pas. */
+@font-face {
+	font-family: "PTSansCard";
+	src: url("../assets/game/fonts/PTSans-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "PTSansCard";
+	src: url("../assets/game/fonts/PTSans-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
 /* Sur un écran plus petit que la largeur de référence (1920px, même base que
    le jeu Godot), toute la page .deckbuilder est réduite en un seul bloc via
    transform: scale() — comme une image qu'on redimensionne — plutôt que de
@@ -59,6 +81,33 @@
 	color: #e8d5a3;
 	background: rgba(10, 8, 6, 0.92);
 	font-family: "CrimsonTextCard", serif;
+}
+
+/* Tous les libelles denses passent en PT Sans, comme le deck builder du jeu
+   (voir le @font-face en tete de fichier) : un seul groupe plutot qu'une
+   declaration repetee dans chaque regle. `inherit` ailleurs dans ce fichier
+   continue de resoudre vers CrimsonTextCard (.deckbuilder). */
+.db-filter-label,
+.db-filter-btn,
+.db-select,
+.db-card-owned-badge,
+.db-buy-btn,
+.db-deck-row,
+.db-deck-row-cost,
+.db-stats-title,
+.db-stats-avg,
+.db-curve-count,
+.db-curve-cost,
+.db-chip {
+	font-family: "PTSansCard", "PT Sans", sans-serif;
+}
+
+/* Les chiffres de cout sont en PT Sans GRAS cote jeu (UI_FONT_BOLD), pour
+   ressortir du nom de carte qui les suit. Idem pour le libelle d'un groupe de
+   filtres. */
+.db-deck-row-cost,
+.db-filter-label {
+	font-weight: 700;
 }
 
 /* Barres de défilement masquées (grille, liste du deck, sidebar) : le
@@ -377,32 +426,53 @@
 	text-align: center;
 }
 
-/* Ligne du deck : badge coût doré | nom | quantité | ✕ (DeckBuilder._make_deck_row) */
+/* Ligne du deck : carré(s) de coût | nom | quantité | ✕
+   (DeckBuilder._make_deck_row cote jeu). Fond et bordure repris a l'identique :
+   Color(0.22, 0.17, 0.07) et le lisere dore a 40 %, et non plus le brun plus
+   sombre que portait le site. */
 .db-deck-row {
 	display: flex;
 	align-items: stretch;
 	min-height: 34px;
-	background: rgb(31, 26, 20);
-	border: 1px solid transparent;
+	background: rgb(56, 43, 18);
+	border: 1px solid rgba(140, 105, 20, 0.4);
 	border-radius: 3px;
 	overflow: hidden;
 	cursor: pointer;
 }
 
 .db-deck-row:hover {
-	background: rgb(51, 41, 26);
+	background: rgb(71, 54, 23);
 	border-color: rgba(140, 105, 20, 0.6);
 }
 
+/* DEUX carrés plutôt qu'un seul coût total (jeu : DeckBuilder._make_cost_badge,
+   2026-11-05) : le coût se paie en deux monnaies distinctes (générique puis
+   verrouillé sur le pool de race), et la ligne n'en montrait que la somme.
+   Même ordre et mêmes couleurs que les deux pastilles de la carte elle-même :
+   générique blanc à chiffre noir, puis race teintée. 22px de large chacun, et
+   seuls les coins EXTERIEURS sont arrondis pour que deux badges accolés se
+   lisent comme un seul bloc. */
 .db-deck-row-cost {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
+	width: 22px;
 	flex-shrink: 0;
 	font-size: 15px;
+	/* Color(0.05, 0.04, 0.02) : chiffre sombre, lisible sur le blanc du
+	   générique comme sur les teintes claires de race. */
 	color: rgb(13, 10, 5);
-	background: rgba(140, 105, 20, 0.9);
+}
+
+.db-deck-row-cost--generic {
+	background: #fff;
+	border-radius: 3px 0 0 3px;
+}
+
+/* Seul badge de la ligne (carte sans part générique) : il arrondit à gauche. */
+.db-deck-row-cost--race:first-child {
+	border-radius: 3px 0 0 3px;
 }
 
 .db-deck-row-name {
@@ -421,7 +491,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 22px;
+	/* 28px comme qty_lbl.custom_minimum_size cote jeu. */
+	width: 28px;
 	font-size: 15px;
 	color: rgba(232, 213, 163, 0.8);
 }

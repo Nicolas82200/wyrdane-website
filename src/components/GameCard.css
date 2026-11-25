@@ -238,8 +238,11 @@
    laissee en noir comme le SVG brut du jeu : noir sur le fond sombre du
    badge, elle etait illisible sur le site. */
 .gamecard-resource-icon {
-	width: 32px;
-	height: 32px;
+	/* Card.gd COST_ICON_SIZE : 24px depuis que la bulle a ete raccourcie le
+	   2026-11-24 (c'est l'icone qui a paye les deux demandes contraires,
+	   "bulle plus courte" et "plus d'air entre le chiffre et l'icone"). */
+	width: 24px;
+	height: 24px;
 	-webkit-mask-repeat: no-repeat;
 	mask-repeat: no-repeat;
 	-webkit-mask-position: center;
@@ -274,23 +277,67 @@
 	z-index: 2;
 }
 
-/* CostLabel : 190,18 → 42×42, Cinzel-Black 29px (Card.tscn), fond teinté race */
+/* Badge de coût de race : une BULLE de 66×42 (Card.tscn CostBg, 166..232 ×
+   18..60) et non plus le rond de 42 qu'elle était — depuis le 2026-11-22 le
+   chiffre est suivi de l'icône de la ressource de sa race ("5" + la goutte
+   d'âme). Le fond vient de la race (style inline, voir GameCard.tsx).
+
+   Cote jeu, le fond est un Panel SEPARE du Label qui porte le chiffre : un
+   Label ne decale pas son texte avec le content_margin de sa StyleBox, donc le
+   chiffre restait centre sur la bulle entiere et passait sous l'icone. Le DOM
+   n'a pas ce probleme, mais on garde la meme geometrie : c'est la largeur de la
+   zone du chiffre (COST_TEXT_LEFT..COST_TEXT_RIGHT, 176..200) qui regle l'air
+   percu entre le chiffre et l'icone. */
 .gamecard-cost {
 	position: absolute;
-	left: 190px;
+	left: 166px;
 	top: 18px;
-	width: 42px;
+	width: 66px;
 	height: 42px;
+	border: 2px solid rgb(168, 122, 52);
+	border-radius: 21px;
+	box-sizing: border-box;
+	z-index: 3;
+}
+
+/* CostLabel : zone 176..200 (24 de large), le chiffre y est CENTRE. Cinzel-Bold
+   29px comme Card.tscn. */
+.gamecard-cost-value {
+	position: absolute;
+	/* 8 et non 10 : un enfant absolu se positionne depuis le PADDING box, donc
+	   deja a l'interieur des 2px de bordure de la bulle. 166 + 2 + 8 = 176,
+	   soit COST_TEXT_LEFT. Meme soustraction pour l'icone ci-dessous. */
+	left: 8px;
+	top: 0;
+	bottom: 0;
+	width: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-weight: 900;
 	font-size: 29px;
 	color: rgb(211, 211, 211);
-	border: 2px solid rgb(168, 122, 52);
-	border-radius: 20px;
-	box-sizing: border-box;
-	z-index: 3;
+}
+
+/* ResourceIcon : 24×24 a 202..226 × 27..51 (Card.gd COST_ICON_SIZE/
+   COST_ICON_RIGHT), donc a droite du chiffre. */
+.gamecard-cost .gamecard-resource-icon {
+	position: absolute;
+	/* 202 - 166 - 2 et 27 - 18 - 2 (voir la soustraction de bordure ci-dessus). */
+	left: 34px;
+	top: 7px;
+}
+
+/* Bulle sans chiffre (carte-ressource) ou sans icone (Elfe/Nain) : Card.gd
+   _apply_resource_icon recentre alors celui des deux qui reste. */
+.gamecard-cost--icon-only .gamecard-cost-value {
+	left: 0;
+	width: 100%;
+}
+
+.gamecard-cost--icon-only .gamecard-resource-icon {
+	/* Centree sur la bulle : (66 - 4 - 24) / 2. */
+	left: 19px;
 }
 
 /* GenericCostLabel : 167.5,32.5 → 34×34. Cercle BLANC à chiffre noir fixe
@@ -299,7 +346,10 @@
    n'appartient à aucune race, donc sa couleur ne varie jamais. */
 .gamecard-generic-cost {
 	position: absolute;
-	left: 167.5px;
+	/* 143.5 (Card.tscn GenericCostLabel) : decalee de 10px avec
+	   l'allongement de la bulle de coût de race, pour garder sa position
+	   relative — elle etait a 167.5 du temps du rond de 42. */
+	left: 143.5px;
 	top: 32.5px;
 	width: 34px;
 	height: 34px;
@@ -370,7 +420,8 @@
    Doubler l'anneau (meme liste a 2px) si le contour doit lire plus epais a
    cote du jeu. */
 .gamecard-name,
-.gamecard-desc {
+.gamecard-desc,
+.gamecard-race {
 	text-shadow:
 		1px 0 0 #000,
 		-1px 0 0 #000,
@@ -419,6 +470,48 @@
    clic droit, posee HORS du cadre (Card.tscn TypeTooltip) ; la rarete, qui
    etait la couleur de fond de ce bandeau, est passee sur le medaillon de
    type (voir .gamecard-type-icon-bg). */
+
+/* RaceLabel (Card.tscn, 75..175 × 330..364) : la race de la carte, sous la
+   description et ENTRE les deux pastilles de stats, a la teinte de repere de sa
+   race (RACE_ICON_COLORS). Elle ne se lisait nulle part sur la carte avant le
+   2026-11-22, seulement dans l'infobulle de survol. Suit les stats quand la
+   description deborde (top en style inline, voir GameCard.tsx).
+
+   Habillage repris du nom et de la description (jeu, 2026-11-25) : meme
+   padding, meme lisere dore fin a 39 %, fond a la teinte de race — mais coins
+   arrondis sur les QUATRE angles, ce cadre-la etant isole (il ne se colle ni au
+   nom ni a la description). Police : l'italique du texte de regle
+   (CrimsonText-SemiBoldItalic) a la taille par defaut de la description. */
+.gamecard-race {
+	position: absolute;
+	left: 75px;
+	width: 100px;
+	/* Card.gd RACE_LABEL_HEIGHT : 26 et non les 34 des pastilles de stats
+	   (demande du 2026-11-25, la case doit etre plus basse qu'elles). Les 4px
+	   la recentrent sur le milieu de la zone des stats, (34 - 26) / 2 — le jeu
+	   doit, lui, MESURER la hauteur reelle d'une pastille, que Godot etire sous
+	   son offset_bottom ; ici la pastille fait exactement ses 34px, donc son
+	   centre est bien celui de la zone. */
+	height: 26px;
+	margin-top: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-style: italic;
+	font-size: 18px;
+	border: 1px solid rgba(168, 122, 52, 0.39);
+	border-radius: 5px;
+	padding: 2px 4px;
+	box-sizing: border-box;
+	/* text_overrun_behavior = TRIM_ELLIPSIS cote jeu. Les quatre races tiennent
+	   a cette taille dans les 92px que le liseré laisse ; c'est un filet pour
+	   une race future ou une traduction plus longue. */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 2;
+}
 
 /* AttackLabel : 35,330 → 40×34 (top décalé si DescLabel déborde, voir
    GameCard.tsx), rouge, Cinzel-Bold 29px (Card.tscn) */

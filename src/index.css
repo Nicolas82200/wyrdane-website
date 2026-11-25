@@ -9,9 +9,15 @@
 	--gold-pressed: rgb(240, 192, 64);
 	--gold-disabled: rgba(140, 133, 117, 0.7);
 
-	--btn-bg: rgba(26, 26, 46, 0.667);
-	--btn-bg-hover: rgba(42, 42, 78, 0.8);
-	--btn-bg-pressed: rgba(13, 13, 30, 0.933);
+	/* Fonds de bouton : valeurs exactes de ui_theme.tres (jeu Godot),
+	   StyleBoxFlat_btn_normal/hover/pressed. Le site portait encore le navy
+	   de l'ancien theme du jeu — rgba(26, 26, 46, 0.667) etait littéralement
+	   Color(0.102, 0.102, 0.18, 0.667) — remplacé par du brun doré côté jeu.
+	   Les bordures et les couleurs de texte ci-dessous, elles, étaient déjà
+	   celles du thème actuel. */
+	--btn-bg: rgba(28, 23, 15, 0.85);
+	--btn-bg-hover: rgba(52, 41, 24, 0.9);
+	--btn-bg-pressed: rgba(17, 14, 9, 0.95);
 	--btn-bg-disabled: rgba(20, 20, 20, 0.5);
 
 	--btn-border: rgb(139, 105, 20);
@@ -88,11 +94,16 @@ h3 {
 .btn {
 	min-height: 48px;
 	padding: 0 20px;
-	font-family: "Crimson Text", serif;
-	font-size: 16px;
+	/* Cinzel-Bold, comme Button/fonts/font dans ui_theme.tres (le jeu l'y
+	   pose a 20px ; 17 ici, Cinzel rendant plus large que Crimson Text a
+	   taille egale et les boutons du site etant plus etroits). Bordure a 2px
+	   comme les StyleBox du jeu. */
+	font-family: "Cinzel", serif;
+	font-weight: 700;
+	font-size: 17px;
 	color: var(--gold);
 	background: var(--btn-bg);
-	border: 1px solid var(--btn-border);
+	border: 2px solid var(--btn-border);
 	border-radius: 6px;
 	cursor: pointer;
 	transition:
