@@ -81,6 +81,7 @@ export const DECKBUILDER_CONTENT = {
 		emptyState: "No decks yet. Create your first one!",
 		cardsCount: "{n} cards",
 		removeDeckTitle: "Remove {name}",
+		editDeck: "Edit",
 		newDeck: "+ New Deck",
 	},
 	fr: {
@@ -161,6 +162,7 @@ export const DECKBUILDER_CONTENT = {
 		emptyState: "Aucun deck pour l'instant. Crée ton premier deck !",
 		cardsCount: "{n} cartes",
 		removeDeckTitle: "Retirer {name}",
+		editDeck: "Éditer",
 		newDeck: "+ Nouveau Deck",
 	},
 } satisfies Record<Language, Record<string, string>>;

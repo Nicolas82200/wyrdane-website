@@ -25,6 +25,15 @@ const MIN_CARDS = 40;
 const MIN_RESOURCE_CARDS = 10;
 const MAX_COPIES = 4;
 
+// DeckBuilder._make_deck_row cote jeu : une ligne de deck montre la part
+// GENERIQUE du cout puis la part verrouillee sur le pool de race, jamais leur
+// somme — le cout se paie en deux monnaies distinctes (voir costSystem.ts).
+function deckRowCosts(card: CardData): { generic: number; race: number } {
+	const total = Number(card.cost ?? 0);
+	const race = computeRaceCost(total, card.rarity);
+	return { generic: Math.max(total - race, 0), race };
+}
+
 // L'échelle 0.9 de la grille (DeckBuilder.GRID_CARD_SCALE côté jeu) est
 // appliquée en CSS (.db-card-scale) ; la preview au survol reprend le 1.15 du jeu.
 const PREVIEW_SCALE = 1.15;
@@ -873,11 +882,20 @@ export default function DeckBuilder() {
 								}
 								onMouseLeave={() => setHover(null)}
 							>
+								{/* Deux carres de cout, comme DeckBuilder._make_cost_badge cote jeu :
+								    la part generique (blanche) puis la part verrouillee sur le pool de
+								    race (teintee). Le carre generique n'apparait que s'il y a vraiment
+								    du generique a payer. */}
+								{deckRowCosts(card).generic > 0 && (
+									<span className="db-deck-row-cost db-deck-row-cost--generic">
+										{deckRowCosts(card).generic}
+									</span>
+								)}
 								<span
-									className="db-deck-row-cost"
+									className="db-deck-row-cost db-deck-row-cost--race"
 									style={{ backgroundColor: RACE_ICON_COLORS[card.race] }}
 								>
-									{card.cost ?? 0}
+									{deckRowCosts(card).race}
 								</span>
 								<span className="db-deck-row-name">{displayCardName(card.name, language)}</span>
 								<span className="db-deck-row-qty">x{quantity}</span>

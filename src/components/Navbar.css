@@ -259,7 +259,9 @@
 
 	.navbar-link.active {
 		border-bottom: none;
-		background: rgba(42, 42, 78, 0.4);
+		/* Meme brun que le survol de bouton du jeu (ui_theme.tres
+		   StyleBoxFlat_btn_hover), a la place du navy de l'ancien theme. */
+		background: rgba(52, 41, 24, 0.6);
 	}
 
 	.navbar-cta {
