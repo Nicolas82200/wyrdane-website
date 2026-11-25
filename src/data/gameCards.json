@@ -25,6 +25,10 @@
 		"path": "res://resources/cards/abomination/anomaly-shard.tres",
 		"keywords": []
 	},
+	"Antre Affamé": {
+		"path": "res://resources/cards/abomination/magic-digesting-lair.tres",
+		"keywords": []
+	},
 	"Apocalypse Infernale": {
 		"path": "res://resources/cards/demon/infernal-apocalypse.tres",
 		"keywords": [
@@ -41,8 +45,8 @@
 		"path": "res://resources/cards/human/call-to-arms.tres",
 		"keywords": []
 	},
-	"Appétit Ciblé": {
-		"path": "res://resources/cards/abomination/targeted-appetite.tres",
+	"Appel Entendu": {
+		"path": "res://resources/cards/abomination/answering-sign.tres",
 		"keywords": []
 	},
 	"Archer Ostranien d'Élite": {
@@ -93,8 +97,16 @@
 		"path": "res://resources/cards/demon/aura-of-corruption.tres",
 		"keywords": []
 	},
+	"Aura de Croissance": {
+		"path": "res://resources/cards/abomination/change-encouraging-halo.tres",
+		"keywords": []
+	},
 	"Aura de Décrépitude": {
 		"path": "res://resources/cards/undead/aura-of-decrepitude.tres",
+		"keywords": []
+	},
+	"Autel Aveugle": {
+		"path": "res://resources/cards/abomination/unrecognizing-altar.tres",
 		"keywords": []
 	},
 	"Autel de la Souffrance": {
@@ -110,10 +122,6 @@
 		"keywords": [
 			"Pacte"
 		]
-	},
-	"Autel Qui Ne Reconnaît Rien": {
-		"path": "res://resources/cards/abomination/unrecognizing-altar.tres",
-		"keywords": []
 	},
 	"Bannière du Roi": {
 		"path": "res://resources/cards/human/kings-banner.tres",
@@ -208,51 +216,17 @@
 			"Pacte"
 		]
 	},
+	"Cavalier Fondu": {
+		"path": "res://resources/cards/abomination/mount-and-rider-as-one.tres",
+		"keywords": [
+			"Assaut"
+		]
+	},
 	"Cavalier Zombie": {
 		"path": "res://resources/cards/undead/deadrider.tres",
 		"keywords": [
 			"Assaut"
 		]
-	},
-	"Ce Qu'on a Laissé Pousser": {
-		"path": "res://resources/cards/abomination/allowed-growth.tres",
-		"keywords": []
-	},
-	"Ce-Qui-A-Cessé-de-S'arrêter": {
-		"path": "res://resources/cards/abomination/unstopping.tres",
-		"keywords": [
-			"Rempart",
-			"Assimilation"
-		]
-	},
-	"Ce-Qui-A-Trop-Poussé": {
-		"path": "res://resources/cards/abomination/overgrowth.tres",
-		"keywords": [
-			"Rempart",
-			"Mutation"
-		]
-	},
-	"Ce-Qui-N'a-Plus-de-Bords": {
-		"path": "res://resources/cards/abomination/edgeless.tres",
-		"keywords": [
-			"Rempart",
-			"Instable",
-			"Mutation"
-		]
-	},
-	"Ce-Qui-Ne-Finit-Jamais-de-Grandir": {
-		"path": "res://resources/cards/abomination/endless-growth.tres",
-		"keywords": [
-			"Rempart"
-		]
-	},
-	"Ce-Qui-Se-Partage": {
-		"path": "res://resources/cards/abomination/self-splitter.tres",
-		"keywords": []
-	},
-	"Ce-Qui-Se-Souvient-Par-le-Corps": {
-		"path": "res://resources/cards/abomination/flesh-memory.tres",
-		"keywords": []
 	},
 	"Cercle de Commandement": {
 		"path": "res://resources/cards/human/command-circle.tres",
@@ -296,10 +270,6 @@
 		"path": "res://resources/cards/human/champion-of-the-people.tres",
 		"keywords": []
 	},
-	"Chant Qui Déforme": {
-		"path": "res://resources/cards/abomination/song-of-distortion.tres",
-		"keywords": []
-	},
 	"Charognard Putride": {
 		"path": "res://resources/cards/undead/putrid-scavenger.tres",
 		"keywords": []
@@ -329,10 +299,6 @@
 			"Contre-attaque"
 		]
 	},
-	"Chuchotement Qui Change la Forme": {
-		"path": "res://resources/cards/abomination/shapeshifting-whisper.tres",
-		"keywords": []
-	},
 	"Chuchoteur Malin": {
 		"path": "res://resources/cards/demon/whisperfiend.tres",
 		"keywords": []
@@ -343,6 +309,10 @@
 	},
 	"Citadelle des Hommes": {
 		"path": "res://resources/cards/human/citadel-of-men.tres",
+		"keywords": []
+	},
+	"Clameur de Chair": {
+		"path": "res://resources/cards/abomination/song-of-distortion.tres",
 		"keywords": []
 	},
 	"Code du Chevalier": {
@@ -416,8 +386,24 @@
 		"path": "res://resources/cards/undead/zombified-cultist.tres",
 		"keywords": []
 	},
+	"Curée": {
+		"path": "res://resources/cards/abomination/targeted-appetite.tres",
+		"keywords": []
+	},
+	"Débordement": {
+		"path": "res://resources/cards/abomination/edgeless.tres",
+		"keywords": [
+			"Rempart",
+			"Instable",
+			"Mutation"
+		]
+	},
 	"Décret Royal": {
 		"path": "res://resources/cards/human/royal-decree.tres",
+		"keywords": []
+	},
+	"Dédoublement": {
+		"path": "res://resources/cards/abomination/one-become-many.tres",
 		"keywords": []
 	},
 	"Défenseur Juré de Skeldara": {
@@ -428,16 +414,20 @@
 		"path": "res://resources/cards/undead/last-breath.tres",
 		"keywords": []
 	},
+	"Diminution": {
+		"path": "res://resources/cards/abomination/fresh-flesh-vise.tres",
+		"keywords": []
+	},
+	"Doigt Dans les Nerfs": {
+		"path": "res://resources/cards/abomination/nerve-touch.tres",
+		"keywords": []
+	},
 	"Doigt Décharné": {
 		"path": "res://resources/cards/undead/gaunt-finger.tres",
 		"keywords": []
 	},
 	"Doigt Écarlate": {
 		"path": "res://resources/cards/demon/judge-of-the-damned.tres",
-		"keywords": []
-	},
-	"Doigt-Dans-les-Nerfs": {
-		"path": "res://resources/cards/abomination/nerve-touch.tres",
 		"keywords": []
 	},
 	"Don de Chair": {
@@ -486,15 +476,15 @@
 		"path": "res://resources/cards/demon/crimson-dominion.tres",
 		"keywords": []
 	},
+	"Emprunt Bref": {
+		"path": "res://resources/cards/abomination/instant-borrowing.tres",
+		"keywords": []
+	},
 	"Emprunt de Peau": {
 		"path": "res://resources/cards/abomination/borrowed-skin.tres",
 		"keywords": [
 			"Chair adaptative"
 		]
-	},
-	"Emprunt Instantané": {
-		"path": "res://resources/cards/abomination/instant-borrowing.tres",
-		"keywords": []
 	},
 	"Épidémie": {
 		"path": "res://resources/cards/undead/epidemic.tres",
@@ -506,8 +496,8 @@
 			"Moisson"
 		]
 	},
-	"Étau de Chair Neuve": {
-		"path": "res://resources/cards/abomination/fresh-flesh-vise.tres",
+	"Essaimage": {
+		"path": "res://resources/cards/abomination/self-splitter.tres",
 		"keywords": []
 	},
 	"Étreinte du Gouffre": {
@@ -517,6 +507,13 @@
 	"Étreinte Glaciale": {
 		"path": "res://resources/cards/undead/icy-embrace.tres",
 		"keywords": []
+	},
+	"Excroissance": {
+		"path": "res://resources/cards/abomination/overgrowth.tres",
+		"keywords": [
+			"Rempart",
+			"Mutation"
+		]
 	},
 	"Exécuteur Dreamarien de l'Ordre": {
 		"path": "res://resources/cards/human/order-executioner.tres",
@@ -528,13 +525,6 @@
 	"Exhalation Toxique": {
 		"path": "res://resources/cards/undead/toxic-exhalation.tres",
 		"keywords": []
-	},
-	"Faim Sans Fond": {
-		"path": "res://resources/cards/abomination/bottomless-hunger.tres",
-		"keywords": [
-			"Moisson",
-			"Assimilation"
-		]
 	},
 	"Fantassin Eorthalien Aguerri": {
 		"path": "res://resources/cards/human/seasoned-footman.tres",
@@ -598,7 +588,7 @@
 		"path": "res://resources/cards/human/brother-in-arms.tres",
 		"keywords": []
 	},
-	"Fureur Sans Forme Fixe": {
+	"Fureur Informe": {
 		"path": "res://resources/cards/abomination/formless-fury.tres",
 		"keywords": [
 			"Frénésie",
@@ -633,6 +623,13 @@
 			"Commandement"
 		]
 	},
+	"Gosier Béant": {
+		"path": "res://resources/cards/abomination/bottomless-hunger.tres",
+		"keywords": [
+			"Moisson",
+			"Assimilation"
+		]
+	},
 	"Goule Affamée": {
 		"path": "res://resources/cards/undead/famished-ghoul.tres",
 		"keywords": [
@@ -652,10 +649,6 @@
 			"Corruption"
 		]
 	},
-	"Grand Retour Sous une Autre Forme": {
-		"path": "res://resources/cards/abomination/reshaped-return.tres",
-		"keywords": []
-	},
 	"Grand Rituel du Pacte": {
 		"path": "res://resources/cards/demon/grand-pact-ritual.tres",
 		"keywords": [
@@ -674,8 +667,8 @@
 		"path": "res://resources/cards/human/camp-healer.tres",
 		"keywords": []
 	},
-	"Halo Qui Encourage le Changement": {
-		"path": "res://resources/cards/abomination/change-encouraging-halo.tres",
+	"Haleine Commune": {
+		"path": "res://resources/cards/abomination/all-changing-breath.tres",
 		"keywords": []
 	},
 	"Harpie Carmine": {
@@ -734,6 +727,10 @@
 			"Pacte"
 		]
 	},
+	"Jachère": {
+		"path": "res://resources/cards/abomination/allowed-growth.tres",
+		"keywords": []
+	},
 	"Jugement Divin": {
 		"path": "res://resources/cards/human/divine-judgment.tres",
 		"keywords": []
@@ -745,13 +742,21 @@
 			"Discipline"
 		]
 	},
-	"L'Éternel Recommencement": {
-		"path": "res://resources/cards/abomination/the-eternal-beginning.tres",
-		"keywords": []
-	},
 	"L'Innommable": {
 		"path": "res://resources/cards/abomination/the-nameless.tres",
 		"keywords": []
+	},
+	"L'Interminable": {
+		"path": "res://resources/cards/abomination/endless-growth.tres",
+		"keywords": [
+			"Rempart"
+		]
+	},
+	"L'Occupant": {
+		"path": "res://resources/cards/abomination/uninvited-tenant.tres",
+		"keywords": [
+			"Fusion"
+		]
 	},
 	"La Faim Cuirassée": {
 		"path": "res://resources/cards/abomination/armored-hunger.tres",
@@ -773,6 +778,14 @@
 		"keywords": [
 			"Discipline"
 		]
+	},
+	"La Main Qui Choisit": {
+		"path": "res://resources/cards/abomination/culling-hand.tres",
+		"keywords": []
+	},
+	"La Repousse": {
+		"path": "res://resources/cards/abomination/the-eternal-beginning.tres",
+		"keywords": []
 	},
 	"La Terre Qui Refuse de Garder": {
 		"path": "res://resources/cards/abomination/unkeeping-earth.tres",
@@ -812,6 +825,20 @@
 		"path": "res://resources/cards/demon/the-corrupter.tres",
 		"keywords": []
 	},
+	"Le Dernier Reste": {
+		"path": "res://resources/cards/abomination/watching-remnant.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Le Fardeau": {
+		"path": "res://resources/cards/abomination/walking-weight.tres",
+		"keywords": [
+			"Mutation",
+			"Assimilation"
+		]
+	},
 	"Le Gardien du Pacte Brisé": {
 		"path": "res://resources/cards/demon/keeper-of-the-broken-pact.tres",
 		"keywords": []
@@ -821,6 +848,10 @@
 		"keywords": [
 			"Pacte"
 		]
+	},
+	"Le Grand Retour": {
+		"path": "res://resources/cards/abomination/reshaped-return.tres",
+		"keywords": []
 	},
 	"Le Marchand d'Âmes": {
 		"path": "res://resources/cards/demon/soul-merchant.tres",
@@ -836,13 +867,6 @@
 		"path": "res://resources/cards/undead/patient-zero.tres",
 		"keywords": []
 	},
-	"Le Poids-Qui-Marche": {
-		"path": "res://resources/cards/abomination/walking-weight.tres",
-		"keywords": [
-			"Mutation",
-			"Assimilation"
-		]
-	},
 	"Le Premier Écart": {
 		"path": "res://resources/cards/abomination/first-deviation.tres",
 		"keywords": []
@@ -852,13 +876,6 @@
 		"keywords": [
 			"Fortification",
 			"Contre-attaque"
-		]
-	},
-	"Le Reste-Qui-Veille": {
-		"path": "res://resources/cards/abomination/watching-remnant.tres",
-		"keywords": [
-			"Rempart",
-			"Assimilation"
 		]
 	},
 	"Le Roi Soldat d'Aldrenia": {
@@ -892,21 +909,11 @@
 		"path": "res://resources/cards/human/lineage-of-the-brave.tres",
 		"keywords": []
 	},
-	"Locataire Sans Bail": {
-		"path": "res://resources/cards/abomination/uninvited-tenant.tres",
-		"keywords": [
-			"Fusion"
-		]
-	},
 	"Mâcheur d'Os": {
 		"path": "res://resources/cards/undead/bone-chewer.tres",
 		"keywords": [
 			"Assaut"
 		]
-	},
-	"Main-Qui-Choisit": {
-		"path": "res://resources/cards/abomination/culling-hand.tres",
-		"keywords": []
 	},
 	"Marché de Sang": {
 		"path": "res://resources/cards/demon/blood-offering.tres",
@@ -932,12 +939,16 @@
 		"path": "res://resources/cards/human/sacred-slaughter.tres",
 		"keywords": []
 	},
-	"Masse-Qui-Ne-Cesse": {
+	"Masse Mouvante": {
 		"path": "res://resources/cards/abomination/ceaseless-mass.tres",
 		"keywords": [
 			"Rempart",
 			"Mutation"
 		]
+	},
+	"Mémoire de Chair": {
+		"path": "res://resources/cards/abomination/flesh-memory.tres",
+		"keywords": []
 	},
 	"Mémorial des Héros": {
 		"path": "res://resources/cards/human/heroes-memorial.tres",
@@ -946,12 +957,6 @@
 	"Milicien Eorthalien du Bourg": {
 		"path": "res://resources/cards/human/militia-man.tres",
 		"keywords": []
-	},
-	"Monture-et-Cavalier-Ne-Font-Qu'Un": {
-		"path": "res://resources/cards/abomination/mount-and-rider-as-one.tres",
-		"keywords": [
-			"Assaut"
-		]
 	},
 	"Monument aux Morts": {
 		"path": "res://resources/cards/undead/monument-to-the-dead.tres",
@@ -983,6 +988,10 @@
 	},
 	"Murmure Funeste": {
 		"path": "res://resources/cards/undead/doomed-whisper.tres",
+		"keywords": []
+	},
+	"Murmure Précoce": {
+		"path": "res://resources/cards/abomination/shapeshifting-whisper.tres",
 		"keywords": []
 	},
 	"Nécromancien Putride": {
@@ -1051,7 +1060,7 @@
 		"path": "res://resources/cards/abomination/forced-sharing.tres",
 		"keywords": []
 	},
-	"Peau-Trop-Grande": {
+	"Peau Trop Grande": {
 		"path": "res://resources/cards/abomination/ill-fitting-hide.tres",
 		"keywords": [
 			"Rempart",
@@ -1064,7 +1073,7 @@
 			"Morsure"
 		]
 	},
-	"Pluie Qui Change": {
+	"Pluie Mauvaise": {
 		"path": "res://resources/cards/abomination/mutating-rain.tres",
 		"keywords": []
 	},
@@ -1094,21 +1103,24 @@
 			"Venin mortel"
 		]
 	},
-	"Poussière Qui Change": {
+	"Poussière Mordante": {
 		"path": "res://resources/cards/abomination/shifting-dust.tres",
 		"keywords": [
 			"Virulent"
 		]
 	},
-	"Premier Tressaut": {
-		"path": "res://resources/cards/abomination/first-twitch.tres",
-		"keywords": []
-	},
 	"Prêtre de Guerre Dreamarien": {
 		"path": "res://resources/cards/human/war-priest.tres",
 		"keywords": []
 	},
-	"Puits Qui Avale Tout": {
+	"Prolifération": {
+		"path": "res://resources/cards/abomination/unstopping.tres",
+		"keywords": [
+			"Rempart",
+			"Assimilation"
+		]
+	},
+	"Puits Glouton": {
 		"path": "res://resources/cards/abomination/all-swallowing-well.tres",
 		"keywords": []
 	},
@@ -1141,20 +1153,12 @@
 		"path": "res://resources/cards/abomination/detached-gaze.tres",
 		"keywords": []
 	},
-	"Repaire Qui Digère la Magie": {
-		"path": "res://resources/cards/abomination/magic-digesting-lair.tres",
-		"keywords": []
-	},
 	"Repli Tactique": {
 		"path": "res://resources/cards/human/tactical-retreat.tres",
 		"keywords": []
 	},
 	"Résistance Acharnée": {
 		"path": "res://resources/cards/human/fierce-resistance.tres",
-		"keywords": []
-	},
-	"Respir Qui Change Tout": {
-		"path": "res://resources/cards/abomination/all-changing-breath.tres",
 		"keywords": []
 	},
 	"Réveil Soudain": {
@@ -1181,12 +1185,12 @@
 		"path": "res://resources/cards/abomination/sleepless-eye-ritual.tres",
 		"keywords": []
 	},
-	"Rituel de la Chair Qui Recoud": {
+	"Rituel de la Chair Recousue": {
 		"path": "res://resources/cards/abomination/ritual-of-mending-flesh.tres",
 		"keywords": []
 	},
-	"Rituel de la Forme Jamais Fixée": {
-		"path": "res://resources/cards/abomination/ritual-of-shifting-form.tres",
+	"Rituel de la Digestion": {
+		"path": "res://resources/cards/abomination/all-devouring-belly.tres",
 		"keywords": []
 	},
 	"Rituel de la Fosse Sans Fond": {
@@ -1201,7 +1205,7 @@
 		"path": "res://resources/cards/undead/resurrection-ritual.tres",
 		"keywords": []
 	},
-	"Rituel du Fil Sous la Peau": {
+	"Rituel du Fil Tendu": {
 		"path": "res://resources/cards/abomination/thread-beneath-the-skin.tres",
 		"keywords": []
 	},
@@ -1219,8 +1223,8 @@
 			"Pacte"
 		]
 	},
-	"Rituel du Ventre Qui Prend Tout": {
-		"path": "res://resources/cards/abomination/all-devouring-belly.tres",
+	"Rituel du Remodelage": {
+		"path": "res://resources/cards/abomination/ritual-of-shifting-form.tres",
 		"keywords": []
 	},
 	"Roi Démon Écarlate": {
@@ -1311,10 +1315,6 @@
 		"path": "res://resources/cards/undead/gaunt-servant.tres",
 		"keywords": []
 	},
-	"Signe Qui Répond": {
-		"path": "res://resources/cards/abomination/answering-sign.tres",
-		"keywords": []
-	},
 	"Soldat Dreamarien de la Foi": {
 		"path": "res://resources/cards/human/faith-soldier.tres",
 		"keywords": [
@@ -1327,7 +1327,7 @@
 			"Revenant"
 		]
 	},
-	"Sommeil Qui Ronge": {
+	"Sommeil Rongeur": {
 		"path": "res://resources/cards/abomination/rotting-slumber.tres",
 		"keywords": []
 	},
@@ -1391,6 +1391,10 @@
 		"path": "res://resources/cards/undead/walking-tomb.tres",
 		"keywords": []
 	},
+	"Tressaut": {
+		"path": "res://resources/cards/abomination/first-twitch.tres",
+		"keywords": []
+	},
 	"Trône de Cendres": {
 		"path": "res://resources/cards/demon/ashen-throne.tres",
 		"keywords": [
@@ -1402,10 +1406,6 @@
 		"path": "res://resources/cards/demon/ultimate-sacrifice.tres",
 		"keywords": []
 	},
-	"Un-Devenu-Plusieurs": {
-		"path": "res://resources/cards/abomination/one-become-many.tres",
-		"keywords": []
-	},
 	"Vague de Corruption": {
 		"path": "res://resources/cards/demon/wave-of-corruption.tres",
 		"keywords": []
@@ -1414,7 +1414,7 @@
 		"path": "res://resources/cards/undead/wave-of-putrefaction.tres",
 		"keywords": []
 	},
-	"Vapeur Qui S'Accroche": {
+	"Vapeur Tenace": {
 		"path": "res://resources/cards/abomination/clinging-vapor.tres",
 		"keywords": []
 	},
@@ -1429,13 +1429,13 @@
 		"path": "res://resources/cards/human/march-veteran.tres",
 		"keywords": []
 	},
-	"Visage-Encore-Flou": {
+	"Visage Encore Flou": {
 		"path": "res://resources/cards/abomination/blurred-visage.tres",
 		"keywords": [
 			"Fusion"
 		]
 	},
-	"Voix-Sous-la-Peau": {
+	"Voix Sous la Peau": {
 		"path": "res://resources/cards/abomination/voice-beneath-the-skin.tres",
 		"keywords": []
 	},
