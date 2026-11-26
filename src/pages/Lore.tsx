@@ -46,6 +46,9 @@ const MAP_URLS: Record<string, string> = {
 // l'ouverture qu'il faut savoir distinguer les deux cas.
 const SINGLE_PAGE_QUERY = "(max-width: 825px), (max-height: 510px)";
 
+// Plafond d'attente de la couverture avant d'ouvrir un tome (voir openBook).
+const COVER_WAIT_CAP_MS = 1200;
+
 // Instance StPageFlip exposée par react-pageflip via ref.current.pageFlip()
 // (voir node_modules/react-pageflip/build/index.es.js) — non typée par le
 // paquet, d'où ce typage minimal couvrant juste ce qu'on utilise ici.
@@ -601,9 +604,33 @@ const Lore = () => {
 		setIsFlipping(false);
 		setCurrentPageIndex(0);
 	};
-	const openBook = (index: number) => {
-		resetFlipState();
+	// La texture de couverture (book-01.png, 1,2 Mo) n'etait demandee qu'au
+	// moment du clic sur un tome : le bloc de pages etait deja a l'ecran
+	// ~330ms (mesure) avant que son plat ne finisse par se poser dessus, et le
+	// livre s'ouvrait donc visiblement en deux temps. On la charge pendant que
+	// la salle des archives est affichee, ou le visiteur passe de toute facon
+	// quelques secondes a choisir son tome.
+	const coverReadyRef = useRef<Promise<unknown> | null>(null);
+	useEffect(() => {
+		const img = new Image();
+		img.src = book01CoverUrl;
+		// decode() plutot que onload : il attend que l'image soit non
+		// seulement recue mais DECODEE, donc prete a peindre sans retard a la
+		// premiere frame qui l'affiche. Le .catch garde un refus de decodage
+		// (format, image annulee) sans jamais bloquer l'ouverture.
+		coverReadyRef.current = img.decode().catch(() => undefined);
+	}, []);
+
+	const openBook = async (index: number) => {
 		setHoveredBookIndex(null);
+		// Attente plafonnee : avec la precharge ci-dessus elle est deja tenue
+		// dans l'immense majorite des cas, mais sur une connexion lente il
+		// vaut mieux ouvrir un livre encore nu que laisser un clic sans effet.
+		await Promise.race([
+			coverReadyRef.current,
+			new Promise((resolve) => setTimeout(resolve, COVER_WAIT_CAP_MS)),
+		]);
+		resetFlipState();
 		setOpenedBookIndex(index);
 	};
 	const closeBook = () => {

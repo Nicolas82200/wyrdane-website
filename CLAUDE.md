@@ -92,6 +92,14 @@ points à ne pas casser :
   au survol (ni flèche système, ni main de lien). L'infobulle est maison (`.lore-archive-tip`,
   survol **et** focus clavier), jamais l'attribut `title`.
 
+**La couverture est prechargee depuis la salle des archives.** `book-01.png` pese 1,2 Mo et
+n'etait demandee qu'au clic sur un tome : le bloc de pages restait ~330 ms a l'ecran avant que son
+plat ne se pose dessus, et le livre s'ouvrait en deux temps. `Lore.tsx` la charge donc au montage
+de la page (`new Image()` + `decode()`, pas `onload` : on veut l'image decodee, prete a peindre),
+et `openBook` attend cette promesse — plafonnee, pour qu'une connexion lente ouvre un livre encore
+nu plutot que de laisser un clic sans effet. Toute image lourde ajoutee a la vue de lecture pose le
+meme probleme et merite le meme traitement.
+
 Le lien « Retour au site » n'existe que dans la salle des archives ; la vue de lecture n'a que son
 bouton Retour, qui referme le livre. Ouvrir ou refermer un tome passe par `resetFlipState()` :
 sans ça, le tome suivant hérite de l'état de feuilletage du précédent.
