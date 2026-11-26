@@ -117,6 +117,14 @@ sur grand écran, la pente en plein sur téléphone, d'où des pages coupées ne
 coefficients sont calés pour redonner exactement les tailles de bureau d'avant sur une page de
 552.5px : s'ils doivent changer, les recalculer **en bloc**, jamais un seul isolément.
 
+**Saut de marque-page : instantané, puis un seul tournage.** Un clic sur un marque-page ne
+feuillette pas jusqu'à la cible page par page — c'est ce que faisait la première version, et un
+tome parcouru de bout en bout demandait une dizaine de secondes. Un tournage coûte ~1s de bout en
+bout sur cette page, et ce n'est **pas** `flippingTime` : mesuré sur le build de production, 130ms
+et 1ms donnent le même plancher, qui vient de la boucle de rendu du livre. `jumpToPage` approche
+donc la cible avec `turnToPage()` (instantané) et ne tourne qu'**une** page pour de vrai. Ne pas
+« optimiser » ce chemin en rebaissant `flippingTime`, c'est sans effet.
+
 **Pas de vérification visuelle automatisée.** Il n'y a ni navigateur headless dans le projet ni
 script de débordement dans le dépôt (`check-overflow.cjs` est hors dépôt) : les pages sont
 calibrées à 2 paragraphes, et une page trop longue se repère en ouvrant `/lore`. Toute retouche de

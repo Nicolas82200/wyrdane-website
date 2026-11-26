@@ -56,14 +56,17 @@ interface PageFlipInstance {
 	// arbitraire) a ete essaye deux fois, y compris apres avoir elimine tout
 	// risque de clic concurrent (stopPropagation sur le bouton) : il reste
 	// coince sur la page de depart au lieu de reveler la cible — bug reel de
-	// la librairie sur les sauts a distance. Plutot que de contourner ce
-	// bug avec un saut instantane (turnToPage(), sans animation), jumpToPage
-	// (plus bas) enchaine plusieurs flipNext()/flipPrev() normaux via la
-	// MEME file d'attente que la navigation habituelle (flipQueueRef/
-	// processFlipQueue) : chacun est fiable et anime, le livre feuillette
-	// reellement jusqu'a la page visee. getCurrentPageIndex() sert a savoir,
-	// apres chaque tournage, s'il faut en enchainer un autre.
+	// la librairie sur les sauts a distance. jumpToPage (plus bas) approche
+	// donc la cible avec turnToPage() (instantane, fiable) puis ne tourne
+	// qu'UNE page pour de vrai, via la MEME file d'attente que la navigation
+	// habituelle (flipQueueRef/processFlipQueue). getCurrentPageIndex() sert
+	// a savoir, apres chaque tournage, s'il faut en enchainer un autre.
 	getCurrentPageIndex: () => number;
+	getPageCount: () => number;
+	// Saut INSTANTANE, sans animation : utilise par jumpToPage pour approcher
+	// la cible d'un marque-page avant de tourner la derniere page pour de
+	// vrai (voir le commentaire la-bas).
+	turnToPage: (page: number) => void;
 	getState: () => "user_fold" | "fold_corner" | "flipping" | "read";
 }
 type FlipBookHandle = { pageFlip: () => PageFlipInstance };
@@ -472,18 +475,47 @@ const Lore = () => {
 	const JUMP_STEP_LIMIT = pages.length;
 	const jumpStepsLeftRef = useRef(0);
 
-	// Saut vers la page d'un marque-page, feuillete comme une vraie
-	// navigation : enchaine plusieurs flipNext()/flipPrev() normaux via la
-	// MEME file que les clics habituels (flipQueueRef/processFlipQueue,
-	// voir le commentaire sur PageFlipInstance.getCurrentPageIndex plus
-	// haut), un par un, chacun anime. Le premier pas reutilise enqueueFlip
-	// telle quelle (gere deja l'ouverture depuis la couverture) ; les pas
-	// suivants sont ajoutes par handleChangeState, ci-dessous, a la fin de
-	// chaque tournage.
+	// Pose le livre a UN tournage de `target`, sans animation, et rend la
+	// direction du tournage qui reste a faire.
+	//
+	// Pourquoi ce detour plutot que de feuilleter page a page, comme le
+	// faisait la premiere version : un tournage coute ~1s de bout en bout
+	// sur cette page, et ce n'est PAS flippingTime (mesure sur le build de
+	// prod : 130ms et 1ms donnent le meme ~1s, le plancher vient de la
+	// boucle de rendu du livre). Un marque-page a l'autre bout d'un tome
+	// demandait donc une dizaine de tournages, soit une dizaine de secondes
+	// d'attente avant de pouvoir lire. On ne garde qu'UN tournage anime,
+	// celui qui arrive sur la cible ; le trajet avant lui est instantane.
+	//
+	// ±2 et non ±1 : en double page, showSpread() pose currentPageIndex sur
+	// la page de GAUCHE du spread, donc reculer d'une seule page retomberait
+	// dans le spread de la cible et il ne resterait rien a tourner.
+	const approachTarget = (pageFlip: PageFlipInstance, current: number, target: number) => {
+		const forward = target > current;
+		if (Math.abs(target - current) > 2) {
+			const approach = forward ? target - 2 : target + 2;
+			pageFlip.turnToPage(Math.min(Math.max(approach, 0), pageFlip.getPageCount() - 1));
+		}
+		return forward ? "next" : "prev";
+	};
+
+	// Saut vers la page d'un marque-page. Le premier pas reutilise
+	// enqueueFlip telle quelle (elle gere deja l'ouverture depuis la
+	// couverture) ; les pas suivants, s'il en reste, sont ajoutes par
+	// handleChangeState a la fin de chaque tournage.
 	const jumpToPage = (target: number) => {
 		if (isFlipBusyRef.current || target === currentPageIndex) return;
 		jumpTargetRef.current = target;
 		jumpStepsLeftRef.current = JUMP_STEP_LIMIT;
+		const pageFlip = flipBookRef.current?.pageFlip();
+		// Depuis la couverture, surtout pas d'approche instantanee : le
+		// premier tournage doit rester l'ouverture du livre (slideToSpreadSlot
+		// dans processFlipQueue). L'approche se fera au tournage suivant,
+		// depuis handleChangeState.
+		if (pageFlip && !isCoverWidthRef.current) {
+			enqueueFlip(approachTarget(pageFlip, currentPageIndex, target));
+			return;
+		}
 		enqueueFlip(target > currentPageIndex ? "next" : "prev");
 	};
 
@@ -534,7 +566,9 @@ const Lore = () => {
 				} else {
 					jumpStepsLeftRef.current -= 1;
 					flipQueueRef.current.push(
-						current !== undefined && current < jt ? "next" : "prev",
+						pf && current !== undefined
+							? approachTarget(pf, current, jt)
+							: "prev",
 					);
 				}
 			}
