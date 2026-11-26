@@ -61,6 +61,12 @@ const EntryAccordion = ({ entries }: { entries: Entry[] }) => {
 										{section.paragraphs.map((paragraph, j) => (
 											<p key={j}>{paragraph}</p>
 										))}
+										{section.images?.map((image) => (
+											<figure className="entry-figure" key={image.src}>
+												<img src={image.src} alt={image.alt ?? ""} loading="lazy" />
+												{image.caption && <figcaption>{image.caption}</figcaption>}
+											</figure>
+										))}
 									</section>
 								))}
 							</div>

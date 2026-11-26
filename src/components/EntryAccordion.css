@@ -209,3 +209,27 @@
 		border-top: none;
 	}
 }
+
+/* Captures d'écran : une image par figure, pleine largeur de la colonne,
+   légende optionnelle. */
+.entry-figure {
+	margin: 16px 0 0;
+}
+
+.entry-figure img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid var(--btn-border);
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.entry-figure figcaption {
+	font-family: "Crimson Text", serif;
+	font-style: italic;
+	font-size: 13.5px;
+	line-height: 1.5;
+	color: rgba(232, 213, 163, 0.6);
+	margin-top: 7px;
+}

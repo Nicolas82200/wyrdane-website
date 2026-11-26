@@ -126,6 +126,12 @@ calage (position d'une tranche, `top` de l'infobulle) est à valider à l'œil.
 
 Les actus (`src/content/news/*.json`) et devlogs (`src/content/devlog/*.json`) sont la source de vérité, éditée directement dans ce dépôt (un fichier JSON bilingue fr/en par entrée). `scripts/generate-feed.mjs` régénère `public/feed.json` à partir de ces fichiers — exécuté automatiquement via `predev`/`prebuild` (voir `package.json`), donc à chaque `npm run dev`/`npm run build`, aucune étape manuelle. Le jeu (`card-game`, `MainMenu.gd`, `NEWS_FEED_URL = "https://wyrdane.com/feed.json"`) lit ce fichier une fois déployé pour peupler son panneau « Actualités » ; en local le fichier est aussi servi par Vite depuis `public/`. Ajouter une actu/un devlog = ajouter un fichier JSON dans `src/content/` puis déployer (le build régénère `feed.json`).
 
+### Images dans une entrée
+
+Une section d'actu/devlog peut porter des captures : `"images": [{ "src", "alt", "caption" }]` à côté de `paragraphs` (type `EntryImage` dans `src/content/loadEntries.ts`, rendu par `EntryAccordion`). Les sections étant déjà dédoublées par langue, `alt`/`caption` sont de simples chaînes, à écrire dans les deux. `src` est une **URL servie depuis `public/`** (`/devlog/<date>/<nom>.jpg`), pas un import : les JSON de contenu ne passent pas par le bundler. Les fichiers vont donc dans `public/devlog/<date>/`.
+
+Conventions : largeur 1400 px (la colonne de texte fait 1100 px, voir `.news-hub-inner`), JPEG qualité ~88 pour une capture de jeu (~200 Ko ; un PNG de la même image en pesait 1,2 Mo), `alt` toujours renseigné. `feed.json` ignore les images : le panneau « Actualités » du jeu reste en texte.
+
 ## Démarrage
 
 ```bash

@@ -1,7 +1,10 @@
 import type { Language } from "../i18n/language";
 
 export type StatItem = { value: string; label: string };
-export type Section = { heading?: string; paragraphs: string[] };
+// `src` est une URL servie depuis public/ (ex. "/devlog/2026-11-25/boutique-packs.png") :
+// les JSON de contenu ne passent pas par le bundler, donc pas d'import ici.
+export type EntryImage = { src: string; alt?: string; caption?: string };
+export type Section = { heading?: string; paragraphs: string[]; images?: EntryImage[] };
 export type EntryKind = "news" | "devlog";
 export type Entry = {
 	date: string;
