@@ -107,6 +107,13 @@
 					"Les trois cas non nominaux, ceux qui coûtent de l'argent quand ils sont mal traités, ont été traités avec le reste plutôt que remis à plus tard : les commandes payées dont on n'a pas vu la fin, réconciliées au lieu d'être perdues ; les prix multi-devises, le prix qui fait foi étant celui de la base et celui du client un simple repli d'affichage ; et les remboursements, qui révoquent la possession.",
 					"Dans les deux canaux envisagés, Valve est le marchand de registre : TVA, facturation, droit de rétractation et remboursements sont de son ressort. C'est précisément la raison de ne jamais brancher un prestataire de paiement maison à côté.",
 					"Reste une réserve honnête, écrite dans le plan : les cosmétiques actuels sont des teintes. Un dos « Or » est une couleur appliquée sur l'unique texture, et les trois plateaux sont la même image avec trois teintes. Ce qui manque à cette boutique, ce n'est pas du code, ce sont de vraies illustrations."
+				],
+				"images": [
+					{
+						"src": "/devlog/2026-11-25/boutique-packs.jpg",
+						"alt": "Le carrousel des packs : un pack par race, le pack multirace au centre.",
+						"caption": "Le carrousel des packs : un pack par race, le pack multirace au centre."
+					}
 				]
 			},
 			{
@@ -310,6 +317,13 @@
 					"The three non-nominal cases, the ones that cost money when mishandled, were handled along with the rest rather than deferred: paid orders whose completion we never saw, reconciled instead of lost; multi-currency pricing, where the authoritative price is the database's and the client's is a display fallback; and refunds, which revoke ownership.",
 					"In both planned channels Valve is the merchant of record: VAT, invoicing, right of withdrawal and refunds are its responsibility. That is precisely the reason never to wire a homegrown payment provider alongside it.",
 					"One honest reservation remains, written into the plan: the current cosmetics are tints. A \"Gold\" back is a colour applied to the single texture, and the three boards are the same image with three tints. What this shop is missing is not code, it is real artwork."
+				],
+				"images": [
+					{
+						"src": "/devlog/2026-11-25/boutique-packs.jpg",
+						"alt": "The pack carousel: one pack per race, with the multi-race pack at the centre.",
+						"caption": "The pack carousel: one pack per race, with the multi-race pack at the centre."
+					}
 				]
 			},
 			{
